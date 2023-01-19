@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  flatiron:
+    container_name: flatiron
+    image: flatiron
+    build:
+      context: .
+      dockerfile: dev.dockerfile
+    ports:
+      - "9100:9000"
+      - "9180:8080"
+    userns_mode: "host"
+    user: ubuntu
+    env_file:
+      - config/dev-env
+    volumes:
+      - ../:/home/ubuntu/flatiron
+      - ~/.ssh:/home/ubuntu/.ssh:ro
+      - ./config/jupyter:/home/ubuntu/.jupyter
+      - ./config/zshrc:/home/ubuntu/.zshrc
+      # - /mnt/storage:/mnt/storage
+    working_dir: "/home/ubuntu"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    command: "tail -f /dev/null"
