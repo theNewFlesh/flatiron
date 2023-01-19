@@ -2,7 +2,7 @@ version: "3.8"
 services:
   flatiron:
     container_name: flatiron
-    image: flatiron
+    image: flatiron:dev
     build:
       context: .
       dockerfile: dev.dockerfile
