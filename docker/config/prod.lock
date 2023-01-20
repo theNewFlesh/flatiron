@@ -82,7 +82,7 @@ summary = "Optional static typing for Python"
 dependencies = [
     "mypy-extensions>=0.4.3",
     "tomli>=1.1.0; python_version < \"3.11\"",
-    "typing-extensions>=3.10",
+    "typing-extensions>=3.9",
 ]
 
 [[package]]
@@ -113,8 +113,8 @@ version = "1.5.2"
 requires_python = ">=3.8"
 summary = "Powerful data structures for data analysis, time series, and statistics"
 dependencies = [
-    "numpy>=1.20.3; python_version < \"3.10\"",
-    "numpy>=1.21.0; python_version >= \"3.10\"",
+    "numpy>=1.20.3; python_version < \"3.9\"",
+    "numpy>=1.21.0; python_version >= \"3.9\"",
     "numpy>=1.23.2; python_version >= \"3.11\"",
     "python-dateutil>=2.8.1",
     "pytz>=2020.1",
@@ -176,7 +176,7 @@ requires_python = ">=3.6"
 summary = "run tests in isolated forked subprocesses"
 dependencies = [
     "py",
-    "pytest>=3.10",
+    "pytest>=3.9",
 ]
 
 [[package]]

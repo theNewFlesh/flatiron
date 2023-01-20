@@ -20,9 +20,9 @@ services:
       - ./config/zshrc:/home/ubuntu/.zshrc
       # - /mnt/storage:/mnt/storage
     working_dir: "/home/ubuntu"
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - capabilities: [gpu]
     command: "tail -f /dev/null"
