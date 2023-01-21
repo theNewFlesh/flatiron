@@ -27,14 +27,14 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         wget && \
     rm -rf /var/lib/apt/lists/*
 
-# install python3.9 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.9${CLEAR}"; \
+# install python3.10 and pip
+RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y python3.9 && \
+    apt install --fix-missing -y python3.10 && \
     rm -rf /var/lib/apt/lists/* && \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.9 get-pip.py && \
+    python3.10 get-pip.py && \
     rm -rf /home/ubuntu/get-pip.py
 
 # install flatiron
@@ -42,4 +42,4 @@ USER ubuntu
 ENV REPO='flatiron'
 ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
 RUN echo "\n${CYAN}INSTALL flatiron{CLEAR}"; \
-    pip3.9 install --user --upgrade flatiron
+    pip3.10 install --user --upgrade flatiron

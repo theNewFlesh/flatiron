@@ -8,6 +8,6 @@ backend = "virtualenv"
 prompt = "dev-{python_version}"
 
 [python]
-path = "/usr/bin/python3.9"
+path = "/usr/bin/python3.10"
 use_pyenv = true
 use_venv = true
