@@ -174,7 +174,16 @@ _x_env_create () {
     # args: mode, python_version
     cd $PDM_DIR;
     _x_gen_pdm_files $1 $2;
-    pdm venv create -n $1-$2;
+    pdm venv create -n $1-$2 --with-pip;
+}
+
+_x_env_pip_install () {
+    # Pip install packages pdm refuses to
+    # args: mode, python_version, packages
+    cd $PDM_DIR;
+    x_env_activate $1 $2 && \
+    python3 -m pip install "$3";
+    deactivate;
 }
 
 x_env_activate () {
@@ -196,6 +205,7 @@ _x_env_lock () {
     cat $PDM_DIR/pdm.lock > $CONFIG_DIR/$1.lock;
 }
 
+# TODO: remove this once PDM will install tensorflow
 _x_env_sync () {
     # Install dependencies from a pdm.lock into a virtual env specified by a
     # given mode and python version
@@ -207,7 +217,8 @@ _x_env_sync () {
         pdm lock -v
     fi && \
     pdm sync --no-self --dev --clean -v && \
-    deactivate;
+    deactivate && \
+    _x_env_pip_install $1 $2 "tensorflow>=2.0.0 tensorboard>=2.0.0";
 }
 
 x_env_activate_dev () {
