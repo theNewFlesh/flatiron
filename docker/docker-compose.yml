@@ -24,5 +24,7 @@ services:
     #   resources:
     #     reservations:
     #       devices:
-    #         - capabilities: [gpu]
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     command: "tail -f /dev/null"
