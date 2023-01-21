@@ -23,8 +23,8 @@ dependencies = [
     "numpy",
     "pandas",
     "OpenEXR",
-    "tensorboard==2.0.0",
-    "tensorflow==2.0.0",
+    # "tensorboard>=2.11.2",
+    # "tensorflow>=2.11.0",
 ]
 
 [project.urls]
@@ -32,7 +32,7 @@ repository = "https://github.com/thenewflesh/flatiron"
 documentation = "https://thenewflesh.github.io/flatiron"
 
 [project.scripts]
-flatiron = "thenewflesh.command:main"
+flatiron = "flatiron.command:main"
 
 [project.optional-dependencies]
 
@@ -45,6 +45,7 @@ lab = [
     "jupyterlab",
 ]
 dev = [
+    "pip",
     "pdm-bump",
     "pdm",
     # "rolling-pin>=0.9.2",
