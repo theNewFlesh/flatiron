@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 AS base
+FROM tensorflow/tensorflow:latest-gpu AS base
 
 USER root
 
@@ -35,25 +35,34 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
     apt install -y \
         bat \
         curl \
-        exa \
         git \
         graphviz \
         npm \
         pandoc \
         parallel \
-        ripgrep \
         software-properties-common \
+        unzip \
         vim \
         wget && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    curl -fsSL \
+        "https://github.com/ogham/exa/releases/latest/download/exa-linux-x86_64-v0.10.1.zip" \
+        -o exa.zip && \
+    unzip -q exa.zip bin/exa -d /usr/local && \
+    rm -rf exa.zip && \
+    curl -fsSL \
+        "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_13.0.0_amd64.deb" \
+        -o ripgrep.deb && \
+    apt install -y ./ripgrep.deb && \
+    rm -rf rigrep.deb
 
 # install nvidia drivers
-RUN echo "\n${CYAN}INSTALL NVIDIA DRIVERS${CLEAR}"; \
-    apt update && \
-    apt install -y \
-        nvidia-utils-525 \
-        nvidia-driver-525 && \
-    rm -rf /var/lib/apt/lists/*
+# RUN echo "\n${CYAN}INSTALL NVIDIA DRIVERS${CLEAR}"; \
+#     apt update && \
+#     apt install -y \
+#         nvidia-utils-525 \
+#         nvidia-driver-525 && \
+#     rm -rf /var/lib/apt/lists/*
 
 # install all python versions
 RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
@@ -113,7 +122,7 @@ USER root
 # install OpenEXR
 ENV CC=gcc
 ENV CXX=g++
-ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
+# ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
 RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
     apt update && \
     apt install -y \
