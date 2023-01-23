@@ -54,7 +54,7 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_13.0.0_amd64.deb" \
         -o ripgrep.deb && \
     apt install -y ./ripgrep.deb && \
-    rm -rf rigrep.deb
+    rm -rf ripgrep.deb
 
 # install nvidia drivers
 # RUN echo "\n${CYAN}INSTALL NVIDIA DRIVERS${CLEAR}"; \
