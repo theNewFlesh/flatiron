@@ -1,9 +1,9 @@
 core
 ====
 
-foobar
+tools
 ------
-.. automodule:: flatiron.core.foobar
+.. automodule:: flatiron.core.tools
     :members:
     :private-members:
     :undoc-members:
