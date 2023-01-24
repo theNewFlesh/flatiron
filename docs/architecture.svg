@@ -12,8 +12,8 @@
 <!-- cli -->
 <g id="node1" class="node">
 <title>cli</title>
-<polygon fill="#343434" stroke="#343434" points="68.5,-198 14.5,-198 14.5,-162 68.5,-162 68.5,-198"/>
-<text text-anchor="middle" x="41.5" y="-176.3" font-family="Courier,monospace" font-size="14.00" fill="#b6ecf3">cli</text>
+<polygon fill="#343434" stroke="#343434" points="68.5,-144 14.5,-144 14.5,-108 68.5,-108 68.5,-144"/>
+<text text-anchor="middle" x="41.5" y="-122.3" font-family="Courier,monospace" font-size="14.00" fill="#b6ecf3">cli</text>
 </g>
 <!-- flatiron.core.tools -->
 <g id="node2" class="node">
@@ -21,86 +21,74 @@
 <polygon fill="#343434" stroke="#343434" points="493,-144 320,-144 320,-108 493,-108 493,-144"/>
 <text text-anchor="middle" x="406.5" y="-122.3" font-family="Courier,monospace" font-size="14.00" fill="#b6ecf3">flatiron.core.tools</text>
 </g>
-<!-- flatiron.core.unet -->
-<g id="node3" class="node">
-<title>flatiron.core.unet</title>
-<polygon fill="#343434" stroke="#343434" points="489,-252 324,-252 324,-216 489,-216 489,-252"/>
-<text text-anchor="middle" x="406.5" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#b6ecf3">flatiron.core.unet</text>
-</g>
 <!-- flatiron -->
-<g id="node4" class="node">
+<g id="node3" class="node">
 <title>flatiron</title>
-<polygon fill="#343434" stroke="#343434" points="83,-252 0,-252 0,-216 83,-216 83,-252"/>
-<text text-anchor="middle" x="41.5" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#a0d17b">flatiron</text>
+<polygon fill="#343434" stroke="#343434" points="83,-198 0,-198 0,-162 83,-162 83,-198"/>
+<text text-anchor="middle" x="41.5" y="-176.3" font-family="Courier,monospace" font-size="14.00" fill="#a0d17b">flatiron</text>
 </g>
 <!-- flatiron.core -->
 <g id="node5" class="node">
 <title>flatiron.core</title>
-<polygon fill="#343434" stroke="#343434" points="263.5,-252 139.5,-252 139.5,-216 263.5,-216 263.5,-252"/>
-<text text-anchor="middle" x="201.5" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#a0d17b">flatiron.core</text>
+<polygon fill="#343434" stroke="#343434" points="263.5,-198 139.5,-198 139.5,-162 263.5,-162 263.5,-198"/>
+<text text-anchor="middle" x="201.5" y="-176.3" font-family="Courier,monospace" font-size="14.00" fill="#a0d17b">flatiron.core</text>
 </g>
 <!-- flatiron&#45;&gt;flatiron.core -->
 <g id="edge1" class="edge">
 <title>flatiron&#45;&gt;flatiron.core</title>
-<path fill="none" stroke="#a0d17b" d="M83.19,-234C97.21,-234 113.37,-234 129.11,-234"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="129.37,-237.5 139.37,-234 129.37,-230.5 129.37,-237.5"/>
-</g>
-<!-- flatiron.core&#45;&gt;flatiron.core.tools -->
-<g id="edge2" class="edge">
-<title>flatiron.core&#45;&gt;flatiron.core.tools</title>
-<path fill="none" stroke="#a0d17b" d="M263.31,-215.87C270.4,-213.17 277.44,-210.2 284,-207 316.47,-191.16 350.44,-167.85 374.17,-150.31"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="376.53,-152.92 382.44,-144.12 372.33,-147.31 376.53,-152.92"/>
-</g>
-<!-- flatiron.core&#45;&gt;flatiron.core.unet -->
-<g id="edge3" class="edge">
-<title>flatiron.core&#45;&gt;flatiron.core.unet</title>
-<path fill="none" stroke="#a0d17b" d="M263.68,-234C279.34,-234 296.53,-234 313.38,-234"/>
-<polygon fill="#a0d17b" stroke="#a0d17b" points="313.8,-237.5 323.8,-234 313.8,-230.5 313.8,-237.5"/>
+<path fill="none" stroke="#a0d17b" d="M83.19,-180C97.21,-180 113.37,-180 129.11,-180"/>
+<polygon fill="#a0d17b" stroke="#a0d17b" points="129.37,-183.5 139.37,-180 129.37,-176.5 129.37,-183.5"/>
 </g>
 <!-- lunchbox.stopwatch -->
-<g id="node6" class="node">
+<g id="node4" class="node">
 <title>lunchbox.stopwatch</title>
-<polygon fill="#343434" stroke="#343434" points="284,-198 119,-198 119,-162 284,-162 284,-198"/>
-<text text-anchor="middle" x="201.5" y="-176.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">lunchbox.stopwatch</text>
+<polygon fill="#343434" stroke="#343434" points="284,-252 119,-252 119,-216 284,-216 284,-252"/>
+<text text-anchor="middle" x="201.5" y="-230.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">lunchbox.stopwatch</text>
 </g>
 <!-- lunchbox.stopwatch&#45;&gt;flatiron.core.tools -->
-<g id="edge4" class="edge">
+<g id="edge2" class="edge">
 <title>lunchbox.stopwatch&#45;&gt;flatiron.core.tools</title>
-<path fill="none" stroke="#de958e" d="M270.38,-161.94C288.83,-157.04 308.95,-151.68 327.9,-146.64"/>
-<polygon fill="#de958e" stroke="#de958e" points="328.92,-149.99 337.69,-144.04 327.12,-143.23 328.92,-149.99"/>
+<path fill="none" stroke="#de958e" d="M263.31,-215.87C270.4,-213.17 277.44,-210.2 284,-207 316.47,-191.16 350.44,-167.85 374.17,-150.31"/>
+<polygon fill="#de958e" stroke="#de958e" points="376.53,-152.92 382.44,-144.12 372.33,-147.31 376.53,-152.92"/>
+</g>
+<!-- flatiron.core&#45;&gt;flatiron.core.tools -->
+<g id="edge3" class="edge">
+<title>flatiron.core&#45;&gt;flatiron.core.tools</title>
+<path fill="none" stroke="#a0d17b" d="M263.68,-163.72C283.93,-158.34 306.73,-152.27 328.04,-146.61"/>
+<polygon fill="#a0d17b" stroke="#a0d17b" points="328.94,-149.99 337.71,-144.03 327.14,-143.22 328.94,-149.99"/>
 </g>
 <!-- lunchbox.tools -->
-<g id="node7" class="node">
+<g id="node6" class="node">
 <title>lunchbox.tools</title>
 <polygon fill="#343434" stroke="#343434" points="267.5,-144 135.5,-144 135.5,-108 267.5,-108 267.5,-144"/>
 <text text-anchor="middle" x="201.5" y="-122.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">lunchbox.tools</text>
 </g>
 <!-- lunchbox.tools&#45;&gt;flatiron.core.tools -->
-<g id="edge5" class="edge">
+<g id="edge4" class="edge">
 <title>lunchbox.tools&#45;&gt;flatiron.core.tools</title>
 <path fill="none" stroke="#de958e" d="M267.57,-126C280.91,-126 295.23,-126 309.4,-126"/>
 <polygon fill="#de958e" stroke="#de958e" points="309.68,-129.5 319.68,-126 309.68,-122.5 309.68,-129.5"/>
 </g>
 <!-- pytz -->
-<g id="node8" class="node">
+<g id="node7" class="node">
 <title>pytz</title>
 <polygon fill="#343434" stroke="#343434" points="228.5,-90 174.5,-90 174.5,-54 228.5,-54 228.5,-90"/>
 <text text-anchor="middle" x="201.5" y="-68.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">pytz</text>
 </g>
 <!-- pytz&#45;&gt;flatiron.core.tools -->
-<g id="edge6" class="edge">
+<g id="edge5" class="edge">
 <title>pytz&#45;&gt;flatiron.core.tools</title>
 <path fill="none" stroke="#de958e" d="M228.62,-78.95C253.68,-85.61 292.78,-96.02 327.85,-105.34"/>
 <polygon fill="#de958e" stroke="#de958e" points="327.06,-108.76 337.62,-107.94 328.86,-101.99 327.06,-108.76"/>
 </g>
 <!-- yaml -->
-<g id="node9" class="node">
+<g id="node8" class="node">
 <title>yaml</title>
 <polygon fill="#343434" stroke="#343434" points="228.5,-36 174.5,-36 174.5,0 228.5,0 228.5,-36"/>
 <text text-anchor="middle" x="201.5" y="-14.3" font-family="Courier,monospace" font-size="14.00" fill="#de958e">yaml</text>
 </g>
 <!-- yaml&#45;&gt;flatiron.core.tools -->
-<g id="edge7" class="edge">
+<g id="edge6" class="edge">
 <title>yaml&#45;&gt;flatiron.core.tools</title>
 <path fill="none" stroke="#de958e" d="M228.52,-24.69C244.88,-29.36 266.18,-36.31 284,-45 316.47,-60.84 350.44,-84.15 374.17,-101.69"/>
 <polygon fill="#de958e" stroke="#de958e" points="372.33,-104.69 382.44,-107.88 376.53,-99.08 372.33,-104.69"/>
