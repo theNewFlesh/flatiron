@@ -56,6 +56,9 @@ def slack_it(
         stopwatch (StopWatch, optional): StopWatch instance. Default: None.
         timezone (str, optional): Timezone. Default: UTC.
         testing (bool, optional): Test mode: Default: False.
+
+    Returns:
+        HTTPResponse: Slack response.
     '''
     now = datetime.now(tz=pytz.timezone(timezone)).isoformat()
     source = source or 'none'
