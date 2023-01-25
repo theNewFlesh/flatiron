@@ -53,7 +53,7 @@ def dice_loss(y_true, y_pred, smooth=1):
 
             \begin{align}
                 intersection & \rightarrow I(y, \hat{y}) = \sum_{i=0}^{n}{|y_i * \hat{y}_i|} \\
-                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}{|y_i| + |\hat{y}_i|} \\
+                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}({|y_i| + |\hat{y}_i|}) \\
                 smooth & \rightarrow S \\
                 loss & \rightarrow L_{dice}(y, \hat{y}, S) = 1 - \frac{2 * I + S}{U + S} \\
             \end{align}
