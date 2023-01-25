@@ -10,13 +10,21 @@ Arraylike = Union[numpy.ndarray, tf.Tensor]
 
 def jaccards_loss(y_true, y_pred, smooth=100):
     # type: (Arraylike, Arraylike, int) -> tf.Tensor
-    '''
+    r'''
     Jaccard's loss is usefull for unbalanced datasets. This has been shifted so
     it converges on 0 and is smoothed to avoid exploding or disappearing
-    gradient.
+    gradients.
 
-    Jaccard = (|X & Y|)/ (|X|+ |Y| - |X & Y|)
-            = sum(|A*B|)/(sum(|A|)+sum(|B|)-sum(|A*B|))
+    .. math::
+        :nowrap:
+
+            \begin{align}
+                intersection & \rightarrow I(A, B) = \sum_{i=0}^{n}{|A_i * B_i|} \\
+                union & \rightarrow U(A, B) = \sum_{i=0}^{n}{|A_i| + |B_i|} \\
+                smooth & \rightarrow S \\
+                loss & \rightarrow L_{jaccard}(A, B, S) = 1 - \frac{I + S}{U - I + S} + S \\
+            \end{align}
+
     See: https://en.wikipedia.org/wiki/Jaccard_index
 
     Args:
