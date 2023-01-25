@@ -44,11 +44,21 @@ def jaccards_loss(y_true, y_pred, smooth=100):
 
 def dice_loss(y_true, y_pred, smooth=1):
     # type: (Arraylike, Arraylike, int) -> tf.Tensor
-    '''
-    Dice loss function with smoothing factor to prevent exploding
-    or vanishing gradients.
+    r'''
+    Dice loss function with smoothing factor to prevent exploding or vanishing
+    gradients.
 
-    Dice = D(y, yhat, s) -> y A yhat
+    .. math::
+        :nowrap:
+
+            \begin{align}
+                intersection & \rightarrow I(y, \hat{y}) = \sum_{i=0}^{n}{|y_i * \hat{y}_i|} \\
+                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}{|y_i| + |\hat{y}_i|} \\
+                smooth & \rightarrow S \\
+                loss & \rightarrow L_{dice}(y, \hat{y}, S) = 1 - \frac{2 * I + S}{U + S} \\
+            \end{align}
+
+    See: https://cnvrg.io/semantic-segmentation/
 
     Args:
         y_true (NDArray or Tensor): Ground truth labels.
