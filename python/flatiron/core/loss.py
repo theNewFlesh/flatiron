@@ -19,10 +19,10 @@ def jaccards_loss(y_true, y_pred, smooth=100):
         :nowrap:
 
             \begin{align}
-                intersection & \rightarrow I(A, B) = \sum_{i=0}^{n}{|A_i * B_i|} \\
-                union & \rightarrow U(A, B) = \sum_{i=0}^{n}{|A_i| + |B_i|} \\
+                intersection & \rightarrow I(y, \hat{y}) = \sum_{i=0}^{n}{|y_i * \hat{y}_i|} \\
+                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}{|y_i| + |\hat{y}_i|} \\
                 smooth & \rightarrow S \\
-                loss & \rightarrow L_{jaccard}(A, B, S) = 1 - \frac{I + S}{U - I + S} + S \\
+                loss & \rightarrow L_{jaccard}(y, \hat{y}, S) = 1 - \frac{I + S}{U - I + S} + S \\
             \end{align}
 
     See: https://en.wikipedia.org/wiki/Jaccard_index
