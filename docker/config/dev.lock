@@ -1295,6 +1295,14 @@ version = "6.0.12.3"
 summary = "Typing stubs for PyYAML"
 
 [[package]]
+name = "types-tensorflow"
+version = "2.11.0.2"
+summary = "Typing stubs for tensorflow"
+dependencies = [
+    "numpy>=1.20",
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.4.0"
 requires_python = ">=3.7"
@@ -1357,7 +1365,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:190b27356c638f19fd4a18015b0d5afdea5535e3c34e4112bd5dccc6a9378139"
+content_hash = "sha256:80056f585edc41d5dad1579f47fa71e6e838849de1ef80878c9621fe0760808d"
 
 [metadata.files]
 "alabaster 0.7.13" = [
@@ -2544,6 +2552,10 @@ content_hash = "sha256:190b27356c638f19fd4a18015b0d5afdea5535e3c34e4112bd5dccc6a
 "types-pyyaml 6.0.12.3" = [
     {url = "https://files.pythonhosted.org/packages/6c/f4/65001b471f370ab8cac8a7244e810ddecec2e45213150c60736bf4e806bd/types-PyYAML-6.0.12.3.tar.gz", hash = "sha256:17ce17b3ead8f06e416a3b1d5b8ddc6cb82a422bb200254dd8b469434b045ffc"},
     {url = "https://files.pythonhosted.org/packages/b0/44/7eda1984e198ab8ab3a72d49600c9eb74f3d074987cf9ee1d2ab71fd4cca/types_PyYAML-6.0.12.3-py3-none-any.whl", hash = "sha256:879700e9f215afb20ab5f849590418ab500989f83a57e635689e1d50ccc63f0c"},
+]
+"types-tensorflow 2.11.0.2" = [
+    {url = "https://files.pythonhosted.org/packages/1e/4c/be553cb8671ebb0a8c23a194532e34c8a651c0c6ec66a2e6911e3da52d1b/types-tensorflow-2.11.0.2.tar.gz", hash = "sha256:3cc37beba0a2307d97e27e36a0aed2db1e9b17a17f9b2716529f5a1e14096807"},
+    {url = "https://files.pythonhosted.org/packages/5a/6c/6558bf02080c946e39aa0e18a2cec9bd27009452d26ace26ec97d512807c/types_tensorflow-2.11.0.2-py3-none-any.whl", hash = "sha256:d887b098a3c19bd161b98cc4ca6722fe2df8bb6b81889af56a3a2ffe00da7bda"},
 ]
 "typing-extensions 4.4.0" = [
     {url = "https://files.pythonhosted.org/packages/0b/8e/f1a0a5a76cfef77e1eb6004cb49e5f8d72634da638420b9ea492ce8305e8/typing_extensions-4.4.0-py3-none-any.whl", hash = "sha256:16fa4864408f655d35ec496218b85f79b3437c829e93320c7c9215ccfd92489e"},
