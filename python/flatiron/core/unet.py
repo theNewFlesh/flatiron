@@ -84,10 +84,18 @@ def downsample_conv2d(
 
 
 def attention_gate_2d(input_1, input_2, filters):
+    # type: (tf.Tensor, tf.Tensor, int) -> tf.Tensor
     '''
-    Attention gate. Compresses both inputs to filters before processing.
-    Implemented as proposed by Oktay et al. in their Attention U-net,
-    see: https://arxiv.org/abs/1804.03999.
+    Attention gate for 2D inputs.
+    See: https://arxiv.org/abs/1804.03999
+
+    Args:
+        input_1 (tf.Tensor): 2D Tensor of features.
+        input_2 (tf.Tensor): 2D Tensor of gating signal.
+        filters (int): Number of filters.
+
+    Returns:
+        tf.Tensor: 2D Attention Gate function.
     '''
     kwargs = dict(
         kernel_size=1,
