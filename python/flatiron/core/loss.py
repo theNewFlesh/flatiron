@@ -20,7 +20,7 @@ def jaccards_loss(y_true, y_pred, smooth=100):
 
             \begin{align}
                 intersection & \rightarrow I(y, \hat{y}) = \sum_{i=0}^{n}{|y_i * \hat{y}_i|} \\
-                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}{|y_i| + |\hat{y}_i|} \\
+                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}({|y_i| + |\hat{y}_i|}) \\
                 smooth & \rightarrow S \\
                 loss & \rightarrow L_{jaccard}(y, \hat{y}, S) = 1 - \frac{I + S}{U - I + S} + S \\
             \end{align}
