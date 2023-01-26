@@ -2,7 +2,7 @@ core
 ====
 
 loss
-------
+----
 .. automodule:: flatiron.core.loss
     :members:
     :private-members:
@@ -12,6 +12,14 @@ loss
 tools
 ------
 .. automodule:: flatiron.core.tools
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
+unet
+----
+.. automodule:: flatiron.core.unet
     :members:
     :private-members:
     :undoc-members:

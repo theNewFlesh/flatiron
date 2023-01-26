@@ -3,15 +3,64 @@ from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
 
 from datetime import datetime
+from pathlib import Path
 import json
+import os
 import re
 
 import lunchbox.tools as lbt
 import pytz
 import yaml
+
+import tensorflow.keras.callbacks as tfkc
+
+Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
 
 
+def get_callbacks(metric, directory='/mnt/storage', timezone='UTC'):
+    # type: (str, Filepath, str) -> list
+    '''
+    Create a list of callbacks for Tensoflow model.
+
+    Args:
+        metric (str): Checkpoint metric.
+        directory (str or Path): Tensorboard parent directory.
+            Default: /mnt/storage
+        timezone (str, optional): Timezone. Default: UTC.
+
+    Returns:
+        list: Tensorboard and ModelCheckpoint callbacks.
+    '''
+    root = Path(directory, 'tensorboard')
+    os.makedirs(root, exist_ok=True)
+
+    timestamp = datetime \
+        .now(tz=pytz.timezone(timezone)) \
+        .strftime('date-%Y-%m-%d_time-%H-%M-%S')
+    log_dir = Path(root, timestamp).as_posix()
+    os.makedirs(log_dir, exist_ok=True)
+
+    target = Path(log_dir, 'models')
+    os.makedirs(target, exist_ok=True)
+    target = Path(target, timestamp + '_epoch-{epoch:03d}').as_posix()
+
+    callbacks = [
+        tfkc.TensorBoard(log_dir=log_dir, histogram_freq=1),
+        tfkc.ModelCheckpoint(
+            target,
+            metric=metric,
+            mode='auto',
+            save_freq='epoch',
+            update_freq='batch',
+            write_steps_per_second=True,
+            write_images=True,
+        )
+    ]
+    return callbacks
+
+
+# MISC--------------------------------------------------------------------------
 def unindent(text, spaces=4):
     # type: (str, int) -> str
     '''
