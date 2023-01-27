@@ -29,7 +29,7 @@ def jaccard_loss(y_true, y_pred, smooth=100):
                 \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
                 \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
 
-                \color{cyan2} L_{jacc}(y, \hat{y}, S) && = 
+                \color{cyan2} L_{jacc}(y, \hat{y}, S) && =
                     (1 - \frac{I + S}{U - I + S}) S
             \end{alignat*}
 
@@ -39,23 +39,23 @@ def jaccard_loss(y_true, y_pred, smooth=100):
         :nowrap:
 
             \begin{alignat*}{3}
-                intersection & \rightarrow \color{red2} 
-                    I(y, \hat{y}) && = \sum{|y_i * \hat{y_i}|} 
+                intersection & \rightarrow \color{red2}
+                    I(y, \hat{y}) && = \sum{|y_i * \hat{y_i}|}
                 \\
-                union & \rightarrow \color{green2} 
-                    U(y, \hat{y}) && = \sum{(|y_i| + |\hat{y_i}|)} 
+                union & \rightarrow \color{green2}
+                    U(y, \hat{y}) && = \sum{(|y_i| + |\hat{y_i}|)}
                 \\
-                \text{smoothing factor} & \rightarrow \color{blue2} S && 
+                \text{smoothing factor} & \rightarrow \color{blue2} S &&
                 \\
-                \text{expansion} & \rightarrow 
-                    \color{cyan2} L_{jacc}(y, \hat{y}, S) && = 
+                \text{expansion} & \rightarrow
+                    \color{cyan2} L_{jacc}(y, \hat{y}, S) && =
                         (1 - \frac{
-                            \color{red2} \sum{|y_i * \hat{y_i}|} 
+                            \color{red2} \sum{|y_i * \hat{y_i}|}
                             \color{white} + \color{blue2} S
                         }{
-                            \color{green2} \sum{(|y_i| + |\hat{y_i}|)} 
+                            \color{green2} \sum{(|y_i| + |\hat{y_i}|)}
                             \color{white} -
-                            \color{red2} \sum{|y_i * \hat{y_i}|} 
+                            \color{red2} \sum{|y_i * \hat{y_i}|}
                             \color{white} + \color{blue2} S
                         }) \color{blue2} S
             \end{alignat*}
@@ -95,8 +95,8 @@ def dice_loss(y_true, y_pred, smooth=1):
                 \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
                 \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
 
-                \color{cyan2} L_{dice}(y, \hat{y}, S) && = 
-                    1 - \frac{2 * I + S}{U + S} 
+                \color{cyan2} L_{dice}(y, \hat{y}, S) && =
+                    1 - \frac{2 * I + S}{U + S}
             \end{alignat*}
 
     Terms:
@@ -105,22 +105,22 @@ def dice_loss(y_true, y_pred, smooth=1):
         :nowrap:
 
             \begin{alignat*}{3}
-                intersection & \rightarrow \color{red2} 
-                    I(y, \hat{y}) && = \sum{|y_i * \hat{y_i}|} 
+                intersection & \rightarrow \color{red2}
+                    I(y, \hat{y}) && = \sum{|y_i * \hat{y_i}|}
                 \\
-                union & \rightarrow \color{green2} 
-                    U(y, \hat{y}) && = \sum{(|y_i| + |\hat{y_i}|)} 
+                union & \rightarrow \color{green2}
+                    U(y, \hat{y}) && = \sum{(|y_i| + |\hat{y_i}|)}
                 \\
-                \text{smoothing factor} & \rightarrow \color{blue2} S && 
+                \text{smoothing factor} & \rightarrow \color{blue2} S &&
                 \\
-                \text{expansion} & \rightarrow 
-                    \color{cyan2} L_{dice}(y, \hat{y}, S) && = 
+                \text{expansion} & \rightarrow
+                    \color{cyan2} L_{dice}(y, \hat{y}, S) && =
                         1 - \frac{
-                            2 * 
-                            \color{red2} \sum{|y_i * \hat{y_i}|} 
+                            2 *
+                            \color{red2} \sum{|y_i * \hat{y_i}|}
                             \color{white} + \color{blue2} S
                         }{
-                            \color{green2} \sum{(|y_i| + |\hat{y_i}|)} 
+                            \color{green2} \sum{(|y_i| + |\hat{y_i}|)}
                             \color{white} + \color{blue2} S
                         }
             \end{alignat*}
