@@ -17,15 +17,19 @@
 # import tensorflow.keras.backend as tfkb
 # import tensorflow.keras.optimizers as tfko
 # import tensorflow.keras.models as tfkm
-# import sklearn.model_selection as skm
-
-# import flatiron.core.loss as ficl
-# import flatiron.core.tools as fict
 
 from lunchbox.enforce import Enforce
+import numpy as np
 import tensorflow as tf
+import sklearn.model_selection as skm
 import tensorflow.keras.layers as tfkl
 import tensorflow.keras.models as tfkm
+import tensorflow.keras.optimizers as tfko
+import tensorflow.keras.preprocessing.image as tfkpp
+
+import flatiron.core.loss as ficl
+import flatiron.core.metric as ficm
+import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
@@ -223,124 +227,79 @@ def unet(
     return model
 
 
-# def get_config():
-#     return dict(
-#         input_shape=(208, 208, 3),
-#         classes=1,
-#         activation='leaky_relu',
-#         batch_norm=True,
-#         upsample_mode='deconv',
-#         dropout=0.0,
-#         dropout_change_per_layer=0.0,
-#         dropout_type='spatial',
-#         use_dropout_on_upsampling=False,  # best False
-#         attention_gates=True,               # best False
-#         filters=64,                       # best 64       above 64 exceeds single GPU memory
-#         layers=4,                     # best 4
-#         output_activation='sigmoid',      # best sigmoid
-#     )
-
-# params = {}
-
-# split_params = dict(
-#     test_size=0.1,
-#     random_state=42,
-# )
-# params.update(split_params)
-# x_train, x_test, y_train, y_test = skm.train_test_split(x, y, **split_params)
-# x_train.shape
-
-# model_params = get_config()
-# if model_params['input_shape'] != x_train.shape[1:]:
-#     raise ValueError('Bad input shape')
-
-# params.update(model_params)
-
-# opt_params = dict(
-#     learning_rate=0.015,               # best 0.01
-#     momentum=0.99,                    # best 0.99
-# )
-# optimizer = tfko.SGD(**opt_params)     # best
-# # optimizer = tfko.Adam(**opt_params)
-# params.update(opt_params)
-# # loss = 'binary_crossentropy'
-# # loss = jaccard_loss
-# loss = ficl.dice_loss
-# compile_params = dict(
-#     optimizer=optimizer,
-#     loss=loss,  # best jaccard
-#     metrics=[unmet.iou, unmet.iou_thresholded, unmet.dice_coef, unmet.jaccard_coef],
-# )
-# params.update(compile_params)
-
-# model = unet(**model_params)
-# model.compile(**compile_params)
-
-# batch_size = 32   # best 32
-# fit_params = dict(
-#     verbose='auto',
-#     epochs=50,
-#     callbacks=[fict.get_callbacks()],
-#     validation_data=(x_test, y_test),
-#     shuffle=True,
-#     initial_epoch=0,
-#     steps_per_epoch=np.ceil(x_train.shape[0] / batch_size),
-#     # validation_split=0.0,
-#     # sample_weight=None,
-#     # validation_steps=None,
-#     # validation_batch_size=None,
-#     # validation_freq=1,
-#     # max_queue_size=10,
-#     # workers=14,
-#     use_multiprocessing=True,
-# )
-# params.update(fit_params)
-# del params['validation_data']
-
-# datagen_params = dict(
-#     # featurewise_center=True,
-#     # featurewise_std_normalization=True,
-#     # rotation_range=10,
-#     # width_shift_range=0.1,
-#     # height_shift_range=0.1,
-#     # zoom_range=0.15,
-#     # shear_range=0.1,
-#     horizontal_flip=True,
-#     vertical_flip=True,
-#     fill_mode='constant',
-# )
-# datagen = keras_unet.utils.get_augmented(x_train, y_train, batch_size=batch_size, data_gen_args=datagen_params)
-
-# params.update(datagen_params)
-# params['batch_size'] = batch_size
-# # datagen = ImageDataGenerator(**datagen_params)
-# # datagen.fit(x_train)
-
-# for k, v in params.items():
-#     if type(v) in [bool, float, int, str]:
-#         continue
-#     if isinstance(v, tuple):
-#         params[k] = list(v)
-#     if isinstance(v, list):
-#         params[k] = list(map(str, v))
-#     else:
-#         params[k] = str(v)
-# slack_it('start training', params=params)
-
-# model.fit(datagen, **fit_params)
+def get_config():
+    return dict(
+        model=dict(
+            input_shape=(208, 208, 3),
+            classes=1,
+            activation='leaky_relu',
+            batch_norm=True,
+            upsample_mode='deconv',
+            attention_gates=True,
+            filters=64,
+            layers=4,
+            output_activation='sigmoid',
+        ),
+        split=dict(
+            test_size=0.1,
+            random_state=42,
+        ),
+        batch_size=32,
+        # optimizer=dict(
+        #     learning_rate=0.015,
+        #     momentum=0.99,
+        # ),
+        compile_params=dict(
+            optimizer=tfko.SGD(**dict(
+                learning_rate=0.015,
+                momentum=0.99,
+            )),
+            loss=ficl.jaccard_loss,
+            metrics=[
+                ficm.jaccard, ficm.dice, ficm.intersection_over_union
+            ],
+        ),
+        preprocess=dict(
+            horizontal_flip=True,
+            vertical_flip=True,
+            fill_mode='constant',
+        ),
+        fit=dict(
+            verbose='auto',
+            epochs=50,
+            callbacks=[fict.get_callbacks()],
+            validation_data=(x_test, y_test),
+            shuffle=True,
+            initial_epoch=0,
+            steps_per_epoch=np.ceil(x_train.shape[0] / batch_size),
+            use_multiprocessing=True,
+        )
+    )
 
 
-# src = '/mnt/storage/tensorboard/date-2021-10-11_time-16-35-11/models/date-2021-10-11_time-16-35-11_epoch-050'
-# # mdl = tf.keras.models.load_model(
-# #     src,
-# #     custom_objects=dict(
-# #         jaccard_loss=jaccard_loss,
-# #         dice_loss=dice_loss,
-# #         iou=unmet.iou,
-# #         iou_thresholded=unmet.iou_thresholded,
-# #         dice_coef=unmet.dice_coef,
-# #         jaccard_coef=unmet.jaccard_coef,
-# #         get_config=get_config,
-# #         loss=dice_loss,
-# #     )
-# # )
+def setup(x, y, model, config):
+    # type: (np.ndarray, np.ndarray, tfkm.Model, dict) -> dict
+    '''
+    '''
+    # train test split
+    x_train, x_test, y_train, y_test = skm \
+        .train_test_split(x, y, **config['split'])
+    if config['input_shape'] != x_train.shape[1:]:
+        raise ValueError('Bad input shape')
+
+    # preprocessing
+    data = tfkpp.ImageDataGenerator(**config['preprocess'])
+    data.fit(x_train)
+
+    # compile model
+    model.compile(**config['compile'])
+
+    output = dict(
+        x_train=x_train,
+        x_test=x_test,
+        y_train=y_train,
+        y_test=y_test,
+        model=model,
+        data=data,
+    )
+    return output
