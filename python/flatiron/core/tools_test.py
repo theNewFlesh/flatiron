@@ -4,7 +4,7 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
-import tensorflow.keras.callbacks as tfkc
+import tensorflow.keras.callbacks as tfc
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -45,8 +45,8 @@ class ToolsTests(unittest.TestCase):
             result = fict.get_callbacks(
                 proj['log_dir'], proj['checkpoint_pattern'], {}
             )
-            self.assertIsInstance(result[0], tfkc.TensorBoard)
-            self.assertIsInstance(result[1], tfkc.ModelCheckpoint)
+            self.assertIsInstance(result[0], tfc.TensorBoard)
+            self.assertIsInstance(result[1], tfc.ModelCheckpoint)
 
     def test_get_callbacks_errors(self):
         # log dir

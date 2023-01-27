@@ -13,7 +13,7 @@ import lunchbox.tools as lbt
 import pytz
 import yaml
 
-import tensorflow.keras.callbacks as tfkc
+import tensorflow.keras.callbacks as tfc
 
 Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
@@ -86,8 +86,8 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
     # --------------------------------------------------------------------------
 
     callbacks = [
-        tfkc.TensorBoard(log_dir=log_directory, histogram_freq=1),
-        tfkc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
+        tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
 

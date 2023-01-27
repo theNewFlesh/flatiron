@@ -2,7 +2,7 @@ from typing import Union
 import numpy
 
 import tensorflow as tf
-import tensorflow.keras.backend as tfkb
+import tensorflow.keras.backend as tfb
 
 Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
@@ -63,10 +63,10 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
     Returns:
         tf.Tensor: IOU metric.
     '''
-    yt = tfkb.flatten(y_true)
-    yp = tfkb.flatten(y_pred)
-    i = tfkb.sum(yt * yp)
-    u = tfkb.sum(yt) + tfkb.sum(yp) - i
+    yt = tfb.flatten(y_true)
+    yp = tfb.flatten(y_pred)
+    i = tfb.sum(yt * yp)
+    u = tfb.sum(yt) + tfb.sum(yp) - i
     iou = (i + smooth) / (u + smooth)
     return iou
 
@@ -125,10 +125,10 @@ def jaccard(y_true, y_pred):
     Returns:
         tf.Tensor: Jaccard metric.
     '''
-    i = tfkb.sum(y_true * y_pred)
-    u = tfkb.sum(y_true + y_pred) - i
+    i = tfb.sum(y_true * y_pred)
+    u = tfb.sum(y_true + y_pred) - i
     jacc = (i + 1.0) / (u + 1.0)
-    jacc = tfkb.mean(jacc)
+    jacc = tfb.mean(jacc)
     return jacc
 
 
@@ -187,9 +187,9 @@ def dice(y_true, y_pred, smooth=1.0):
     Returns:
         tf.Tensor: Dice metric.
     '''
-    yt = tfkb.flatten(y_true)
-    yp = tfkb.flatten(y_pred)
-    i = tfkb.sum(yt * yp)
-    u = tfkb.sum(yt) + tfkb.sum(yp)
+    yt = tfb.flatten(y_true)
+    yp = tfb.flatten(y_pred)
+    i = tfb.sum(yt * yp)
+    u = tfb.sum(yt) + tfb.sum(yp)
     dice = (2.0 * i + smooth) / (u + smooth)
     return dice

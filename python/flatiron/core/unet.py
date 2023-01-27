@@ -14,18 +14,18 @@
 # import numpy as np
 # import pandas as pd
 # import tensorflow_addons as tfa
-# import tensorflow.keras.backend as tfkb
-# import tensorflow.keras.optimizers as tfko
-# import tensorflow.keras.models as tfkm
+# import tensorflow.keras.backend as tfb
+# import tensorflow.keras.optimizers as tfo
+# import tensorflow.keras.models as tfm
 
 from lunchbox.enforce import Enforce
 import numpy as np
 import tensorflow as tf
 import sklearn.model_selection as skm
-import tensorflow.keras.layers as tfkl
-import tensorflow.keras.models as tfkm
-import tensorflow.keras.optimizers as tfko
-import tensorflow.keras.preprocessing.image as tfkpp
+import tensorflow.keras.layers as tfl
+import tensorflow.keras.models as tfm
+import tensorflow.keras.optimizers as tfo
+import tensorflow.keras.preprocessing.image as tfpp
 
 import flatiron.core.loss as ficl
 import flatiron.core.metric as ficm
@@ -77,13 +77,13 @@ def conv_2d_block(
         use_bias=not batch_norm,
     )
 
-    conv_1 = tfkl.Conv2D(**kwargs)(input_)
+    conv_1 = tfl.Conv2D(**kwargs)(input_)
     if batch_norm:
-        conv_1 = tfkl.BatchNormalization()(conv_1)
+        conv_1 = tfl.BatchNormalization()(conv_1)
 
-    conv_2 = tfkl.Conv2D(**kwargs)(conv_1)
+    conv_2 = tfl.Conv2D(**kwargs)(conv_1)
     if batch_norm:
-        conv_2 = tfkl.BatchNormalization()(conv_2)
+        conv_2 = tfl.BatchNormalization()(conv_2)
 
     return conv_2
 
@@ -108,13 +108,13 @@ def attention_gate_2d(query, skip_connection):
         padding='same',
         kernel_initializer='he_normal',
     )
-    conv_1 = tfkl.Conv2D(filters=filters, **kwargs)(skip_connection)
-    conv_2 = tfkl.Conv2D(filters=filters, **kwargs)(query)
-    gate = tfkl.add([conv_1, conv_2])
-    gate = tfkl.Activation('relu')(gate)
-    gate = tfkl.Conv2D(filters=1, **kwargs)(gate)
-    gate = tfkl.Activation('sigmoid')(gate)
-    output = tfkl.multiply([skip_connection, gate])
+    conv_1 = tfl.Conv2D(filters=filters, **kwargs)(skip_connection)
+    conv_2 = tfl.Conv2D(filters=filters, **kwargs)(query)
+    gate = tfl.add([conv_1, conv_2])
+    gate = tfl.Activation('relu')(gate)
+    gate = tfl.Conv2D(filters=1, **kwargs)(gate)
+    gate = tfl.Activation('sigmoid')(gate)
+    output = tfl.multiply([skip_connection, gate])
     return output
 
 
@@ -157,7 +157,7 @@ def unet(
         EnforceError: If layers is not an odd integer greater than 2.
 
     Returns:
-        tfkm.Model: UNet model.
+        tfm.Model: UNet model.
     '''
     msg = 'Layers must be an odd integer greater than 2. Given value: {a}.'
     Enforce(layers, 'instance of', int, message=msg)
@@ -169,7 +169,7 @@ def unet(
     down_layers = []
 
     # input layer
-    input_ = tfkl.Input(input_shape)
+    input_ = tfl.Input(input_shape)
 
     # down layers
     x = input_
@@ -185,7 +185,7 @@ def unet(
         down_layers.append(x)
 
         # downsample
-        x = tfkl.MaxPooling2D((2, 2))(x)
+        x = tfl.MaxPooling2D((2, 2))(x)
         filters *= 2
 
     # middle layer
@@ -203,15 +203,15 @@ def unet(
         filters /= 2
 
         # upsample
-        x = tfkl.Conv2DTranspose(
+        x = tfl.Conv2DTranspose(
             filters, (2, 2), strides=(2, 2), padding='same'
         )(x)
 
         # attention gate
         if attention_gates:
-            x = tfkl.concatenate([attention_gate_2d(x, layer), x])
+            x = tfl.concatenate([attention_gate_2d(x, layer), x])
         else:
-            x = tfkl.concatenate([layer, x])
+            x = tfl.concatenate([layer, x])
 
         # conv backend of layer
         x = conv_2d_block(
@@ -222,8 +222,8 @@ def unet(
             kernel_initializer=kernel_initializer,
         )
 
-    output = tfkl.Conv2D(classes, (1, 1), activation=output_activation)(x)
-    model = tfkm.Model(inputs=[input_], outputs=[output])
+    output = tfl.Conv2D(classes, (1, 1), activation=output_activation)(x)
+    model = tfm.Model(inputs=[input_], outputs=[output])
     return model
 
 
@@ -250,7 +250,7 @@ def get_config():
         #     momentum=0.99,
         # ),
         compile_params=dict(
-            optimizer=tfko.SGD(**dict(
+            optimizer=tfo.SGD(**dict(
                 learning_rate=0.015,
                 momentum=0.99,
             )),
@@ -278,7 +278,7 @@ def get_config():
 
 
 def setup(x, y, model, config):
-    # type: (np.ndarray, np.ndarray, tfkm.Model, dict) -> dict
+    # type: (np.ndarray, np.ndarray, tfm.Model, dict) -> dict
     '''
     '''
     # train test split
@@ -288,7 +288,7 @@ def setup(x, y, model, config):
         raise ValueError('Bad input shape')
 
     # preprocessing
-    data = tfkpp.ImageDataGenerator(**config['preprocess'])
+    data = tfpp.ImageDataGenerator(**config['preprocess'])
     data.fit(x_train)
 
     # compile model
