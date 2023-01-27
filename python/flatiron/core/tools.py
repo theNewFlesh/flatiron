@@ -18,44 +18,60 @@ Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
 
 
-def get_callbacks(metric, directory='/mnt/storage', timezone='UTC'):
-    # type: (str, Filepath, str) -> list
+def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
+    # type: (Filepath, Filepath, str) -> dict[str, str]
+    '''
+    Creates directory structure for Tensorboard project.
+
+    Args:
+        project (str): Name of project.
+        root (str or Path): Tensorboard parent directory. Default: /mnt/storage
+        timezone (str, optional): Timezone. Default: UTC.
+
+    Returns:
+        dict: Project details.
+    '''
+    # create timestamp
+    timestamp = datetime \
+        .now(tz=pytz.timezone(timezone)) \
+        .strftime('d-%Y-%m-%d_t-%H-%M-%S')
+
+    # create directories
+    root_dir = Path(root, project, 'tensorboard').as_posix()
+    log_dir = Path(root_dir, timestamp).as_posix()
+    model_dir = Path(log_dir, 'models').as_posix()
+    os.makedirs(root_dir, exist_ok=True)
+    os.makedirs(model_dir, exist_ok=True)
+
+    # checkpoint pattern
+    target = f'p-{project}_{timestamp}' + '_e-{epoch:03d}'
+    target = Path(model_dir, target).as_posix()
+
+    output = dict(
+        root_dir=root_dir,
+        log_dir=log_dir,
+        model_dir=model_dir,
+        checkpoint_pattern=target,
+    )
+    return output
+
+
+def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
+    # type: (str, str, dict) -> list
     '''
     Create a list of callbacks for Tensoflow model.
 
     Args:
-        metric (str): Checkpoint metric.
-        directory (str or Path): Tensorboard parent directory.
-            Default: /mnt/storage
-        timezone (str, optional): Timezone. Default: UTC.
+        log_directory (str or Path): Tensorboard project log directory.
+        checkpoint_pattern (str): Filepath pattern for checkpoint callback.
+        checkpoint_params (dict): Params to be passed to checkpoint callback.
 
     Returns:
         list: Tensorboard and ModelCheckpoint callbacks.
     '''
-    root = Path(directory, 'tensorboard')
-    os.makedirs(root, exist_ok=True)
-
-    timestamp = datetime \
-        .now(tz=pytz.timezone(timezone)) \
-        .strftime('date-%Y-%m-%d_time-%H-%M-%S')
-    log_dir = Path(root, timestamp).as_posix()
-    os.makedirs(log_dir, exist_ok=True)
-
-    target = Path(log_dir, 'models')
-    os.makedirs(target, exist_ok=True)
-    target = Path(target, timestamp + '_epoch-{epoch:03d}').as_posix()
-
     callbacks = [
-        tfkc.TensorBoard(log_dir=log_dir, histogram_freq=1),
-        tfkc.ModelCheckpoint(
-            target,
-            metric=metric,
-            mode='auto',
-            save_freq='epoch',
-            update_freq='batch',
-            write_steps_per_second=True,
-            write_images=True,
-        )
+        tfkc.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfkc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
 
