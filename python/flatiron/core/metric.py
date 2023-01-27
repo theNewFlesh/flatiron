@@ -1,10 +1,15 @@
+from typing import Union
+import numpy
+
 import tensorflow as tf
 import tensorflow.keras.backend as tfkb
+
+Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
 
 
 def intersection_over_union(y_true, y_pred, smooth=1.0):
-    # type: (tf.Tensor, tf.Tensor, float) -> tf.Tensor
+    # type: (Arraylike, Arraylike, float) -> tf.Tensor
     r'''
     Intersection over union metric.
 
@@ -49,8 +54,8 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
             \end{alignat*}
 
     Args:
-        y_true (tf.Tensor): True labels.
-        y_pred (tf.Tensor): Predicted labels.
+        y_true (Arraylike): True labels.
+        y_pred (Arraylike): Predicted labels.
         smooth (float, optional): Smoothing factor. Default: 1.0
 
     Returns:
@@ -65,7 +70,7 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
 
 
 def jaccard(y_true, y_pred):
-    # type: (tf.Tensor, tf.Tensor) -> tf.Tensor
+    # type: (Arraylike, Arraylike) -> tf.Tensor
     r'''
     Jaccard metric.
 
@@ -110,8 +115,8 @@ def jaccard(y_true, y_pred):
             \end{alignat*}
 
     Args:
-        y_true (tf.Tensor): True labels.
-        y_pred (tf.Tensor): Predicted labels.
+        y_true (Arraylike): True labels.
+        y_pred (Arraylike): Predicted labels.
 
     Returns:
         tf.Tensor: Jaccard metric.
@@ -124,7 +129,7 @@ def jaccard(y_true, y_pred):
 
 
 def dice(y_true, y_pred, smooth=1.0):
-    # type: (tf.Tensor, tf.Tensor, float) -> tf.Tensor
+    # type: (Arraylike, Arraylike, float) -> tf.Tensor
     r'''
     Dice metric.
 
@@ -169,8 +174,8 @@ def dice(y_true, y_pred, smooth=1.0):
             \end{alignat*}
 
     Args:
-        y_true (tf.Tensor): True labels.
-        y_pred (tf.Tensor): Predicted labels.
+        y_true (Arraylike): True labels.
+        y_pred (Arraylike): Predicted labels.
         smooth (float, optional): Smoothing factor. Default: 1.0
 
     Returns:
