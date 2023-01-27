@@ -29,21 +29,21 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
         :nowrap:
 
             \begin{alignat*}{3}
-                intersection & \rightarrow \color{red2} I
-                    (y, \hat{y}) && = \sum{(y * \hat{y})} 
+                intersection & \rightarrow \color{red2} 
+                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
                 \\
-                union & \rightarrow \color{green2} U
-                    (y, \hat{y}) && = \sum{(y + \hat{y})} - I(y, \hat{y})
+                union & \rightarrow \color{green2} 
+                    U(y, \hat{y}) && = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
                 \\
                 \text{smoothing factor} & \rightarrow \color{blue2} S 
                 \\ 
                 \text{expansion} & \rightarrow 
                     \color{cyan2} IOU(y, \hat{y}, S) && = 
                     \frac{
-                        \color{red2} \sum{(y * \hat{y})} 
+                        \color{red2} \sum{(y_i * \hat{y_i})} 
                         \color{white} + \color{blue2} S
                     }{
-                        \color{green2} \sum{(y + \hat{y})} - \sum{(y * \hat{y})} 
+                        \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})} 
                         \color{white} + \color{blue2} S
                     } 
             \end{alignat*}
