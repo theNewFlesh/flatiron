@@ -8,6 +8,8 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
     r'''
     Intersection over union metric.
 
+    Equation:
+
     .. math::
         :nowrap:
 
@@ -21,7 +23,7 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
                 \color{cyan2} IOU (y, \hat{y}, S) && = \frac{I + S}{U + S}
             \end{alignat*}
 
-    Additional Math:
+    Terms:
 
     .. math::
         :nowrap:
