@@ -54,8 +54,8 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
             \end{alignat*}
 
     Args:
-        y_true (Arraylike): True labels.
-        y_pred (Arraylike): Predicted labels.
+        y_true (NDArray or Tensor): True labels.
+        y_pred (NDArray or Tensor): Predicted labels.
         smooth (float, optional): Smoothing factor. Default: 1.0
 
     Returns:
@@ -115,8 +115,8 @@ def jaccard(y_true, y_pred):
             \end{alignat*}
 
     Args:
-        y_true (Arraylike): True labels.
-        y_pred (Arraylike): Predicted labels.
+        y_true (NDArray or Tensor): True labels.
+        y_pred (NDArray or Tensor): Predicted labels.
 
     Returns:
         tf.Tensor: Jaccard metric.
@@ -174,8 +174,8 @@ def dice(y_true, y_pred, smooth=1.0):
             \end{alignat*}
 
     Args:
-        y_true (Arraylike): True labels.
-        y_pred (Arraylike): Predicted labels.
+        y_true (NDArray or Tensor): True labels.
+        y_pred (NDArray or Tensor): Predicted labels.
         smooth (float, optional): Smoothing factor. Default: 1.0
 
     Returns:
