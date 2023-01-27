@@ -62,3 +62,62 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
     u = tfkb.sum(yt) + tfkb.sum(yp) - i
     iou = (i + smooth) / (u + smooth)
     return iou
+
+
+def jaccard(y_true, y_pred):
+    # type: (tf.Tensor, tf.Tensor) -> tf.Tensor
+    r'''
+    Jaccard metric.
+
+    Equation:
+
+    .. math::
+        :nowrap:
+
+            \begin{alignat*}{3}
+                \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+                \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+                \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+                \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+                \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+                \color{cyan2} Jacc(y, \hat{y}) && = 
+                    \frac{1}{N} \sum_{i=0}^{N} \frac{I + 1}{U + 1}
+            \end{alignat*}
+
+    Terms:
+
+    .. math::
+        :nowrap:
+
+            \begin{alignat*}{3}
+                intersection & \rightarrow \color{red2} 
+                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
+                \\
+                union & \rightarrow \color{green2} 
+                    U(y, \hat{y}) && = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
+                \\
+                \text{expansion} & \rightarrow 
+                    \color{cyan2} Jacc(y, \hat{y}) && = 
+                    \frac{1}{N} \sum_{i=0}^{N}
+                    \frac{
+                        \color{red2} \sum{(y_i * \hat{y_i})} 
+                        \color{white} + 1
+                    }{
+                        \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})} 
+                        \color{white} + 1
+                    } 
+            \end{alignat*}
+
+    Args:
+        y_true (tf.Tensor): True labels.
+        y_pred (tf.Tensor): Predicted labels.
+
+    Returns:
+        tf.Tensor: Jaccard metric.
+    '''
+    i = tfkb.sum(y_true * y_pred)
+    u = tfkb.sum(y_true + y_pred) - i
+    jacc = (i + 1.0) / (u + 1.0)
+    jacc = tfkb.mean(jacc)
+    return jacc
