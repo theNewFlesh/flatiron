@@ -1,6 +1,6 @@
 # from pathlib import Path
 # import json
-import math
+# import math
 # import os
 # import re
 
@@ -13,19 +13,19 @@ import math
 # import keras_unet.models as unmod
 # import numpy as np
 # import pandas as pd
-# import sklearn.model_selection as skms
 # import tensorflow_addons as tfa
 # import tensorflow.keras.backend as tfkb
 # import tensorflow.keras.optimizers as tfko
 # import tensorflow.keras.models as tfkm
+# import sklearn.model_selection as skm
+
+# import flatiron.core.loss as ficl
+# import flatiron.core.tools as fict
 
 from lunchbox.enforce import Enforce
 import tensorflow as tf
 import tensorflow.keras.layers as tfkl
 import tensorflow.keras.models as tfkm
-
-# import flatiron.core.loss as ficl
-# import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
@@ -247,7 +247,7 @@ def unet(
 #     random_state=42,
 # )
 # params.update(split_params)
-# x_train, x_test, y_train, y_test = skms.train_test_split(x, y, **split_params)
+# x_train, x_test, y_train, y_test = skm.train_test_split(x, y, **split_params)
 # x_train.shape
 
 # model_params = get_config()
@@ -264,7 +264,7 @@ def unet(
 # # optimizer = tfko.Adam(**opt_params)
 # params.update(opt_params)
 # # loss = 'binary_crossentropy'
-# # loss = jaccards_loss
+# # loss = jaccard_loss
 # loss = ficl.dice_loss
 # compile_params = dict(
 #     optimizer=optimizer,
@@ -334,7 +334,7 @@ def unet(
 # # mdl = tf.keras.models.load_model(
 # #     src,
 # #     custom_objects=dict(
-# #         jaccards_loss=jaccards_loss,
+# #         jaccard_loss=jaccard_loss,
 # #         dice_loss=dice_loss,
 # #         iou=unmet.iou,
 # #         iou_thresholded=unmet.iou_thresholded,
