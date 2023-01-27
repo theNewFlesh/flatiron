@@ -28,7 +28,8 @@ def conv_2d_block(
         :nowrap:
 
             \begin{align}
-                architecture & \rightarrow Conv2D + ReLU + BatchNorm + Conv2D + ReLU + BatchNorm \\
+                architecture & \rightarrow Conv2D + ReLU + BatchNorm + Conv2D
+                + ReLU + BatchNorm \\
                 kernel & \rightarrow (3, 3) \\
                 strides & \rightarrow (1, 1) \\
                 padding & \rightarrow same \\
