@@ -81,17 +81,49 @@ def dice_loss(y_true, y_pred, smooth=1):
     Dice loss function with smoothing factor to prevent exploding or vanishing
     gradients.
 
+    See: https://cnvrg.io/semantic-segmentation
+
+    Equation:
+
     .. math::
         :nowrap:
 
-            \begin{align}
-                intersection & \rightarrow I(y, \hat{y}) = \sum_{i=0}^{n}{|y_i * \hat{y}_i|} \\
-                union & \rightarrow U(y, \hat{y}) = \sum_{i=0}^{n}({|y_i| + |\hat{y}_i|}) \\
-                smooth & \rightarrow S \\
-                loss & \rightarrow L_{dice}(y, \hat{y}, S) = 1 - \frac{2 * I + S}{U + S} \\
-            \end{align}
+            \begin{alignat*}{3}
+                \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+                \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+                \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+                \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+                \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
 
-    See: https://cnvrg.io/semantic-segmentation/
+                \color{cyan2} L_{dice}(y, \hat{y}, S) && = 
+                    1 - \frac{2 * I + S}{U + S} 
+            \end{alignat*}
+
+    Terms:
+
+    .. math::
+        :nowrap:
+
+            \begin{alignat*}{3}
+                intersection & \rightarrow \color{red2} 
+                    I(y, \hat{y}) && = \sum{|y_i * \hat{y_i}|} 
+                \\
+                union & \rightarrow \color{green2} 
+                    U(y, \hat{y}) && = \sum{(|y_i| + |\hat{y_i}|)} 
+                \\
+                \text{smoothing factor} & \rightarrow \color{blue2} S && 
+                \\
+                \text{expansion} & \rightarrow 
+                    \color{cyan2} L_{dice}(y, \hat{y}, S) && = 
+                        1 - \frac{
+                            2 * 
+                            \color{red2} \sum{|y_i * \hat{y_i}|} 
+                            \color{white} + \color{blue2} S
+                        }{
+                            \color{green2} \sum{(|y_i| + |\hat{y_i}|)} 
+                            \color{white} + \color{blue2} S
+                        }
+            \end{alignat*}
 
     Args:
         y_true (NDArray or Tensor): Ground truth labels.
