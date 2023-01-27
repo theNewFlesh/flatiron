@@ -36,23 +36,23 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
         :nowrap:
 
             \begin{alignat*}{3}
-                intersection & \rightarrow \color{red2} 
-                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
+                intersection & \rightarrow \color{red2}
+                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})}
                 \\
-                union & \rightarrow \color{green2} 
+                union & \rightarrow \color{green2}
                     U(y, \hat{y}) && = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
                 \\
-                \text{smoothing factor} & \rightarrow \color{blue2} S 
-                \\ 
-                \text{expansion} & \rightarrow 
-                    \color{cyan2} IOU(y, \hat{y}, S) && = 
+                \text{smoothing factor} & \rightarrow \color{blue2} S
+                \\
+                \text{expansion} & \rightarrow
+                    \color{cyan2} IOU(y, \hat{y}, S) && =
                     \frac{
-                        \color{red2} \sum{(y_i * \hat{y_i})} 
+                        \color{red2} \sum{(y_i * \hat{y_i})}
                         \color{white} + \color{blue2} S
                     }{
-                        \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})} 
+                        \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})}
                         \color{white} + \color{blue2} S
-                    } 
+                    }
             \end{alignat*}
 
     Args:
@@ -90,7 +90,7 @@ def jaccard(y_true, y_pred):
                 \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
                 \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
 
-                \color{cyan2} Jacc(y, \hat{y}) && = 
+                \color{cyan2} Jacc(y, \hat{y}) && =
                     \frac{1}{N} \sum_{i=0}^{N} \frac{I + 1}{U + 1}
             \end{alignat*}
 
@@ -100,22 +100,22 @@ def jaccard(y_true, y_pred):
         :nowrap:
 
             \begin{alignat*}{3}
-                intersection & \rightarrow \color{red2} 
-                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
+                intersection & \rightarrow \color{red2}
+                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})}
                 \\
-                union & \rightarrow \color{green2} 
+                union & \rightarrow \color{green2}
                     U(y, \hat{y}) && = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
                 \\
-                \text{expansion} & \rightarrow 
-                    \color{cyan2} Jacc(y, \hat{y}) && = 
+                \text{expansion} & \rightarrow
+                    \color{cyan2} Jacc(y, \hat{y}) && =
                     \frac{1}{N} \sum_{i=0}^{N}
                     \frac{
-                        \color{red2} \sum{(y_i * \hat{y_i})} 
+                        \color{red2} \sum{(y_i * \hat{y_i})}
                         \color{white} + 1
                     }{
-                        \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})} 
+                        \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})}
                         \color{white} + 1
-                    } 
+                    }
             \end{alignat*}
 
     Args:
@@ -160,23 +160,23 @@ def dice(y_true, y_pred, smooth=1.0):
         :nowrap:
 
             \begin{alignat*}{3}
-                intersection & \rightarrow \color{red2} 
-                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
+                intersection & \rightarrow \color{red2}
+                    I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})}
                 \\
-                \text{union} & \rightarrow \color{green2} 
+                \text{union} & \rightarrow \color{green2}
                     U(y, \hat{y}) && = \sum{(y_i + \hat{y_i})}
                 \\
-                \text{smoothing factor} & \rightarrow \color{blue2} S 
-                \\ 
-                \text{expansion} & \rightarrow 
-                    \color{cyan2} Dice(y, \hat{y}, S) && = 
-                    \frac{ 
-                        \color{white} 2 * \color{red2} \sum{(y_i * \hat{y_i})} 
+                \text{smoothing factor} & \rightarrow \color{blue2} S
+                \\
+                \text{expansion} & \rightarrow
+                    \color{cyan2} Dice(y, \hat{y}, S) && =
+                    \frac{
+                        \color{white} 2 * \color{red2} \sum{(y_i * \hat{y_i})}
                         \color{white} + \color{blue2} S
                     }{
                         \color{green2} \sum{(y_i + \hat{y_i})}
                         \color{white} + \color{blue2} S
-                    } 
+                    }
             \end{alignat*}
 
     Args:
