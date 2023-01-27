@@ -8,7 +8,7 @@ Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
 
 
-def jaccards_loss(y_true, y_pred, smooth=100):
+def jaccard_loss(y_true, y_pred, smooth=100):
     # type: (Arraylike, Arraylike, int) -> tf.Tensor
     r'''
     Jaccard's loss is usefull for unbalanced datasets. This has been shifted so
