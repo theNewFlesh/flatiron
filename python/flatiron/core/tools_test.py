@@ -2,7 +2,9 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
+from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
+import tensorflow.keras.callbacks as tfkc
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -36,6 +38,28 @@ class ToolsTests(unittest.TestCase):
             self.assertTrue(Path(result['root_dir']).is_dir())
             self.assertTrue(Path(result['log_dir']).is_dir())
             self.assertTrue(Path(result['model_dir']).is_dir())
+
+    def test_get_callbacks(self):
+        with TemporaryDirectory() as root:
+            proj = fict.get_tensorboard_project('proj', root)
+            result = fict.get_callbacks(
+                proj['log_dir'], proj['checkpoint_pattern'], {}
+            )
+            self.assertIsInstance(result[0], tfkc.TensorBoard)
+            self.assertIsInstance(result[1], tfkc.ModelCheckpoint)
+
+    def test_get_callbacks_errors(self):
+        # log dir
+        expected = 'Log directory: /tmp/foobar does not exist.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.get_callbacks('/tmp/foobar', 'pattern', {})
+
+        # checkpoint pattern
+        with TemporaryDirectory() as root:
+            expected = r"Checkpoint pattern must contain '\{epoch\}'\. "
+            expected += 'Given value: foobar'
+            with self.assertRaisesRegex(EnforceError, expected):
+                fict.get_callbacks(root, 'foobar', {})
 
     def test_unindent(self):
         # 4 spaces

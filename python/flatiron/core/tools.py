@@ -8,6 +8,7 @@ import json
 import os
 import re
 
+from lunchbox.enforce import Enforce
 import lunchbox.tools as lbt
 import pytz
 import yaml
@@ -57,7 +58,7 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
-    # type: (str, str, dict) -> list
+    # type: (Filepath, str, dict) -> list
     '''
     Create a list of callbacks for Tensoflow model.
 
@@ -66,9 +67,24 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
         checkpoint_pattern (str): Filepath pattern for checkpoint callback.
         checkpoint_params (dict): Params to be passed to checkpoint callback.
 
+    Raises:
+        EnforceError: If log directory does not exist.
+        EnforeError: If checkpoint pattern does not contain '{epoch}'.
+
     Returns:
         list: Tensorboard and ModelCheckpoint callbacks.
     '''
+    log_dir = Path(log_directory)
+    msg = f'Log directory: {log_dir} does not exist.'
+    Enforce(log_dir.is_dir(), '==', True, message=msg)
+
+    match = re.search(r'\{epoch.*?\}', checkpoint_pattern)
+    msg = "Checkpoint pattern must contain '{epoch}'. "
+    msg += f'Given value: {checkpoint_pattern}'
+    msg = msg.replace('{', '{{').replace('}', '}}')
+    Enforce(match, '!=', None, message=msg)
+    # --------------------------------------------------------------------------
+
     callbacks = [
         tfkc.TensorBoard(log_dir=log_directory, histogram_freq=1),
         tfkc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
