@@ -1,3 +1,5 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
 import unittest
 
 from lunchbox.stopwatch import StopWatch
@@ -7,6 +9,34 @@ import flatiron.core.tools as fict
 
 
 class ToolsTests(unittest.TestCase):
+    def test_get_tensorboard_project(self):
+        with TemporaryDirectory() as root:
+            result = fict.get_tensorboard_project(
+                'foo', root, timezone='America/Los_Angeles'
+            )
+
+            # root dir
+            root_re = f'{root}/foo/tensorboard'
+            self.assertRegex(result['root_dir'], root_re)
+
+            # log dir
+            time_re = r'd-\d\d\d\d-\d\d-\d\d_t-\d\d-\d\d-\d\d'
+            self.assertRegex(result['log_dir'], f'{root_re}/{time_re}')
+
+            # model dir
+            self.assertRegex(result['model_dir'], f'{root_re}/{time_re}/models')
+
+            # checkpoint pattern
+            model_re = f'p-foo_{time_re}_e-{{epoch:03d}}'
+            self.assertRegex(
+                result['checkpoint_pattern'],
+                f'{root_re}/{time_re}/models/{model_re}'
+            )
+
+            self.assertTrue(Path(result['root_dir']).is_dir())
+            self.assertTrue(Path(result['log_dir']).is_dir())
+            self.assertTrue(Path(result['model_dir']).is_dir())
+
     def test_unindent(self):
         # 4 spaces
         text = '''
