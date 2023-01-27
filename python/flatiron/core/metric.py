@@ -73,6 +73,7 @@ def jaccard(y_true, y_pred):
     # type: (Arraylike, Arraylike) -> tf.Tensor
     r'''
     Jaccard metric.
+    See: https://en.wikipedia.org/wiki/Jaccard_index
 
     Equation:
 
@@ -132,6 +133,7 @@ def dice(y_true, y_pred, smooth=1.0):
     # type: (Arraylike, Arraylike, float) -> tf.Tensor
     r'''
     Dice metric.
+    See: https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient
 
     Equation:
 
