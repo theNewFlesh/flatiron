@@ -1,8 +1,8 @@
 from typing import Union
 import numpy
-import tensorflow as tf
 
-import tensorflow.keras.backend as tfb
+import tensorflow as tf
+import tensorflow.keras.backend as tfkb
 
 Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
@@ -35,8 +35,8 @@ def jaccard_loss(y_true, y_pred, smooth=100):
     Returns:
         tf.Tensor: Loss function.
     '''
-    intersection = tfb.sum(tfb.abs(y_true * y_pred), axis=-1)
-    union = tfb.sum(tfb.abs(y_true) + tfb.abs(y_pred), axis=-1)
+    intersection = tfkb.sum(tfkb.abs(y_true * y_pred), axis=-1)
+    union = tfkb.sum(tfkb.abs(y_true) + tfkb.abs(y_pred), axis=-1)
     jaccard = (intersection + smooth) / (union - intersection + smooth)
     loss = (1 - jaccard) * smooth
     return loss
@@ -68,8 +68,8 @@ def dice_loss(y_true, y_pred, smooth=1):
     Returns:
         tf.Tensor: Loss function.
     '''
-    intersection = tfb.sum(tfb.abs(y_true * y_pred), axis=-1)
-    union = tfb.sum(tfb.abs(y_true) + tfb.abs(y_pred), axis=-1)
+    intersection = tfkb.sum(tfkb.abs(y_true * y_pred), axis=-1)
+    union = tfkb.sum(tfkb.abs(y_true) + tfkb.abs(y_pred), axis=-1)
     dice = (2.0 * intersection + smooth) / (union + smooth)
     loss = 1.0 - dice
     return loss
