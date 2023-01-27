@@ -151,7 +151,7 @@ def dice(y_true, y_pred, smooth=1.0):
                 \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
                 \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
 
-                \color{cyan2} Dice(y, \hat{y}) && = \frac{2 * I + S}{U_s + S}
+                \color{cyan2} Dice(y, \hat{y}) && = \frac{2 * I + S}{U + S}
             \end{alignat*}
 
     Terms:
@@ -164,7 +164,7 @@ def dice(y_true, y_pred, smooth=1.0):
                     I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
                 \\
                 \text{union} & \rightarrow \color{green2} 
-                    U_s(y, \hat{y}) && = \sum{(y_i + \hat{y_i})}
+                    U(y, \hat{y}) && = \sum{(y_i + \hat{y_i})}
                 \\
                 \text{smoothing factor} & \rightarrow \color{blue2} S 
                 \\ 
