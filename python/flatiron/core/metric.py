@@ -12,26 +12,38 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
         :nowrap:
 
             \begin{alignat*}{3}
+                \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
                 \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+                \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+                \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
                 \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
-                \color{red2} \text{intersection over union} & \rightarrow
+
+                \color{cyan2} IOU (y, \hat{y}, S) && = \frac{I + S}{U + S}
+            \end{alignat*}
+
+    Additional Math:
+
+    .. math::
+        :nowrap:
+
+            \begin{alignat*}{3}
+                intersection & \rightarrow \color{red2} I
+                    (y, \hat{y}) && = \sum{(y * \hat{y})} 
+                \\
+                union & \rightarrow \color{green2} U
+                    (y, \hat{y}) && = \sum{(y + \hat{y})} - I(y, \hat{y})
+                \\
+                \text{smoothing factor} & \rightarrow \color{blue2} S 
+                \\ 
+                \text{expansion} & \rightarrow 
                     \color{cyan2} IOU(y, \hat{y}, S) && = 
-                    \frac{I + S}{U + S}
-                \\
-                \\
-                & && = \frac{\sum{(y * \hat{y})} + S}
-                    {\sum{y} + \sum{\hat{y}} - \sum{(y * \hat{y})} + S}
-                \\
-                \\
-                \color{red2} intersection & \rightarrow
-                    \color{cyan2} I(y, \hat{y}) && = \sum{(y * \hat{y})}
-                \\
-                \color{red2} union & \rightarrow
-                    \color{cyan2} U(y, \hat{y}) && = 
-                    \sum{y} + \sum{\hat{y}} - I(y, \hat{y})
-                \\
-                \color{red2} \text{smoothing factor} & \rightarrow
-                    \color{cyan2} S
+                    \frac{
+                        \color{red2} \sum{(y * \hat{y})} 
+                        \color{white} + \color{blue2} S
+                    }{
+                        \color{green2} \sum{(y + \hat{y})} - \sum{(y * \hat{y})} 
+                        \color{white} + \color{blue2} S
+                    } 
             \end{alignat*}
 
     Args:
