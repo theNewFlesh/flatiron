@@ -163,7 +163,7 @@ def dice(y_true, y_pred, smooth=1.0):
                 intersection & \rightarrow \color{red2} 
                     I(y, \hat{y}) && = \sum{(y_i * \hat{y_i})} 
                 \\
-                \text{simple union} & \rightarrow \color{green2} 
+                \text{union} & \rightarrow \color{green2} 
                     U_s(y, \hat{y}) && = \sum{(y_i + \hat{y_i})}
                 \\
                 \text{smoothing factor} & \rightarrow \color{blue2} S 
