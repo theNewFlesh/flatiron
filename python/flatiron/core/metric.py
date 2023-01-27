@@ -13,6 +13,8 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
     r'''
     Intersection over union metric.
 
+    See: https://medium.com/analytics-vidhya/iou-intersection-over-union-705a39e7acef
+
     Equation:
 
     .. math::
