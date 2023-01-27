@@ -1,6 +1,6 @@
 # from pathlib import Path
 # import json
-# import math
+import math
 # import os
 # import re
 
@@ -19,6 +19,7 @@
 # import tensorflow.keras.optimizers as tfko
 # import tensorflow.keras.models as tfkm
 
+from lunchbox.enforce import Enforce
 import tensorflow as tf
 import tensorflow.keras.layers as tfkl
 import tensorflow.keras.models as tfkm
@@ -28,8 +29,8 @@ import tensorflow.keras.models as tfkm
 # ------------------------------------------------------------------------------
 
 
-def downsample_conv2d(
-    input_1,
+def conv_2d_block(
+    input_,
     filters=16,
     activation='relu',
     batch_norm=True,
@@ -37,7 +38,7 @@ def downsample_conv2d(
 ):
     # type: (tf.Tensor, int, str, bool, str) -> tf.Tensor
     r'''
-    Downsample 2D Convolution block.
+    2D Convolution block without padding.
 
     .. math::
         :nowrap:
@@ -49,11 +50,11 @@ def downsample_conv2d(
                 padding & \rightarrow same \\
             \end{align}
 
-    .. image:: images/downsample_conv2d.svg
+    .. image:: images/conv_2d_block.svg
       :width: 800
 
     Args:
-        input_1 (tf.Tensor): Input tensor.
+        input_ (tf.Tensor): Input tensor.
         filters (int, optional): Default: 16.
         activation (str, optional): Activation function. Default: relu.
         batch_norm (str, bool): Default: True.
@@ -72,7 +73,7 @@ def downsample_conv2d(
         use_bias=not batch_norm,
     )
 
-    conv_1 = tfkl.Conv2D(**kwargs)(input_1)
+    conv_1 = tfkl.Conv2D(**kwargs)(input_)
     if batch_norm:
         conv_1 = tfkl.BatchNormalization()(conv_1)
 
@@ -83,184 +84,159 @@ def downsample_conv2d(
     return conv_2
 
 
-def attention_gate_2d(input_1, input_2, filters):
-    # type: (tf.Tensor, tf.Tensor, int) -> tf.Tensor
+def attention_gate_2d(query, skip_connection):
+    # type: (tf.Tensor, tf.Tensor) -> tf.Tensor
     '''
     Attention gate for 2D inputs.
     See: https://arxiv.org/abs/1804.03999
 
     Args:
-        input_1 (tf.Tensor): 2D Tensor of features.
-        input_2 (tf.Tensor): 2D Tensor of gating signal.
-        filters (int): Number of filters.
+        query (tf.Tensor): 2D Tensor of query.
+        skip_connection (tf.Tensor): 2D Tensor of features.
 
     Returns:
-        tf.Tensor: 2D Attention Gate function.
+        tf.Tensor: 2D Attention Gate.
     '''
+    filters = skip_connection, query.get_shape().as_list()[-1]
     kwargs = dict(
         kernel_size=1,
         strides=1,
         padding='same',
         kernel_initializer='he_normal',
     )
-    conv_1 = tfkl.Conv2D(filters, **kwargs)(input_1)
-    conv_2 = tfkl.Conv2D(filters, **kwargs)(input_2)
-    output = tfkl.add([conv_1, conv_2])
-    output = tfkl.Activation('relu')(output)
-    output = tfkl.Conv2D(filters=1, **kwargs)(output)
-    output = tfkl.Activation('sigmoid')(output)
-    output = tfkl.multiply([input_1, output])
+    conv_1 = tfkl.Conv2D(filters=filters, **kwargs)(skip_connection)
+    conv_2 = tfkl.Conv2D(filters=filters, **kwargs)(query)
+    gate = tfkl.add([conv_1, conv_2])
+    gate = tfkl.Activation('relu')(gate)
+    gate = tfkl.Conv2D(filters=1, **kwargs)(gate)
+    gate = tfkl.Activation('sigmoid')(gate)
+    output = tfkl.multiply([skip_connection, gate])
     return output
-
-
-def attention_concat(conv_below, skip_connection):
-    '''
-    Performs concatenation of upsampled conv_below with attention gated version of skip-connection
-    '''
-    below_filters = conv_below.get_shape().as_list()[-1]
-    attention_across = attention_gate_2d(skip_connection, conv_below, below_filters)
-    return tfkl.concatenate([conv_below, attention_across])
 
 
 def unet(
     input_shape,
-    num_classes=1,
-    activation='relu',
-    use_batch_norm=True,
-    dropout=0.0,
-    dropout_change_per_layer=0.0,
-    dropout_type='spatial',
-    use_dropout_on_upsampling=False,
-    use_attention=False,
     filters=16,
-    num_layers=4,
+    layers=9,
+    classes=1,
+    activation='relu',
+    batch_norm=True,
+    attention_gates=False,
     output_activation='sigmoid',
-):  # 'sigmoid' or 'softmax'
+    kernel_initializer='he_normal',
+):
     '''
-    Customisable UNet architecture (Ronneberger et al. 2015 [1]).
-    Arguments:
-    input_shape: 3D Tensor of shape (x, y, num_channels)
-    num_classes (int): Unique classes in the output mask. Should be set to 1 for binary segmentation
-    activation (str): A keras.activations.Activation to use. ReLu by default.
-    use_batch_norm (bool): Whether to use Batch Normalisation across the channel axis between convolutional layers
-    dropout (float between 0. and 1.): Amount of dropout after the initial convolutional block. Set to 0. to turn Dropout off
-    dropout_change_per_layer (float between 0. and 1.): Factor to add to the Dropout after each convolutional block
-    dropout_type (one of "spatial" or "standard"): Type of Dropout to apply. Spatial is recommended for CNNs [2]
-    use_dropout_on_upsampling (bool): Whether to use dropout in the decoder part of the network
-    use_attention (bool): Whether to use an attention dynamic when concatenating with the skip-connection, implemented as proposed by Oktay et al. [3]
-    filters (int): Convolutional filters in the initial convolutional block. Will be doubled every block
-    num_layers (int): Number of total layers in the encoder not including the bottleneck layer
-    output_activation (str): A keras.activations.Activation to use. Sigmoid by default for binary segmentation
-    Returns:
-    model (keras.models.Model): The built U-Net
+    UNet model for 2D semantic segmentation.
+
+    see: https://arxiv.org/abs/1505.04597
+    see: https://arxiv.org/pdf/1411.4280.pdf
+    see: https://arxiv.org/abs/1804.03999
+
+    Args:
+        input_shape (tf.Tensor, optional): Tensor of shape (width, height,
+            channels).
+        filters (int, optional): Number of filters for initial con 2d block.
+            Default: 16.
+        layers (int, optional): Total number of layers. Default: 9.
+        classes (int, optional): Number of output classes. Default: 1.
+        activation (tf.Tensor, optional): Activation function to be used.
+            Default: relu.
+        batch_norm (tf.Tensor, optional): Use batch normalization.
+            Default: True.
+        attention_gates (tf.Tensor, optional): Use attention gates.
+            Default: False.
+        output_activation (tf.Tensor, optional): Output activation function.
+            Default: sigmoid.
+        kernel_initializer (tf.Tensor, optional): Default: he_normal.
+
     Raises:
-    ValueError: If dropout_type is not one of "spatial" or "standard"
-    [1]: https://arxiv.org/abs/1505.04597
-    [2]: https://arxiv.org/pdf/1411.4280.pdf
-    [3]: https://arxiv.org/abs/1804.03999
+        EnforceError: If layers is not an odd integer greater than 2.
+
+    Returns:
+        tfkm.Model: UNet model.
     '''
+    msg = 'Layers must be an odd integer greater than 2. Given value: {a}.'
+    Enforce(layers, 'instance of', int, message=msg)
+    Enforce(layers, '>=', 3, message=msg)
+    Enforce(layers % 2 == 1, '==', True, message=msg)
+    # --------------------------------------------------------------------------
+
+    n = (layers - 1) / 2
     down_layers = []
-    n = math.ceil(num_layers / 2)
 
-    # Build U-Net model
-    inputs = tfkl.Input(input_shape)
-    x = inputs
+    # input layer
+    input_ = tfkl.Input(input_shape)
 
+    # down layers
+    x = input_
     for i in range(n):
-        x = downsample_conv2d(
-            inputs=x,
+        # conv backend of layer
+        x = conv_2d_block(
+            input_=x,
             filters=filters,
-            use_batch_norm=use_batch_norm,
-            dropout=dropout,
-            dropout_type=dropout_type,
+            batch_norm=batch_norm,
             activation=activation,
+            kernel_initializer=kernel_initializer,
         )
         down_layers.append(x)
-        x = tfkl.MaxPooling2D((2, 2))(x)
-        dropout += dropout_change_per_layer
-        filters *= 2 # double the number of filters with each layer
 
-    for i in range(n):
-        x = downsample_conv2d(
-            inputs=x,
-            filters=filters,
-            use_batch_norm=use_batch_norm,
-            dropout=dropout,
-            dropout_type=dropout_type,
-            activation=activation,
-        )
-        down_layers.append(x)
+        # downsample
         x = tfkl.MaxPooling2D((2, 2))(x)
-        dropout += dropout_change_per_layer
-        filters *= 2 # double the number of filters with each layer
+        filters *= 2
 
-    x = downsample_conv2d(
-        inputs=x,
+    # middle layer
+    x = conv_2d_block(
+        input_=x,
         filters=filters,
-        use_batch_norm=use_batch_norm,
-        dropout=dropout,
-        dropout_type=dropout_type,
+        batch_norm=batch_norm,
         activation=activation,
+        kernel_initializer=kernel_initializer,
     )
 
-    if not use_dropout_on_upsampling:
-        dropout = 0.0
-        dropout_change_per_layer = 0.0
-
+    # up layers
     up_layers = list(reversed(down_layers))
     for layer in up_layers[:n]:
-        filters //= 2  # decreasing number of filters with each layer
-        dropout -= dropout_change_per_layer
-        x = tfkl.Conv2DTranspose(filters, (2, 2), strides=(2, 2), padding="same")(x)
-        if use_attention:
-            x = attention_concat(conv_below=x, skip_connection=layer)
+        filters /= 2
+
+        # upsample
+        x = tfkl.Conv2DTranspose(
+            filters, (2, 2), strides=(2, 2), padding='same'
+        )(x)
+
+        # attention gate
+        if attention_gates:
+            x = tfkl.concatenate([attention_gate_2d(x, layer), x])
         else:
-            x = tfkl.concatenate([x, layer])
-        x = downsample_conv2d(
-            inputs=x,
+            x = tfkl.concatenate([layer, x])
+
+        # conv backend of layer
+        x = conv_2d_block(
+            input_=x,
             filters=filters,
-            use_batch_norm=use_batch_norm,
-            dropout=dropout,
-            dropout_type=dropout_type,
+            batch_norm=batch_norm,
             activation=activation,
+            kernel_initializer=kernel_initializer,
         )
 
-    for layer in up_layers[n:]:
-        filters //= 2  # decreasing number of filters with each layer
-        dropout -= dropout_change_per_layer
-        x = tfkl.Conv2DTranspose(filters, (2, 2), strides=(2, 2), padding="same")(x)
-        if use_attention:
-            x = attention_concat(conv_below=x, skip_connection=layer)
-        else:
-            x = tfkl.concatenate([x, layer])
-        x = downsample_conv2d(
-            inputs=x,
-            filters=filters,
-            use_batch_norm=use_batch_norm,
-            dropout=dropout,
-            dropout_type=dropout_type,
-            activation=activation,
-        )
-
-    outputs = tfkl.Conv2D(num_classes, (1, 1), activation=output_activation)(x)
-    model = tfkm.Model(inputs=[inputs], outputs=[outputs])
+    output = tfkl.Conv2D(classes, (1, 1), activation=output_activation)(x)
+    model = tfkm.Model(inputs=[input_], outputs=[output])
     return model
 
 
 # def get_config():
 #     return dict(
 #         input_shape=(208, 208, 3),
-#         num_classes=1,
+#         classes=1,
 #         activation='leaky_relu',
-#         use_batch_norm=True,
+#         batch_norm=True,
 #         upsample_mode='deconv',
 #         dropout=0.0,
 #         dropout_change_per_layer=0.0,
 #         dropout_type='spatial',
 #         use_dropout_on_upsampling=False,  # best False
-#         use_attention=True,               # best False
+#         attention_gates=True,               # best False
 #         filters=64,                       # best 64       above 64 exceeds single GPU memory
-#         num_layers=4,                     # best 4
+#         layers=4,                     # best 4
 #         output_activation='sigmoid',      # best sigmoid
 #     )
 
@@ -298,7 +274,6 @@ def unet(
 # params.update(compile_params)
 
 # model = unet(**model_params)
-# # model = unmod.custom_unet(**model_params)
 # model.compile(**compile_params)
 
 # batch_size = 32   # best 32
