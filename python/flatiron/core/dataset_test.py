@@ -5,18 +5,27 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from pandas import DataFrame
+import numpy as np
 
 from flatiron.core.dataset import Dataset
 # ------------------------------------------------------------------------------
 
 
 class DatasetTests(unittest.TestCase):
-    def create_dataset_files(self, root):
+    def write_npy(self, target, shape=(10, 10, 3)):
+        target = Path(target)
+        os.makedirs(target.parent, exist_ok=True)
+        array = np.ones(shape)
+        array.tofile(target)
+
+    def create_dataset_files(self, root, shape=(10, 10, 3)):
         os.makedirs(Path(root, 'data'))
         info = DataFrame()
         info['filepath_relative'] = [f'data/foo_f{i:02d}.npy' for i in range(10)]
         info['asset_path'] = root
-        info.filepath_relative.apply(lambda x: Path(root, x).touch())
+        info.filepath_relative \
+            .apply(lambda x: Path(root, x)) \
+            .apply(lambda x: self.write_npy(x, shape))
         info_path = Path(root, 'info.csv').as_posix()
         info.to_csv(info_path, index=None)
         return info, info_path
@@ -71,13 +80,18 @@ class DatasetTests(unittest.TestCase):
             info, _ = self.create_dataset_files(root)
             result = Dataset(info)._info
             cols = [
-                'chunk', 'asset_path', 'filepath_relative', 'filepath', 'loaded'
+                'size_gib', 'chunk', 'asset_path', 'filepath_relative',
+                'filepath', 'loaded'
             ]
             for col in cols:
                 self.assertIn(col, result.columns)
 
-            result = result.columns.tolist()[-5:]
+            result = result.columns.tolist()[-6:]
             self.assertEqual(result, cols)
+
+            # size_gib column
+            result = Dataset(info)._info.size_gib.unique().tolist()
+            self.assertEqual(result, [2.4e-06])
 
             # loaded column
             result = Dataset(info)._info.loaded.unique().tolist()
@@ -139,10 +153,24 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).asset_name
             self.assertEqual(result, Path(root).name)
 
-    def test_stats(self):
-        pass
+    def test_stats_unloaded(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root, shape=(150, 100, 100, 4))
+            result = Dataset.read_directory(root).stats
 
-    def test_get_stats(self):
+            # size_gib
+            self.assertEqual(result.loc['loaded_count', 'size_gib'], 0)
+            self.assertEqual(result.loc['loaded_total', 'size_gib'], 0)
+            self.assertEqual(result.loc['count', 'size_gib'], 10)
+            self.assertEqual(result.loc['total', 'size_gib'], 0.48)
+
+            # chunk
+            self.assertEqual(result.loc['loaded_count', 'chunk'], 0)
+            self.assertEqual(result.loc['loaded_total', 'chunk'], 0)
+            self.assertEqual(result.loc['count', 'chunk'], 10)
+            self.assertEqual(result.loc['total', 'chunk'], 45)
+
+    def test_get_stats_unloaded(self):
         pass
 
     def test_repr(self):
