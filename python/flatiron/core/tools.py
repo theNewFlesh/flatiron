@@ -93,6 +93,25 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
 
 
 # MISC--------------------------------------------------------------------------
+def pad_layer_name(name, length=18):
+    # type: (str, int) -> str
+    '''
+    Pads underscores in a given layer name to make the string achieve a given
+    length.
+
+    Args:
+        name (str): Layer name to be padded.
+        length (int): Length of output string. Default: 18.
+
+    Returns:
+        str: Padded layer name.
+    '''
+    if '_' not in name:
+        name += '_'
+    delta = length - len(re.sub('_', '', name))
+    return re.sub('_+', '_' * delta, name)
+
+
 def unindent(text, spaces=4):
     # type: (str, int) -> str
     '''

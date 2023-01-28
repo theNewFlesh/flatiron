@@ -61,6 +61,29 @@ class ToolsTests(unittest.TestCase):
             with self.assertRaisesRegex(EnforceError, expected):
                 fict.get_callbacks(root, 'foobar', {})
 
+    def test_pad_layer_name(self):
+        expected = 'foo____bar'
+        result = fict.pad_layer_name('foo_bar', 10)
+        self.assertEqual(len(result), 10)
+        self.assertEqual(result, expected)
+
+        result = fict.pad_layer_name('foo___bar', 10)
+        self.assertEqual(len(result), 10)
+        self.assertEqual(result, expected)
+
+        result = fict.pad_layer_name('foo________bar', 10)
+        self.assertEqual(len(result), 10)
+        self.assertEqual(result, expected)
+
+        expected = 'foo_______'
+        result = fict.pad_layer_name('foo_', 10)
+        self.assertEqual(len(result), 10)
+        self.assertEqual(result, expected)
+
+        result = fict.pad_layer_name('foo', 10)
+        self.assertEqual(len(result), 10)
+        self.assertEqual(result, expected)
+
     def test_unindent(self):
         # 4 spaces
         text = '''
