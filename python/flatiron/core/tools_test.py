@@ -84,6 +84,14 @@ class ToolsTests(unittest.TestCase):
         self.assertEqual(len(result), 10)
         self.assertEqual(result, expected)
 
+        result = fict.pad_layer_name('foo__', 0)
+        self.assertEqual(len(result), 5)
+        self.assertEqual(result, 'foo__')
+
+        result = fict.pad_layer_name('foo__bar', 0)
+        self.assertEqual(len(result), 8)
+        self.assertEqual(result, 'foo__bar')
+
     def test_unindent(self):
         # 4 spaces
         text = '''

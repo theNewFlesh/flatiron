@@ -105,6 +105,9 @@ def pad_layer_name(name, length=18):
     Returns:
         str: Padded layer name.
     '''
+    if length == 0:
+        return name
+
     if '_' not in name:
         name += '_'
     delta = length - len(re.sub('_', '', name))

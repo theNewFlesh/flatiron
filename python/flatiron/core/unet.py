@@ -15,6 +15,9 @@ import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
+PAD = 18
+
+
 def conv_2d_block(
     input_,
     filters=16,
@@ -52,7 +55,7 @@ def conv_2d_block(
     Returns:
         KerasTensor: Conv2D Block
     '''
-    name = fict.pad_layer_name(name)
+    name = fict.pad_layer_name(name, length=PAD)
     kwargs = dict(
         filters=filters,
         kernel_size=(3, 3),
@@ -90,7 +93,7 @@ def attention_gate_2d(query, skip_connection, name='attention-gate'):
     Returns:
         KerasTensor: 2D Attention Gate.
     '''
-    name = fict.pad_layer_name(name)
+    name = fict.pad_layer_name(name, length=PAD)
     filters = query.get_shape().as_list()[-1]
     kwargs = dict(
         kernel_size=1,
@@ -111,7 +114,7 @@ def attention_gate_2d(query, skip_connection, name='attention-gate'):
     return output
 
 
-def unet(
+def get_unet_model(
     input_shape,
     filters=16,
     layers=9,
@@ -179,12 +182,12 @@ def unet(
         encode_layers.append(x)
 
         # downsample
-        name = fict.pad_layer_name(f'downsample_{i:02d}')
+        name = fict.pad_layer_name(f'downsample_{i:02d}', length=PAD)
         x = tfl.MaxPooling2D((2, 2), name=name)(x)
         filters *= 2
 
     # middle layer
-    name = fict.pad_layer_name('middle-block_00')
+    name = fict.pad_layer_name('middle-block_00', length=PAD)
     x = conv_2d_block(
         input_=x,
         filters=filters,
@@ -200,7 +203,7 @@ def unet(
         filters /= 2
 
         # upsample
-        name = fict.pad_layer_name(f'upsample_{i:02d}')
+        name = fict.pad_layer_name(f'upsample_{i:02d}', length=PAD)
         x = tfl.Conv2DTranspose(
             filters=filters,
             kernel_size=(2, 2),
@@ -211,10 +214,10 @@ def unet(
 
         # attention gate
         if attention_gates:
-            name = fict.pad_layer_name(f'attention-gate_{i:02d}')
+            name = fict.pad_layer_name(f'attention-gate_{i:02d}', length=PAD)
             x = attention_gate_2d(x, layer, name=name)
         else:
-            name = fict.pad_layer_name(f'concat_{i:02d}')
+            name = fict.pad_layer_name(f'concat_{i:02d}', length=PAD)
             x = tfl.concatenate([layer, x], name=name)
 
         # conv backend of layer
