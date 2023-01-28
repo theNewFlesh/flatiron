@@ -172,8 +172,6 @@ def slack_it(
     params = yaml.safe_dump(params, indent=4)
     if isinstance(target, dict):
         target = yaml.safe_dump(target, indent=4)
-    elif not isinstance(target, str):
-        target = str(target)
 
     message = f'''
         {title.upper()}
@@ -193,4 +191,4 @@ def slack_it(
 
     if testing:
         return message
-    return lbt.post_to_slack(url, channel, message)
+    return lbt.post_to_slack(url, channel, message)  # pragma: no cover
