@@ -4,7 +4,6 @@ from lunchbox.stopwatch import StopWatch  # noqa F401
 
 from datetime import datetime
 from pathlib import Path
-import json
 import os
 import re
 
