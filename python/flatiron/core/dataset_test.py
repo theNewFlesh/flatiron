@@ -13,13 +13,13 @@ from flatiron.core.dataset import Dataset
 class DatasetTests(unittest.TestCase):
     def create_dataset_files(self, root):
         os.makedirs(Path(root, 'data'))
-        data = DataFrame()
-        data['filepath_relative'] = [f'data/foo-{i:02d}.npy' for i in range(10)]
-        data['root_path'] = root
-        data.filepath_relative.apply(lambda x: Path(root, x).touch())
+        info = DataFrame()
+        info['filepath_relative'] = [f'data/foo_f{i:02d}.npy' for i in range(10)]
+        info['asset_path'] = root
+        info.filepath_relative.apply(lambda x: Path(root, x).touch())
         info_path = Path(root, 'info.csv').as_posix()
-        data.to_csv(info_path, index=None)
-        return data, info_path
+        info.to_csv(info_path, index=None)
+        return info, info_path
 
     def test_read_csv(self):
         with TemporaryDirectory() as root:
@@ -68,55 +68,85 @@ class DatasetTests(unittest.TestCase):
 
     def test_init(self):
         with TemporaryDirectory() as root:
-            data, _ = self.create_dataset_files(root)
-            result = Dataset(data)._data
-            cols = ['root_path', 'filepath_relative', 'filepath']
+            info, _ = self.create_dataset_files(root)
+            result = Dataset(info)._info
+            cols = [
+                'chunk', 'asset_path', 'filepath_relative', 'filepath', 'loaded'
+            ]
             for col in cols:
                 self.assertIn(col, result.columns)
 
-            result = result.columns.tolist()[-3:]
+            result = result.columns.tolist()[-5:]
             self.assertEqual(result, cols)
+
+            # loaded column
+            result = Dataset(info)._info.loaded.unique().tolist()
+            self.assertEqual(result, [False])
 
     def test_init_columns_error(self):
         with TemporaryDirectory() as root:
-            data, _ = self.create_dataset_files(root)
-            cols = ['root_path', 'filepath_relative']
+            info, _ = self.create_dataset_files(root)
+            cols = ['asset_path', 'filepath_relative']
             for col in cols:
-                temp = data.drop(col, axis=1)
-                expected = f'Required columns not found in data:.*{col}'
+                temp = info.drop(col, axis=1)
+                expected = f'Required columns not found in info:.*{col}'
                 with self.assertRaisesRegex(EnforceError, expected):
                     Dataset(temp)
 
     def test_init_root_error(self):
         with TemporaryDirectory() as root:
-            data, _ = self.create_dataset_files(root)
-            data.loc[3, 'root_path'] = '/foo/bar'
-            expected = 'Data must contain only 1 root path. '
+            info, _ = self.create_dataset_files(root)
+            info.loc[3, 'asset_path'] = '/foo/bar'
+            expected = 'Info must contain only 1 root path. '
             expected += f'Paths found:.*{root}.*/foo/bar'
             with self.assertRaisesRegex(EnforceError, expected):
-                Dataset(data)
+                Dataset(info)
 
-            data['root_path'] = '/foo/bar'
+            info['asset_path'] = '/foo/bar'
             expected = 'Directory does not exist: /foo/bar'
             with self.assertRaisesRegex(EnforceError, expected):
-                Dataset(data)
+                Dataset(info)
 
     def test_init_filepath_error(self):
         with TemporaryDirectory() as root:
-            data, _ = self.create_dataset_files(root)
-            data.loc[3, 'filepath_relative'] = '/foo/bar.npy'
-            expected = 'Files listed in data do not exist:.*/foo/bar.npy'
+            info, _ = self.create_dataset_files(root)
+            info.loc[3, 'filepath_relative'] = '/foo/bar.npy'
+            expected = 'Chunk files do not exist:.*/foo/bar.npy'
             with self.assertRaisesRegex(EnforceError, expected):
-                Dataset(data)
+                Dataset(info)
 
     def test_init_extension_error(self):
         with TemporaryDirectory() as root:
-            data, _ = self.create_dataset_files(root)
-            src = data.loc[3, 'filepath_relative']
+            info, _ = self.create_dataset_files(root)
+            src = info.loc[3, 'filepath_relative']
             src = Path(root, src).as_posix()
             tgt = src.replace('npy', 'txt')
             os.rename(src, tgt)
-            data.loc[3, 'filepath_relative'] = tgt
-            expected = 'Data lists files without npy extension:.*foo-03.txt'
+            info.loc[3, 'filepath_relative'] = tgt
+            expected = 'Found chunk files missing npy extension:.*foo_f03.txt'
             with self.assertRaisesRegex(EnforceError, expected):
-                Dataset(data)
+                Dataset(info)
+
+    def test_asset_path(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+            result = Dataset.read_directory(root).asset_path
+            self.assertEqual(result, root)
+
+    def test_asset_name(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+            result = Dataset.read_directory(root).asset_name
+            self.assertEqual(result, Path(root).name)
+
+    def test_stats(self):
+        pass
+
+    def test_get_stats(self):
+        pass
+
+    def test_repr(self):
+        pass
+
+    def test_load(self):
+        pass
