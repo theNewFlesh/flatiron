@@ -136,7 +136,7 @@ def slack_it(
     channel,  # type: str
     url,  # type: str
     source=None,  # type: Optional[str]
-    target=None,  # type: Optional[str]
+    target=None,  # type: Optional[Union[dict, str]]
     params=None,  # type: Optional[dict]
     stopwatch=None,  # type: Optional[StopWatch]
     timezone='UTC',  # type: str
@@ -151,7 +151,7 @@ def slack_it(
         channel (str): Slack channel.
         url (str): Slack URL.
         source (str, optional): Source data. Default: None.
-        target (str, optional): Target data. Default: None.
+        target (str or dict, optional): Target data. Default: None.
         params (dict, optional): Parameter dict. Default: None.
         stopwatch (StopWatch, optional): StopWatch instance. Default: None.
         timezone (str, optional): Timezone. Default: UTC.
@@ -172,7 +172,7 @@ def slack_it(
 
     params = yaml.safe_dump(params, indent=4)
     if isinstance(target, dict):
-        target = json.dumps(target, indent=4)
+        target = yaml.safe_dump(target, indent=4)
     elif not isinstance(target, str):
         target = str(target)
 

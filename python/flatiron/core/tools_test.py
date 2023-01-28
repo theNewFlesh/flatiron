@@ -166,3 +166,27 @@ b
         # time
         expected = r'TIME:\n```\d\d\d\d-\d\d-\d\dT.*```'
         self.assertRegex(result, expected)
+
+    def test_slack_it_target(self):
+        stopwatch = StopWatch()
+        stopwatch.start()
+        stopwatch.stop()
+
+        kwargs = dict(
+            title='title',
+            channel='channel',
+            url='url',
+            target=dict(foo='bar'),
+            testing=True,
+        )
+        result = fict.slack_it(**kwargs)
+
+        # dict
+        expected = 'TARGET:\n```foo: bar\n```'
+        self.assertRegex(result, expected)
+
+        # None
+        kwargs['target'] = None
+        result = fict.slack_it(**kwargs)
+        expected = 'TARGET:\n```none```'
+        self.assertRegex(result, expected)
