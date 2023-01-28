@@ -1,3 +1,5 @@
+from keras.engine.keras_tensor import KerasTensor
+
 from lunchbox.enforce import Enforce
 import numpy as np
 import sklearn.model_selection as skm
@@ -19,8 +21,9 @@ def conv_2d_block(
     activation='relu',
     batch_norm=True,
     kernel_initializer='he_normal',
+    name='conv-2d-block',
 ):
-    # type: (tf.Tensor, int, str, bool, str) -> tf.Tensor
+    # type: (KerasTensor, int, str, bool, str, str) -> KerasTensor
     r'''
     2D Convolution block without padding.
 
@@ -39,18 +42,20 @@ def conv_2d_block(
       :width: 800
 
     Args:
-        input_ (tf.Tensor): Input tensor.
+        input_ (KerasTensor): Input tensor.
         filters (int, optional): Default: 16.
         activation (str, optional): Activation function. Default: relu.
         batch_norm (str, bool): Default: True.
         kernel_initializer (str, optional): Default: he_normal.
+        name (str, optional): Layer name. Default: conv-2d-block
 
     Returns:
-        tf.Tensor: Conv2D Block
+        KerasTensor: Conv2D Block
     '''
+    name = fict.pad_layer_name(name)
     kwargs = dict(
         filters=filters,
-        kernel=(3, 3),
+        kernel_size=(3, 3),
         strides=(1, 1),
         activation=activation,
         kernel_initializer=kernel_initializer,
@@ -58,44 +63,49 @@ def conv_2d_block(
         use_bias=not batch_norm,
     )
 
-    conv_1 = tfl.Conv2D(**kwargs)(input_)
+    name2 = f'{name}-1'
+    conv_1 = tfl.Conv2D(**kwargs, name=f'{name}-0')(input_)
     if batch_norm:
-        conv_1 = tfl.BatchNormalization()(conv_1)
+        conv_1 = tfl.BatchNormalization(name=f'{name}-1')(conv_1)
+        name2 = f'{name}-2'
 
-    conv_2 = tfl.Conv2D(**kwargs)(conv_1)
+    conv_2 = tfl.Conv2D(**kwargs, name=name2)(conv_1)
     if batch_norm:
-        conv_2 = tfl.BatchNormalization()(conv_2)
+        conv_2 = tfl.BatchNormalization(name=f'{name}-3')(conv_2)
 
     return conv_2
 
 
-def attention_gate_2d(query, skip_connection):
-    # type: (tf.Tensor, tf.Tensor) -> tf.Tensor
+def attention_gate_2d(query, skip_connection, name='attention-gate'):
+    # type: (KerasTensor, KerasTensor, str) -> KerasTensor
     '''
     Attention gate for 2D inputs.
     See: https://arxiv.org/abs/1804.03999
 
     Args:
-        query (tf.Tensor): 2D Tensor of query.
-        skip_connection (tf.Tensor): 2D Tensor of features.
+        query (KerasTensor): 2D Tensor of query.
+        skip_connection (KerasTensor): 2D Tensor of features.
+        name (str, optional): Layer name. Default: attention-gate
 
     Returns:
-        tf.Tensor: 2D Attention Gate.
+        KerasTensor: 2D Attention Gate.
     '''
-    filters = skip_connection, query.get_shape().as_list()[-1]
+    name = fict.pad_layer_name(name)
+    filters = query.get_shape().as_list()[-1]
     kwargs = dict(
         kernel_size=1,
         strides=1,
         padding='same',
         kernel_initializer='he_normal',
     )
-    conv_1 = tfl.Conv2D(filters=filters, **kwargs)(skip_connection)
-    conv_2 = tfl.Conv2D(filters=filters, **kwargs)(query)
-    gate = tfl.add([conv_1, conv_2])
-    gate = tfl.Activation('relu')(gate)
-    gate = tfl.Conv2D(filters=1, **kwargs)(gate)
-    gate = tfl.Activation('sigmoid')(gate)
-    output = tfl.multiply([skip_connection, gate])
+    conv_0 = tfl.Conv2D(filters=filters, **kwargs, name=f'{name}-0')(skip_connection)
+    conv_1 = tfl.Conv2D(filters=filters, **kwargs, name=f'{name}-1')(query)
+    gate = tfl.add([conv_0, conv_1], name=f'{name}-2')
+    gate = tfl.Activation('relu', name=f'{name}-3')(gate)
+    gate = tfl.Conv2D(filters=1, **kwargs, name=f'{name}-4')(gate)
+    gate = tfl.Activation('sigmoid', name=f'{name}-5')(gate)
+    gate = tfl.multiply([skip_connection, gate], name=f'{name}-6')
+    output = tfl.concatenate([gate, query], name=f'{name}-7')
     return output
 
 
@@ -118,21 +128,21 @@ def unet(
     see: https://arxiv.org/abs/1804.03999
 
     Args:
-        input_shape (tf.Tensor, optional): Tensor of shape (width, height,
+        input_shape (KerasTensor, optional): Tensor of shape (width, height,
             channels).
         filters (int, optional): Number of filters for initial con 2d block.
             Default: 16.
         layers (int, optional): Total number of layers. Default: 9.
         classes (int, optional): Number of output classes. Default: 1.
-        activation (tf.Tensor, optional): Activation function to be used.
+        activation (KerasTensor, optional): Activation function to be used.
             Default: relu.
-        batch_norm (tf.Tensor, optional): Use batch normalization.
+        batch_norm (KerasTensor, optional): Use batch normalization.
             Default: True.
-        attention_gates (tf.Tensor, optional): Use attention gates.
+        attention_gates (KerasTensor, optional): Use attention gates.
             Default: False.
-        output_activation (tf.Tensor, optional): Output activation function.
+        output_activation (KerasTensor, optional): Output activation function.
             Default: sigmoid.
-        kernel_initializer (tf.Tensor, optional): Default: he_normal.
+        kernel_initializer (KerasTensor, optional): Default: he_normal.
 
     Raises:
         EnforceError: If layers is not an odd integer greater than 2.
@@ -146,13 +156,13 @@ def unet(
     Enforce(layers % 2 == 1, '==', True, message=msg)
     # --------------------------------------------------------------------------
 
-    n = (layers - 1) / 2
-    down_layers = []
+    n = int((layers - 1) / 2)
+    encode_layers = []
 
     # input layer
-    input_ = tfl.Input(input_shape)
+    input_ = tfl.Input(input_shape, name='input')
 
-    # down layers
+    # encode layers
     x = input_
     for i in range(n):
         # conv backend of layer
@@ -162,37 +172,48 @@ def unet(
             batch_norm=batch_norm,
             activation=activation,
             kernel_initializer=kernel_initializer,
+            name=f'encode-block_{i:02d}',
         )
-        down_layers.append(x)
+        encode_layers.append(x)
 
         # downsample
-        x = tfl.MaxPooling2D((2, 2))(x)
+        name = fict.pad_layer_name(f'downsample_{i:02d}')
+        x = tfl.MaxPooling2D((2, 2), name=name)(x)
         filters *= 2
 
     # middle layer
+    name = fict.pad_layer_name('middle-block_00')
     x = conv_2d_block(
         input_=x,
         filters=filters,
         batch_norm=batch_norm,
         activation=activation,
         kernel_initializer=kernel_initializer,
+        name=name,
     )
 
-    # up layers
-    up_layers = list(reversed(down_layers))
-    for layer in up_layers[:n]:
+    # decode layers
+    decode_layers = list(reversed(encode_layers))
+    for i, layer in enumerate(decode_layers[:n]):
         filters /= 2
 
         # upsample
+        name = fict.pad_layer_name(f'upsample_{i:02d}')
         x = tfl.Conv2DTranspose(
-            filters, (2, 2), strides=(2, 2), padding='same'
+            filters=filters,
+            kernel_size=(2, 2),
+            strides=(2, 2),
+            padding='same',
+            name=name,
         )(x)
 
         # attention gate
         if attention_gates:
-            x = tfl.concatenate([attention_gate_2d(x, layer), x])
+            name = fict.pad_layer_name(f'attention-gate_{i:02d}')
+            x = attention_gate_2d(x, layer, name=name)
         else:
-            x = tfl.concatenate([layer, x])
+            name = fict.pad_layer_name(f'concat_{i:02d}')
+            x = tfl.concatenate([layer, x], name=name)
 
         # conv backend of layer
         x = conv_2d_block(
@@ -201,61 +222,80 @@ def unet(
             batch_norm=batch_norm,
             activation=activation,
             kernel_initializer=kernel_initializer,
+            name=f'decode-block_{i:02d}',
         )
 
-    output = tfl.Conv2D(classes, (1, 1), activation=output_activation)(x)
+    output = tfl.Conv2D(classes, (1, 1), activation=output_activation, name='output')(x)
     model = tfm.Model(inputs=[input_], outputs=[output])
     return model
 
 
 def get_config():
-    return dict(
+    params = dict(
+        info=dict(
+            project='proj0121',
+            root='/mnt/storage/projects',
+            spec='dset001',
+            desc='bg-detection',
+            version=4,
+        ),
+        data=dict(
+            limit=15000,
+        ),
         model=dict(
-            input_shape=(208, 208, 3),
-            classes=1,
+            input_shape=(192, 192, 3),
+            num_classes=1,
             activation='leaky_relu',
-            batch_norm=True,
+            use_batch_norm=True,
             upsample_mode='deconv',
-            attention_gates=True,
-            filters=64,
-            layers=4,
+            use_attention=True,
+            filters=32,
+            num_layers=4,
             output_activation='sigmoid',
         ),
-        split=dict(
-            test_size=0.1,
-            random_state=42,
+        misc=dict(
+            optimizer_class=tfo.SGD,
+            batch_size=16,
         ),
-        batch_size=32,
-        # optimizer=dict(
-        #     learning_rate=0.015,
-        #     momentum=0.99,
-        # ),
-        compile_params=dict(
-            optimizer=tfo.SGD(**dict(
-                learning_rate=0.015,
-                momentum=0.99,
-            )),
+        optimizer=dict(
+            learning_rate=0.008,
+            momentum=0.99,
+        ),
+        compile_=dict(
             loss=ficl.jaccard_loss,
-            metrics=[
-                ficm.jaccard, ficm.dice, ficm.intersection_over_union
-            ],
+            metrics=[ficm.jaccard, ficm.dice],
         ),
-        preprocess=dict(
+        callback=dict(
+            save_best_only=True,
+            metric='jaccard',
+            mode='auto',
+            save_freq='epoch',
+            update_freq='batch',
+        ),
+        fit=dict(
+            epochs=35,
+            verbose='auto',
+            shuffle=True,
+            initial_epoch=0,
+            use_multiprocessing=True,
+        ),
+        datagen=dict(
             horizontal_flip=True,
             vertical_flip=True,
             fill_mode='constant',
-        ),
-        fit=dict(
-            verbose='auto',
-            epochs=50,
-            callbacks=[fict.get_callbacks()],
-            validation_data=(x_test, y_test),
-            shuffle=True,
-            initial_epoch=0,
-            steps_per_epoch=np.ceil(x_train.shape[0] / batch_size),
-            use_multiprocessing=True,
         )
     )
+
+    params['data']['source'] = get_info_path(**params['info'])
+    params['compile_']['optimizer'] = params['misc']['optimizer_class'](**params['optimizer'])
+    root = params['info']['root']
+    proj = params['info']['project']
+    cb = params['callback']
+    cbs, log_dir = fict.get_callbacks(root, proj, cb)
+    params['misc']['log_dir'] = log_dir
+    params['fit']['callbacks'] = [cbs]
+
+    return params
 
 
 def setup(x, y, model, config):
