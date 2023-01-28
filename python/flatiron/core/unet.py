@@ -98,7 +98,9 @@ def attention_gate_2d(query, skip_connection, name='attention-gate'):
         padding='same',
         kernel_initializer='he_normal',
     )
-    conv_0 = tfl.Conv2D(filters=filters, **kwargs, name=f'{name}-0')(skip_connection)
+    conv_0 = tfl.Conv2D(
+        filters=filters, **kwargs, name=f'{name}-0'
+    )(skip_connection)
     conv_1 = tfl.Conv2D(filters=filters, **kwargs, name=f'{name}-1')(query)
     gate = tfl.add([conv_0, conv_1], name=f'{name}-2')
     gate = tfl.Activation('relu', name=f'{name}-3')(gate)
@@ -225,7 +227,9 @@ def unet(
             name=f'decode-block_{i:02d}',
         )
 
-    output = tfl.Conv2D(classes, (1, 1), activation=output_activation, name='output')(x)
+    output = tfl.Conv2D(
+        classes, (1, 1), activation=output_activation, name='output'
+    )(x)
     model = tfm.Model(inputs=[input_], outputs=[output])
     return model
 
@@ -287,7 +291,8 @@ def get_config():
     )
 
     params['data']['source'] = get_info_path(**params['info'])
-    params['compile_']['optimizer'] = params['misc']['optimizer_class'](**params['optimizer'])
+    opt = params['misc']['optimizer_class'](**params['optimizer'])
+    params['compile_']['optimizer'] = opt
     root = params['info']['root']
     proj = params['info']['project']
     cb = params['callback']
