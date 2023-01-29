@@ -222,10 +222,11 @@ class Dataset:
             stats.loc['loaded', 'chunk_gib'] = loaded
 
             # sample stats
-            stats.loc['loaded', 'sample'] = self._data.shape[0]
             total = info['chunk_gib'].sum() / self._sample_gib
+            stats.loc['loaded', 'sample'] = self._data.shape[0]
             stats.loc['total', 'sample'] = total
             stats.loc['mean', 'sample'] = total / info.shape[0]
+            stats['sample'] = stats['sample'].apply(lambda x: round(x, 0))
 
         index = ['min', 'max', 'mean', 'std', 'loaded', 'total']
         stats = stats.loc[index]
