@@ -566,7 +566,7 @@ summary = "Platform-independent file locking module"
 
 [[package]]
 name = "lunchbox"
-version = "0.3.2"
+version = "0.3.3"
 requires_python = ">=3.7"
 summary = "A library of various tools for common python tasks"
 dependencies = [
@@ -1885,9 +1885,9 @@ content_hash = "sha256:1c0ec0e1af738eba6ff80dadfcd1fa5917773a4e9e81c9041ce31f623
     {url = "https://files.pythonhosted.org/packages/17/47/72cb04a58a35ec495f96984dddb48232b551aafb95bde614605b754fe6f7/lockfile-0.12.2.tar.gz", hash = "sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799"},
     {url = "https://files.pythonhosted.org/packages/c8/22/9460e311f340cb62d26a38c419b1381b8593b0bb6b5d1f056938b086d362/lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
 ]
-"lunchbox 0.3.2" = [
-    {url = "https://files.pythonhosted.org/packages/4a/db/0b3bee9c002b1186eaf2551970a1131bcbac36d4b47c0c0f40a747762f06/lunchbox-0.3.2.tar.gz", hash = "sha256:796d6f3c8509821368d206f56621746ff0f2c75e62d26bcc6f1097d70b4d3e1c"},
-    {url = "https://files.pythonhosted.org/packages/4e/1a/f17a34e7dfc2aaf222dcc755d44eaeabd96c3e33a109ec01ba58dd6db1c0/lunchbox-0.3.2-py3-none-any.whl", hash = "sha256:e05b3788b6e99afdb568ea11c2dc45714add5081653471cbf3731febcd5fd298"},
+"lunchbox 0.3.3" = [
+    {url = "https://files.pythonhosted.org/packages/a7/ff/e32858d94894568fe37c2e74e180d5763909302dd69bc58b9e026d8a9490/lunchbox-0.3.3-py3-none-any.whl", hash = "sha256:c0da522c8273c672f0f72de2b147571996469a57fc6913ba8a9a714344f11ce4"},
+    {url = "https://files.pythonhosted.org/packages/e3/b5/16b9b6df2e151615465c023119db58ba73bef5718498f3233b70c419af8c/lunchbox-0.3.3.tar.gz", hash = "sha256:cca072c2f68ba1724f5bd7648ff22aa286050a86e933d41bcb46690f672959a4"},
 ]
 "markdown-it-py 2.1.0" = [
     {url = "https://files.pythonhosted.org/packages/33/e9/ac8a93e9eda3891ecdfecf5e01c060bbd2c44d4e3e77efc83b9c7ce9db32/markdown-it-py-2.1.0.tar.gz", hash = "sha256:cf7e59fed14b5ae17c0006eff14a2d9a00ed5f3a846148153899a0224e2c07da"},
