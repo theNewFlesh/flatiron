@@ -131,7 +131,7 @@ class Dataset:
         # chunk column
         info['chunk'] = info.filepath \
             .apply(lambda x: re.search(chunk_regex, x).group(1)).astype(int)  # type: ignore
-        info['chunk_gib'] = info.filepath \
+        info['GiB'] = info.filepath \
             .apply(lambda x: os.stat(x).st_size / 10**9)
 
         # loaded column
@@ -140,7 +140,7 @@ class Dataset:
 
         # reorganize columns
         cols = [
-            'chunk_gib', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
+            'GiB', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
             'loaded'
         ]
         cols = cols + info.drop(cols, axis=1).columns.tolist()
@@ -203,7 +203,7 @@ class Dataset:
 
         Units include:
 
-        * chunk_gib
+        * GiB
         * chunk
         * sample
 
@@ -219,10 +219,10 @@ class Dataset:
 
         if self._data is not None:
             loaded = round(self._data.nbytes / 10**9, 2)
-            stats.loc['loaded', 'chunk_gib'] = loaded
+            stats.loc['loaded', 'GiB'] = loaded
 
             # sample stats
-            total = info['chunk_gib'].sum() / self._sample_gib
+            total = info['GiB'].sum() / self._sample_gib
             stats.loc['loaded', 'sample'] = self._data.shape[0]
             stats.loc['total', 'sample'] = total
             stats.loc['mean', 'sample'] = total / info.shape[0]
@@ -268,7 +268,7 @@ class Dataset:
             STATS:
                   '''[1:]
         msg = fict.unindent(msg, spaces=8)
-        cols = ['chunk_gib', 'chunk', 'sample']
+        cols = ['GiB', 'chunk', 'sample']
         stats = str(self.stats[cols])
         stats = '\n          '.join(stats.split('\n'))
         msg = msg + stats
