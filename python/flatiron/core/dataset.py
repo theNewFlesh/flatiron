@@ -131,7 +131,7 @@ class Dataset:
         # chunk column
         info['chunk'] = info.filepath \
             .apply(lambda x: re.search(chunk_regex, x).group(1)).astype(int)  # type: ignore
-        info['size_gib'] = info.filepath \
+        info['chunk_gib'] = info.filepath \
             .apply(lambda x: os.stat(x).st_size / 10**9)
 
         # loaded column
@@ -140,7 +140,7 @@ class Dataset:
 
         # reorganize columns
         cols = [
-            'size_gib', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
+            'chunk_gib', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
             'loaded'
         ]
         cols = cols + info.drop(cols, axis=1).columns.tolist()
@@ -204,7 +204,7 @@ class Dataset:
 
         Units include:
 
-        * size_gib
+        * chunk_gib
         * chunk
         * sample
 
@@ -217,13 +217,13 @@ class Dataset:
             .loc[['total']] \
             .rename(lambda x: f'loaded_{x}')
         stats = pd.concat([a, b])
+        stats['sample'] = np.nan
 
         if self._data is not None:
             loaded_total = round(self._data.nbytes / 10**9, 2)
-            stats.loc['loaded_total', 'size_gib'] = loaded_total
+            stats.loc['loaded_total', 'chunk_gib'] = loaded_total
 
             # sample stats
-            stats['sample'] = np.nan
             stats.loc['loaded_total', 'sample'] = self._data.shape[0]
 
         index = ['min', 'max', 'mean', 'std', 'loaded_total', 'total']
@@ -266,7 +266,7 @@ class Dataset:
             STATS:
                   '''[1:]
         msg = fict.unindent(msg, spaces=8)
-        cols = ['size_gib', 'chunk']
+        cols = ['chunk_gib', 'chunk', 'sample']
         stats = str(self.stats[cols])
         stats = '\n          '.join(stats.split('\n'))
         msg = msg + stats

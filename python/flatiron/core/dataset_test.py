@@ -80,7 +80,7 @@ class DatasetTests(unittest.TestCase):
             info, _ = self.create_dataset_files(root)
             result = Dataset(info)._info
             cols = [
-                'size_gib', 'chunk', 'asset_path', 'filepath_relative',
+                'chunk_gib', 'chunk', 'asset_path', 'filepath_relative',
                 'filepath', 'loaded'
             ]
             for col in cols:
@@ -89,8 +89,8 @@ class DatasetTests(unittest.TestCase):
             result = result.columns.tolist()[:6]
             self.assertEqual(result, cols)
 
-            # size_gib column
-            result = Dataset(info)._info.size_gib.sum()
+            # chunk_gib column
+            result = Dataset(info)._info.chunk_gib.sum()
             self.assertLess(result, 3.0e-05)
             self.assertGreater(result, 2.0e-05)
 
@@ -160,12 +160,12 @@ class DatasetTests(unittest.TestCase):
 
     def test_get_stats(self):
         info = DataFrame()
-        info['size_gib'] = [1.1, 1.0, 1.1, 0.5]
+        info['chunk_gib'] = [1.1, 1.0, 1.1, 0.5]
         info['chunk'] = [0, 1, 2, 3]
         stats = Dataset._get_stats(info)
 
         exp = info.describe().applymap(lambda x: round(x, 2))
-        exp.loc['total', 'size_gib'] = info['size_gib'].sum()
+        exp.loc['total', 'chunk_gib'] = info['chunk_gib'].sum()
         exp.loc['total', 'chunk'] = info['chunk'].count()
         exp.loc['mean', 'chunk'] = np.nan
         exp.loc['std', 'chunk'] = np.nan
@@ -177,7 +177,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(result, index)
 
         # values
-        cols = ['size_gib', 'chunk']
+        cols = ['chunk_gib', 'chunk']
         for col in cols:
             for i in index:
                 result = stats.loc[i, col]
@@ -192,9 +192,9 @@ class DatasetTests(unittest.TestCase):
             self.create_dataset_files(root, shape=(150, 100, 100, 4))
             result = Dataset.read_directory(root).stats
 
-            # size_gib
-            self.assertEqual(result.loc['loaded_total', 'size_gib'], 0)
-            self.assertEqual(result.loc['total', 'size_gib'], 0.48)
+            # chunk_gib
+            self.assertEqual(result.loc['loaded_total', 'chunk_gib'], 0)
+            self.assertEqual(result.loc['total', 'chunk_gib'], 0.48)
 
             # chunk
             self.assertEqual(result.loc['loaded_total', 'chunk'], 0)
@@ -205,9 +205,9 @@ class DatasetTests(unittest.TestCase):
             self.create_dataset_files(root, shape=(150, 100, 100, 4))
             result = Dataset.read_directory(root).load(limit=200).stats
 
-            # size_gib
-            self.assertEqual(result.loc['loaded_total', 'size_gib'], 0.06)
-            self.assertEqual(result.loc['total', 'size_gib'], 0.48)
+            # chunk_gib
+            self.assertEqual(result.loc['loaded_total', 'chunk_gib'], 0.06)
+            self.assertEqual(result.loc['total', 'chunk_gib'], 0.48)
 
             # chunk
             self.assertEqual(result.loc['loaded_total', 'chunk'], 2)
