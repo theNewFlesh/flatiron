@@ -154,9 +154,18 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).asset_name
             self.assertEqual(result, Path(root).name)
 
-    def test_load(self):
+    def test_chunks(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root)
+            base = Path(root, 'data')
+            chunks = os.listdir(base)
+            expected = sorted([Path(base, x).as_posix() for x in chunks])
+            result = Dataset.read_directory(root).chunks
+            self.assertEqual(result, expected)
+
+    # def test_load(self):
+    #     with TemporaryDirectory() as root:
+    #         self.create_dataset_files(root)
 
     def test_get_stats(self):
         info = DataFrame()
