@@ -346,3 +346,38 @@ class DatasetTests(unittest.TestCase):
                 if a != b:
                     break
             self.assertNotEqual(a, b)
+
+    def test_xy_split(self):
+        with TemporaryDirectory() as root:
+            shape = (100, 10, 10, 4)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load(limit=200)
+
+            # index -1
+            x, y = dset.xy_split(-1)
+            self.assertEqual(x.shape, (200, 10, 10, 3))
+            self.assertEqual(y.shape, (200, 10, 10, 1))
+
+            # index -2
+            x, y = dset.xy_split(-2)
+            self.assertEqual(x.shape, (200, 10, 10, 2))
+            self.assertEqual(y.shape, (200, 10, 10, 2))
+
+            # index -1 axis -2
+            x, y = dset.xy_split(-1, axis=-2)
+            self.assertEqual(x.shape, (200, 10, 9, 4))
+            self.assertEqual(y.shape, (200, 10, 1, 4))
+
+            # index 4 axis -2
+            x, y = dset.xy_split(4, axis=-2)
+            self.assertEqual(x.shape, (200, 10, 4, 4))
+            self.assertEqual(y.shape, (200, 10, 6, 4))
+
+    def test_xy_split_error(self):
+        with TemporaryDirectory() as root:
+            shape = (100, 10, 10, 4)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root)
+            expected = 'Data not loaded. Please call load method.'
+            with self.assertRaisesRegex(EnforceError, expected):
+                dset.xy_split(-1)
