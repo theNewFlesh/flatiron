@@ -257,4 +257,18 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(result, (-1, 'None'))
 
     def test_load(self):
-        pass
+        with TemporaryDirectory() as root:
+            shape = (99, 10, 10, 4)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load()
+
+            # data shape
+            self.assertEqual(dset.data.shape, (990, 10, 10, 4))
+
+            # sample_gib
+            expected = np.ones(shape)[0].nbytes / 10**9
+            self.assertEqual(dset._sample_gib, expected)
+
+            # loaded
+            result = dset._info.loaded.unique().tolist()
+            self.assertEqual(result, [True])
