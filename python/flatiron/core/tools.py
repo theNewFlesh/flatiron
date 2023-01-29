@@ -142,7 +142,7 @@ def slack_it(
     params=None,  # type: Optional[dict]
     stopwatch=None,  # type: Optional[StopWatch]
     timezone='UTC',  # type: str
-    testing=False,  # type: bool
+    suppress=False,  # type: bool
 ):
     # type: (...) -> Union[str, HTTPResponse]
     '''
@@ -157,7 +157,8 @@ def slack_it(
         params (dict, optional): Parameter dict. Default: None.
         stopwatch (StopWatch, optional): StopWatch instance. Default: None.
         timezone (str, optional): Timezone. Default: UTC.
-        testing (bool, optional): Test mode: Default: False.
+        suppress (bool, optional): Return message, rather than post it to Slack.
+            Default: False.
 
     Returns:
         HTTPResponse: Slack response.
@@ -192,6 +193,6 @@ def slack_it(
     '''[1:-1]
     message = unindent(message, spaces=8)
 
-    if testing:
+    if suppress:
         return message
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover

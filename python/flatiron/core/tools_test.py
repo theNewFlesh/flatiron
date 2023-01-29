@@ -137,7 +137,7 @@ b
             params=dict(a=dict(b=1)),
             stopwatch=stopwatch,
             timezone='America/Los_Angeles',
-            testing=True,
+            suppress=True,
         )
         result = fict.slack_it(**kwargs)
 
@@ -185,7 +185,7 @@ b
             channel='channel',
             url='url',
             target=dict(foo='bar'),
-            testing=True,
+            suppress=True,
         )
         result = fict.slack_it(**kwargs)
 
