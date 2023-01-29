@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.2.0
               </div>
             
           
@@ -174,13 +174,115 @@
 <span class="kn">from</span> <span class="nn">lunchbox.stopwatch</span> <span class="kn">import</span> <span class="n">StopWatch</span>  <span class="c1"># noqa F401</span>
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
+<span class="kn">from</span> <span class="nn">lunchbox.enforce</span> <span class="kn">import</span> <span class="n">Enforce</span>
 <span class="kn">import</span> <span class="nn">lunchbox.tools</span> <span class="k">as</span> <span class="nn">lbt</span>
 <span class="kn">import</span> <span class="nn">pytz</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow.keras.callbacks</span> <span class="k">as</span> <span class="nn">tfc</span>
+
+<span class="n">Filepath</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="get_tensorboard_project"><a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_tensorboard_project">[docs]</a><span class="k">def</span> <span class="nf">get_tensorboard_project</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="s1">&#39;/mnt/storage&#39;</span><span class="p">,</span> <span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">):</span>
+    <span class="c1"># type: (Filepath, Filepath, str) -&gt; dict[str, str]</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Creates directory structure for Tensorboard project.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        project (str): Name of project.</span>
+<span class="sd">        root (str or Path): Tensorboard parent directory. Default: /mnt/storage</span>
+<span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Project details.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># create timestamp</span>
+    <span class="n">timestamp</span> <span class="o">=</span> <span class="n">datetime</span> \
+        <span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">timezone</span><span class="p">))</span> \
+        <span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;d-%Y-%m-</span><span class="si">%d</span><span class="s1">_t-%H-%M-%S&#39;</span><span class="p">)</span>
+
+    <span class="c1"># create directories</span>
+    <span class="n">root_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">project</span><span class="p">,</span> <span class="s1">&#39;tensorboard&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+    <span class="n">log_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+    <span class="n">model_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">log_dir</span><span class="p">,</span> <span class="s1">&#39;models&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">root_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># checkpoint pattern</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;p-</span><span class="si">{</span><span class="n">project</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">timestamp</span><span class="si">}</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;_e-</span><span class="si">{epoch:03d}</span><span class="s1">&#39;</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">root_dir</span><span class="o">=</span><span class="n">root_dir</span><span class="p">,</span>
+        <span class="n">log_dir</span><span class="o">=</span><span class="n">log_dir</span><span class="p">,</span>
+        <span class="n">model_dir</span><span class="o">=</span><span class="n">model_dir</span><span class="p">,</span>
+        <span class="n">checkpoint_pattern</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_callbacks"><a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_callbacks">[docs]</a><span class="k">def</span> <span class="nf">get_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="n">checkpoint_params</span><span class="p">):</span>
+    <span class="c1"># type: (Filepath, str, dict) -&gt; list</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a list of callbacks for Tensoflow model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        log_directory (str or Path): Tensorboard project log directory.</span>
+<span class="sd">        checkpoint_pattern (str): Filepath pattern for checkpoint callback.</span>
+<span class="sd">        checkpoint_params (dict): Params to be passed to checkpoint callback.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        EnforceError: If log directory does not exist.</span>
+<span class="sd">        EnforeError: If checkpoint pattern does not contain &#39;{epoch}&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Tensorboard and ModelCheckpoint callbacks.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">log_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">log_directory</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Log directory: </span><span class="si">{</span><span class="n">log_dir</span><span class="si">}</span><span class="s1"> does not exist.&#39;</span>
+    <span class="n">Enforce</span><span class="p">(</span><span class="n">log_dir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">(),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\{epoch.*?\}&#39;</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">)</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Checkpoint pattern must contain &#39;</span><span class="si">{epoch}</span><span class="s2">&#39;. &quot;</span>
+    <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;Given value: </span><span class="si">{</span><span class="n">checkpoint_pattern</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;{&#39;</span><span class="p">,</span> <span class="s1">&#39;{{&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="s1">&#39;}}&#39;</span><span class="p">)</span>
+    <span class="n">Enforce</span><span class="p">(</span><span class="n">match</span><span class="p">,</span> <span class="s1">&#39;!=&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+    <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">tfc</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">histogram_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">tfc</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="o">**</span><span class="n">checkpoint_params</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="k">return</span> <span class="n">callbacks</span></div>
+
+
+<span class="c1"># MISC--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="pad_layer_name"><a class="viewcode-back" href="../../../core.html#flatiron.core.tools.pad_layer_name">[docs]</a><span class="k">def</span> <span class="nf">pad_layer_name</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">18</span><span class="p">):</span>
+    <span class="c1"># type: (str, int) -&gt; str</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Pads underscores in a given layer name to make the string achieve a given</span>
+<span class="sd">    length.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Layer name to be padded.</span>
+<span class="sd">        length (int): Length of output string. Default: 18.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Padded layer name.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+    <span class="k">if</span> <span class="s1">&#39;_&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;_&#39;</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">length</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;_+&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span> <span class="o">*</span> <span class="n">delta</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="unindent"><a class="viewcode-back" href="../../../core.html#flatiron.core.tools.unindent">[docs]</a><span class="k">def</span> <span class="nf">unindent</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">spaces</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
@@ -207,7 +309,7 @@
     <span class="n">channel</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">url</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
-    <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
+    <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Union[dict, str]]</span>
     <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[dict]</span>
     <span class="n">stopwatch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[StopWatch]</span>
     <span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
@@ -222,7 +324,7 @@
 <span class="sd">        channel (str): Slack channel.</span>
 <span class="sd">        url (str): Slack URL.</span>
 <span class="sd">        source (str, optional): Source data. Default: None.</span>
-<span class="sd">        target (str, optional): Target data. Default: None.</span>
+<span class="sd">        target (str or dict, optional): Target data. Default: None.</span>
 <span class="sd">        params (dict, optional): Parameter dict. Default: None.</span>
 <span class="sd">        stopwatch (StopWatch, optional): StopWatch instance. Default: None.</span>
 <span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
@@ -243,9 +345,7 @@
 
     <span class="n">params</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        </span><span class="si">{</span><span class="n">title</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span>
@@ -265,7 +365,7 @@
 
     <span class="k">if</span> <span class="n">testing</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">message</span>
-    <span class="k">return</span> <span class="n">lbt</span><span class="o">.</span><span class="n">post_to_slack</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">lbt</span><span class="o">.</span><span class="n">post_to_slack</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span></div>
 </pre></div>
 
            </div>
