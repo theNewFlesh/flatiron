@@ -3,13 +3,115 @@ from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
 
 from datetime import datetime
-import json
+from pathlib import Path
+import os
 import re
 
+from lunchbox.enforce import Enforce
 import lunchbox.tools as lbt
 import pytz
 import yaml
+
+import tensorflow.keras.callbacks as tfc
+
+Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
+
+
+def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
+    # type: (Filepath, Filepath, str) -> dict[str, str]
+    '''
+    Creates directory structure for Tensorboard project.
+
+    Args:
+        project (str): Name of project.
+        root (str or Path): Tensorboard parent directory. Default: /mnt/storage
+        timezone (str, optional): Timezone. Default: UTC.
+
+    Returns:
+        dict: Project details.
+    '''
+    # create timestamp
+    timestamp = datetime \
+        .now(tz=pytz.timezone(timezone)) \
+        .strftime('d-%Y-%m-%d_t-%H-%M-%S')
+
+    # create directories
+    root_dir = Path(root, project, 'tensorboard').as_posix()
+    log_dir = Path(root_dir, timestamp).as_posix()
+    model_dir = Path(log_dir, 'models').as_posix()
+    os.makedirs(root_dir, exist_ok=True)
+    os.makedirs(model_dir, exist_ok=True)
+
+    # checkpoint pattern
+    target = f'p-{project}_{timestamp}' + '_e-{epoch:03d}'
+    target = Path(model_dir, target).as_posix()
+
+    output = dict(
+        root_dir=root_dir,
+        log_dir=log_dir,
+        model_dir=model_dir,
+        checkpoint_pattern=target,
+    )
+    return output
+
+
+def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
+    # type: (Filepath, str, dict) -> list
+    '''
+    Create a list of callbacks for Tensoflow model.
+
+    Args:
+        log_directory (str or Path): Tensorboard project log directory.
+        checkpoint_pattern (str): Filepath pattern for checkpoint callback.
+        checkpoint_params (dict): Params to be passed to checkpoint callback.
+
+    Raises:
+        EnforceError: If log directory does not exist.
+        EnforeError: If checkpoint pattern does not contain '{epoch}'.
+
+    Returns:
+        list: Tensorboard and ModelCheckpoint callbacks.
+    '''
+    log_dir = Path(log_directory)
+    msg = f'Log directory: {log_dir} does not exist.'
+    Enforce(log_dir.is_dir(), '==', True, message=msg)
+
+    match = re.search(r'\{epoch.*?\}', checkpoint_pattern)
+    msg = "Checkpoint pattern must contain '{epoch}'. "
+    msg += f'Given value: {checkpoint_pattern}'
+    msg = msg.replace('{', '{{').replace('}', '}}')
+    Enforce(match, '!=', None, message=msg)
+    # --------------------------------------------------------------------------
+
+    callbacks = [
+        tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
+    ]
+    return callbacks
+
+
+# MISC--------------------------------------------------------------------------
+def pad_layer_name(name, length=18):
+    # type: (str, int) -> str
+    '''
+    Pads underscores in a given layer name to make the string achieve a given
+    length.
+
+    Args:
+        name (str): Layer name to be padded.
+        length (int): Length of output string. Default: 18.
+
+    Returns:
+        str: Padded layer name.
+    '''
+    if length == 0:
+        return name
+
+    if '_' not in name:
+        name += '_'
+    delta = length - len(re.sub('_', '', name))
+    return re.sub('_+', '_' * delta, name)
 
 
 def unindent(text, spaces=4):
@@ -36,7 +138,7 @@ def slack_it(
     channel,  # type: str
     url,  # type: str
     source=None,  # type: Optional[str]
-    target=None,  # type: Optional[str]
+    target=None,  # type: Optional[Union[dict, str]]
     params=None,  # type: Optional[dict]
     stopwatch=None,  # type: Optional[StopWatch]
     timezone='UTC',  # type: str
@@ -51,7 +153,7 @@ def slack_it(
         channel (str): Slack channel.
         url (str): Slack URL.
         source (str, optional): Source data. Default: None.
-        target (str, optional): Target data. Default: None.
+        target (str or dict, optional): Target data. Default: None.
         params (dict, optional): Parameter dict. Default: None.
         stopwatch (StopWatch, optional): StopWatch instance. Default: None.
         timezone (str, optional): Timezone. Default: UTC.
@@ -72,9 +174,7 @@ def slack_it(
 
     params = yaml.safe_dump(params, indent=4)
     if isinstance(target, dict):
-        target = json.dumps(target, indent=4)
-    elif not isinstance(target, str):
-        target = str(target)
+        target = yaml.safe_dump(target, indent=4)
 
     message = f'''
         {title.upper()}
@@ -94,4 +194,4 @@ def slack_it(
 
     if testing:
         return message
-    return lbt.post_to_slack(url, channel, message)
+    return lbt.post_to_slack(url, channel, message)  # pragma: no cover
