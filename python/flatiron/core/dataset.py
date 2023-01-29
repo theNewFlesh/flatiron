@@ -3,9 +3,11 @@ import pandas as pd
 
 from pathlib import Path
 import os
+import random
 import re
 
 from lunchbox.enforce import Enforce
+from tqdm import tqdm
 import humanfriendly as hf
 import numpy as np
 import pandas as pd
@@ -141,10 +143,11 @@ class Dataset:
             'size_gib', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
             'loaded'
         ]
-        cols = info.drop(cols, axis=1).columns.tolist() + cols
+        cols = cols + info.drop(cols, axis=1).columns.tolist()
         info = info[cols]
 
         self._info = info
+        self._data = None
 
     @property
     def info(self):
@@ -199,6 +202,12 @@ class Dataset:
         * loaded_total
         * total
 
+        Units include:
+
+        * size_gib
+        * chunk
+        * sample
+
         Returns:
             DataFrame: Table of statistics.
         '''
@@ -208,14 +217,25 @@ class Dataset:
             .loc[['count', 'total']] \
             .rename(lambda x: f'loaded_{x}')
         stats = pd.concat([a, b])
-        index = [
-            'min', 'max', 'mean', 'std', 'loaded_count', 'count',
-            'loaded_total', 'total'
-        ]
+
+        if self._data is not None:
+            loaded_total = round(self._data.nbytes / 10**9, 2)
+            stats.loc['loaded_total', 'size_gib'] = loaded_total
+
+            # sample stats
+            stats['sample'] = np.nan
+            stats.loc['loaded_total', 'sample'] = self._data.shape[0]
+
+        # fix chunk cells
+        stats.loc['total', 'chunk'] = stats.loc['count', 'chunk']
+        stats.loc['loaded_total', 'chunk'] = stats.loc['loaded_count', 'chunk']
+
+        index = ['min', 'max', 'mean', 'std', 'loaded_total', 'total']
         stats = stats.loc[index]
         return stats
 
-    def _get_stats(self, info):
+    @staticmethod
+    def _get_stats(info):
         # type: (pd.DataFrame) -> pd.DataFrame
         '''
         Creates table of statistics from given info DataFrame.
@@ -230,7 +250,9 @@ class Dataset:
         rows = ['min', 'max', 'mean', 'std', 'count']
         stats = stats.loc[rows]
         stats.loc['total'] = info[stats.columns].sum()
+        stats.loc['total', 'chunk'] = stats.loc['count', 'chunk']
         stats = stats.applymap(lambda x: round(x, 2))
+        stats.drop('count', inplace=True)
         return stats
 
     def __repr__(self):
@@ -253,16 +275,66 @@ class Dataset:
         return msg
 
     def load(self, limit=None, shuffle=False):
-        # type: (Optional[Union[str, int]], bool) -> None
+        # type: (Optional[Union[str, int]], bool) -> Dataset
         '''
         Load data from numpy files.
 
         Args:
-            limit (str or int, optional): Limit data by row count or memory
-                size. Default: None.
+            limit (str or int, optional): Limit data by number pf samples or
+                memory size. Default: None.
             shuffle (bool, optional): Shuffle chunks before loading.
                 Default: False.
+
+        Returns:
+            Dataset: self.
         '''
-        if isinstance(limit, str):
-            limit = hf.parse_size(limit)
-        info = self._info
+        # reset data and info
+        del self._data
+        self._info['loaded'] = False
+
+        limit_ = 0
+        limit_type = None
+        if isinstance(limit, int):
+            limit_type = 'samples'
+            limit_ = limit
+        elif isinstance(limit, str):
+            limit_ = hf.parse_size(limit)
+            limit_type = 'memory'
+
+        rows = list(self.info.iterrows())
+        if shuffle:
+            random.shuffle(rows)
+
+        chunks = []
+        memory = 0
+        samples = 0
+        for i, row in tqdm(rows):
+            if limit_type == 'samples' and samples >= limit_:
+                break
+            elif limit_type == 'memory' and memory >= limit_:
+                break
+
+            chunk = np.load(row.filepath)
+            chunks.append(chunk)
+
+            self._info.loc[i, 'loaded'] = True
+            memory += chunk.nbytes
+            samples += chunk.shape[0]
+
+        data = np.concatenate(chunks, axis=0)
+
+        # limit array size by samples
+        if limit_type == 'samples':
+            data = data[:limit_]
+
+        # limit array size by memory
+        elif limit_type == 'memory':
+            sample_mem = data[0].nbytes
+            delta = data.nbytes - limit_
+            if delta > 0:
+                k = int(delta / sample_mem)
+                n = data.shape[0]
+                data = data[:n - k]
+
+        self._data = data
+        return self

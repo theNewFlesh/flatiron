@@ -16,7 +16,7 @@ class DatasetTests(unittest.TestCase):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
         array = np.ones(shape)
-        array.tofile(target)
+        np.save(target, array)
 
     def create_dataset_files(self, root, shape=(10, 10, 3)):
         os.makedirs(Path(root, 'data'))
@@ -86,12 +86,13 @@ class DatasetTests(unittest.TestCase):
             for col in cols:
                 self.assertIn(col, result.columns)
 
-            result = result.columns.tolist()[-6:]
+            result = result.columns.tolist()[:6]
             self.assertEqual(result, cols)
 
             # size_gib column
-            result = Dataset(info)._info.size_gib.unique().tolist()
-            self.assertEqual(result, [2.4e-06])
+            result = Dataset(info)._info.size_gib.sum()
+            self.assertLess(result, 3.0e-05)
+            self.assertGreater(result, 2.0e-05)
 
             # loaded column
             result = Dataset(info)._info.loaded.unique().tolist()
@@ -153,6 +154,38 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).asset_name
             self.assertEqual(result, Path(root).name)
 
+    def test_load(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+
+    def test_get_stats(self):
+        info = DataFrame()
+        info['size_gib'] = [1.1, 1.0, 1.1, 0.5]
+        info['chunk'] = [0, 1, 2, 3]
+        stats = Dataset._get_stats(info)
+        exp = info.describe().applymap(lambda x: round(x, 2))
+
+        # index
+        expected = ['min', 'max', 'mean', 'std', 'total']
+        result = stats.index.tolist()
+        self.assertEqual(result, expected)
+
+        indices = ['min', 'max', 'mean', 'std']
+        cols = ['size_gib', 'chunk']
+        for col in cols:
+            for index in indices:
+                result = stats.loc[index, col]
+                expected = exp.loc[index, col]
+                self.assertEqual(result, expected)
+
+        # total size_gib
+        result = stats.loc['total', 'size_gib']
+        self.assertEqual(result, 3.7)
+
+        # total chunk
+        result = stats.loc['total', 'chunk']
+        self.assertEqual(result, 4)
+
     def test_stats_unloaded(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root, shape=(150, 100, 100, 4))
@@ -170,8 +203,21 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(result.loc['count', 'chunk'], 10)
             self.assertEqual(result.loc['total', 'chunk'], 45)
 
-    def test_get_stats_unloaded(self):
-        pass
+    def test_stats_loaded(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root, shape=(150, 100, 100, 4))
+            result = Dataset.read_directory(root).load(limit=200).stats
+
+            # size_gib
+            self.assertEqual(result.loc['loaded_total', 'size_gib'], 0.06)
+            self.assertEqual(result.loc['total', 'size_gib'], 0.48)
+
+            # chunk
+            self.assertEqual(result.loc['loaded_total', 'chunk'], 0)
+            self.assertEqual(result.loc['total', 'chunk'], 45)
+
+            # sample
+            self.assertEqual(result.loc['loaded_total', 'chunk'], 200)
 
     def test_repr(self):
         pass
