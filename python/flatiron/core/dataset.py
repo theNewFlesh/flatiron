@@ -321,15 +321,17 @@ class Dataset:
         if shuffle:
             random.shuffle(rows)
 
-        # load chunks
+        # chunk vars
         chunks = []
         memory = 0
         samples = 0
 
+        # tqdm message
         desc = 'Loading Dataset Chunks'
         if limit_type != 'None':
             desc = 'Chunks may not total to 100% - Loading Dataset Chunks'
 
+        # load chunks
         for i, row in tqdm(rows, desc=desc):
             if limit_type == 'samples' and samples >= limit_:
                 break
