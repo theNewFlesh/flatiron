@@ -148,6 +148,7 @@ class Dataset:
 
         self._info = info
         self._data = None
+        self._sample_gib = np.nan
 
     @property
     def info(self):
@@ -197,9 +198,7 @@ class Dataset:
         * max
         * mean
         * std
-        * loaded_count
-        * count
-        * loaded_total
+        * loaded
         * total
 
         Units include:
@@ -214,19 +213,21 @@ class Dataset:
         info = self.info
         a = self._get_stats(info)
         b = self._get_stats(info.loc[info.loaded]) \
-            .loc[['total']] \
-            .rename(lambda x: f'loaded_{x}')
+            .loc[['total']].rename(lambda x: 'loaded')
         stats = pd.concat([a, b])
         stats['sample'] = np.nan
 
         if self._data is not None:
-            loaded_total = round(self._data.nbytes / 10**9, 2)
-            stats.loc['loaded_total', 'chunk_gib'] = loaded_total
+            loaded = round(self._data.nbytes / 10**9, 2)
+            stats.loc['loaded', 'chunk_gib'] = loaded
 
             # sample stats
-            stats.loc['loaded_total', 'sample'] = self._data.shape[0]
+            stats.loc['loaded', 'sample'] = self._data.shape[0]
+            total = info['chunk_gib'].sum() / self._sample_gib
+            stats.loc['total', 'sample'] = total
+            stats.loc['mean', 'sample'] = total / info.shape[0]
 
-        index = ['min', 'max', 'mean', 'std', 'loaded_total', 'total']
+        index = ['min', 'max', 'mean', 'std', 'loaded', 'total']
         stats = stats.loc[index]
         return stats
 
@@ -278,7 +279,7 @@ class Dataset:
         Load data from numpy files.
 
         Args:
-            limit (str or int, optional): Limit data by number pf samples or
+            limit (str or int, optional): Limit data by number of samples or
                 memory size. Default: None.
             shuffle (bool, optional): Shuffle chunks before loading.
                 Default: False.
@@ -335,4 +336,5 @@ class Dataset:
                 data = data[:n - k]
 
         self._data = data
+        self._sample_gib = data[0].nbytes / 10**9
         return self

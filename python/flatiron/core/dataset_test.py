@@ -193,11 +193,11 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).stats
 
             # chunk_gib
-            self.assertEqual(result.loc['loaded_total', 'chunk_gib'], 0)
+            self.assertEqual(result.loc['loaded', 'chunk_gib'], 0)
             self.assertEqual(result.loc['total', 'chunk_gib'], 0.48)
 
             # chunk
-            self.assertEqual(result.loc['loaded_total', 'chunk'], 0)
+            self.assertEqual(result.loc['loaded', 'chunk'], 0)
             self.assertEqual(result.loc['total', 'chunk'], 10)
 
     def test_stats_loaded(self):
@@ -206,15 +206,15 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).load(limit=200).stats
 
             # chunk_gib
-            self.assertEqual(result.loc['loaded_total', 'chunk_gib'], 0.06)
+            self.assertEqual(result.loc['loaded', 'chunk_gib'], 0.06)
             self.assertEqual(result.loc['total', 'chunk_gib'], 0.48)
 
             # chunk
-            self.assertEqual(result.loc['loaded_total', 'chunk'], 2)
+            self.assertEqual(result.loc['loaded', 'chunk'], 2)
             self.assertEqual(result.loc['total', 'chunk'], 10)
 
             # sample
-            self.assertEqual(result.loc['loaded_total', 'sample'], 200)
+            self.assertEqual(result.loc['loaded', 'sample'], 200)
 
     def test_repr(self):
         pass
