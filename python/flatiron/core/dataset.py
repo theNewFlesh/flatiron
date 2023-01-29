@@ -7,7 +7,7 @@ import random
 import re
 
 from lunchbox.enforce import Enforce
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 import humanfriendly as hf
 import numpy as np
 import pandas as pd
@@ -325,7 +325,12 @@ class Dataset:
         chunks = []
         memory = 0
         samples = 0
-        for i, row in tqdm(rows):
+
+        desc = 'Loading Dataset Chunks'
+        if limit_type != 'None':
+            desc = 'Chunks may not total to 100% - Loading Dataset Chunks'
+
+        for i, row in tqdm(rows, desc=desc):
             if limit_type == 'samples' and samples >= limit_:
                 break
             elif limit_type == 'memory' and memory >= limit_:
