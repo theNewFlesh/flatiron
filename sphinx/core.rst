@@ -1,6 +1,14 @@
 core
 ====
 
+dataset
+-------
+.. automodule:: flatiron.core.dataset
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 loss
 ----
 .. automodule:: flatiron.core.loss
