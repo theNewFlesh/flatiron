@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.5.1
               </div>
             
           
@@ -313,7 +313,7 @@
     <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[dict]</span>
     <span class="n">stopwatch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[StopWatch]</span>
     <span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
-    <span class="n">testing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+    <span class="n">suppress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
 <span class="p">):</span>
     <span class="c1"># type: (...) -&gt; Union[str, HTTPResponse]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -328,7 +328,8 @@
 <span class="sd">        params (dict, optional): Parameter dict. Default: None.</span>
 <span class="sd">        stopwatch (StopWatch, optional): StopWatch instance. Default: None.</span>
 <span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
-<span class="sd">        testing (bool, optional): Test mode: Default: False.</span>
+<span class="sd">        suppress (bool, optional): Return message, rather than post it to Slack.</span>
+<span class="sd">            Default: False.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        HTTPResponse: Slack response.</span>
@@ -363,7 +364,7 @@
 <span class="s1">    &#39;&#39;&#39;</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">message</span> <span class="o">=</span> <span class="n">unindent</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">spaces</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">testing</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">suppress</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">message</span>
     <span class="k">return</span> <span class="n">lbt</span><span class="o">.</span><span class="n">post_to_slack</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span></div>
 </pre></div>
