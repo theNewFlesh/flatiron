@@ -1,5 +1,4 @@
-from typing import Any, List, Optional, Tuple, Union
-import pandas as pd
+from typing import Any, List, Optional, Tuple, Union  # noqa F401
 
 from pathlib import Path
 import os
