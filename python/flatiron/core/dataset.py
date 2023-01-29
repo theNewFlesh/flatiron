@@ -147,7 +147,7 @@ class Dataset:
         info = info[cols]
 
         self._info = info
-        self._data = None
+        self.data = None
         self._sample_gib = np.nan
 
     @property
@@ -217,13 +217,13 @@ class Dataset:
         stats = pd.concat([a, b])
         stats['sample'] = np.nan
 
-        if self._data is not None:
-            loaded = round(self._data.nbytes / 10**9, 2)
+        if self.data is not None:
+            loaded = round(self.data.nbytes / 10**9, 2)
             stats.loc['loaded', 'GiB'] = loaded
 
             # sample stats
             total = info['GiB'].sum() / self._sample_gib
-            stats.loc['loaded', 'sample'] = self._data.shape[0]
+            stats.loc['loaded', 'sample'] = self.data.shape[0]
             stats.loc['total', 'sample'] = total
             stats.loc['mean', 'sample'] = total / info.shape[0]
             stats['sample'] = stats['sample'].apply(lambda x: round(x, 0))
@@ -277,7 +277,7 @@ class Dataset:
     def load(self, limit=None, shuffle=False):
         # type: (Optional[Union[str, int]], bool) -> Dataset
         '''
-        Load data from numpy files.
+        Load data from chunk files.
 
         Args:
             limit (str or int, optional): Limit data by number of samples or
@@ -289,7 +289,7 @@ class Dataset:
             Dataset: self.
         '''
         # reset data and info
-        del self._data
+        del self.data
         self._info['loaded'] = False
 
         limit_ = 0
@@ -336,6 +336,6 @@ class Dataset:
                 n = data.shape[0]
                 data = data[:n - k]
 
-        self._data = data
+        self.data = data
         self._sample_gib = data[0].nbytes / 10**9
         return self

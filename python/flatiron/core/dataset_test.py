@@ -164,10 +164,6 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).chunks
             self.assertEqual(result, expected)
 
-    # def test_load(self):
-    #     with TemporaryDirectory() as root:
-    #         self.create_dataset_files(root)
-
     def test_get_stats(self):
         info = DataFrame()
         info['GiB'] = [1.1, 1.0, 1.1, 0.5]
@@ -247,5 +243,5 @@ class DatasetTests(unittest.TestCase):
             expected = fict.unindent(expected, spaces=16)
             self.assertEqual(result, expected)
 
-    # def test_load(self):
-    #     pass
+    def test_load(self):
+        pass
