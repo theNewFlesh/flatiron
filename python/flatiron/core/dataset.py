@@ -130,7 +130,7 @@ class Dataset:
         # chunk column
         info['chunk'] = info.filepath \
             .apply(lambda x: re.search(chunk_regex, x).group(1)).astype(int)  # type: ignore
-        info['GiB'] = info.filepath \
+        info['GB'] = info.filepath \
             .apply(lambda x: os.stat(x).st_size / 10**9)
 
         # loaded column
@@ -139,7 +139,7 @@ class Dataset:
 
         # reorganize columns
         cols = [
-            'GiB', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
+            'GB', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
             'loaded'
         ]
         cols = cols + info.drop(cols, axis=1).columns.tolist()
@@ -147,7 +147,7 @@ class Dataset:
 
         self._info = info
         self.data = None
-        self._sample_gib = np.nan
+        self._sample_gb = np.nan
 
     @property
     def info(self):
@@ -202,7 +202,7 @@ class Dataset:
 
         Units include:
 
-        * GiB
+        * GB
         * chunk
         * sample
 
@@ -218,10 +218,10 @@ class Dataset:
 
         if self.data is not None:
             loaded = round(self.data.nbytes / 10**9, 2)
-            stats.loc['loaded', 'GiB'] = loaded
+            stats.loc['loaded', 'GB'] = loaded
 
             # sample stats
-            total = info['GiB'].sum() / self._sample_gib
+            total = info['GB'].sum() / self._sample_gb
             stats.loc['loaded', 'sample'] = self.data.shape[0]
             stats.loc['total', 'sample'] = total
             stats.loc['mean', 'sample'] = total / info.shape[0]
@@ -267,7 +267,7 @@ class Dataset:
             STATS:
                   '''[1:]
         msg = fict.unindent(msg, spaces=8)
-        cols = ['GiB', 'chunk', 'sample']
+        cols = ['GB', 'chunk', 'sample']
         stats = str(self.stats[cols])
         stats = '\n          '.join(stats.split('\n'))
         msg = msg + stats
@@ -362,5 +362,5 @@ class Dataset:
 
         # set class members
         self.data = data
-        self._sample_gib = data[0].nbytes / 10**9
+        self._sample_gb = data[0].nbytes / 10**9
         return self

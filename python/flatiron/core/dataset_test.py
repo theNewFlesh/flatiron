@@ -16,7 +16,7 @@ class DatasetTests(unittest.TestCase):
     def write_npy(self, target, shape=(10, 10, 3)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
-        array = np.ones(shape)
+        array = np.ones(shape, dtype=np.uint8)
         np.save(target, array)
 
     def create_dataset_files(self, root, shape=(10, 10, 3)):
@@ -81,7 +81,7 @@ class DatasetTests(unittest.TestCase):
             info, _ = self.create_dataset_files(root)
             result = Dataset(info)._info
             cols = [
-                'GiB', 'chunk', 'asset_path', 'filepath_relative',
+                'GB', 'chunk', 'asset_path', 'filepath_relative',
                 'filepath', 'loaded'
             ]
             for col in cols:
@@ -90,10 +90,9 @@ class DatasetTests(unittest.TestCase):
             result = result.columns.tolist()[:6]
             self.assertEqual(result, cols)
 
-            # GiB column
-            result = Dataset(info)._info.GiB.sum()
-            self.assertLess(result, 3.0e-05)
-            self.assertGreater(result, 2.0e-05)
+            # GB column
+            result = int(Dataset(info)._info.GB.sum() * 10**9)
+            self.assertEqual(result, 4280)
 
             # loaded column
             result = Dataset(info)._info.loaded.unique().tolist()
@@ -166,12 +165,12 @@ class DatasetTests(unittest.TestCase):
 
     def test_get_stats(self):
         info = DataFrame()
-        info['GiB'] = [1.1, 1.0, 1.1, 0.5]
+        info['GB'] = [1.1, 1.0, 1.1, 0.5]
         info['chunk'] = [0, 1, 2, 3]
         stats = Dataset._get_stats(info)
 
         exp = info.describe().applymap(lambda x: round(x, 2))
-        exp.loc['total', 'GiB'] = info['GiB'].sum()
+        exp.loc['total', 'GB'] = info['GB'].sum()
         exp.loc['total', 'chunk'] = info['chunk'].count()
         exp.loc['mean', 'chunk'] = np.nan
         exp.loc['std', 'chunk'] = np.nan
@@ -183,7 +182,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(result, index)
 
         # values
-        cols = ['GiB', 'chunk']
+        cols = ['GB', 'chunk']
         for col in cols:
             for i in index:
                 result = stats.loc[i, col]
@@ -195,12 +194,12 @@ class DatasetTests(unittest.TestCase):
 
     def test_stats_unloaded(self):
         with TemporaryDirectory() as root:
-            self.create_dataset_files(root, shape=(150, 100, 100, 4))
+            self.create_dataset_files(root, shape=(200, 100, 100, 4))
             result = Dataset.read_directory(root).stats
 
-            # GiB
-            self.assertEqual(result.loc['loaded', 'GiB'], 0)
-            self.assertEqual(result.loc['total', 'GiB'], 0.48)
+            # GB
+            self.assertEqual(result.loc['loaded', 'GB'], 0)
+            self.assertEqual(result.loc['total', 'GB'], 0.08)
 
             # chunk
             self.assertEqual(result.loc['loaded', 'chunk'], 0)
@@ -208,19 +207,19 @@ class DatasetTests(unittest.TestCase):
 
     def test_stats_loaded(self):
         with TemporaryDirectory() as root:
-            self.create_dataset_files(root, shape=(150, 100, 100, 4))
-            result = Dataset.read_directory(root).load(limit=200).stats
+            self.create_dataset_files(root, shape=(200, 100, 100, 4))
+            result = Dataset.read_directory(root).load(limit=500).stats
 
-            # GiB
-            self.assertEqual(result.loc['loaded', 'GiB'], 0.06)
-            self.assertEqual(result.loc['total', 'GiB'], 0.48)
+            # GB
+            self.assertEqual(result.loc['loaded', 'GB'], 0.02)
+            self.assertEqual(result.loc['total', 'GB'], 0.08)
 
             # chunk
-            self.assertEqual(result.loc['loaded', 'chunk'], 2)
+            self.assertEqual(result.loc['loaded', 'chunk'], 3)
             self.assertEqual(result.loc['total', 'chunk'], 10)
 
             # sample
-            self.assertEqual(result.loc['loaded', 'sample'], 200)
+            self.assertEqual(result.loc['loaded', 'sample'], 500)
 
     def test_repr(self):
         with TemporaryDirectory() as root:
@@ -233,7 +232,7 @@ class DatasetTests(unittest.TestCase):
                     ASSET_NAME: {name}
                     ASSET_PATH: {root}
                     STATS:
-                                  GiB  chunk  sample
+                                   GB  chunk  sample
                           min     0.0    0.0     NaN
                           max     0.0    9.0     NaN
                           mean    0.0    NaN     NaN
@@ -266,9 +265,69 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(dset.data.shape, (990, 10, 10, 4))
 
             # sample_gib
-            expected = np.ones(shape)[0].nbytes / 10**9
-            self.assertEqual(dset._sample_gib, expected)
+            expected = np.ones(shape, dtype=np.uint8)[0].nbytes / 10**9
+            self.assertEqual(dset._sample_gb, expected)
 
             # loaded
             result = dset._info.loaded.unique().tolist()
             self.assertEqual(result, [True])
+
+    def test_load_limit_int(self):
+        with TemporaryDirectory() as root:
+            shape = (99, 10, 10, 4)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load(limit=200)
+
+            # data shape
+            self.assertEqual(dset.data.shape, (200, 10, 10, 4))
+
+            # sample_gib
+            expected = np.ones(shape, dtype=np.uint8)[0].nbytes / 10**9
+            self.assertEqual(dset._sample_gb, expected)
+
+            # loaded
+            result = dset._info['loaded'].tolist()
+            expected = ([True] * 3) + ([False] * 7)
+            self.assertEqual(result, expected)
+
+    def test_load_limit_str(self):
+        with TemporaryDirectory() as root:
+            shape = (1000, 100, 100, 3)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load(limit='0.2 GB')
+
+            # data shape
+            self.assertEqual(dset.data.shape, (6667, 100, 100, 3))
+
+            # sample_gib
+            expected = np.ones(shape, dtype=np.uint8)[0].nbytes / 10**9
+            self.assertEqual(dset._sample_gb, expected)
+
+            # loaded
+            result = dset._info['loaded'].tolist()
+            expected = ([True] * 7) + ([False] * 3)
+            self.assertEqual(result, expected)
+
+    def test_load_reload(self):
+        with TemporaryDirectory() as root:
+            shape = (100, 10, 10, 1)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load()
+
+            # data shape
+            self.assertEqual(dset.data.shape, (1000, 10, 10, 1))
+
+            # loaded
+            result = dset._info.loaded.unique().tolist()
+            self.assertEqual(result, [True])
+
+            # reload
+            dset.load(limit=200)
+
+            # data shape
+            self.assertEqual(dset.data.shape, (200, 10, 10, 1))
+
+            # loaded
+            result = dset._info['loaded'].tolist()
+            expected = ([True] * 2) + ([False] * 8)
+            self.assertEqual(result, expected)
