@@ -329,7 +329,7 @@ class Dataset:
         # tqdm message
         desc = 'Loading Dataset Chunks'
         if limit_type != 'None':
-            desc = 'Chunks may not total to 100% - Loading Dataset Chunks'
+            desc = f'May not total to 100% - {desc}'
 
         # load chunks
         for i, row in tqdm(rows, desc=desc):
