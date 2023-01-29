@@ -1089,7 +1089,7 @@ summary = "Resolve abstract dependencies into concrete ones"
 
 [[package]]
 name = "rich"
-version = "13.3.0"
+version = "13.3.1"
 requires_python = ">=3.7.0"
 summary = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 dependencies = [
@@ -2463,9 +2463,9 @@ content_hash = "sha256:1c0ec0e1af738eba6ff80dadfcd1fa5917773a4e9e81c9041ce31f623
     {url = "https://files.pythonhosted.org/packages/67/b4/4f785cf7ac402e84acef7f450912cc673f0862839196832342be97869d87/resolvelib-0.9.0-py2.py3-none-any.whl", hash = "sha256:597adcbdf81d62d0cde55d90faa8e79187ec0f18e5012df30bd7a751b26343ae"},
     {url = "https://files.pythonhosted.org/packages/73/51/36f96ad70dd8c71274ac77739cda0794fee3ba45640373e7f8c5da7c9455/resolvelib-0.9.0.tar.gz", hash = "sha256:40ab05117c3281b1b160105e10075094c5ab118315003c922b77673a365290e1"},
 ]
-"rich 13.3.0" = [
-    {url = "https://files.pythonhosted.org/packages/53/df/e75dcda730fc18a9b6514e6c585ddae8ab39f893e11b272cffb843519fb2/rich-13.3.0-py3-none-any.whl", hash = "sha256:dd62e48284e540ae03235258699c07d5b48dbc1fd1905c6091b5ce72d7c69195"},
-    {url = "https://files.pythonhosted.org/packages/96/29/395e31686066cee66f8c0809d98b5e68d0f0c9b67e80f956b5659c8113fb/rich-13.3.0.tar.gz", hash = "sha256:98ce3ede653f23fbc02b0f8bd8a16a6b2bb4cfbdcfccf736eb28ba2810af241e"},
+"rich 13.3.1" = [
+    {url = "https://files.pythonhosted.org/packages/68/31/b8934896818c885001aeb7df388ba0523ea3ec88ad31805983d9b0480a50/rich-13.3.1.tar.gz", hash = "sha256:125d96d20c92b946b983d0d392b84ff945461e5a06d3867e9f9e575f8697b67f"},
+    {url = "https://files.pythonhosted.org/packages/a8/c6/14b77fe7a5fab66ffbeffd6706f598d00a52702846bce0e2339bcf9dd20c/rich-13.3.1-py3-none-any.whl", hash = "sha256:8aa57747f3fc3e977684f0176a88e789be314a99f99b43b75d1e9cb5dc6db9e9"},
 ]
 "scikit-learn 1.2.1" = [
     {url = "https://files.pythonhosted.org/packages/01/9d/f324b8fc4f754b5658a3da4c84935e34c5f981682c72b881dcb1fc3e2a8e/scikit_learn-1.2.1-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:c9285275a435d1f8f47bbe3500346ab9ead2499e0e090518404d318ea90d1c1c"},
