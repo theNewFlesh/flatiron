@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.5.0
               </div>
             
           
@@ -181,6 +181,7 @@
 <span class="kn">import</span> <span class="nn">humanfriendly</span> <span class="k">as</span> <span class="nn">hf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">sklearn.model_selection</span> <span class="k">as</span> <span class="nn">skm</span>
 
 <span class="kn">import</span> <span class="nn">flatiron.core.tools</span> <span class="k">as</span> <span class="nn">fict</span>
 
@@ -316,9 +317,9 @@
         <span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span> <span class="o">+</span> <span class="n">info</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">info</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span> <span class="o">=</span> <span class="n">info</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span> <span class="o">=</span> <span class="n">info</span>  <span class="c1"># type: pd.DataFrame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># type: Union[float, np.ndarray]</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -534,7 +535,86 @@
         <span class="c1"># set class members</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nbytes</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
-        <span class="k">return</span> <span class="bp">self</span></div></div>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Dataset.xy_split"><a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.xy_split">[docs]</a>    <span class="k">def</span> <span class="nf">xy_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># type: (int, int) -&gt; Tuple[np.ndarray, np.ndarray]</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Split data into x and y arrays.</span>
+<span class="sd">        Index and axis support negative ingegers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (int): Index of axis to split on.</span>
+<span class="sd">            axis (int, optional): Axis to split data on. Default: -1.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            EnforceError: If data has not been loaded.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple[np.ndarray]: X and y arrays.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Data not loaded. Please call load method.&#39;</span>
+        <span class="n">Enforce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;instance of&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+
+<div class="viewcode-block" id="Dataset.train_test_split"><a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.train_test_split">[docs]</a>    <span class="k">def</span> <span class="nf">train_test_split</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">index</span><span class="p">,</span>  <span class="c1"># type: int</span>
+        <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: int</span>
+        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># type: Optional[Union[float, int]]</span>
+        <span class="n">train_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Union[float, int]]</span>
+        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>  <span class="c1"># type: Optional[int]</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+        <span class="n">stratify</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[np.ndarray]</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (...) -&gt; Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Split data into x_train, x_test, y_train, y_test arrays.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index (int): Index of axis to split on.</span>
+
+<span class="sd">            axis (int, optional): Axis to split data on. Default: -1.</span>
+
+<span class="sd">            test_size (float or int, optional): If float, should be between 0.0</span>
+<span class="sd">                and 1.0 and represent the proportion of the dataset to include</span>
+<span class="sd">                in the test split. If int, represents the absolute number of</span>
+<span class="sd">                test samples. If None, the value is set to the complement of the</span>
+<span class="sd">                train size. If ``train_size`` is also None, it will be set to</span>
+<span class="sd">                0.25. Default: 0.2</span>
+
+<span class="sd">            train_size (float or int, optional): If float, should be between 0.0</span>
+<span class="sd">                and 1.0 and represent the proportion of the dataset to include</span>
+<span class="sd">                in the train split. If int, represents the absolute number of</span>
+<span class="sd">                train samples. If None, the value is automatically set to the</span>
+<span class="sd">                complement of the test size. Default: None.</span>
+
+<span class="sd">            random_state (int, optional): Controls the shuffling applied to the</span>
+<span class="sd">                data before applying the split. Pass an int for reproducible</span>
+<span class="sd">                output across multiple function calls. Default: 42.</span>
+
+<span class="sd">            shuffle (bool, optional): Whether or not to shuffle the data before</span>
+<span class="sd">                splitting. If False then stratify must be None. Default: True.</span>
+
+<span class="sd">            stratify (np.ndarr, optional): If not None, data is split in a</span>
+<span class="sd">                stratified fashion, using this as the class labels.</span>
+<span class="sd">                Default: None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            tuple[np.ndarray]: x_train, x_test, y_train, y_test</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xy_split</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">skm</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+            <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span>
+            <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span>
+            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
+            <span class="n">stratify</span><span class="o">=</span><span class="n">stratify</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span></div></div>
 </pre></div>
 
            </div>

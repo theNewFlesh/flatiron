@@ -10,6 +10,7 @@ from tqdm.notebook import tqdm
 import humanfriendly as hf
 import numpy as np
 import pandas as pd
+import sklearn.model_selection as skm
 
 import flatiron.core.tools as fict
 
@@ -145,9 +146,9 @@ class Dataset:
         cols = cols + info.drop(cols, axis=1).columns.tolist()
         info = info[cols]
 
-        self._info = info
-        self.data = None
-        self._sample_gb = np.nan
+        self._info = info  # type: pd.DataFrame
+        self.data = None  # type: Optional[np.ndarray]
+        self._sample_gb = np.nan  # type: Union[float, np.ndarray]
 
     @property
     def info(self):
@@ -364,3 +365,82 @@ class Dataset:
         self.data = data
         self._sample_gb = data[0].nbytes / 10**9
         return self
+
+    def xy_split(self, index, axis=-1):
+        # type: (int, int) -> Tuple[np.ndarray, np.ndarray]
+        '''
+        Split data into x and y arrays.
+        Index and axis support negative ingegers.
+
+        Args:
+            index (int): Index of axis to split on.
+            axis (int, optional): Axis to split data on. Default: -1.
+
+        Raises:
+            EnforceError: If data has not been loaded.
+
+        Returns:
+            tuple[np.ndarray]: X and y arrays.
+        '''
+        msg = 'Data not loaded. Please call load method.'
+        Enforce(self.data, 'instance of', np.ndarray, message=msg)
+        # ----------------------------------------------------------------------
+
+        return np.split(self.data, [index], axis=axis)  # type: ignore
+
+    def train_test_split(
+        self,
+        index,  # type: int
+        axis=-1,  # type: int
+        test_size=0.2,  # type: Optional[Union[float, int]]
+        train_size=None,  # type: Optional[Union[float, int]]
+        random_state=42,  # type: Optional[int]
+        shuffle=True,  # type: bool
+        stratify=None,  # type: Optional[np.ndarray]
+    ):
+        # type: (...) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
+        '''
+        Split data into x_train, x_test, y_train, y_test arrays.
+
+        Args:
+            index (int): Index of axis to split on.
+
+            axis (int, optional): Axis to split data on. Default: -1.
+
+            test_size (float or int, optional): If float, should be between 0.0
+                and 1.0 and represent the proportion of the dataset to include
+                in the test split. If int, represents the absolute number of
+                test samples. If None, the value is set to the complement of the
+                train size. If ``train_size`` is also None, it will be set to
+                0.25. Default: 0.2
+
+            train_size (float or int, optional): If float, should be between 0.0
+                and 1.0 and represent the proportion of the dataset to include
+                in the train split. If int, represents the absolute number of
+                train samples. If None, the value is automatically set to the
+                complement of the test size. Default: None.
+
+            random_state (int, optional): Controls the shuffling applied to the
+                data before applying the split. Pass an int for reproducible
+                output across multiple function calls. Default: 42.
+
+            shuffle (bool, optional): Whether or not to shuffle the data before
+                splitting. If False then stratify must be None. Default: True.
+
+            stratify (np.ndarr, optional): If not None, data is split in a
+                stratified fashion, using this as the class labels.
+                Default: None.
+
+        Returns:
+            tuple[np.ndarray]: x_train, x_test, y_train, y_test
+        '''
+        x, y = self.xy_split(index, axis=axis)
+        x_train, x_test, y_train, y_test = skm.train_test_split(
+            x, y,
+            test_size=test_size,
+            train_size=train_size,
+            random_state=random_state,
+            shuffle=shuffle,
+            stratify=stratify,
+        )
+        return x_train, x_test, y_train, y_test
