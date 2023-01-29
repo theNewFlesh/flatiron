@@ -193,16 +193,12 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).stats
 
             # size_gib
-            self.assertEqual(result.loc['loaded_count', 'size_gib'], 0)
             self.assertEqual(result.loc['loaded_total', 'size_gib'], 0)
-            self.assertEqual(result.loc['count', 'size_gib'], 10)
             self.assertEqual(result.loc['total', 'size_gib'], 0.48)
 
             # chunk
-            self.assertEqual(result.loc['loaded_count', 'chunk'], 0)
             self.assertEqual(result.loc['loaded_total', 'chunk'], 0)
-            self.assertEqual(result.loc['count', 'chunk'], 10)
-            self.assertEqual(result.loc['total', 'chunk'], 45)
+            self.assertEqual(result.loc['total', 'chunk'], 10)
 
     def test_stats_loaded(self):
         with TemporaryDirectory() as root:
@@ -214,11 +210,11 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(result.loc['total', 'size_gib'], 0.48)
 
             # chunk
-            self.assertEqual(result.loc['loaded_total', 'chunk'], 0)
-            self.assertEqual(result.loc['total', 'chunk'], 45)
+            self.assertEqual(result.loc['loaded_total', 'chunk'], 2)
+            self.assertEqual(result.loc['total', 'chunk'], 10)
 
             # sample
-            self.assertEqual(result.loc['loaded_total', 'chunk'], 200)
+            self.assertEqual(result.loc['loaded_total', 'sample'], 200)
 
     def test_repr(self):
         pass

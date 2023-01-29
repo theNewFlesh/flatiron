@@ -214,7 +214,7 @@ class Dataset:
         info = self.info
         a = self._get_stats(info)
         b = self._get_stats(info.loc[info.loaded]) \
-            .loc[['count', 'total']] \
+            .loc[['total']] \
             .rename(lambda x: f'loaded_{x}')
         stats = pd.concat([a, b])
 
@@ -225,10 +225,6 @@ class Dataset:
             # sample stats
             stats['sample'] = np.nan
             stats.loc['loaded_total', 'sample'] = self._data.shape[0]
-
-        # fix chunk cells
-        stats.loc['total', 'chunk'] = stats.loc['count', 'chunk']
-        stats.loc['loaded_total', 'chunk'] = stats.loc['loaded_count', 'chunk']
 
         index = ['min', 'max', 'mean', 'std', 'loaded_total', 'total']
         stats = stats.loc[index]
