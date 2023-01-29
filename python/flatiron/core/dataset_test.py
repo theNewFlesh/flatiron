@@ -331,3 +331,18 @@ class DatasetTests(unittest.TestCase):
             result = dset._info['loaded'].tolist()
             expected = ([True] * 2) + ([False] * 8)
             self.assertEqual(result, expected)
+
+    def test_load_shuffle(self):
+        with TemporaryDirectory() as root:
+            shape = (100, 10, 10, 1)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root)
+
+            a = 99
+            b = 99
+            for i in range(10):
+                a = dset.load(limit=200, shuffle=True).info.loaded.tolist()
+                b = dset.load(limit=200, shuffle=True).info.loaded.tolist()
+                if a != b:
+                    break
+            self.assertNotEqual(a, b)
