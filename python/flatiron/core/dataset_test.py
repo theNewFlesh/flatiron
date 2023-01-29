@@ -243,5 +243,18 @@ class DatasetTests(unittest.TestCase):
             expected = fict.unindent(expected, spaces=16)
             self.assertEqual(result, expected)
 
+    def test_resolve_limit(self):
+        # sample
+        result = Dataset._resolve_limit(10)
+        self.assertEqual(result, (10, 'samples'))
+
+        # memory
+        result = Dataset._resolve_limit('1 GB')
+        self.assertEqual(result, (10**9, 'memory'))
+
+        # none
+        result = Dataset._resolve_limit(None)
+        self.assertEqual(result, (-1, 'None'))
+
     def test_load(self):
         pass

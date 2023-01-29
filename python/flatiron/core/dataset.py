@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Union
+from typing import Any, List, Optional, Tuple, Union
 import pandas as pd
 
 from pathlib import Path
@@ -274,6 +274,26 @@ class Dataset:
         msg = msg + stats
         return msg
 
+    @staticmethod
+    def _resolve_limit(limit):
+        # type: (Union[int, str, None]) -> Tuple[int, str]
+        '''
+        Resolves a given limit into a number of samples and limit type.
+
+        Args:
+            limit (str, int, None): Limit descriptor.
+
+        Returns:
+            tuple[int, str]: Number of samples and limit type.
+        '''
+        if isinstance(limit, int):
+            return limit, 'samples'
+
+        elif isinstance(limit, str):
+            return hf.parse_size(limit), 'memory'
+
+        return -1, 'None'
+
     def load(self, limit=None, shuffle=False):
         # type: (Optional[Union[str, int]], bool) -> Dataset
         '''
@@ -290,21 +310,18 @@ class Dataset:
         '''
         # reset data and info
         del self.data
+        self.data = None
         self._info['loaded'] = False
 
-        limit_ = 0
-        limit_type = None
-        if isinstance(limit, int):
-            limit_type = 'samples'
-            limit_ = limit
-        elif isinstance(limit, str):
-            limit_ = hf.parse_size(limit)
-            limit_type = 'memory'
+        # resolve limit
+        limit_, limit_type = self._resolve_limit(limit)
 
+        # shuffle rows
         rows = list(self.info.iterrows())
         if shuffle:
             random.shuffle(rows)
 
+        # load chunks
         chunks = []
         memory = 0
         samples = 0
@@ -321,6 +338,7 @@ class Dataset:
             memory += chunk.nbytes
             samples += chunk.shape[0]
 
+        # concatenate data
         data = np.concatenate(chunks, axis=0)
 
         # limit array size by samples
@@ -336,6 +354,7 @@ class Dataset:
                 n = data.shape[0]
                 data = data[:n - k]
 
+        # set class members
         self.data = data
         self._sample_gib = data[0].nbytes / 10**9
         return self
