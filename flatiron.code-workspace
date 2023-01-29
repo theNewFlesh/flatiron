@@ -5,8 +5,6 @@
         "debug.allowBreakpointsEverywhere": true,
         "forbeslindesay-taskrunner.prefix": "[",
         "forbeslindesay-taskrunner.separator": "] ",
-        "git.autofetch": true,
-        "git.autofetchPeriod": 60,
         "mypy.configFile": "docker/config/pyproject.toml",
         "mypy.targets": ["python"],
         "python.analysis.autoImportCompletions": true,
