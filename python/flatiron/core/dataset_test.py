@@ -8,6 +8,7 @@ from pandas import DataFrame
 import numpy as np
 
 from flatiron.core.dataset import Dataset
+import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
@@ -226,7 +227,25 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(result.loc['loaded', 'sample'], 200)
 
     def test_repr(self):
-        pass
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+            dset = Dataset.read_directory(root)
+            result = str(dset)
+            name = Path(root).name
+            expected = f'''
+                <Dataset>
+                    ASSET_NAME: {name}
+                    ASSET_PATH: {root}
+                    STATS:
+                                  GiB  chunk  sample
+                          min     0.0    0.0     NaN
+                          max     0.0    9.0     NaN
+                          mean    0.0    NaN     NaN
+                          std     0.0    NaN     NaN
+                          loaded  0.0    0.0     NaN
+                          total   0.0   10.0     NaN'''[1:]
+            expected = fict.unindent(expected, spaces=16)
+            self.assertEqual(result, expected)
 
-    def test_load(self):
-        pass
+    # def test_load(self):
+    #     pass
