@@ -381,3 +381,17 @@ class DatasetTests(unittest.TestCase):
             expected = 'Data not loaded. Please call load method.'
             with self.assertRaisesRegex(EnforceError, expected):
                 dset.xy_split(-1)
+
+    def test_train_test_split(self):
+        with TemporaryDirectory() as root:
+            shape = (50, 10, 10, 5)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load(limit=100)
+
+            # two classes
+            x_train, x_test, y_train, y_test = dset \
+                .train_test_split(-2, test_size=0.4)
+            self.assertEqual(x_train.shape, (60, 10, 10, 3))
+            self.assertEqual(x_test.shape, (40, 10, 10, 3))
+            self.assertEqual(y_train.shape, (60, 10, 10, 2))
+            self.assertEqual(y_test.shape, (40, 10, 10, 2))
