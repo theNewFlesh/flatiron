@@ -206,6 +206,12 @@ _x_env_lock () {
 }
 
 # TODO: remove this once PDM will install tensorflow
+_x_env_install_tensorflow {
+    # install tensorflow in given environment
+    # args: mode, python_version
+    _x_env_pip_install $1 $2 "tensorflow>=2.0.0" "tensorboard>=2.0.0";
+}
+
 _x_env_sync () {
     # Install dependencies from a pdm.lock into a virtual env specified by a
     # given mode and python version
@@ -218,7 +224,7 @@ _x_env_sync () {
     fi && \
     pdm sync --no-self --dev --clean -v && \
     deactivate && \
-    _x_env_pip_install $1 $2 "tensorflow>=2.0.0" "tensorboard>=2.0.0";
+    _x_env_install_tensorflow $1 $2;
 }
 
 x_env_activate_dev () {
