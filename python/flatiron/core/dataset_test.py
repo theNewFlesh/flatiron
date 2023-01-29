@@ -163,28 +163,29 @@ class DatasetTests(unittest.TestCase):
         info['size_gib'] = [1.1, 1.0, 1.1, 0.5]
         info['chunk'] = [0, 1, 2, 3]
         stats = Dataset._get_stats(info)
+
         exp = info.describe().applymap(lambda x: round(x, 2))
+        exp.loc['total', 'size_gib'] = info['size_gib'].sum()
+        exp.loc['total', 'chunk'] = info['chunk'].count()
+        exp.loc['mean', 'chunk'] = np.nan
+        exp.loc['std', 'chunk'] = np.nan
 
         # index
-        expected = ['min', 'max', 'mean', 'std', 'total']
+        index = ['min', 'max', 'mean', 'std', 'total']
+        exp = exp.loc[index]
         result = stats.index.tolist()
-        self.assertEqual(result, expected)
+        self.assertEqual(result, index)
 
-        indices = ['min', 'max', 'mean', 'std']
+        # values
         cols = ['size_gib', 'chunk']
         for col in cols:
-            for index in indices:
-                result = stats.loc[index, col]
-                expected = exp.loc[index, col]
-                self.assertEqual(result, expected)
-
-        # total size_gib
-        result = stats.loc['total', 'size_gib']
-        self.assertEqual(result, 3.7)
-
-        # total chunk
-        result = stats.loc['total', 'chunk']
-        self.assertEqual(result, 4)
+            for i in index:
+                result = stats.loc[i, col]
+                expected = exp.loc[i, col]
+                if np.isnan(expected):
+                    self.assertTrue(np.isnan(result))
+                else:
+                    self.assertEqual(result, expected)
 
     def test_stats_unloaded(self):
         with TemporaryDirectory() as root:
