@@ -132,7 +132,9 @@ def attention_gate_2d(
 
 
 def get_unet_model(
-    input_shape,  # type: tuple[int]
+    input_width,  # type: int
+    input_height,  # type: int
+    input_channels,  # type: int
     classes=1,  # type: int
     filters=16,  # type: int
     layers=9,  # type: int
@@ -157,8 +159,9 @@ def get_unet_model(
     see: https://arxiv.org/abs/1804.03999
 
     Args:
-        input_shape (KerasTensor, optional): Tensor of shape (width, height,
-            channels).
+        input_width (int): Input width.
+        input_height (int): Input height.
+        input_channels (int): Input channels.
         classes (int, optional): Number of output classes. Default: 1.
         filters (int, optional): Number of filters for initial con 2d block.
             Default: 16.
@@ -198,7 +201,8 @@ def get_unet_model(
     encode_layers = []
 
     # input layer
-    input_ = tfl.Input(input_shape, name='input')
+    shape = (input_width, input_height, input_channels)
+    input_ = tfl.Input(shape, name='input')
 
     # encode layers
     x = input_
