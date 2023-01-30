@@ -137,9 +137,7 @@ def slack_it(
     title,  # type: str
     channel,  # type: str
     url,  # type: str
-    source=None,  # type: Optional[str]
-    target=None,  # type: Optional[Union[dict, str]]
-    params=None,  # type: Optional[dict]
+    config=None,  # type: Optional[dict]
     stopwatch=None,  # type: Optional[StopWatch]
     timezone='UTC',  # type: str
     suppress=False,  # type: bool
@@ -152,9 +150,7 @@ def slack_it(
         title (str): Post title.
         channel (str): Slack channel.
         url (str): Slack URL.
-        source (str, optional): Source data. Default: None.
-        target (str or dict, optional): Target data. Default: None.
-        params (dict, optional): Parameter dict. Default: None.
+        config (dict, optional): Parameter dict. Default: None.
         stopwatch (StopWatch, optional): StopWatch instance. Default: None.
         timezone (str, optional): Timezone. Default: UTC.
         suppress (bool, optional): Return message, rather than post it to Slack.
@@ -164,32 +160,23 @@ def slack_it(
         HTTPResponse: Slack response.
     '''
     now = datetime.now(tz=pytz.timezone(timezone)).isoformat()
-    source = source or 'none'
-    target = target or 'none'
-    params = params or {}
+    config = config or {}
     delta = 'none'
     hdelta = 'none'
     if stopwatch is not None:
         hdelta = stopwatch.human_readable_delta
         delta = str(stopwatch.delta)
 
-    params = yaml.safe_dump(params, indent=4)
-    if isinstance(target, dict):
-        target = yaml.safe_dump(target, indent=4)
-
+    config = yaml.safe_dump(config, indent=4)
     message = f'''
         {title.upper()}
 
-        RUNTIME:
+        RUN TIME:
         ```{hdelta} ({delta})```
-        SOURCE:
-        ```{source}```
-        TARGET:
-        ```{target}```
-        PARAMS:
-        ```{params}```
-        TIME:
+        POST TIME:
         ```{now}```
+        CONFIG:
+        ```{config}```
     '''[1:-1]
     message = unindent(message, spaces=8)
 

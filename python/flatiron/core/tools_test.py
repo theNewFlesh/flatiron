@@ -132,9 +132,7 @@ b
             title='title',
             channel='channel',
             url='url',
-            source='source',
-            target='target',
-            params=dict(a=dict(b=1)),
+            config=dict(a=dict(b=1)),
             stopwatch=stopwatch,
             timezone='America/Los_Angeles',
             suppress=True,
@@ -142,59 +140,26 @@ b
         result = fict.slack_it(**kwargs)
 
         # keys
-        expected = 'TITLE(\n|.)*RUNTIME(\n|.)*SOURCE(\n|.)*TARGET(\n|.)*'
-        expected += 'PARAMS(\n|.)*TIME'
+        expected = 'TITLE\n\nRUN TIME(\n|.)*POST TIME(\n|.)*CONFIG'
         self.assertRegex(result, expected)
 
         # title
         expected = 'TITLE\n'
         self.assertRegex(result, expected)
 
-        # runtime
-        expected = r'RUNTIME:\n```0 seconds \(0:00:00\.\d+\)```'
+        # post time
+        expected = r'TIME:\n```\d\d\d\d-\d\d-\d\dT.*```'
         self.assertRegex(result, expected)
 
-        # source
-        expected = 'SOURCE:\n```source```'
+        # run time
+        expected = r'RUN TIME:\n```0 seconds \(0:00:00\.\d+\)```'
         self.assertRegex(result, expected)
 
-        # target
-        expected = 'TARGET:\n```target```'
-        self.assertRegex(result, expected)
-
-        # params
+        # config
         expected = '''
-            PARAMS:
+            CONFIG:
             ```a:
                 b: 1
             ```'''[1:]
         expected = fict.unindent(expected, 12)
-        self.assertRegex(result, expected)
-
-        # time
-        expected = r'TIME:\n```\d\d\d\d-\d\d-\d\dT.*```'
-        self.assertRegex(result, expected)
-
-    def test_slack_it_target(self):
-        stopwatch = StopWatch()
-        stopwatch.start()
-        stopwatch.stop()
-
-        kwargs = dict(
-            title='title',
-            channel='channel',
-            url='url',
-            target=dict(foo='bar'),
-            suppress=True,
-        )
-        result = fict.slack_it(**kwargs)
-
-        # dict
-        expected = 'TARGET:\n```foo: bar\n```'
-        self.assertRegex(result, expected)
-
-        # None
-        kwargs['target'] = None
-        result = fict.slack_it(**kwargs)
-        expected = 'TARGET:\n```none```'
         self.assertRegex(result, expected)
