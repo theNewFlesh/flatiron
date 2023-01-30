@@ -47,7 +47,7 @@ class SlackLogger(lbt.LogRuntime):
                 stopwatch=stp,
                 timezone=timezone,
                 suppress=True,
-            )  # type: ignore
+            )  # type: Any
             self._callback = lambda msg: lbt.post_to_slack(
                 slack_url,
                 slack_channel,
