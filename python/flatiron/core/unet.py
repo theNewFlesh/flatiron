@@ -19,14 +19,14 @@ PAD = 18
 
 
 def conv_2d_block(
-    input_,
-    filters=16,
-    activation='relu',
-    batch_norm=True,
-    kernel_initializer='he_normal',
-    name='conv-2d-block',
+    input_,  # type: KerasTensor
+    filters=16,  # type: int
+    activation='relu',  # type: str
+    batch_norm=True,  # type: bool
+    kernel_initializer='he_normal',  # type: str
+    name='conv-2d-block',  # type: str
 ):
-    # type: (KerasTensor, int, str, bool, str, str) -> KerasTensor
+    # type: (...) -> KerasTensor
     r'''
     2D Convolution block without padding.
 
@@ -79,8 +79,18 @@ def conv_2d_block(
     return conv_2
 
 
-def attention_gate_2d(query, skip_connection, name='attention-gate'):
-    # type: (KerasTensor, KerasTensor, str) -> KerasTensor
+def attention_gate_2d(
+    query,  # type: KerasTensor
+    skip_connection,  # type: KerasTensor
+    activation_1='relu',  # type: str
+    activation_2='sigmoid',  # type: str
+    kernel_size=1,  # type: int
+    strides=1,  # type: int
+    padding='same',  # type: str
+    kernel_initializer='he_normal',  # type: str
+    name='attention-gate',  # type: str
+):
+    # type: (...) -> KerasTensor
     '''
     Attention gate for 2D inputs.
     See: https://arxiv.org/abs/1804.03999
@@ -88,6 +98,13 @@ def attention_gate_2d(query, skip_connection, name='attention-gate'):
     Args:
         query (KerasTensor): 2D Tensor of query.
         skip_connection (KerasTensor): 2D Tensor of features.
+        activation_1 (str, optional): First activation. Default: 'relu'
+        activation_2 (str, optional): Second activation. Default: 'sigmoid'
+        kernel_size (int, optional): Kernel_size. Default: 1
+        strides (int, optional): Strides. Default: 1
+        padding (str, optional): Padding. Default: 'same'
+        kernel_initializer (str, optional): Kernel initializer.
+            Default: 'he_normal'
         name (str, optional): Layer name. Default: attention-gate
 
     Returns:
@@ -96,35 +113,42 @@ def attention_gate_2d(query, skip_connection, name='attention-gate'):
     name = fict.pad_layer_name(name, length=PAD)
     filters = query.get_shape().as_list()[-1]
     kwargs = dict(
-        kernel_size=1,
-        strides=1,
-        padding='same',
-        kernel_initializer='he_normal',
+        kernel_size=kernel_size,
+        strides=strides,
+        padding=padding,
+        kernel_initializer=kernel_initializer,
     )
     conv_0 = tfl.Conv2D(
         filters=filters, **kwargs, name=f'{name}-0'
     )(skip_connection)
     conv_1 = tfl.Conv2D(filters=filters, **kwargs, name=f'{name}-1')(query)
     gate = tfl.add([conv_0, conv_1], name=f'{name}-2')
-    gate = tfl.Activation('relu', name=f'{name}-3')(gate)
+    gate = tfl.Activation(activation_1, name=f'{name}-3')(gate)
     gate = tfl.Conv2D(filters=1, **kwargs, name=f'{name}-4')(gate)
-    gate = tfl.Activation('sigmoid', name=f'{name}-5')(gate)
+    gate = tfl.Activation(activation_2, name=f'{name}-5')(gate)
     gate = tfl.multiply([skip_connection, gate], name=f'{name}-6')
     output = tfl.concatenate([gate, query], name=f'{name}-7')
     return output
 
 
 def get_unet_model(
-    input_shape,
-    filters=16,
-    layers=9,
-    classes=1,
-    activation='relu',
-    batch_norm=True,
-    attention_gates=False,
-    output_activation='sigmoid',
-    kernel_initializer='he_normal',
+    input_shape,  # type: tuple[int]
+    classes=1,  # type: int
+    filters=16,  # type: int
+    layers=9,  # type: int
+    activation='relu',  # type: str
+    batch_norm=True,  # type: bool
+    output_activation='sigmoid',  # type: str
+    kernel_initializer='he_normal',  # type: str
+    attention_gates=False,  # type: bool
+    attention_activation_1='relu',  # type: str
+    attention_activation_2='sigmoid',  # type: str
+    attention_kernel_size=1,  # type: int
+    attention_strides=1,  # type: int
+    attention_padding='same',  # type: str
+    attention_kernel_initializer='he_normal',  # type: str
 ):
+    # type: (...) -> tfm.Model
     '''
     UNet model for 2D semantic segmentation.
 
@@ -135,19 +159,28 @@ def get_unet_model(
     Args:
         input_shape (KerasTensor, optional): Tensor of shape (width, height,
             channels).
+        classes (int, optional): Number of output classes. Default: 1.
         filters (int, optional): Number of filters for initial con 2d block.
             Default: 16.
         layers (int, optional): Total number of layers. Default: 9.
-        classes (int, optional): Number of output classes. Default: 1.
         activation (KerasTensor, optional): Activation function to be used.
             Default: relu.
         batch_norm (KerasTensor, optional): Use batch normalization.
             Default: True.
-        attention_gates (KerasTensor, optional): Use attention gates.
-            Default: False.
         output_activation (KerasTensor, optional): Output activation function.
             Default: sigmoid.
         kernel_initializer (KerasTensor, optional): Default: he_normal.
+        attention_gates (KerasTensor, optional): Use attention gates.
+            Default: False.
+        attention_activation_1 (str, optional): First activation.
+            Default: 'relu'
+        attention_activation_2 (str, optional): Second activation.
+            Default: 'sigmoid'
+        attention_kernel_size (int, optional): Kernel_size. Default: 1
+        attention_strides (int, optional): Strides. Default: 1
+        attention_padding (str, optional): Padding. Default: 'same'
+        attention_kernel_initializer (str, optional): Kernel initializer.
+            Default: 'he_normal'
 
     Raises:
         EnforceError: If layers is not an odd integer greater than 2.
@@ -200,7 +233,7 @@ def get_unet_model(
     # decode layers
     decode_layers = list(reversed(encode_layers))
     for i, layer in enumerate(decode_layers[:n]):
-        filters /= 2
+        filters = int(filters / 2)
 
         # upsample
         name = fict.pad_layer_name(f'upsample_{i:02d}', length=PAD)
@@ -215,7 +248,17 @@ def get_unet_model(
         # attention gate
         if attention_gates:
             name = fict.pad_layer_name(f'attention-gate_{i:02d}', length=PAD)
-            x = attention_gate_2d(x, layer, name=name)
+            x = attention_gate_2d(
+                x,
+                layer,
+                activation_1=attention_activation_1,
+                activation_2=attention_activation_2,
+                kernel_size=attention_kernel_size,
+                strides=attention_strides,
+                padding=attention_padding,
+                kernel_initializer=attention_kernel_initializer,
+                name=name,
+            )
         else:
             name = fict.pad_layer_name(f'concat_{i:02d}', length=PAD)
             x = tfl.concatenate([layer, x], name=name)
@@ -235,100 +278,3 @@ def get_unet_model(
     )(x)
     model = tfm.Model(inputs=[input_], outputs=[output])
     return model
-
-
-def get_config():
-    params = dict(
-        info=dict(
-            project='proj0121',
-            root='/mnt/storage/projects',
-            spec='dset001',
-            desc='bg-detection',
-            version=4,
-        ),
-        data=dict(
-            limit=15000,
-        ),
-        model=dict(
-            input_shape=(192, 192, 3),
-            num_classes=1,
-            activation='leaky_relu',
-            use_batch_norm=True,
-            upsample_mode='deconv',
-            use_attention=True,
-            filters=32,
-            num_layers=4,
-            output_activation='sigmoid',
-        ),
-        misc=dict(
-            optimizer_class=tfo.SGD,
-            batch_size=16,
-        ),
-        optimizer=dict(
-            learning_rate=0.008,
-            momentum=0.99,
-        ),
-        compile_=dict(
-            loss=ficl.jaccard_loss,
-            metrics=[ficm.jaccard, ficm.dice],
-        ),
-        callback=dict(
-            save_best_only=True,
-            metric='jaccard',
-            mode='auto',
-            save_freq='epoch',
-            update_freq='batch',
-        ),
-        fit=dict(
-            epochs=35,
-            verbose='auto',
-            shuffle=True,
-            initial_epoch=0,
-            use_multiprocessing=True,
-        ),
-        datagen=dict(
-            horizontal_flip=True,
-            vertical_flip=True,
-            fill_mode='constant',
-        )
-    )
-
-    params['data']['source'] = get_info_path(**params['info'])
-    opt = params['misc']['optimizer_class'](**params['optimizer'])
-    params['compile_']['optimizer'] = opt
-    root = params['info']['root']
-    proj = params['info']['project']
-    cb = params['callback']
-    cbs, log_dir = fict.get_callbacks(root, proj, cb)
-    params['misc']['log_dir'] = log_dir
-    params['fit']['callbacks'] = [cbs]
-
-    return params
-
-
-def setup(x, y, model, config):
-    # type: (np.ndarray, np.ndarray, tfm.Model, dict) -> dict
-    '''
-    '''
-    # train test split
-    x_train, x_test, y_train, y_test = skm \
-        .train_test_split(x, y, **config['split'])
-    if config['input_shape'] != x_train.shape[1:]:
-        raise ValueError('Bad input shape')
-
-    # preprocessing
-    data = tfpp.ImageDataGenerator(**config['preprocess'])
-    data.fit(x_train)
-
-    # compile model
-    model.compile(**config['compile'])
-
-    output = dict(
-        x_train=x_train,
-        x_test=x_test,
-        y_train=y_train,
-        y_test=y_test,
-        model=model,
-        data=data,
-    )
-    return output
