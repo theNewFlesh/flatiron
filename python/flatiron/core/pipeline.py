@@ -125,6 +125,11 @@ class PipelineBase(ABC):
             optimizer=opt,
             loss=loss,
             metrics=metrics,
+            loss_weights=None,
+            weighted_metrics=None,
+            run_eagerly=None,
+            steps_per_execution=None,
+            jit_compile=None,
         )
         return self
 
