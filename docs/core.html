@@ -67,7 +67,7 @@
             
             
               <div class="version">
-                0.6.0
+                0.8.0
               </div>
             
           
@@ -134,6 +134,14 @@
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.pad_layer_name"><code class="docutils literal notranslate"><span class="pre">pad_layer_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.slack_it"><code class="docutils literal notranslate"><span class="pre">slack_it()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.unindent"><code class="docutils literal notranslate"><span class="pre">unindent()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.validators">validators</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.validators.is_base_two"><code class="docutils literal notranslate"><span class="pre">is_base_two()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.validators.is_even"><code class="docutils literal notranslate"><span class="pre">is_even()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.validators.is_gte"><code class="docutils literal notranslate"><span class="pre">is_gte()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.validators.is_odd"><code class="docutils literal notranslate"><span class="pre">is_odd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.validators.is_padding"><code class="docutils literal notranslate"><span class="pre">is_padding()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -602,6 +610,88 @@ Default: False.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flatiron.core.validators">
+<span id="validators"></span><h2>validators<a class="headerlink" href="#module-flatiron.core.validators" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.validators.is_base_two">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.validators.</span></span><span class="sig-name descname"><span class="pre">is_base_two</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/flatiron/core/validators.html#is_base_two"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.validators.is_base_two" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that number is base two.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number</strong> (<em>int</em>) – Number.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValidationError</strong> – If number is not base two.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.validators.is_even">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.validators.</span></span><span class="sig-name descname"><span class="pre">is_even</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/flatiron/core/validators.html#is_even"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.validators.is_even" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that number is even.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number</strong> (<em>int</em>) – Number.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValidationError</strong> – If number is not even.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.validators.is_gte">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.validators.</span></span><span class="sig-name descname"><span class="pre">is_gte</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/flatiron/core/validators.html#is_gte"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.validators.is_gte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that a is greater than or equal to b.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>object</em>) – Object.</p></li>
+<li><p><strong>b</strong> (<em>object</em>) – Object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValidationError</strong> – If a is not greater than or equal to b.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A is greater than or equal to b.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.validators.is_odd">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.validators.</span></span><span class="sig-name descname"><span class="pre">is_odd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/flatiron/core/validators.html#is_odd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.validators.is_odd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that number is odd.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number</strong> (<em>int</em>) – Number.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValidationError</strong> – If number is not odd.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.validators.is_padding">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.validators.</span></span><span class="sig-name descname"><span class="pre">is_padding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pad_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/flatiron/core/validators.html#is_padding"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.validators.is_padding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates that pad_type is a legal padding type.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pad_type</strong> (<em>str</em>) – Padding type.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValidationError</strong> – If padding type is not legal.</p>
 </dd>
 </dl>
 </dd></dl>
