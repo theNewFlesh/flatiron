@@ -341,38 +341,3 @@ class UNetConfig(scm.Model):
     )
     attention_padding = scmt.StringType(required=True, default='same', validators=[vd.is_padding])
     attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
-
-
-# PIPELINE----------------------------------------------------------------------
-class UNetPipeline:
-    _model_config_class = UNetConfig
-
-    @classmethod
-    def read_yaml(cls, filepath):
-        with open(filepath) as f:
-            config = yaml.safe_load(f)
-        return cls(config)
-
-    def _validate(self, config, spec_class):
-        output = spec_class(config)
-        output.validate()
-        return output.to_native()
-
-    def __init__(self, config):
-        config = deepcopy(config)
-        config['model'] = self._validate(config['model'], self._model_config_class)
-        config['dataset'] = self._validate(config['dataset'], DatasetConfig)
-        self.dataset = ficd.Dataset.from_directory(config['dataset']['dataset'])
-        self.config = config
-
-    def build(self):
-        self.model = get_unet_model(**self.config['model'])
-        return self
-
-    def compile(self):
-        self.model.compile()
-        return self
-
-    def load(self):
-        self.dataset.load(**self.config['dataset'])
-        return self
