@@ -1,16 +1,11 @@
 from keras.engine.keras_tensor import KerasTensor  # noqa F401
 
-from copy import deepcopy
-
 from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
-import yaml
 
-from flatiron.core.dataset_config import DatasetConfig
-import flatiron.core.dataset as ficd
 import flatiron.core.tools as fict
 import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
