@@ -1,4 +1,4 @@
-from keras.engine.keras_tensor import KerasTensor
+from keras.engine.keras_tensor import KerasTensor  # noqa F401
 
 from copy import deepcopy
 
@@ -10,7 +10,6 @@ import tensorflow.keras.models as tfm
 import yaml
 
 from flatiron.core.dataset_config import DatasetConfig
-from flatiron.core.logging import SlackLogger
 import flatiron.core.dataset as ficd
 import flatiron.core.tools as fict
 import flatiron.core.validators as vd
