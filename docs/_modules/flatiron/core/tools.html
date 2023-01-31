@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.6.0
               </div>
             
           
@@ -308,12 +308,10 @@
     <span class="n">title</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">channel</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">url</span><span class="p">,</span>  <span class="c1"># type: str</span>
-    <span class="n">source</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[str]</span>
-    <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Union[dict, str]]</span>
-    <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[dict]</span>
+    <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[dict]</span>
     <span class="n">stopwatch</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[StopWatch]</span>
     <span class="n">timezone</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
-    <span class="n">testing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
+    <span class="n">suppress</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># type: bool</span>
 <span class="p">):</span>
     <span class="c1"># type: (...) -&gt; Union[str, HTTPResponse]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -323,47 +321,37 @@
 <span class="sd">        title (str): Post title.</span>
 <span class="sd">        channel (str): Slack channel.</span>
 <span class="sd">        url (str): Slack URL.</span>
-<span class="sd">        source (str, optional): Source data. Default: None.</span>
-<span class="sd">        target (str or dict, optional): Target data. Default: None.</span>
-<span class="sd">        params (dict, optional): Parameter dict. Default: None.</span>
+<span class="sd">        config (dict, optional): Parameter dict. Default: None.</span>
 <span class="sd">        stopwatch (StopWatch, optional): StopWatch instance. Default: None.</span>
 <span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
-<span class="sd">        testing (bool, optional): Test mode: Default: False.</span>
+<span class="sd">        suppress (bool, optional): Return message, rather than post it to Slack.</span>
+<span class="sd">            Default: False.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        HTTPResponse: Slack response.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">tz</span><span class="o">=</span><span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">timezone</span><span class="p">))</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
-    <span class="n">source</span> <span class="o">=</span> <span class="n">source</span> <span class="ow">or</span> <span class="s1">&#39;none&#39;</span>
-    <span class="n">target</span> <span class="o">=</span> <span class="n">target</span> <span class="ow">or</span> <span class="s1">&#39;none&#39;</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="n">params</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="p">{}</span>
     <span class="n">delta</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
     <span class="n">hdelta</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
     <span class="k">if</span> <span class="n">stopwatch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">hdelta</span> <span class="o">=</span> <span class="n">stopwatch</span><span class="o">.</span><span class="n">human_readable_delta</span>
         <span class="n">delta</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">stopwatch</span><span class="o">.</span><span class="n">delta</span><span class="p">)</span>
 
-    <span class="n">params</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="n">target</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-
+    <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">        </span><span class="si">{</span><span class="n">title</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span>
 
-<span class="s1">        RUNTIME:</span>
+<span class="s1">        RUN TIME:</span>
 <span class="s1">        ```</span><span class="si">{</span><span class="n">hdelta</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">delta</span><span class="si">}</span><span class="s1">)```</span>
-<span class="s1">        SOURCE:</span>
-<span class="s1">        ```</span><span class="si">{</span><span class="n">source</span><span class="si">}</span><span class="s1">```</span>
-<span class="s1">        TARGET:</span>
-<span class="s1">        ```</span><span class="si">{</span><span class="n">target</span><span class="si">}</span><span class="s1">```</span>
-<span class="s1">        PARAMS:</span>
-<span class="s1">        ```</span><span class="si">{</span><span class="n">params</span><span class="si">}</span><span class="s1">```</span>
-<span class="s1">        TIME:</span>
+<span class="s1">        POST TIME:</span>
 <span class="s1">        ```</span><span class="si">{</span><span class="n">now</span><span class="si">}</span><span class="s1">```</span>
+<span class="s1">        CONFIG:</span>
+<span class="s1">        ```</span><span class="si">{</span><span class="n">config</span><span class="si">}</span><span class="s1">```</span>
 <span class="s1">    &#39;&#39;&#39;</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">message</span> <span class="o">=</span> <span class="n">unindent</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">spaces</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">testing</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">suppress</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">message</span>
     <span class="k">return</span> <span class="n">lbt</span><span class="o">.</span><span class="n">post_to_slack</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">channel</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span></div>
 </pre></div>
