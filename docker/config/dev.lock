@@ -1098,6 +1098,11 @@ dependencies = [
 ]
 
 [[package]]
+name = "schematics"
+version = "2.1.1"
+summary = "Python Data Structures for Humans"
+
+[[package]]
 name = "scikit-learn"
 version = "1.2.1"
 requires_python = ">=3.8"
@@ -1400,7 +1405,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:ecbb79082e747ac9acc3f640797124622711038ed3c7123acc4d35fba686a350"
+content_hash = "sha256:56bbfeeb41b69eaa59e21526599810b47b54bfab76d50783074216dc643bc01e"
 
 [metadata.files]
 "alabaster 0.7.13" = [
@@ -2466,6 +2471,10 @@ content_hash = "sha256:ecbb79082e747ac9acc3f640797124622711038ed3c7123acc4d35fba
 "rich 13.3.1" = [
     {url = "https://files.pythonhosted.org/packages/68/31/b8934896818c885001aeb7df388ba0523ea3ec88ad31805983d9b0480a50/rich-13.3.1.tar.gz", hash = "sha256:125d96d20c92b946b983d0d392b84ff945461e5a06d3867e9f9e575f8697b67f"},
     {url = "https://files.pythonhosted.org/packages/a8/c6/14b77fe7a5fab66ffbeffd6706f598d00a52702846bce0e2339bcf9dd20c/rich-13.3.1-py3-none-any.whl", hash = "sha256:8aa57747f3fc3e977684f0176a88e789be314a99f99b43b75d1e9cb5dc6db9e9"},
+]
+"schematics 2.1.1" = [
+    {url = "https://files.pythonhosted.org/packages/a5/e1/c9dca73caf001f82e8479e382a66820cbd29f461f465a12d4b3d7e0b929a/schematics-2.1.1-py2.py3-none-any.whl", hash = "sha256:be2d451bfb86789975e5ec0864aec569b63cea9010f0d24cbbd992a4e564c647"},
+    {url = "https://files.pythonhosted.org/packages/d8/28/2c25f4c95bce21e37bc6dbe696dceeaa71c7c92665a12134b6c312390736/schematics-2.1.1.tar.gz", hash = "sha256:34c87f51a25063bb498ae1cc201891b134cfcb329baf9e9f4f3ae869b767560f"},
 ]
 "scikit-learn 1.2.1" = [
     {url = "https://files.pythonhosted.org/packages/01/9d/f324b8fc4f754b5658a3da4c84935e34c5f981682c72b881dcb1fc3e2a8e/scikit_learn-1.2.1-cp310-cp310-macosx_12_0_arm64.whl", hash = "sha256:c9285275a435d1f8f47bbe3500346ab9ead2499e0e090518404d318ea90d1c1c"},
