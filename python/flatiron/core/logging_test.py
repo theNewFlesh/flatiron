@@ -11,7 +11,7 @@ class LoggingTests(unittest.TestCase):
         kwargs = dict(
             message='title',
             config=dict(a=[1, 2, 3]),
-            slack_channel='foobar,',
+            slack_channel='foobar',
             slack_url='https://hooks.slack.com/services/test',
         )
         with self.assertLogs(level=logging.WARNING) as result:
