@@ -347,6 +347,19 @@ class DatasetTests(unittest.TestCase):
                     break
             self.assertNotEqual(a, b)
 
+    def test_unload(self):
+        with TemporaryDirectory() as root:
+            shape = (99, 10, 10, 4)
+            self.create_dataset_files(root, shape=shape)
+            dset = Dataset.read_directory(root).load().unload()
+
+            # data
+            self.assertIs(dset.data, None)
+
+            # loaded
+            result = dset._info.loaded.unique().tolist()
+            self.assertEqual(result, [False])
+
     def test_xy_split(self):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)

@@ -308,10 +308,7 @@ class Dataset:
         Returns:
             Dataset: self.
         '''
-        # reset data and info
-        del self.data
-        self.data = None
-        self._info['loaded'] = False
+        self.unload()
 
         # resolve limit
         limit_, limit_type = self._resolve_limit(limit)
@@ -364,6 +361,19 @@ class Dataset:
         # set class members
         self.data = data
         self._sample_gb = data[0].nbytes / 10**9
+        return self
+
+    def unload(self):
+        # type: () -> Dataset
+        '''
+        Delete self.data and reset self.info.
+
+        Returns:
+            Dataset: self.
+        '''
+        del self.data
+        self.data = None
+        self._info['loaded'] = False
         return self
 
     def xy_split(self, index, axis=-1):
