@@ -1,5 +1,7 @@
 from keras.engine.keras_tensor import KerasTensor
 
+from copy import deepcopy
+
 from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
@@ -7,6 +9,9 @@ import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
 import yaml
 
+from flatiron.core.dataset_config import DatasetConfig
+from flatiron.core.logging import SlackLogger
+import flatiron.core.dataset as ficd
 import flatiron.core.tools as fict
 import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
@@ -341,21 +346,34 @@ class UNetConfig(scm.Model):
 
 # PIPELINE----------------------------------------------------------------------
 class UNetPipeline:
+    _model_config_class = UNetConfig
+
     @classmethod
     def read_yaml(cls, filepath):
         with open(filepath) as f:
             config = yaml.safe_load(f)
         return cls(config)
 
+    def _validate(self, config, spec_class):
+        output = spec_class(config)
+        output.validate()
+        return output.to_native()
+
     def __init__(self, config):
-        cfg = UNetConfig(config)
-        cfg.validate()
-        self.config = cfg.to_native()
+        config = deepcopy(config)
+        config['model'] = self._validate(config['model'], self._model_config_class)
+        config['dataset'] = self._validate(config['dataset'], DatasetConfig)
+        self.dataset = ficd.Dataset.from_directory(config['dataset']['dataset'])
+        self.config = config
 
     def build(self):
-        self.model = get_unet_model(**self.config)
+        self.model = get_unet_model(**self.config['model'])
         return self
 
     def compile(self):
         self.model.compile()
+        return self
+
+    def load(self):
+        self.dataset.load(**self.config['dataset'])
         return self
