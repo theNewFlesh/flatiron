@@ -33,14 +33,6 @@ tools
     :undoc-members:
     :show-inheritance:
 
-unet
-----
-.. automodule:: flatiron.core.unet
-    :members:
-    :private-members:
-    :undoc-members:
-    :show-inheritance:
-
 validators
 ----------
 .. automodule:: flatiron.core.validators

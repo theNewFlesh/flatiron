@@ -1,1 +1,1 @@
-import flatiron.core.unet  # noqa F401
+import flatiron.models.unet  # noqa F401
