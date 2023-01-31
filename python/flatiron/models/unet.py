@@ -1,4 +1,5 @@
 from keras.engine.keras_tensor import KerasTensor  # noqa F401
+import keras.engine.functional as kef  # noqa F401
 
 from lunchbox.enforce import Enforce
 import schematics as scm
@@ -147,7 +148,7 @@ def get_unet_model(
     attention_padding='same',  # type: str
     attention_kernel_initializer='he_normal',  # type: str
 ):
-    # type: (...) -> tfm.Model
+    # type: (...) -> kef.Functional
     '''
     UNet model for 2D semantic segmentation.
 
@@ -186,9 +187,10 @@ def get_unet_model(
         EnforceError: If layers is not an odd integer greater than 2.
 
     Returns:
-        tfm.Model: UNet model.
+        kef.Functional: UNet model.
     '''
-    msg = 'Layers must be an odd integer greater than 2. Given value: {a}.'
+    msg = 'Layers must be an odd integer greater than 2. '
+    msg += f'Given value: {layers}.'
     Enforce(layers, 'instance of', int, message=msg)
     Enforce(layers, '>=', 3, message=msg)
     Enforce(layers % 2 == 1, '==', True, message=msg)

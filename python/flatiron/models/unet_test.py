@@ -1,0 +1,59 @@
+import unittest
+
+from lunchbox.enforce import EnforceError
+import keras.engine.functional as kef
+
+import flatiron.models.unet as fimu
+# ------------------------------------------------------------------------------
+
+
+class UNetTests(unittest.TestCase):
+    def get_kwargs(self):
+        return dict(
+            input_width=192,
+            input_height=192,
+            input_channels=3,
+            classes=1,
+            filters=16,
+            layers=9,
+            activation='relu',
+            batch_norm=True,
+            output_activation='sigmoid',
+            kernel_initializer='he_normal',
+            attention_gates=False,
+            attention_activation_1='relu',
+            attention_activation_2='sigmoid',
+            attention_kernel_size=1,
+            attention_strides=1,
+            attention_padding='same',
+            attention_kernel_initializer='he_normal',
+        )
+
+    def test_get_unet_model(self):
+        result = fimu.get_unet_model(**self.get_kwargs())
+        self.assertIsInstance(result, kef.Functional)
+
+    def test_get_unet_model_errors(self):
+        kwargs = self.get_kwargs()
+        exp = 'Layers must be an odd integer greater than 2. Given value: '
+
+        # float
+        layers = 9.0
+        kwargs['layers'] = layers
+        expected = exp + str(layers)
+        with self.assertRaisesRegex(EnforceError, expected):
+            fimu.get_unet_model(**kwargs)
+
+        # < 3
+        layers = 2
+        kwargs['layers'] = layers
+        expected = exp + str(layers)
+        with self.assertRaisesRegex(EnforceError, expected):
+            fimu.get_unet_model(**kwargs)
+
+        # even
+        layers = 8
+        kwargs['layers'] = layers
+        expected = exp + str(layers)
+        with self.assertRaisesRegex(EnforceError, expected):
+            fimu.get_unet_model(**kwargs)
