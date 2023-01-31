@@ -23,7 +23,7 @@ class DatasetConfig(scm.Model):
     '''
     source = scmt.StringType(required=True)
     load_limit = scmt.UnionType(
-        (scmt.IntType, scmt.StringType), required=True, serialize_when_none=True
+        (scmt.IntType, scmt.StringType), serialize_when_none=True
     )
     load_shuffle = scmt.BooleanType(required=True, default=False)
     split_index = scmt.IntType(required=True)

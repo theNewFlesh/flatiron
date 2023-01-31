@@ -12,7 +12,7 @@ class DatasetConfigTests(unittest.TestCase):
     def get_config(self, root):
         return dict(
             source=Path(root).as_posix(),
-            load_limit=1000,
+            load_limit=None,
             load_shuffle=False,
             split_index=-1,
             split_axis=-1,
@@ -31,6 +31,7 @@ class DatasetConfigTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             keys = [
+                'load_limit',
                 'load_shuffle',
                 'split_axis',
                 'split_test_size',
