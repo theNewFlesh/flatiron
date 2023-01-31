@@ -71,22 +71,22 @@ class PipelineBase(ABC):
             self.dataset = Dataset.read_directory(src)
 
     def load(self):
-        config = self.config['dataset']
+        cfg = self.config['dataset']
         self.dataset.load(
-            limit=config['load_limit'],
-            shuffle=config['load_shuffle'],
+            limit=cfg['load_limit'],
+            shuffle=cfg['load_shuffle'],
         )
         return self
 
     def train_test_split(self):
-        config = self.config['dataset']
+        cfg = self.config['dataset']
         x_train, x_test, y_train, y_test = self.dataset.train_test_split(
-            index=config['split_index'],
-            axis=config['split_axis'],
-            test_size=config['split_test_size'],
-            train_size=config['split_train_size'],
-            random_state=config['split_random_state'],
-            shuffle=config['split_shuffle'],
+            index=cfg['split_index'],
+            axis=cfg['split_axis'],
+            test_size=cfg['split_test_size'],
+            train_size=cfg['split_train_size'],
+            random_state=cfg['split_random_state'],
+            shuffle=cfg['split_shuffle'],
         )
         self.x_train = x_train
         self.x_test = x_test
@@ -119,8 +119,8 @@ class PipelineBase(ABC):
         pass
 
     def compile(self):
-        config = self.config['compile']
-        opt = tfko.get(config['optimizer'], **config['optimizer_params'])
+        cfg = self.config['compile']
+        opt = tfko.get(cfg['optimizer'], **cfg['optimizer_params'])
         self.model.compile(
             optimizer=opt,
             loss=loss,
@@ -134,25 +134,43 @@ class PipelineBase(ABC):
         return self
 
     def fit(self):
-        config = self.config['fit']
+        cfg = self.config['fit']
         temp = fict.get_tensorboard_project(
-            config['project'],
-            config['root'],
-            config['timezone'],
+            cfg['project'],
+            cfg['root'],
+            cfg['timezone'],
         )
         callbacks = fict.get_callbacks(
             temp['log_directory'],
             temp['checkpoint_pattern'],
-            config['checkpoint_params'],
+            cfg['checkpoint_params'],
         )
+        steps = math.ceil(self.x_train.shape[0] / cfg['batch_size'])
+        # metric=cfg['metric'],
+        # mode=cfg['mode'],
+        # save_best_only=cfg['save_best_only'],
+        # save_freq=cfg['save_freq'],
+        # update_freq=cfg['update_freq'],
+        # callbacks=callbacks,
         self.model.fit(
-            metric=config['metric'],
-            mode=config['mode'],
-            save_best_only=config['save_best_only'],
-            save_freq=config['save_freq'],
-            update_freq=config['update_freq'],
-            steps_per_epoch=math.ceil(self.x_train.shape[0] / config['batch_size']),
-            validation_data=(self.x_test, self.y_test),
+            x=None,
+            y=None,
+            batch_size=None,
+            epochs=1,
+            verbose='auto',
             callbacks=callbacks,
+            validation_split=0.0,
+            validation_data=(self.x_test, self.y_test),
+            shuffle=True,
+            class_weight=None,
+            sample_weight=None,
+            initial_epoch=0,
+            steps_per_epoch=steps,
+            validation_steps=None,
+            validation_batch_size=None,
+            validation_freq=1,
+            max_queue_size=10,
+            workers=1,
+            use_multiprocessing=False,
         )
         return self
