@@ -15,6 +15,7 @@ import flatiron.core.validators as vd
 PAD = 18
 
 
+# FUNCS-------------------------------------------------------------------------
 def conv_2d_block(
     input_,  # type: KerasTensor
     filters=16,  # type: int
@@ -279,9 +280,9 @@ def get_unet_model(
     )(x)
     model = tfm.Model(inputs=[input_], outputs=[output])
     return model
-# ------------------------------------------------------------------------------
 
 
+# CONFIG------------------------------------------------------------------------
 class UNetConfig(scm.Model):
     '''
     Configuration for UNet model.
@@ -338,9 +339,10 @@ class UNetConfig(scm.Model):
     attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
 
 
-class UNet:
+# PIPELINE----------------------------------------------------------------------
+class UNetPipeline:
     @classmethod
-    def from_yaml(cls, filepath):
+    def read_yaml(cls, filepath):
         with open(filepath) as f:
             config = yaml.safe_load(f)
         return cls(config)
