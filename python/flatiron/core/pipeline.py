@@ -58,8 +58,9 @@ class PipelineBase(ABC):
             config (dict): PipelineBase config.
         '''
         config = deepcopy(config)
-        config['model'] = self._validate(config['model'], self._model_config_class)
         config['dataset'] = self._validate(config['dataset'], DatasetConfig)
+        config['model'] = self._validate(config['model'], self._model_config_class)
+        config['compile'] = self._validate(config['compile'], CompileConfig)
         self.config = config
 
         src = config['dataset']['source']
@@ -67,6 +68,34 @@ class PipelineBase(ABC):
             self.dataset = Dataset.read_csv(src)
         else:
             self.dataset = Dataset.read_directory(src)
+
+    def load(self):
+        config = self.config['dataset']
+        self.dataset.load(
+            limit=config['load_limit'],
+            shuffle=config['load_shuffle'],
+        )
+        return self
+
+    def train_test_split(self):
+        config = self.config['dataset']
+        x_train, x_test, y_train, y_test = self.dataset.train_test_split(
+            index=config['split_index'],
+            axis=config['split_axis'],
+            test_size=config['split_test_size'],
+            train_size=config['split_train_size'],
+            random_state=config['split_random_state'],
+            shuffle=config['split_shuffle'],
+        )
+        self.x_train = x_train
+        self.x_test = x_test
+        self.y_train = y_train
+        self.y_test = y_test
+        return self
+
+    def unload(self):
+        self.dataset.unload()
+        return self
 
     @abstractmethod
     def build(self):
@@ -80,9 +109,6 @@ class PipelineBase(ABC):
         pass
 
     def compile(self):
-        self.model.compile()
-        return self
-
-    def load(self):
-        self.dataset.load(**self.config['dataset'])
+        config = self.config['compile']
+        self.model.compile(**config)
         return self
