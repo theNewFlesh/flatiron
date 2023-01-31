@@ -1,17 +1,14 @@
 from keras.engine.keras_tensor import KerasTensor
 
 from lunchbox.enforce import Enforce
-import numpy as np
-import sklearn.model_selection as skm
-import tensorflow as tf
+import schematics as scm
+import schematics.types as scmt
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
-import tensorflow.keras.optimizers as tfo
-import tensorflow.keras.preprocessing.image as tfpp
+import yaml
 
-import flatiron.core.loss as ficl
-import flatiron.core.metric as ficm
 import flatiron.core.tools as fict
+import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
@@ -282,3 +279,81 @@ def get_unet_model(
     )(x)
     model = tfm.Model(inputs=[input_], outputs=[output])
     return model
+# ------------------------------------------------------------------------------
+
+
+class UNetConfig(scm.Model):
+    '''
+    Configuration for UNet model.
+
+    Attributes:
+        input_width (int): Input width.
+        input_height (int): Input height.
+        input_channels (int): Input channels.
+        classes (int, optional): Number of output classes. Default: 1.
+        filters (int, optional): Number of filters for initial con 2d block.
+            Default: 16.
+        layers (int, optional): Total number of layers. Default: 9.
+        activation (KerasTensor, optional): Activation function to be used.
+            Default: relu.
+        batch_norm (KerasTensor, optional): Use batch normalization.
+            Default: True.
+        output_activation (KerasTensor, optional): Output activation function.
+            Default: sigmoid.
+        kernel_initializer (KerasTensor, optional): Default: he_normal.
+        attention_gates (KerasTensor, optional): Use attention gates.
+            Default: False.
+        attention_activation_1 (str, optional): First activation.
+            Default: 'relu'
+        attention_activation_2 (str, optional): Second activation.
+            Default: 'sigmoid'
+        attention_kernel_size (int, optional): Kernel_size. Default: 1
+        attention_strides (int, optional): Strides. Default: 1
+        attention_padding (str, optional): Padding. Default: 'same'
+        attention_kernel_initializer (str, optional): Kernel initializer.
+            Default: 'he_normal'
+    '''
+    input_width = scmt.IntType(required=True, validators=[lambda x: vd.is_gte(x, 1)])
+    input_height = scmt.IntType(required=True, validators=[lambda x: vd.is_gte(x, 1)])
+    input_channels = scmt.IntType(required=True, validators=[lambda x: vd.is_gte(x, 1)])
+    classes = scmt.IntType(required=True, default=1, validators=[lambda x: vd.is_gte(x, 1)])
+    filters = scmt.IntType(required=True, default=16, validators=[lambda x: vd.is_gte(x, 1)])
+    layers = scmt.IntType(
+        required=True, default=9, validators=[lambda x: vd.is_gte(x, 3), vd.is_odd]
+    )
+    activation = scmt.StringType(required=True, default='relu')
+    batch_norm = scmt.BooleanType(required=True, default=True)
+    output_activation = scmt.StringType(required=True, default='sigmoid')
+    kernel_initializer = scmt.StringType(required=True, default='he_normal')
+    attention_gates = scmt.BooleanType(required=True, default=False)
+    attention_activation_1 = scmt.StringType(required=True, default='relu')
+    attention_activation_2 = scmt.StringType(required=True, default='sigmoid')
+    attention_kernel_size = scmt.IntType(
+        required=True, default=1, validators=[lambda x: vd.is_gte(x, 1)]
+    )
+    attention_strides = scmt.IntType(
+        required=True, default=1, validators=[lambda x: vd.is_gte(x, 1)]
+    )
+    attention_padding = scmt.StringType(required=True, default='same', validators=[vd.is_padding])
+    attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
+
+
+class UNet:
+    @classmethod
+    def from_yaml(cls, filepath):
+        with open(filepath) as f:
+            config = yaml.safe_load(f)
+        return cls(config)
+
+    def __init__(self, config):
+        cfg = UNetConfig(config)
+        cfg.validate()
+        self.config = cfg.to_native()
+
+    def build(self):
+        self.model = get_unet_model(**self.config)
+        return self
+
+    def compile(self):
+        self.model.compile()
+        return self
