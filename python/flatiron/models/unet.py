@@ -16,6 +16,27 @@ PAD = 18
 
 
 # FUNCS-------------------------------------------------------------------------
+def unet_width_and_layers_are_valid(width, layers):
+    # type: (int, int) -> bool
+    '''
+    Determines whether given UNet width and layers are valid.
+
+    Args:
+        width (int): UNet input width.
+        layers (int): Number of UNet layers.
+
+    Returns:
+        bool: True if width and layers are compatible.
+    '''
+    layers = int((layers - 1) / 2)
+    x = float(width)
+    for _ in range(layers):
+        x /= 2
+        if x % 2 != 0:
+            return False
+    return True
+
+
 def conv_2d_block(
     input_,  # type: KerasTensor
     filters=16,  # type: int
@@ -184,16 +205,34 @@ def get_unet_model(
             Default: 'he_normal'
 
     Raises:
+        EnforceError: If input_width is not even.
+        EnforceError: If input_height is not even.
         EnforceError: If layers is not an odd integer greater than 2.
+        EnforceError: If input_width and layers are not compatible.
 
     Returns:
         kef.Functional: UNet model.
     '''
+    # shape
+    msg = 'Input width and height must be equal, even numbers. '
+    msg += f'Given shape: ({input_width}, {input_height}).'
+    Enforce(input_width % 2, '==', 0, message=msg)
+    Enforce(input_height % 2, '==', 0, message=msg)
+    Enforce(input_width, '==', input_height, message=msg)
+
+    # layers
     msg = 'Layers must be an odd integer greater than 2. '
     msg += f'Given value: {layers}.'
     Enforce(layers, 'instance of', int, message=msg)
     Enforce(layers, '>=', 3, message=msg)
-    Enforce(layers % 2 == 1, '==', True, message=msg)
+    Enforce(layers % 2, '==', 1, message=msg)
+
+    # valid width and layers
+    msg = 'Given input_width and layers are not compatible. '
+    msg += f'Input_width: {input_width}. Layers: {layers}.'
+    Enforce(
+        unet_width_and_layers_are_valid(input_width, layers), '==', True, message=msg
+    )
     # --------------------------------------------------------------------------
 
     n = int((layers - 1) / 2)

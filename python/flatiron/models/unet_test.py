@@ -57,3 +57,20 @@ class UNetTests(unittest.TestCase):
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
             fimu.get_unet_model(**kwargs)
+
+        # bad width and layers
+        layers = 9
+        kwargs['layers'] = layers
+        kwargs['input_height'] = 100
+        kwargs['input_width'] = 100
+        expected = 'Given input_width and layers are not compatible. '
+        expected += 'Input_width: 100. Layers: 9.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fimu.get_unet_model(**kwargs)
+
+    def test_unet_width_and_layers_are_valid(self):
+        result = fimu.unet_width_and_layers_are_valid(128, 9)
+        self.assertTrue(result)
+
+        result = fimu.unet_width_and_layers_are_valid(130, 9)
+        self.assertFalse(result)
