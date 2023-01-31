@@ -1,4 +1,3 @@
-from pathlib import Path
 import unittest
 
 from schematics.exceptions import ValidationError
