@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any  # noqa F401
 from schematics.exceptions import ValidationError
 
 import math
@@ -11,7 +11,7 @@ The validators module is function library for validating config attributes.
 
 
 def is_gte(a, b):
-    # type: (Any, Any) -> bool
+    # type: (Any, Any) -> None
     '''
     Validates that a is greater than or equal to b.
 
@@ -79,18 +79,18 @@ def is_base_two(number):
         raise ValidationError(msg)
 
 
-def is_padding(ptype):
+def is_padding(pad_type):
     # type: (str) -> None
     '''
-    Validates that ptype is a legal padding type.
+    Validates that pad_type is a legal padding type.
 
     Args:
-        ptype (str): Padding type.
+        pad_type (str): Padding type.
 
     Raises:
         ValidationError: If padding type is not legal.
     '''
     legal = ['valid', 'same']
-    if ptype not in legal:
-        msg = f'{ptype} is not a legal padding type. Legal types: {legal}.'
+    if pad_type not in legal:
+        msg = f'{pad_type} is not a legal padding type. Legal types: {legal}.'
         raise ValidationError(msg)
