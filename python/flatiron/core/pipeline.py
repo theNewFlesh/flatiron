@@ -49,22 +49,6 @@ class PipelineBase(ABC):
         config = yaml.safe_load(text)
         return cls(config)
 
-    def _validate(self, config, spec_class):
-        # type: (dict, scm.Model) -> dict
-        '''
-        Validate given config with given specification class.
-
-        Args:
-            config (dict): Config to be validated.
-            spec_class (scm.Model): Specifiction class.
-
-        Returns:
-            dict: Completed config.
-        '''
-        output = spec_class(config)
-        output.validate()
-        return output.to_native()
-
     def __init__(self, config):
         # type: (dict) -> None
         '''
@@ -74,14 +58,22 @@ class PipelineBase(ABC):
             config (dict): PipelineBase config.
         '''
         config = deepcopy(config)
-        model_config = config.get('model', {})
+
+        # model
+        model = config.get('model', {})
+        model = self.model_config(model)
+        model.validate()
+        model = model.to_native()
         del config['model']
+
+        # pipeline
         config = cfg.PipelineConfig(config)
         config.validate()
         config = config.to_native()
-        config['model'] = model_config
+        config['model'] = model
         self.config = config
 
+        # create Dataset instance
         src = config['dataset']['source']
         if Path(src).is_file():
             self.dataset = Dataset.read_csv(src)
@@ -90,7 +82,9 @@ class PipelineBase(ABC):
 
     def load(self):
         config = self.config['dataset']
-        with ficl.SlackLogger('LOAD DATASET', config, **self.config['logger']):
+        with ficl.SlackLogger(
+            'LOAD DATASET', dict(dataset=config), **self.config['logger']
+        ):
             self.dataset.load(
                 limit=config['load_limit'],
                 shuffle=config['load_shuffle'],
