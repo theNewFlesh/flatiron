@@ -1,0 +1,709 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>models &mdash; flatiron  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/style.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="cli" href="cli.html" />
+    <link rel="prev" title="core" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> flatiron
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="intro.html#development-cli">Development CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.models.unet">unet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.UNetConfig"><code class="docutils literal notranslate"><span class="pre">UNetConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.input_width"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.input_height"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.input_channels"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.classes"><code class="docutils literal notranslate"><span class="pre">UNetConfig.classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.filters"><code class="docutils literal notranslate"><span class="pre">UNetConfig.filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.layers"><code class="docutils literal notranslate"><span class="pre">UNetConfig.layers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.activation"><code class="docutils literal notranslate"><span class="pre">UNetConfig.activation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.batch_norm"><code class="docutils literal notranslate"><span class="pre">UNetConfig.batch_norm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.output_activation"><code class="docutils literal notranslate"><span class="pre">UNetConfig.output_activation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.kernel_initializer"><code class="docutils literal notranslate"><span class="pre">UNetConfig.kernel_initializer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_gates"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_gates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_activation_1"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_activation_2"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_kernel_size"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_strides"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_strides</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_padding"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_padding</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig.attention_kernel_initializer"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_initializer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetConfig._schema"><code class="docutils literal notranslate"><span class="pre">UNetConfig._schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">UNetConfig.activation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_gates</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_initializer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_padding</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_strides</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">UNetConfig.batch_norm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">UNetConfig.classes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">UNetConfig.filters</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_channels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">UNetConfig.kernel_initializer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">UNetConfig.layers</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">UNetConfig.output_activation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.attention_gate_2d"><code class="docutils literal notranslate"><span class="pre">attention_gate_2d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.conv_2d_block"><code class="docutils literal notranslate"><span class="pre">conv_2d_block()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.get_unet_model"><code class="docutils literal notranslate"><span class="pre">get_unet_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.unet_width_and_layers_are_valid"><code class="docutils literal notranslate"><span class="pre">unet_width_and_layers_are_valid()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">flatiron</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="modules.html">&lt;no title&gt;</a> &raquo;</li>
+        
+      <li>models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="models">
+<h1>models<a class="headerlink" href="#models" title="Permalink to this heading">¶</a></h1>
+<section id="module-flatiron.models.unet">
+<span id="unet"></span><h2>unet<a class="headerlink" href="#module-flatiron.models.unet" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.models.unet.</span></span><span class="sig-name descname"><span class="pre">UNetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deserialize_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/models/unet.html#UNetConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.UNetConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Configuration for UNet model.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.input_width">
+<span class="sig-name descname"><span class="pre">input_width</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.input_width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input width.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.input_height">
+<span class="sig-name descname"><span class="pre">input_height</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.input_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input height.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.input_channels">
+<span class="sig-name descname"><span class="pre">input_channels</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.input_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.classes">
+<span class="sig-name descname"><span class="pre">classes</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of output classes. Default: 1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.filters">
+<span class="sig-name descname"><span class="pre">filters</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of filters for initial con 2d block.
+Default: 16.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.layers">
+<span class="sig-name descname"><span class="pre">layers</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.layers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Total number of layers. Default: 9.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.activation">
+<span class="sig-name descname"><span class="pre">activation</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.activation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Activation function to be used.
+Default: relu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.batch_norm">
+<span class="sig-name descname"><span class="pre">batch_norm</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.batch_norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use batch normalization.
+Default: True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.output_activation">
+<span class="sig-name descname"><span class="pre">output_activation</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.output_activation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output activation function.
+Default: sigmoid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.kernel_initializer">
+<span class="sig-name descname"><span class="pre">kernel_initializer</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.kernel_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default: he_normal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_gates">
+<span class="sig-name descname"><span class="pre">attention_gates</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_gates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use attention gates.
+Default: False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_activation_1">
+<span class="sig-name descname"><span class="pre">attention_activation_1</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_activation_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>First activation.
+Default: ‘relu’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_activation_2">
+<span class="sig-name descname"><span class="pre">attention_activation_2</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_activation_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Second activation.
+Default: ‘sigmoid’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_kernel_size">
+<span class="sig-name descname"><span class="pre">attention_kernel_size</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_kernel_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kernel_size. Default: 1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_strides">
+<span class="sig-name descname"><span class="pre">attention_strides</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_strides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Strides. Default: 1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_padding">
+<span class="sig-name descname"><span class="pre">attention_padding</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_padding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Padding. Default: ‘same’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig.attention_kernel_initializer">
+<span class="sig-name descname"><span class="pre">attention_kernel_initializer</span></span><a class="headerlink" href="#flatiron.models.unet.UNetConfig.attention_kernel_initializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kernel initializer.
+Default: ‘he_normal’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetConfig._schema">
+<span class="sig-name descname"><span class="pre">_schema</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;schematics.deprecated.patch_schema.&lt;locals&gt;.Schema</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.models.unet.UNetConfig._schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">activation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'activation'&gt;</span></em><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">attention_activation_1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_activation_1'&gt;</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">attention_activation_2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_activation_2'&gt;</span></em><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">attention_gates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_gates'&gt;</span></em><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">attention_kernel_initializer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_kernel_initializer'&gt;</span></em><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">attention_kernel_size</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_kernel_size'&gt;</span></em><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">attention_padding</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_padding'&gt;</span></em><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">attention_strides</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'attention_strides'&gt;</span></em><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">batch_norm</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'batch_norm'&gt;</span></em><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'classes'&gt;</span></em><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">filters</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'filters'&gt;</span></em><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">input_channels</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'input_channels'&gt;</span></em><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">input_height</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'input_height'&gt;</span></em><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">input_width</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'input_width'&gt;</span></em><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">kernel_initializer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'kernel_initializer'&gt;</span></em><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">layers</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'layers'&gt;</span></em><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">output_activation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'output_activation'&gt;</span></em><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.models.unet.attention_gate_2d">
+<span class="sig-prename descclassname"><span class="pre">flatiron.models.unet.</span></span><span class="sig-name descname"><span class="pre">attention_gate_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">KerasTensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">skip_connection</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">KerasTensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'relu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sigmoid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strides</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">padding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'same'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_initializer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'he_normal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'attention-gate'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">KerasTensor</span></span></span><a class="reference internal" href="_modules/flatiron/models/unet.html#attention_gate_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.attention_gate_2d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attention gate for 2D inputs.
+See: <a class="reference external" href="https://arxiv.org/abs/1804.03999">https://arxiv.org/abs/1804.03999</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>query</strong> (<em>KerasTensor</em>) – 2D Tensor of query.</p></li>
+<li><p><strong>skip_connection</strong> (<em>KerasTensor</em>) – 2D Tensor of features.</p></li>
+<li><p><strong>activation_1</strong> (<em>str</em><em>, </em><em>optional</em>) – First activation. Default: ‘relu’</p></li>
+<li><p><strong>activation_2</strong> (<em>str</em><em>, </em><em>optional</em>) – Second activation. Default: ‘sigmoid’</p></li>
+<li><p><strong>kernel_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Kernel_size. Default: 1</p></li>
+<li><p><strong>strides</strong> (<em>int</em><em>, </em><em>optional</em>) – Strides. Default: 1</p></li>
+<li><p><strong>padding</strong> (<em>str</em><em>, </em><em>optional</em>) – Padding. Default: ‘same’</p></li>
+<li><p><strong>kernel_initializer</strong> (<em>str</em><em>, </em><em>optional</em>) – Kernel initializer.
+Default: ‘he_normal’</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Layer name. Default: attention-gate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>2D Attention Gate.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.models.unet.conv_2d_block">
+<span class="sig-prename descclassname"><span class="pre">flatiron.models.unet.</span></span><span class="sig-name descname"><span class="pre">conv_2d_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">KerasTensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'relu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_norm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_initializer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'he_normal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'conv-2d-block'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">KerasTensor</span></span></span><a class="reference internal" href="_modules/flatiron/models/unet.html#conv_2d_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.conv_2d_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D Convolution block without padding.</p>
+<div class="math notranslate nohighlight">
+    \begin{align}
+        architecture &amp; \rightarrow Conv2D + ReLU + BatchNorm + Conv2D
+        + ReLU + BatchNorm \\
+        kernel &amp; \rightarrow (3, 3) \\
+        strides &amp; \rightarrow (1, 1) \\
+        padding &amp; \rightarrow same \\
+    \end{align}</div><a class="reference internal image-reference" href="_images/conv_2d_block.svg"><img alt="_images/conv_2d_block.svg" src="_images/conv_2d_block.svg" width="800" /></a>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>KerasTensor</em>) – Input tensor.</p></li>
+<li><p><strong>filters</strong> (<em>int</em><em>, </em><em>optional</em>) – Default: 16.</p></li>
+<li><p><strong>activation</strong> (<em>str</em><em>, </em><em>optional</em>) – Activation function. Default: relu.</p></li>
+<li><p><strong>batch_norm</strong> (<em>str</em><em>, </em><em>bool</em>) – Default: True.</p></li>
+<li><p><strong>kernel_initializer</strong> (<em>str</em><em>, </em><em>optional</em>) – Default: he_normal.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – Layer name. Default: conv-2d-block</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Conv2D Block</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>KerasTensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.models.unet.get_unet_model">
+<span class="sig-prename descclassname"><span class="pre">flatiron.models.unet.</span></span><span class="sig-name descname"><span class="pre">get_unet_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_channels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'relu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_norm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_activation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sigmoid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel_initializer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'he_normal'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_gates</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_activation_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'relu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_activation_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'sigmoid'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_kernel_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_strides</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_padding</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'same'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_kernel_initializer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'he_normal'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Functional</span></span></span><a class="reference internal" href="_modules/flatiron/models/unet.html#get_unet_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.get_unet_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>UNet model for 2D semantic segmentation.</p>
+<p>see: <a class="reference external" href="https://arxiv.org/abs/1505.04597">https://arxiv.org/abs/1505.04597</a>
+see: <a class="reference external" href="https://arxiv.org/pdf/1411.4280.pdf">https://arxiv.org/pdf/1411.4280.pdf</a>
+see: <a class="reference external" href="https://arxiv.org/abs/1804.03999">https://arxiv.org/abs/1804.03999</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_width</strong> (<em>int</em>) – Input width.</p></li>
+<li><p><strong>input_height</strong> (<em>int</em>) – Input height.</p></li>
+<li><p><strong>input_channels</strong> (<em>int</em>) – Input channels.</p></li>
+<li><p><strong>classes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of output classes. Default: 1.</p></li>
+<li><p><strong>filters</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of filters for initial con 2d block.
+Default: 16.</p></li>
+<li><p><strong>layers</strong> (<em>int</em><em>, </em><em>optional</em>) – Total number of layers. Default: 9.</p></li>
+<li><p><strong>activation</strong> (<em>KerasTensor</em><em>, </em><em>optional</em>) – Activation function to be used.
+Default: relu.</p></li>
+<li><p><strong>batch_norm</strong> (<em>KerasTensor</em><em>, </em><em>optional</em>) – Use batch normalization.
+Default: True.</p></li>
+<li><p><strong>output_activation</strong> (<em>KerasTensor</em><em>, </em><em>optional</em>) – Output activation function.
+Default: sigmoid.</p></li>
+<li><p><strong>kernel_initializer</strong> (<em>KerasTensor</em><em>, </em><em>optional</em>) – Default: he_normal.</p></li>
+<li><p><strong>attention_gates</strong> (<em>KerasTensor</em><em>, </em><em>optional</em>) – Use attention gates.
+Default: False.</p></li>
+<li><p><strong>attention_activation_1</strong> (<em>str</em><em>, </em><em>optional</em>) – First activation.
+Default: ‘relu’</p></li>
+<li><p><strong>attention_activation_2</strong> (<em>str</em><em>, </em><em>optional</em>) – Second activation.
+Default: ‘sigmoid’</p></li>
+<li><p><strong>attention_kernel_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Kernel_size. Default: 1</p></li>
+<li><p><strong>attention_strides</strong> (<em>int</em><em>, </em><em>optional</em>) – Strides. Default: 1</p></li>
+<li><p><strong>attention_padding</strong> (<em>str</em><em>, </em><em>optional</em>) – Padding. Default: ‘same’</p></li>
+<li><p><strong>attention_kernel_initializer</strong> (<em>str</em><em>, </em><em>optional</em>) – Kernel initializer.
+Default: ‘he_normal’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>EnforceError</strong> – If input_width is not even.</p></li>
+<li><p><strong>EnforceError</strong> – If input_height is not even.</p></li>
+<li><p><strong>EnforceError</strong> – If layers is not an odd integer greater than 2.</p></li>
+<li><p><strong>EnforceError</strong> – If input_width and layers are not compatible.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>UNet model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>kef.Functional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.models.unet.unet_width_and_layers_are_valid">
+<span class="sig-prename descclassname"><span class="pre">flatiron.models.unet.</span></span><span class="sig-name descname"><span class="pre">unet_width_and_layers_are_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">layers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/flatiron/models/unet.html#unet_width_and_layers_are_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.unet_width_and_layers_are_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines whether given UNet width and layers are valid.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>int</em>) – UNet input width.</p></li>
+<li><p><strong>layers</strong> (<em>int</em>) – Number of UNet layers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if width and layers are compatible.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="cli.html" class="btn btn-neutral float-right" title="cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="core.html" class="btn btn-neutral float-left" title="core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

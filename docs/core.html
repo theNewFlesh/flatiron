@@ -36,13 +36,14 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="cli" href="cli.html" />
+    <link rel="next" title="models" href="models.html" />
     <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
 </head>
 
@@ -67,7 +68,7 @@
             
             
               <div class="version">
-                0.8.0
+                0.10.0
               </div>
             
           
@@ -121,11 +122,47 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.dataset_config">dataset_config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.source"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.limit"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.shuffle"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.index"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.axis"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.axis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.test_size"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.train_size"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.train_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.random_state"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.random_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig._schema"><code class="docutils literal notranslate"><span class="pre">DatasetConfig._schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.load_limit"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.load_limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.load_shuffle"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.load_shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.split_axis"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.split_axis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.split_index"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.split_index</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.split_random_state"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.split_random_state</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.split_shuffle"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.split_shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.split_test_size"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.split_test_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset_config.DatasetConfig.split_train_size"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.split_train_size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.logging">logging</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.logging.SlackLogger"><code class="docutils literal notranslate"><span class="pre">SlackLogger</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.logging.SlackLogger.__init__"><code class="docutils literal notranslate"><span class="pre">SlackLogger.__init__()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.loss">loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.loss.dice_loss"><code class="docutils literal notranslate"><span class="pre">dice_loss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.loss.jaccard_loss"><code class="docutils literal notranslate"><span class="pre">jaccard_loss()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.metric">metric</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.metric.dice"><code class="docutils literal notranslate"><span class="pre">dice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.metric.intersection_over_union"><code class="docutils literal notranslate"><span class="pre">intersection_over_union()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.metric.jaccard"><code class="docutils literal notranslate"><span class="pre">jaccard()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.tools">tools</a><ul>
@@ -146,6 +183,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">models</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -466,6 +504,166 @@ Index and axis support negative ingegers.</p>
 </dd></dl>
 
 </section>
+<section id="module-flatiron.core.dataset_config">
+<span id="dataset-config"></span><h2>dataset_config<a class="headerlink" href="#module-flatiron.core.dataset_config" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.dataset_config.</span></span><span class="sig-name descname"><span class="pre">DatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raw_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trusted_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deserialize_mapping</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lazy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/dataset_config.html#DatasetConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<p>Configuration for Dataset.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.source">
+<span class="sig-name descname"><span class="pre">source</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dataset directory or CSV filepath.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.limit">
+<span class="sig-name descname"><span class="pre">limit</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Limit data by number of samples or memory size.
+Default: None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str or int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.shuffle">
+<span class="sig-name descname"><span class="pre">shuffle</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle chunks before loading. Default: False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.index">
+<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Index of axis to split on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.axis">
+<span class="sig-name descname"><span class="pre">axis</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Axis to split data on. Default: -1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.test_size">
+<span class="sig-name descname"><span class="pre">test_size</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.test_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test size. Default: 0.2</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.train_size">
+<span class="sig-name descname"><span class="pre">train_size</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.train_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train size. Default: None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.random_state">
+<span class="sig-name descname"><span class="pre">random_state</span></span><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.random_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seed for shuffling randomness.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">shuffle</span></span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle data rows. Default: True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig._schema">
+<span class="sig-name descname"><span class="pre">_schema</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;schematics.deprecated.patch_schema.&lt;locals&gt;.Schema</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig._schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.load_limit">
+<span class="sig-name descname"><span class="pre">load_limit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;UnionType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'load_limit'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.load_limit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.load_shuffle">
+<span class="sig-name descname"><span class="pre">load_shuffle</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'load_shuffle'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.load_shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'source'&gt;</span></em><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.split_axis">
+<span class="sig-name descname"><span class="pre">split_axis</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'split_axis'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.split_axis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.split_index">
+<span class="sig-name descname"><span class="pre">split_index</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'split_index'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.split_index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.split_random_state">
+<span class="sig-name descname"><span class="pre">split_random_state</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'split_random_state'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.split_random_state" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.split_shuffle">
+<span class="sig-name descname"><span class="pre">split_shuffle</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'split_shuffle'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.split_shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.split_test_size">
+<span class="sig-name descname"><span class="pre">split_test_size</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'split_test_size'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.split_test_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.dataset_config.DatasetConfig.split_train_size">
+<span class="sig-name descname"><span class="pre">split_train_size</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">DatasetConfig</span> <span class="pre">as</span> <span class="pre">'split_train_size'&gt;</span></em><a class="headerlink" href="#flatiron.core.dataset_config.DatasetConfig.split_train_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-flatiron.core.logging">
 <span id="logging"></span><h2>logging<a class="headerlink" href="#module-flatiron.core.logging" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
@@ -494,6 +692,279 @@ attempt to log custom formatted output to Slack.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-flatiron.core.loss">
+<span id="loss"></span><h2>loss<a class="headerlink" href="#module-flatiron.core.loss" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.loss.dice_loss">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.loss.</span></span><span class="sig-name descname"><span class="pre">dice_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/flatiron/core/loss.html#dice_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.loss.dice_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dice loss function with smoothing factor to prevent exploding or vanishing
+gradients.</p>
+<p>See: <a class="reference external" href="https://cnvrg.io/semantic-segmentation">https://cnvrg.io/semantic-segmentation</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} L_{dice}(y, \hat{y}, S) &amp;&amp; =
+            1 - \frac{2 * I + S}{U + S}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{|y_i * \hat{y_i}|}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(|y_i| + |\hat{y_i}|)}
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S &amp;&amp;
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} L_{dice}(y, \hat{y}, S) &amp;&amp; =
+                1 - \frac{
+                    2 *
+                    \color{red2} \sum{|y_i * \hat{y_i}|}
+                    \color{white} + \color{blue2} S
+                }{
+                    \color{green2} \sum{(|y_i| + |\hat{y_i}|)}
+                    \color{white} + \color{blue2} S
+                }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Ground truth labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>int</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loss function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.loss.jaccard_loss">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.loss.</span></span><span class="sig-name descname"><span class="pre">jaccard_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/flatiron/core/loss.html#jaccard_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.loss.jaccard_loss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jaccard’s loss is usefull for unbalanced datasets. This has been shifted so
+it converges on 0 and is smoothed to avoid exploding or disappearing
+gradients.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_index">https://en.wikipedia.org/wiki/Jaccard_index</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} L_{jacc}(y, \hat{y}, S) &amp;&amp; =
+            (1 - \frac{I + S}{U - I + S}) S
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{|y_i * \hat{y_i}|}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(|y_i| + |\hat{y_i}|)}
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S &amp;&amp;
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} L_{jacc}(y, \hat{y}, S) &amp;&amp; =
+                (1 - \frac{
+                    \color{red2} \sum{|y_i * \hat{y_i}|}
+                    \color{white} + \color{blue2} S
+                }{
+                    \color{green2} \sum{(|y_i| + |\hat{y_i}|)}
+                    \color{white} -
+                    \color{red2} \sum{|y_i * \hat{y_i}|}
+                    \color{white} + \color{blue2} S
+                }) \color{blue2} S
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Ground truth labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>int</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 100.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loss function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flatiron.core.metric">
+<span id="metric"></span><h2>metric<a class="headerlink" href="#module-flatiron.core.metric" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.metric.dice">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.metric.</span></span><span class="sig-name descname"><span class="pre">dice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/flatiron/core/metric.html#dice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.metric.dice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dice metric.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} Dice(y, \hat{y}) &amp;&amp; = \frac{2 * I + S}{U + S}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{(y_i * \hat{y_i})}
+        \\
+        \text{union} &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(y_i + \hat{y_i})}
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} Dice(y, \hat{y}, S) &amp;&amp; =
+            \frac{
+                \color{white} 2 * \color{red2} \sum{(y_i * \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }{
+                \color{green2} \sum{(y_i + \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>float</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 1.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dice metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.metric.intersection_over_union">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.metric.</span></span><span class="sig-name descname"><span class="pre">intersection_over_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/flatiron/core/metric.html#intersection_over_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.metric.intersection_over_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intersection over union metric.</p>
+<p>See: <a class="reference external" href="https://medium.com/analytics-vidhya/iou-intersection-over-union-705a39e7acef">https://medium.com/analytics-vidhya/iou-intersection-over-union-705a39e7acef</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} IOU (y, \hat{y}, S) &amp;&amp; = \frac{I + S}{U + S}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{(y_i * \hat{y_i})}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} IOU(y, \hat{y}, S) &amp;&amp; =
+            \frac{
+                \color{red2} \sum{(y_i * \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }{
+                \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>float</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 1.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>IOU metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.metric.jaccard">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.metric.</span></span><span class="sig-name descname"><span class="pre">jaccard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tensor</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tensor</span></span></span><a class="reference internal" href="_modules/flatiron/core/metric.html#jaccard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.metric.jaccard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jaccard metric.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_index">https://en.wikipedia.org/wiki/Jaccard_index</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} Jacc(y, \hat{y}) &amp;&amp; =
+            \frac{1}{N} \sum_{i=0}^{N} \frac{I + 1}{U + 1}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{(y_i * \hat{y_i})}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} Jacc(y, \hat{y}) &amp;&amp; =
+            \frac{1}{N} \sum_{i=0}^{N}
+            \frac{
+                \color{red2} \sum{(y_i * \hat{y_i})}
+                \color{white} + 1
+            }{
+                \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})}
+                \color{white} + 1
+            }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Jaccard metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -705,7 +1176,7 @@ Default: False.</p></li>
           </div>
           <footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="cli.html" class="btn btn-neutral float-right" title="cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="models.html" class="btn btn-neutral float-right" title="models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
         <a href="modules.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
 
