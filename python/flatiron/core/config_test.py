@@ -4,7 +4,7 @@ import unittest
 
 from schematics.exceptions import DataError
 
-from flatiron.core.dataset_config import DatasetConfig
+from flatiron.core.config import DatasetConfig
 # ------------------------------------------------------------------------------
 
 

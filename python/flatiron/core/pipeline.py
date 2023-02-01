@@ -10,6 +10,7 @@ import yaml
 
 from flatiron.core.dataset import Dataset
 from flatiron.core.dataset_config import DatasetConfig
+import flatiron.core.config as cfg
 import flatiron.core.logging as ficl
 import flatiron.core.tools as fict
 
@@ -61,8 +62,11 @@ class PipelineBase(ABC):
         config = deepcopy(config)
         config['dataset'] = self._validate(config['dataset'], DatasetConfig)
         config['model'] = self._validate(config['model'], self.model_config)
-        config['slack'] = {}
-        # config['train'] = self._validate(config['train'], TrainConfig)
+        config['optimizer'] = self._validate(config['optimizer'], cfg.OptimizerConfig)
+        config['compile'] = self._validate(config['compile'], cfg.CompileConfig)
+        config['callbacks'] = self._validate(config['callbacks'], cfg.CallbacksConfig)
+        config['fit'] = self._validate(config['fit'], cfg.FitConfig)
+        config['logger'] = self._validate(config['logger'], cfg.LoggerConfig)
         self.config = config
 
         src = config['dataset']['source']

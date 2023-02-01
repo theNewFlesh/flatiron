@@ -1,5 +1,5 @@
+import flatiron.core.config  # noqa F401
 import flatiron.core.dataset  # noqa F401
-import flatiron.core.dataset_config  # noqa F401
 import flatiron.core.logging  # noqa F401
 import flatiron.core.loss  # noqa F401
 import flatiron.core.metric  # noqa F401

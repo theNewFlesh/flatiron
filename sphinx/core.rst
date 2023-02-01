@@ -1,17 +1,17 @@
 core
 ====
 
-dataset
--------
-.. automodule:: flatiron.core.dataset
+config
+------
+.. automodule:: flatiron.core.config
     :members:
     :private-members:
     :undoc-members:
     :show-inheritance:
 
-dataset_config
---------------
-.. automodule:: flatiron.core.dataset_config
+dataset
+-------
+.. automodule:: flatiron.core.dataset
     :members:
     :private-members:
     :undoc-members:
