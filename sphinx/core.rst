@@ -9,6 +9,14 @@ dataset
     :undoc-members:
     :show-inheritance:
 
+dataset_config
+--------------
+.. automodule:: flatiron.core.dataset_config
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 logging
 -------
 .. automodule:: flatiron.core.logging

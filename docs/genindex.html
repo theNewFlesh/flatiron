@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.8.0
+                0.10.0
               </div>
             
           
@@ -99,6 +99,7 @@
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.html">models</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -181,8 +182,11 @@
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
+ | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -202,23 +206,49 @@
         <li><a href="core.html#flatiron.core.logging.SlackLogger.__init__">(flatiron.core.logging.SlackLogger method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset._get_stats">_get_stats() (flatiron.core.dataset.Dataset static method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset._resolve_limit">_resolve_limit() (flatiron.core.dataset.Dataset static method)</a>
 </li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig._schema">_schema (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+
+      <ul>
+        <li><a href="models.html#flatiron.models.unet.UNetConfig._schema">(flatiron.models.unet.UNetConfig attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.activation">activation (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id0">[1]</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.asset_name">asset_name (flatiron.core.dataset.Dataset property)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset.Dataset.asset_path">asset_path (flatiron.core.dataset.Dataset property)</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_activation_1">attention_activation_1 (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id1">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_activation_2">attention_activation_2 (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id2">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.attention_gate_2d">attention_gate_2d() (in module flatiron.models.unet)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset.Dataset.asset_path">asset_path (flatiron.core.dataset.Dataset property)</a>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_gates">attention_gates (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id3">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_kernel_initializer">attention_kernel_initializer (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id4">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_kernel_size">attention_kernel_size (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id5">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_padding">attention_padding (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id6">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_strides">attention_strides (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id7">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.axis">axis (flatiron.core.dataset_config.DatasetConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -226,10 +256,12 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.build_dev_command">build_dev_command() (in module cli)</a>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.batch_norm">batch_norm (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id8">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.build_dev_command">build_dev_command() (in module cli)</a>
+</li>
       <li><a href="cli.html#cli.build_prod_command">build_prod_command() (in module cli)</a>
 </li>
   </ul></td>
@@ -239,6 +271,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset.chunks">chunks (flatiron.core.dataset.Dataset property)</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.classes">classes (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id9">[1]</a>
 </li>
       <li>
     cli
@@ -251,6 +285,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.container_id_command">container_id_command() (in module cli)</a>
 </li>
+      <li><a href="models.html#flatiron.models.unet.conv_2d_block">conv_2d_block() (in module flatiron.models.unet)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -259,11 +295,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset">Dataset (class in flatiron.core.dataset)</a>
 </li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig">DatasetConfig (class in flatiron.core.dataset_config)</a>
+</li>
       <li><a href="cli.html#cli.destroy_dev_command">destroy_dev_command() (in module cli)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.destroy_prod_command">destroy_prod_command() (in module cli)</a>
+</li>
+      <li><a href="core.html#flatiron.core.metric.dice">dice() (in module flatiron.core.metric)</a>
+</li>
+      <li><a href="core.html#flatiron.core.loss.dice_loss">dice_loss() (in module flatiron.core.loss)</a>
 </li>
       <li><a href="cli.html#cli.docker_exec">docker_exec() (in module cli)</a>
 </li>
@@ -285,11 +327,20 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.filters">filters (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id10">[1]</a>
+</li>
       <li>
     flatiron.core.dataset
 
       <ul>
         <li><a href="core.html#module-flatiron.core.dataset">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.core.dataset_config
+
+      <ul>
+        <li><a href="core.html#module-flatiron.core.dataset_config">module</a>
 </li>
       </ul></li>
       <li>
@@ -299,8 +350,22 @@
         <li><a href="core.html#module-flatiron.core.logging">module</a>
 </li>
       </ul></li>
+      <li>
+    flatiron.core.loss
+
+      <ul>
+        <li><a href="core.html#module-flatiron.core.loss">module</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    flatiron.core.metric
+
+      <ul>
+        <li><a href="core.html#module-flatiron.core.metric">module</a>
+</li>
+      </ul></li>
       <li>
     flatiron.core.tools
 
@@ -313,6 +378,13 @@
 
       <ul>
         <li><a href="core.html#module-flatiron.core.validators">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.models.unet
+
+      <ul>
+        <li><a href="models.html#module-flatiron.models.unet">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -331,6 +403,8 @@
 </li>
       <li><a href="core.html#flatiron.core.tools.get_tensorboard_project">get_tensorboard_project() (in module flatiron.core.tools)</a>
 </li>
+      <li><a href="models.html#flatiron.models.unet.get_unet_model">get_unet_model() (in module flatiron.models.unet)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -339,12 +413,22 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.image_id_command">image_id_command() (in module cli)</a>
 </li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.index">index (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.info">info (flatiron.core.dataset.Dataset property)</a>
 </li>
-      <li><a href="core.html#flatiron.core.validators.is_base_two">is_base_two() (in module flatiron.core.validators)</a>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.input_channels">input_channels (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id11">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.input_height">input_height (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id12">[1]</a>
+</li>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.input_width">input_width (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id13">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.metric.intersection_over_union">intersection_over_union() (in module flatiron.core.metric)</a>
+</li>
+      <li><a href="core.html#flatiron.core.validators.is_base_two">is_base_two() (in module flatiron.core.validators)</a>
+</li>
       <li><a href="core.html#flatiron.core.validators.is_even">is_even() (in module flatiron.core.validators)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_gte">is_gte() (in module flatiron.core.validators)</a>
@@ -356,14 +440,42 @@
   </ul></td>
 </tr></table>
 
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.metric.jaccard">jaccard() (in module flatiron.core.metric)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.loss.jaccard_loss">jaccard_loss() (in module flatiron.core.loss)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="K">K</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.kernel_initializer">kernel_initializer (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id14">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.layers">layers (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id15">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.limit">limit (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
       <li><a href="cli.html#cli.line">line() (in module cli)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset.load">load() (flatiron.core.dataset.Dataset method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.load_limit">load_limit (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.load_shuffle">load_shuffle (flatiron.core.dataset_config.DatasetConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -381,13 +493,29 @@
 </li>
         <li><a href="core.html#module-flatiron.core.dataset">flatiron.core.dataset</a>
 </li>
+        <li><a href="core.html#module-flatiron.core.dataset_config">flatiron.core.dataset_config</a>
+</li>
         <li><a href="core.html#module-flatiron.core.logging">flatiron.core.logging</a>
+</li>
+        <li><a href="core.html#module-flatiron.core.loss">flatiron.core.loss</a>
+</li>
+        <li><a href="core.html#module-flatiron.core.metric">flatiron.core.metric</a>
 </li>
         <li><a href="core.html#module-flatiron.core.tools">flatiron.core.tools</a>
 </li>
         <li><a href="core.html#module-flatiron.core.validators">flatiron.core.validators</a>
 </li>
+        <li><a href="models.html#module-flatiron.models.unet">flatiron.models.unet</a>
+</li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig.output_activation">output_activation (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id16">[1]</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -410,14 +538,16 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.random_state">random_state (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.read_csv">read_csv() (flatiron.core.dataset.Dataset class method)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.read_directory">read_directory() (flatiron.core.dataset.Dataset class method)</a>
 </li>
-      <li><a href="cli.html#cli.remove_command">remove_command() (in module cli)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.remove_command">remove_command() (in module cli)</a>
+</li>
       <li><a href="cli.html#cli.remove_container">remove_container() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.resolve">resolve() (in module cli)</a>
@@ -430,16 +560,32 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.shuffle">shuffle (flatiron.core.dataset_config.DatasetConfig attribute)</a>, <a href="core.html#id0">[1]</a>
+</li>
       <li><a href="core.html#flatiron.core.tools.slack_it">slack_it() (in module flatiron.core.tools)</a>
 </li>
       <li><a href="core.html#flatiron.core.logging.SlackLogger">SlackLogger (class in flatiron.core.logging)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.source">source (flatiron.core.dataset_config.DatasetConfig attribute)</a>, <a href="core.html#id1">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_axis">split_axis (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_index">split_index (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_random_state">split_random_state (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_shuffle">split_shuffle (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_test_size">split_test_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_train_size">split_train_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
 </li>
       <li><a href="cli.html#cli.start">start() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.start_command">start_command() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.state_command">state_command() (in module cli)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.stats">stats (flatiron.core.dataset.Dataset property)</a>
@@ -454,6 +600,12 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.test_size">test_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.train_size">train_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.train_test_split">train_test_split() (flatiron.core.dataset.Dataset method)</a>
 </li>
   </ul></td>
@@ -462,6 +614,12 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.unet_width_and_layers_are_valid">unet_width_and_layers_are_valid() (in module flatiron.models.unet)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.UNetConfig">UNetConfig (class in flatiron.models.unet)</a>
+</li>
       <li><a href="core.html#flatiron.core.tools.unindent">unindent() (in module flatiron.core.tools)</a>
 </li>
   </ul></td>
