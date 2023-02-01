@@ -7,10 +7,10 @@ from pathlib import Path
 import math
 
 import yaml
-import tensorflow.keras.optimizer as tfko
 
 from flatiron.core.dataset import Dataset
 from flatiron.core.dataset_config import DatasetConfig
+import flatiron.core.logging as ficl
 import flatiron.core.tools as fict
 
 Filepath = Union[str, Path]
@@ -61,6 +61,7 @@ class PipelineBase(ABC):
         config = deepcopy(config)
         config['dataset'] = self._validate(config['dataset'], DatasetConfig)
         config['model'] = self._validate(config['model'], self.model_config)
+        config['slack'] = {}
         # config['train'] = self._validate(config['train'], TrainConfig)
         self.config = config
 
@@ -71,11 +72,13 @@ class PipelineBase(ABC):
             self.dataset = Dataset.read_directory(src)
 
     def load(self):
-        cfg = self.config['dataset']
-        self.dataset.load(
-            limit=cfg['load_limit'],
-            shuffle=cfg['load_shuffle'],
-        )
+        config = self.config['dataset']
+        slack = self.config['slack']
+        with ficl.SlackLogger('LOAD DATASET', config, **slack):
+            self.dataset.load(
+                limit=config['load_limit'],
+                shuffle=config['load_shuffle'],
+            )
         return self
 
     def train_test_split(self):
