@@ -57,10 +57,10 @@ class OptimizerConfig(scm.Model):
 class CompileConfig(scm.Model):
     loss = scmt.StringType(required=True)
     metrics = scmt.ListType(scmt.StringType, required=True)
-    loss_weights = scmt.ListType(serialize_when_none=True)
-    weighted_metrics = scmt.ListType(serialize_when_none=True)
+    loss_weights = scmt.ListType(scmt.FloatType, serialize_when_none=True)
+    weighted_metrics = scmt.ListType(scmt.FloatType, serialize_when_none=True)
     steps_per_execution = scmt.IntType(required=True, default=1)
-    jit_compile = scmt.BoolType(default=False)
+    jit_compile = scmt.BooleanType(default=False)
 
 
 class CallbacksConfig(scm.Model):
@@ -69,8 +69,8 @@ class CallbacksConfig(scm.Model):
     timezone = scmt.StringType(required=True)
     monitor = scmt.StringType(required=True, default='val_loss')
     verbose = scmt.IntType(default=0)
-    save_best_only = scmt.BoolType(default=False)
-    save_weights_only = scmt.BoolType(default=False)
+    save_best_only = scmt.BooleanType(default=False)
+    save_weights_only = scmt.BooleanType(default=False)
     mode = scmt.StringType(default='auto')
     save_freq = scmt.StringType(required=True, default='epoch')
     initial_value_threshold = scmt.FloatType()

@@ -9,7 +9,6 @@ import math
 import yaml
 
 from flatiron.core.dataset import Dataset
-from flatiron.core.dataset_config import DatasetConfig
 import flatiron.core.config as cfg
 import flatiron.core.logging as ficl
 import flatiron.core.tools as fict
@@ -33,6 +32,21 @@ class PipelineBase(ABC):
         '''
         with open(filepath) as f:
             config = yaml.safe_load(f)
+        return cls(config)
+
+    @classmethod
+    def from_string(cls, text):
+        # type: (str) -> PipelineBase
+        '''
+        Construct PipelineBase instance from given YAML text.
+
+        Args:
+            text (str): YAML text.
+
+        Returns:
+            PipelineBase: PipelineBase instance.
+        '''
+        config = yaml.safe_load(text)
         return cls(config)
 
     def _validate(self, config, spec_class):
@@ -60,13 +74,12 @@ class PipelineBase(ABC):
             config (dict): PipelineBase config.
         '''
         config = deepcopy(config)
-        config['dataset'] = self._validate(config['dataset'], DatasetConfig)
-        config['model'] = self._validate(config['model'], self.model_config)
-        config['optimizer'] = self._validate(config['optimizer'], cfg.OptimizerConfig)
-        config['compile'] = self._validate(config['compile'], cfg.CompileConfig)
-        config['callbacks'] = self._validate(config['callbacks'], cfg.CallbacksConfig)
-        config['fit'] = self._validate(config['fit'], cfg.FitConfig)
-        config['logger'] = self._validate(config['logger'], cfg.LoggerConfig)
+        model_config = config.get('model', {})
+        del config['model']
+        config = cfg.PipelineConfig(config)
+        config.validate()
+        config = config.to_native()
+        config['model'] = model_config
         self.config = config
 
         src = config['dataset']['source']
@@ -77,8 +90,7 @@ class PipelineBase(ABC):
 
     def load(self):
         config = self.config['dataset']
-        slack = self.config['slack']
-        with ficl.SlackLogger('LOAD DATASET', config, **slack):
+        with ficl.SlackLogger('LOAD DATASET', config, **self.config['logger']):
             self.dataset.load(
                 limit=config['load_limit'],
                 shuffle=config['load_shuffle'],
@@ -86,14 +98,14 @@ class PipelineBase(ABC):
         return self
 
     def train_test_split(self):
-        cfg = self.config['dataset']
+        config = self.config['dataset']
         x_train, x_test, y_train, y_test = self.dataset.train_test_split(
-            index=cfg['split_index'],
-            axis=cfg['split_axis'],
-            test_size=cfg['split_test_size'],
-            train_size=cfg['split_train_size'],
-            random_state=cfg['split_random_state'],
-            shuffle=cfg['split_shuffle'],
+            index=config['split_index'],
+            axis=config['split_axis'],
+            test_size=config['split_test_size'],
+            train_size=config['split_train_size'],
+            random_state=config['split_random_state'],
+            shuffle=config['split_shuffle'],
         )
         self.x_train = x_train
         self.x_test = x_test
@@ -126,38 +138,38 @@ class PipelineBase(ABC):
         pass
 
     def compile(self):
-        cfg = self.config['compile']
-        opt = tfko.get(cfg['optimizer'], **cfg['optimizer_params'])
-        self.model.compile(
-            optimizer=opt,
-            loss=loss,
-            metrics=metrics,
-            loss_weights=None,
-            weighted_metrics=None,
-            run_eagerly=None,
-            steps_per_execution=None,
-            jit_compile=None,
-        )
+        config = self.config['compile']
+        # opt = tfko.get(config['optimizer'], **config['optimizer_params'])
+        # self.model.compile(
+        #     optimizer=opt,
+        #     loss=loss,
+        #     metrics=metrics,
+        #     loss_weights=None,
+        #     weighted_metrics=None,
+        #     run_eagerly=None,
+        #     steps_per_execution=None,
+        #     jit_compile=None,
+        # )
         return self
 
     def fit(self):
-        cfg = self.config['fit']
+        config = self.config['fit']
         temp = fict.get_tensorboard_project(
-            cfg['project'],
-            cfg['root'],
-            cfg['timezone'],
+            config['project'],
+            config['root'],
+            config['timezone'],
         )
         callbacks = fict.get_callbacks(
             temp['log_directory'],
             temp['checkpoint_pattern'],
-            cfg['checkpoint_params'],
+            config['checkpoint_params'],
         )
-        steps = math.ceil(self.x_train.shape[0] / cfg['batch_size'])
-        # metric=cfg['metric'],
-        # mode=cfg['mode'],
-        # save_best_only=cfg['save_best_only'],
-        # save_freq=cfg['save_freq'],
-        # update_freq=cfg['update_freq'],
+        steps = math.ceil(self.x_train.shape[0] / config['batch_size'])
+        # metric=config['metric'],
+        # mode=config['mode'],
+        # save_best_only=config['save_best_only'],
+        # save_freq=config['save_freq'],
+        # update_freq=config['update_freq'],
         # callbacks=callbacks,
         self.model.fit(
             x=None,
