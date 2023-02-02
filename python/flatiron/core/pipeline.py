@@ -7,10 +7,13 @@ from pathlib import Path
 import math
 
 import yaml
+import tensorflow.keras.optimizers as tfko
 
 from flatiron.core.dataset import Dataset
 import flatiron.core.config as cfg
-import flatiron.core.logging as ficl
+import flatiron.core.logging as filog
+import flatiron.core.loss as ficl
+import flatiron.core.metric as ficm
 import flatiron.core.tools as fict
 
 Filepath = Union[str, Path]
@@ -82,7 +85,7 @@ class PipelineBase(ABC):
 
     def load(self):
         config = self.config['dataset']
-        with ficl.SlackLogger(
+        with filog.SlackLogger(
             'LOAD DATASET', dict(dataset=config), **self.config['logger']
         ):
             self.dataset.load(
@@ -132,22 +135,32 @@ class PipelineBase(ABC):
         pass
 
     def compile(self):
-        config = self.config['compile']
-        # opt = tfko.get(config['optimizer'], **config['optimizer_params'])
-        # self.model.compile(
-        #     optimizer=opt,
-        #     loss=loss,
-        #     metrics=metrics,
-        #     loss_weights=None,
-        #     weighted_metrics=None,
-        #     run_eagerly=None,
-        #     steps_per_execution=None,
-        #     jit_compile=None,
-        # )
+        comp = self.config['compile']
+
+        # get loss and metrics from flatiron modules
+        loss = ficl.FUNCTIONS[comp['loss']]
+        metrics = [ficm.FUNCTIONS[x] for x in comp['metrics']]
+
+        # create optimizer
+        kwargs = deepcopy(self.config['optimizer'])
+        del kwargs['name']
+        opt = tfko.get(self.config['optimizer']['name'], **kwargs)
+
+        # compile
+        self.model.compile(
+            optimizer=opt,
+            loss=loss,
+            metrics=metrics,
+            loss_weights=comp['loss_weights'],
+            weighted_metrics=comp['weighted_metrics'],
+            run_eagerly=comp['run_eagerly'],
+            steps_per_execution=comp['steps_per_execution'],
+            jit_compile=comp['jit_compile'],
+        )
         return self
 
     def fit(self):
-        config = self.config['fit']
+        config = self.config['callbacks']
         temp = fict.get_tensorboard_project(
             config['project'],
             config['root'],
@@ -159,12 +172,6 @@ class PipelineBase(ABC):
             config['checkpoint_params'],
         )
         steps = math.ceil(self.x_train.shape[0] / config['batch_size'])
-        # metric=config['metric'],
-        # mode=config['mode'],
-        # save_best_only=config['save_best_only'],
-        # save_freq=config['save_freq'],
-        # update_freq=config['update_freq'],
-        # callbacks=callbacks,
         self.model.fit(
             x=None,
             y=None,

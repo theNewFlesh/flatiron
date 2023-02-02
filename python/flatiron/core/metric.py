@@ -193,3 +193,11 @@ def dice(y_true, y_pred, smooth=1.0):
     u = tfb.sum(yt) + tfb.sum(yp)
     dice = (2.0 * i + smooth) / (u + smooth)
     return dice
+# ------------------------------------------------------------------------------
+
+
+FUNCTIONS = dict(
+    iou=intersection_over_union,
+    jaccard=jaccard,
+    dice=dice,
+)
