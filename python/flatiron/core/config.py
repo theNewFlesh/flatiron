@@ -27,7 +27,7 @@ class DatasetConfig(scm.Model):
         split_shuffle (bool): Shuffle data rows. Default: True.
     '''
     source = scmt.StringType(required=True)
-    load_limit = scmt.UnionType((scmt.IntType, scmt.StringType), **NONE)
+    load_limit = scmt.UnionType([scmt.IntType, scmt.StringType], **NONE)
     load_shuffle = scmt.BooleanType(required=True, default=False)
     split_index = scmt.IntType(required=True)
     split_axis = scmt.IntType(required=True, default=-1)
@@ -178,9 +178,7 @@ class FitConfig(scm.Model):
     '''
     batch_size = scmt.IntType(required=True, default=32)
     epochs = scmt.IntType(required=True, default=30)
-    verbose = scmt.UnionType(
-        [scmt.StringType, scmt.scmt.IntType], default='auto'
-    )
+    verbose = scmt.UnionType([scmt.StringType, scmt.IntType], default='auto')
     validation_split = scmt.FloatType(default=0.0)
     shuffle = scmt.BooleanType(default=True)
     initial_epoch = scmt.IntType(default=1)
