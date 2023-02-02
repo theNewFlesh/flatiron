@@ -145,30 +145,6 @@ class PipelineBase(ABC):
         self.dataset.unload()
         return self
 
-    @abstractmethod
-    def model_config(self):
-        # type: () -> scm.Model
-        '''
-        Subclasses of PipelineBase wiil need to define a config class for models
-        created in the build method.
-
-        Returns:
-            scm.Model: Model config class.
-        '''
-        pass
-
-    @abstractmethod
-    def model_func(self):
-        # type: () -> kef.Functional
-        '''
-        Subclasses of PipelineBase need to define a function that builds and
-        returns a machine learning model.
-
-        Returns:
-            kef.Functional: Machine learning model.
-        '''
-        pass
-
     def build(self):
         # type: () -> PipelineBase
         '''
@@ -250,3 +226,27 @@ class PipelineBase(ABC):
             **fit,
         )
         return self
+
+    @abstractmethod
+    def model_config(self):
+        # type: () -> scm.Model
+        '''
+        Subclasses of PipelineBase wiil need to define a config class for models
+        created in the build method.
+
+        Returns:
+            scm.Model: Model config class.
+        '''
+        pass
+
+    @abstractmethod
+    def model_func(self):
+        # type: () -> kef.Functional
+        '''
+        Subclasses of PipelineBase need to define a function that builds and
+        returns a machine learning model.
+
+        Returns:
+            kef.Functional: Machine learning model.
+        '''
+        pass
