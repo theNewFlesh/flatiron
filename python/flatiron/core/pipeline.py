@@ -110,10 +110,10 @@ class PipelineBase(ABC):
 
         Assigns the following instance members:
 
-        * x_train
-        * x_test
-        * y_train
-        * y_test
+            * x_train
+            * x_test
+            * y_train
+            * y_test
 
         Returns:
             PipelineBase: Self.
