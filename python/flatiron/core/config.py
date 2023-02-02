@@ -176,7 +176,7 @@ class FitConfig(scm.Model):
         use_multiprocessing (bool, optional): Use multiprocessing for
             generators. Default: False.
     '''
-    batch_size = scmt.IntType(required=True, default=32)
+    batch_size = scmt.IntType(required=True, **NONE)
     epochs = scmt.IntType(required=True, default=30)
     verbose = scmt.UnionType([scmt.StringType, scmt.IntType], default='auto')
     validation_split = scmt.FloatType(default=0.0)

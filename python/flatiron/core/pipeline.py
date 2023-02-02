@@ -132,7 +132,8 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        pass
+        # self.model = A ML model instance
+        return self
 
     def compile(self):
         comp = self.config['compile']
@@ -160,37 +161,32 @@ class PipelineBase(ABC):
         return self
 
     def fit(self):
-        config = self.config['callbacks']
-        temp = fict.get_tensorboard_project(
-            config['project'],
-            config['root'],
-            config['timezone'],
+        cb = self.cb['callbacks']
+        fit = self.cb['fit']
+
+        # create tensorboard
+        tb = fict.get_tensorboard_project(
+            cb['project'],
+            cb['root'],
+            cb['timezone'],
         )
+
+        # create checkpoint params and callbacks
+        cp = deepcopy(cb)
+        del cp['project']
+        del cp['root']
         callbacks = fict.get_callbacks(
-            temp['log_directory'],
-            temp['checkpoint_pattern'],
-            config['checkpoint_params'],
+            tb['log_directory'], tb['checkpoint_pattern'], cp,
         )
-        steps = math.ceil(self.x_train.shape[0] / config['batch_size'])
+
+        # train model
+        steps = math.ceil(self.x_train.shape[0] / fit['batch_size'])
         self.model.fit(
-            x=None,
-            y=None,
-            batch_size=None,
-            epochs=1,
-            verbose='auto',
+            x=self.x_train,
+            y=self.x_test,
             callbacks=callbacks,
-            validation_split=0.0,
             validation_data=(self.x_test, self.y_test),
-            shuffle=True,
-            class_weight=None,
-            sample_weight=None,
-            initial_epoch=0,
             steps_per_epoch=steps,
-            validation_steps=None,
-            validation_batch_size=None,
-            validation_freq=1,
-            max_queue_size=10,
-            workers=1,
-            use_multiprocessing=False,
+            **fit,
         )
         return self
