@@ -2,7 +2,7 @@ from typing import Union  # noqa F401
 import keras.engine.functional as kef  # noqa F401
 import schematics.models as scm  # noqa F401
 
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 from copy import deepcopy
 from pathlib import Path
 import math
