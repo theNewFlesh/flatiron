@@ -1194,6 +1194,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "sphinx-autodoc-typehints"
+version = "1.22"
+requires_python = ">=3.7"
+summary = "Type hints (PEP 484) support for the Sphinx autodoc extension"
+dependencies = [
+    "sphinx>=5.3",
+]
+
+[[package]]
 name = "sphinx-rtd-theme"
 version = "0.5.1"
 summary = "Read the Docs theme for Sphinx"
@@ -1405,7 +1414,7 @@ summary = "Module for decorators, wrappers and monkey patching."
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:56bbfeeb41b69eaa59e21526599810b47b54bfab76d50783074216dc643bc01e"
+content_hash = "sha256:f7e5c8f81efcc07b0c32f3df9cb6243bd0064f22dec680022639464b9bf465ba"
 
 [metadata.files]
 "alabaster 0.7.13" = [
@@ -1723,7 +1732,6 @@ content_hash = "sha256:56bbfeeb41b69eaa59e21526599810b47b54bfab76d50783074216dc6
     {url = "https://files.pythonhosted.org/packages/23/93/e2d0ca3e60ad679d5f258d972cce1403cd0bbbd8be6fa5292ef0d229eb3d/debugpy-1.6.6-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:23c29e40e39ad7d869d408ded414f6d46d82f8a93b5857ac3ac1e915893139ca"},
     {url = "https://files.pythonhosted.org/packages/38/41/2db2dc852c508ae588490e0e9cd16e82bca1be24a99afc0e9794bcf53c95/debugpy-1.6.6-cp38-cp38-win32.whl", hash = "sha256:70ab53918fd907a3ade01909b3ed783287ede362c80c75f41e79596d5ccacd32"},
     {url = "https://files.pythonhosted.org/packages/4a/21/ea9d3b2928b86fdc822a920d427412a0240c537fde0346865342de24a7ef/debugpy-1.6.6-cp39-cp39-win_amd64.whl", hash = "sha256:de4a045fbf388e120bb6ec66501458d3134f4729faed26ff95de52a754abddb1"},
-    {url = "https://files.pythonhosted.org/packages/7c/23/9f6eb07a8720c92fce4feffafab4c2b2ba9f1c493a38cda7b1b982c1f9ff/debugpy-1.6.6-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:11a0f3a106f69901e4a9a5683ce943a7a5605696024134b522aa1bfda25b5fec"},
     {url = "https://files.pythonhosted.org/packages/88/a4/c2f6072cc889823daf4feb245cc06222fce138f30a50622ca61eaabc9913/debugpy-1.6.6-cp39-cp39-win32.whl", hash = "sha256:549ae0cb2d34fc09d1675f9b01942499751d174381b6082279cf19cdb3c47cbe"},
     {url = "https://files.pythonhosted.org/packages/8e/dd/969b0a865c1b28de92cc30ba00aabdf1a2d76ab437b3d91674d504da83c2/debugpy-1.6.6-cp310-cp310-win32.whl", hash = "sha256:87755e173fcf2ec45f584bb9d61aa7686bb665d861b81faa366d59808bbd3494"},
     {url = "https://files.pythonhosted.org/packages/ba/fa/9b081cb05a7e7081eb06f192f69c747c2ff37ab06e03f0a4005528a59e9d/debugpy-1.6.6-cp37-cp37m-win_amd64.whl", hash = "sha256:f6383c29e796203a0bba74a250615ad262c4279d398e89d895a69d3069498305"},
@@ -2557,6 +2565,10 @@ content_hash = "sha256:56bbfeeb41b69eaa59e21526599810b47b54bfab76d50783074216dc6
 "sphinx 6.1.3" = [
     {url = "https://files.pythonhosted.org/packages/2e/2c/22a20486cad91a66f4f70bd88c20c8bb306ae719cbba93d7debae7efa80d/sphinx-6.1.3-py3-none-any.whl", hash = "sha256:807d1cb3d6be87eb78a381c3e70ebd8d346b9a25f3753e9947e866b2786865fc"},
     {url = "https://files.pythonhosted.org/packages/db/0b/a0f60c4abd8a69bd5b0d20edde8a8d8d9d4ca825bbd920d328d248fd0290/Sphinx-6.1.3.tar.gz", hash = "sha256:0dac3b698538ffef41716cf97ba26c1c7788dba73ce6f150c1ff5b4720786dd2"},
+]
+"sphinx-autodoc-typehints 1.22" = [
+    {url = "https://files.pythonhosted.org/packages/9c/fe/3f7b14afe895f6d3abb168d451c785527489b24cad21c765a59d0f4f4f74/sphinx_autodoc_typehints-1.22.tar.gz", hash = "sha256:71fca2d5eee9b034204e4c686ab20b4d8f5eb9409396216bcae6c87c38e18ea6"},
+    {url = "https://files.pythonhosted.org/packages/bd/c7/b0420587d02468ca65669f9084f1c69f07cce14c115dc843c3c76a5fd62a/sphinx_autodoc_typehints-1.22-py3-none-any.whl", hash = "sha256:ef4a8b9d52de66065aa7d3adfabf5a436feb8a2eff07c2ddc31625d8807f2b69"},
 ]
 "sphinx-rtd-theme 0.5.1" = [
     {url = "https://files.pythonhosted.org/packages/4e/e5/0d55470572e0a0934c600c4cda0c98209883aaeb45ff6bfbadcda7006255/sphinx_rtd_theme-0.5.1.tar.gz", hash = "sha256:eda689eda0c7301a80cf122dad28b1861e5605cbf455558f3775e1e8200e83a5"},
