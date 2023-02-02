@@ -1,4 +1,5 @@
 from typing import Union  # noqa F401
+import keras.engine.functional as kef  # noqa F401
 import schematics.models as scm  # noqa F401
 
 from abc import ABC, abstractmethod, abstractproperty
@@ -84,6 +85,13 @@ class PipelineBase(ABC):
             self.dataset = Dataset.read_directory(src)
 
     def load(self):
+        # type: () -> PipelineBase
+        '''
+        Load dataset into memory.
+
+        Returns:
+            PipelineBase: Self.
+        '''
         config = self.config['dataset']
         with filog.SlackLogger(
             'LOAD DATASET', dict(dataset=config), **self.config['logger']
@@ -95,6 +103,20 @@ class PipelineBase(ABC):
         return self
 
     def train_test_split(self):
+        # type: () -> PipelineBase
+        '''
+        Split dataset into train and test sets.
+
+        Assigns members:
+
+        * x_train
+        * x_test
+        * y_train
+        * y_test
+
+        Returns:
+            PipelineBase: Self.
+        '''
         config = self.config['dataset']
         x_train, x_test, y_train, y_test = self.dataset.train_test_split(
             index=config['split_index'],
@@ -111,6 +133,13 @@ class PipelineBase(ABC):
         return self
 
     def unload(self):
+        # type: () -> PipelineBase
+        '''
+        Unload dataset into memory. Train and test sets will be kept.
+
+        Returns:
+            PipelineBase: Self.
+        '''
         self.dataset.unload()
         return self
 
@@ -118,6 +147,9 @@ class PipelineBase(ABC):
     def model_config(self):
         # type: () -> scm.Model
         '''
+        Subclasses of PipelineBase wiil need to define a config class for models
+        created in the build method.
+
         Returns:
             scm.Model: Model config class.
         '''
@@ -147,6 +179,7 @@ class PipelineBase(ABC):
         return self
 
     def compile(self):
+        # type: () -> PipelineBase
         comp = self.config['compile']
 
         # get loss and metrics from flatiron modules
@@ -172,6 +205,7 @@ class PipelineBase(ABC):
         return self
 
     def fit(self):
+        # type: () -> PipelineBase
         cb = self.config['callbacks']
         fit = self.config['fit']
 
