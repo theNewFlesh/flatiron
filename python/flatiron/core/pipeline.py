@@ -88,6 +88,7 @@ class PipelineBase(ABC):
         # type: () -> PipelineBase
         '''
         Load dataset into memory.
+        Calls `self.dataset.load` with dataset params.
 
         Returns:
             PipelineBase: Self.
@@ -107,7 +108,7 @@ class PipelineBase(ABC):
         '''
         Split dataset into train and test sets.
 
-        Assigns members:
+        Assigns the following instance members:
 
         * x_train
         * x_test
@@ -136,6 +137,7 @@ class PipelineBase(ABC):
         # type: () -> PipelineBase
         '''
         Unload dataset into memory. Train and test sets will be kept.
+        Calls `self.dataset.unload`.
 
         Returns:
             PipelineBase: Self.
@@ -171,6 +173,7 @@ class PipelineBase(ABC):
         # type: () -> PipelineBase
         '''
         Build machine learning model and assign it to self.model.
+        Calls `self.model_func` with model params.
 
         Returns:
             PipelineBase: Self.
@@ -180,6 +183,12 @@ class PipelineBase(ABC):
 
     def compile(self):
         # type: () -> PipelineBase
+        '''
+        Call `self.model.compile` with compile params.
+
+        Returns:
+            PipelineBase: Self.
+        '''
         comp = self.config['compile']
 
         # get loss and metrics from flatiron modules
@@ -206,6 +215,12 @@ class PipelineBase(ABC):
 
     def fit(self):
         # type: () -> PipelineBase
+        '''
+        Call `self.model.fit` with fit params.
+
+        Returns:
+            PipelineBase: Self.
+        '''
         cb = self.config['callbacks']
         fit = self.config['fit']
 
