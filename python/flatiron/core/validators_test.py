@@ -43,3 +43,13 @@ class ValidatorsTests(unittest.TestCase):
         expected += 'Legal types:.*valid.*same'
         with self.assertRaisesRegex(ValidationError, expected):
             vd.is_padding('foobar')
+
+    def test_is_callback_mode(self):
+        vd.is_callback_mode('auto')
+        vd.is_callback_mode('min')
+        vd.is_callback_mode('max')
+
+        expected = 'foobar is not a legal callback mode. '
+        expected += 'Legal types:.*auto.*min.*max'
+        with self.assertRaisesRegex(ValidationError, expected):
+            vd.is_callback_mode('foobar')

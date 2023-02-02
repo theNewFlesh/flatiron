@@ -94,3 +94,20 @@ def is_padding(pad_type):
     if pad_type not in legal:
         msg = f'{pad_type} is not a legal padding type. Legal types: {legal}.'
         raise ValidationError(msg)
+
+
+def is_callback_mode(mode):
+    # type: (str) -> None
+    '''
+    Validates that mode is a legal calback mode.
+
+    Args:
+        mode (str): Callback mode.
+
+    Raises:
+        ValidationError: If mode type is not legal.
+    '''
+    legal = ['auto', 'min', 'max']
+    if mode not in legal:
+        msg = f'{mode} is not a legal callback mode. Legal types: {legal}.'
+        raise ValidationError(msg)
