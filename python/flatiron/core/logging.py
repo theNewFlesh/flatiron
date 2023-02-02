@@ -32,7 +32,7 @@ class SlackLogger(lbt.LogRuntime):
             config (dict): Config dict.
             slack_channel (str, optional): Slack channel name. Default: None.
             slack_url (str, optional): Slack URL name. Default: None.
-            timezone='UTC' (str, optional): Timezone. Default: UTC.
+            timezone (str, optional): Timezone. Default: UTC.
             level (str or int, optional): Log level. Default: warn.
             **kwargs (optional): LogRuntime kwargs.
         '''
