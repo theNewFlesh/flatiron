@@ -64,7 +64,7 @@ class PipelineBase(ABC):
 
         # model
         model = config.get('model', {})
-        model = self.model_config(model)
+        model = self.model_config()(model)
         model.validate()
         model = model.to_native()
         del config['model']
@@ -114,7 +114,7 @@ class PipelineBase(ABC):
         self.dataset.unload()
         return self
 
-    @abstractproperty
+    @abstractmethod
     def model_config(self):
         # type: () -> scm.Model
         '''
@@ -124,6 +124,17 @@ class PipelineBase(ABC):
         pass
 
     @abstractmethod
+    def model_func(self):
+        # type: () -> kef.Functional
+        '''
+        Subclasses of PipelineBase need to define a function that builds and
+        returns a machine learning model.
+
+        Returns:
+            kef.Functional: Machine learning model.
+        '''
+        pass
+
     def build(self):
         # type: () -> PipelineBase
         '''
@@ -132,7 +143,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        # self.model = A ML model instance
+        self.model = self.model_func(**self.config['model'])
         return self
 
     def compile(self):
@@ -161,8 +172,8 @@ class PipelineBase(ABC):
         return self
 
     def fit(self):
-        cb = self.cb['callbacks']
-        fit = self.cb['fit']
+        cb = self.config['callbacks']
+        fit = self.config['fit']
 
         # create tensorboard
         tb = fict.get_tensorboard_project(
