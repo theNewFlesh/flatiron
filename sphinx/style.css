@@ -249,3 +249,8 @@ span[id*='MathJax-Span'] {
 #commands {
     min-width: 960px;
 }
+
+/* Architecture Diagram */
+#architecture object[data="architecture.svg"] {
+    max-width: 900px !important;
+}
