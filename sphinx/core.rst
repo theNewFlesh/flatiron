@@ -41,6 +41,14 @@ metric
     :undoc-members:
     :show-inheritance:
 
+pipeline
+--------
+.. automodule:: flatiron.core.pipeline
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 tools
 ------
 .. automodule:: flatiron.core.tools
