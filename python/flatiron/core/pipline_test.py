@@ -208,3 +208,10 @@ class PipelineTests(unittest.TestCase):
                 pipe.fit()
             self.assertRegex(log.output[0], 'FIT MODEL')
             self.assertEqual(pipe.model.state, 'fit')
+
+    def test_run(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config = yaml.dump(config)
+            result = TestPipeline.from_string(config).run()
+            self.assertEqual(result.model.state, 'fit')
