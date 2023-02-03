@@ -104,6 +104,7 @@ pre > span {
 .wy-nav-content {
     background: #242424;
     color: #F4F4F4;
+    max-width: 1400px !important;
 }
 
 .wy-nav-side {
@@ -226,6 +227,14 @@ span[id*='MathJax-Span'] {
 
 .sig.sig-object.py {
     font-size: 100% !important;
+}
+
+.MathJax {
+    text-align: left !important;
+}
+
+.math.notranslate.nohighlight {
+    padding-left: 40px !important;
 }
 
 /* Custom table widths */
