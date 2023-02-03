@@ -18,12 +18,15 @@ import flatiron.core.pipeline as ficp
 
 class TestModel:
     def __init__(self, **kwargs):
+        self.state = 'init'
         pass
 
     def compile(self, **kwargs):
+        self.state = 'compile'
         pass
 
     def fit(self, **kwargs):
+        self.state = 'fit'
         pass
 
 
@@ -189,12 +192,19 @@ class PipelineTests(unittest.TestCase):
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.compile()
             self.assertRegex(log.output[0], 'COMPILE MODEL')
+            self.assertEqual(pipe.model.state, 'compile')
 
-    # def test_fit(self):
-    #     pass
+    def test_fit(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = TestPipeline(config) \
+                .load() \
+                .train_test_split() \
+                .unload() \
+                .build() \
+                .compile()
 
-    # def test_model_config(self):
-    #     pass
-
-    # def test_model_func(self):
-    #     pass
+            with self.assertLogs(level=logging.WARNING) as log:
+                pipe.fit()
+            self.assertRegex(log.output[0], 'FIT MODEL')
+            self.assertEqual(pipe.model.state, 'fit')

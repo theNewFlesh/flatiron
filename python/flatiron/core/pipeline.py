@@ -222,6 +222,7 @@ class PipelineBase(ABC):
         '''
         cb = self.config['callbacks']
         fit = self.config['fit']
+        log = self.config['logger']
 
         with filog.SlackLogger(
             'FIT MODEL', self.config, **self.config['logger']
@@ -230,7 +231,7 @@ class PipelineBase(ABC):
             tb = fict.get_tensorboard_project(
                 cb['project'],
                 cb['root'],
-                cb['timezone'],
+                log['timezone'],
             )
 
             # create checkpoint params and callbacks
@@ -238,7 +239,7 @@ class PipelineBase(ABC):
             del cp['project']
             del cp['root']
             callbacks = fict.get_callbacks(
-                tb['log_directory'], tb['checkpoint_pattern'], cp,
+                tb['log_dir'], tb['checkpoint_pattern'], cp,
             )
 
             # train model
@@ -252,6 +253,29 @@ class PipelineBase(ABC):
                 steps=steps,
                 **fit,
             )
+        return self
+
+    def run(self):
+        # type: () -> PipelineBase
+        '''
+        Run the following pipeline operations:
+
+        * load
+        * train_test_split
+        * unload
+        * build
+        * compile
+        * fit
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        self.load() \
+            .train_test_split() \
+            .unload() \
+            .build() \
+            .compile() \
+            .fit()
         return self
 
     @abstractmethod
