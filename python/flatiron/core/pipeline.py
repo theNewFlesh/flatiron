@@ -1,5 +1,6 @@
-from typing import Union  # noqa F401
+from typing import Any, Optional, Union  # noqa F401
 import keras.engine.functional as kef  # noqa F401
+import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -84,10 +85,10 @@ class PipelineBase(ABC):
         else:
             self.dataset = Dataset.read_directory(src)
 
-        self.x_train = None
-        self.x_test = None
-        self.y_train = None
-        self.y_test = None
+        self.x_train = None  # type: Optional[np.ndarray]
+        self.x_test = None  # type: Optional[np.ndarray]
+        self.y_train = None  # type: Optional[np.ndarray]
+        self.y_test = None  # type: Optional[np.ndarray]
 
     def load(self):
         # type: () -> PipelineBase
@@ -243,7 +244,8 @@ class PipelineBase(ABC):
             )
 
             # train model
-            steps = math.ceil(self.x_train.shape[0] / fit['batch_size'])
+            n = self.x_train.shape[0]  # type: ignore
+            steps = math.ceil(n / fit['batch_size'])
             self.model.fit(
                 x=self.x_train,
                 y=self.x_test,
