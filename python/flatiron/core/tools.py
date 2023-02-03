@@ -10,9 +10,9 @@ import re
 from lunchbox.enforce import Enforce
 import lunchbox.tools as lbt
 import pytz
-import yaml
-
 import tensorflow.keras.callbacks as tfc
+import tensorflow.summary as tfs
+import yaml
 
 Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
@@ -56,6 +56,24 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
     return output
 
 
+# def _batch_callback(batch, logs):
+#     tfs.scalar('batch_loss', data=logs['loss'], step=batch)
+#     tfs.scalar('batch_jaccard', data=logs['jaccard'], step=batch)
+#     return batch
+
+
+def _batch_callback(batch, logs, metrics=['loss']):
+    for metric in metrics:
+        tfs.scalar(f'batch_{metric}', data=logs[metric], step=batch)
+    return batch
+
+
+def get_batch_callback(metrics):
+    return tfc.LambdaCallback(
+        on_batch_end=lambda b, log: _batch_callback(b, log, metrics)
+    )
+
+
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     # type: (Filepath, str, dict) -> list
     '''
@@ -86,7 +104,10 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     # --------------------------------------------------------------------------
 
     callbacks = [
-        tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfc.TensorBoard(
+            log_dir=log_directory, histogram_freq=1, update_freq='batch'
+        ),
+        get_batch_callback(['loss']),
         tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
