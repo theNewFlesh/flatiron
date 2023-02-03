@@ -259,14 +259,12 @@ class PipelineBase(ABC):
 
             # train model
             n = self.x_train.shape[0]  # type: ignore
-            steps = math.ceil(n / fit['batch_size'])
             self.model.fit(
                 x=self.x_train,
-                y=self.x_test,
+                y=self.y_train,
                 callbacks=callbacks,
                 validation_data=(self.x_test, self.y_test),
-                steps_per_epoch=steps,
-                steps=steps,
+                steps_per_epoch=math.ceil(n / fit['batch_size']),
                 **fit,
             )
         return self
