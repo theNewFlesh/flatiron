@@ -7,6 +7,10 @@ a:hover {
     color: #DE958E !important;
 }
 
+p {
+    margin-bottom: 5px;
+}
+
 .btn,
 .btn-neutral,
 .btn:visited,
@@ -248,4 +252,15 @@ span[id*='MathJax-Span'] {
 
 #commands {
     min-width: 960px;
+}
+
+/* Architecture Diagram */
+#architecture object[data="architecture.svg"] {
+    max-width: 900px !important;
+}
+
+/* Intro Sections */
+h1 {
+    margin-top: 12px;
+    margin-bottom: 12px;
 }
