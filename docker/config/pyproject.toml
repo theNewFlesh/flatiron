@@ -64,8 +64,8 @@ test = [
     "pytest-forked",
     "pytest-xdist",
     "pytest",
-    "types-pyyaml>=6.0.12.3",
     "types-pytz",
+    "types-pyyaml>=6.0.12.3",
     "types-tensorflow>=2.11.0.2",
 ]
 
