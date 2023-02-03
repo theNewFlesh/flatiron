@@ -56,7 +56,7 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
     return output
 
 
-def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
+def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     # type: (Filepath, str, dict) -> list
     '''
     Create a list of callbacks for Tensoflow model.
@@ -64,7 +64,8 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params):
     Args:
         log_directory (str or Path): Tensorboard project log directory.
         checkpoint_pattern (str): Filepath pattern for checkpoint callback.
-        checkpoint_params (dict): Params to be passed to checkpoint callback.
+        checkpoint_params (dict, optional): Params to be passed to checkpoint
+            callback. Default: {}.
 
     Raises:
         EnforceError: If log directory does not exist.

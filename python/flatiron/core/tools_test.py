@@ -43,7 +43,7 @@ class ToolsTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             proj = fict.get_tensorboard_project('proj', root)
             result = fict.get_callbacks(
-                proj['log_dir'], proj['checkpoint_pattern'], {}
+                proj['log_dir'], proj['checkpoint_pattern']
             )
             self.assertIsInstance(result[0], tfc.TensorBoard)
             self.assertIsInstance(result[1], tfc.ModelCheckpoint)

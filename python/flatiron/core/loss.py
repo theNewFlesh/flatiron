@@ -138,3 +138,10 @@ def dice_loss(y_true, y_pred, smooth=1):
     dice = (2.0 * intersection + smooth) / (union + smooth)
     loss = 1.0 - dice
     return loss
+# ------------------------------------------------------------------------------
+
+
+FUNCTIONS = dict(
+    jaccard_loss=jaccard_loss,
+    dice_loss=dice_loss,
+)
