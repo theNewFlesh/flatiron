@@ -1,5 +1,4 @@
 from pathlib import Path
-from sqlite3 import DataError
 from tempfile import TemporaryDirectory
 import os
 import unittest
@@ -9,6 +8,7 @@ import numpy as np
 import pandas as pd
 import schematics.models as scm
 import schematics.types as scmt
+import yaml
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
@@ -113,12 +113,19 @@ class PipelineTests(unittest.TestCase):
             result = TestPipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
+    def test_from_string(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config = yaml.dump(config)
+            TestPipeline.from_string(config)
 
-    # def test_read_yaml(self):
-    #     pass
-
-    # def test_from_string(self):
-    #     pass
+    def test_read_yaml(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            src = Path(root, 'config.yaml')
+            with open(src, 'w') as f:
+                yaml.safe_dump(config, f)
+            TestPipeline.read_yaml(src)
 
     # def test_load(self):
     #     pass
