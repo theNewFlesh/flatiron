@@ -587,7 +587,7 @@ dependencies = [
 
 [[package]]
 name = "jupyterlab"
-version = "3.6.0"
+version = "3.6.1"
 requires_python = ">=3.7"
 summary = "JupyterLab computational environment"
 dependencies = [
@@ -1568,7 +1568,7 @@ dependencies = [
 
 [metadata]
 lock_version = "4.1"
-content_hash = "sha256:1c612b303be268f936d71a661c879c19cfec79710c775b1fe8fef6e268942e9f"
+content_hash = "sha256:606d4c8c9e32f4596286b3b57871cc849dd32d7b29c64298efc79831148fa79a"
 
 [metadata.files]
 "aiofiles 22.1.0" = [
@@ -2061,9 +2061,9 @@ content_hash = "sha256:1c612b303be268f936d71a661c879c19cfec79710c775b1fe8fef6e26
     {url = "https://files.pythonhosted.org/packages/0c/40/f1fd1f933779cca1fba5b223a2d62dc853766f3154dad3c61e1846f5ff87/jupyter_ydoc-0.2.2-py3-none-any.whl", hash = "sha256:596a9ae5986b59f8776c42430b5ad516405963574078ab801781933c9690be93"},
     {url = "https://files.pythonhosted.org/packages/d9/6d/33b93c10cc77c73f3a118479ae37662387bbff3e37af09bf02684effa138/jupyter_ydoc-0.2.2.tar.gz", hash = "sha256:3163bd4745eedd46d4bba6df52ab26be3c5c44c3a8aaf247635062486ea8f84f"},
 ]
-"jupyterlab 3.6.0" = [
-    {url = "https://files.pythonhosted.org/packages/bc/7f/29c34890f7dd8ef41902625f3e98b2ae4bfcf06cec6d9823e86575286f6b/jupyterlab-3.6.0.tar.gz", hash = "sha256:536bce7d8d6caf094e63d81d2b05097ca133b89f41d057def68b688da26d8138"},
-    {url = "https://files.pythonhosted.org/packages/bf/d1/5c1b0c92ab20d9f6804f80f45544640eb1ad81a6daeaabf5824fbf5e39e6/jupyterlab-3.6.0-py3-none-any.whl", hash = "sha256:68f16042144aa2b623ca5ca0fe8a0a006d13a15a76b70cb7484325fb83c179a0"},
+"jupyterlab 3.6.1" = [
+    {url = "https://files.pythonhosted.org/packages/97/a0/c3561fdedca7d71dad0a09f34a7d1f3e196c91009690323cd4a844f904ab/jupyterlab-3.6.1.tar.gz", hash = "sha256:aee98c174180e98a30470297d10b959e8e64f2288970c0de65f0a6d2b4807034"},
+    {url = "https://files.pythonhosted.org/packages/bf/20/100cb49119ed18b9b438d7f30b7fa0c1177be3bc6dab3d2f677985587100/jupyterlab-3.6.1-py3-none-any.whl", hash = "sha256:ad6707dd0149b629d0ed5b56916cfcdb816b376c6af3190337faba09e27ea29e"},
 ]
 "jupyterlab-git 0.41.0" = [
     {url = "https://files.pythonhosted.org/packages/c1/20/a4812a1e9e1221dc84d9e0e63c7a9e88d20658d86a962f432f1d8b1451a2/jupyterlab_git-0.41.0-py3-none-any.whl", hash = "sha256:ed82cf235e6b9ca011254d1260e1a4ac66ebbe05422d55f68f4881c13f24a6ad"},

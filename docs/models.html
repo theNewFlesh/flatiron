@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.12.1
               </div>
             
           
@@ -141,6 +141,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">UNetConfig.kernel_initializer</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">UNetConfig.layers</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">UNetConfig.output_activation</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.UNetPipeline"><code class="docutils literal notranslate"><span class="pre">UNetPipeline</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetPipeline._abc_impl"><code class="docutils literal notranslate"><span class="pre">UNetPipeline._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetPipeline.model_config"><code class="docutils literal notranslate"><span class="pre">UNetPipeline.model_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.models.unet.UNetPipeline.model_func"><code class="docutils literal notranslate"><span class="pre">UNetPipeline.model_func()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.models.unet.attention_gate_2d"><code class="docutils literal notranslate"><span class="pre">attention_gate_2d()</span></code></a></li>
@@ -517,6 +523,47 @@ Default: ‘he_normal’</p>
 <dt class="sig sig-object py" id="id16">
 <span class="sig-name descname"><span class="pre">output_activation</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">UNetConfig</span> <span class="pre">as</span> <span class="pre">'output_activation'&gt;</span></em><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.models.unet.</span></span><span class="sig-name descname"><span class="pre">UNetPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/models/unet.html#UNetPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.UNetPipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase" title="flatiron.core.pipeline.PipelineBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineBase</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetPipeline._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.models.unet.UNetPipeline._abc_impl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetPipeline.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/models/unet.html#UNetPipeline.model_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.UNetPipeline.model_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses of PipelineBase wiil need to define a config class for models
+created in the build method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Model config class.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>scm.Model</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.models.unet.UNetPipeline.model_func">
+<span class="sig-name descname"><span class="pre">model_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/models/unet.html#UNetPipeline.model_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.models.unet.UNetPipeline.model_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subclasses of PipelineBase need to define a function that builds and
+returns a machine learning model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Machine learning model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>kef.Functional</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

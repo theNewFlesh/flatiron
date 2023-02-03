@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.12.1
               </div>
             
           
@@ -367,11 +367,16 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        slack_channel (str, optional): Slack channel name. Default: None.</span>
 <span class="sd">        slack_url (str, optional): Slack URL name. Default: None.</span>
+<span class="sd">        slack_methods (list[str], optional): Pipeline methods to be logged to</span>
+<span class="sd">            Slack. Default: [load, compile, fit].</span>
 <span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
 <span class="sd">        level (str or int, optional): Log level. Default: warn.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">slack_channel</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">slack_url</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">slack_methods</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ListType</span><span class="p">(</span>
+        <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;compile&#39;</span><span class="p">,</span> <span class="s1">&#39;fit&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
     <span class="n">timezone</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
     <span class="n">level</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;warn&#39;</span><span class="p">)</span></div>
 

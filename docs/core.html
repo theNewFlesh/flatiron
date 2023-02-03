@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.12.1
               </div>
             
           
@@ -197,13 +197,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.LoggerConfig"><code class="docutils literal notranslate"><span class="pre">LoggerConfig</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.slack_channel"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_channel</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.slack_url"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.slack_methods"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_methods</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.timezone"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.level"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig._schema"><code class="docutils literal notranslate"><span class="pre">LoggerConfig._schema</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id37"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id38"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_channel</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id39"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id39"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig</span></code></a><ul>
@@ -220,18 +222,18 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.ema_overwrite_frequency"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.jit_compile"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig._schema"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig._schema</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id41"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id42"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id43"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id44"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id45"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id46"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id47"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id48"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.momentum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id49"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id50"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.nesterov</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id51"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.weight_decay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id42"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id43"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id44"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id45"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id47"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id49"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.momentum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.nesterov</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id53"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.weight_decay</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.PipelineConfig"><code class="docutils literal notranslate"><span class="pre">PipelineConfig</span></code></a><ul>
@@ -242,12 +244,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig.fit"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.fit</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig.logger"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig._schema"><code class="docutils literal notranslate"><span class="pre">PipelineConfig._schema</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id53"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id54"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id55"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id56"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.fit</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id57"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id58"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id56"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id57"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.fit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id58"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id59"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -294,6 +296,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase"><code class="docutils literal notranslate"><span class="pre">PipelineBase</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineBase.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._abc_impl"><code class="docutils literal notranslate"><span class="pre">PipelineBase._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._logger"><code class="docutils literal notranslate"><span class="pre">PipelineBase._logger()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.build"><code class="docutils literal notranslate"><span class="pre">PipelineBase.build()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.compile"><code class="docutils literal notranslate"><span class="pre">PipelineBase.compile()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.fit"><code class="docutils literal notranslate"><span class="pre">PipelineBase.fit()</span></code></a></li>
@@ -1100,6 +1103,18 @@ generators. Default: False.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.LoggerConfig.slack_methods">
+<span class="sig-name descname"><span class="pre">slack_methods</span></span><a class="headerlink" href="#flatiron.core.config.LoggerConfig.slack_methods" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pipeline methods to be logged to
+Slack. Default: [load, compile, fit].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.LoggerConfig.timezone">
 <span class="sig-name descname"><span class="pre">timezone</span></span><a class="headerlink" href="#flatiron.core.config.LoggerConfig.timezone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Timezone. Default: UTC.</p>
@@ -1138,12 +1153,17 @@ generators. Default: False.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id39">
-<span class="sig-name descname"><span class="pre">slack_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LoggerConfig</span> <span class="pre">as</span> <span class="pre">'slack_url'&gt;</span></em><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">slack_methods</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ListType(StringType)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LoggerConfig</span> <span class="pre">as</span> <span class="pre">'slack_methods'&gt;</span></em><a class="headerlink" href="#id39" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id40">
-<span class="sig-name descname"><span class="pre">timezone</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LoggerConfig</span> <span class="pre">as</span> <span class="pre">'timezone'&gt;</span></em><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">slack_url</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LoggerConfig</span> <span class="pre">as</span> <span class="pre">'slack_url'&gt;</span></em><a class="headerlink" href="#id40" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">timezone</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">LoggerConfig</span> <span class="pre">as</span> <span class="pre">'timezone'&gt;</span></em><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1237,63 +1257,63 @@ Default: None.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id41">
-<span class="sig-name descname"><span class="pre">clipnorm</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'clipnorm'&gt;</span></em><a class="headerlink" href="#id41" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id42">
-<span class="sig-name descname"><span class="pre">clipvalue</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'clipvalue'&gt;</span></em><a class="headerlink" href="#id42" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clipnorm</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'clipnorm'&gt;</span></em><a class="headerlink" href="#id42" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id43">
-<span class="sig-name descname"><span class="pre">ema_momentum</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'ema_momentum'&gt;</span></em><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">clipvalue</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'clipvalue'&gt;</span></em><a class="headerlink" href="#id43" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id44">
-<span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'ema_overwrite_frequency'&gt;</span></em><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ema_momentum</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'ema_momentum'&gt;</span></em><a class="headerlink" href="#id44" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id45">
-<span class="sig-name descname"><span class="pre">global_clipnorm</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'global_clipnorm'&gt;</span></em><a class="headerlink" href="#id45" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;IntType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'ema_overwrite_frequency'&gt;</span></em><a class="headerlink" href="#id45" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id46">
-<span class="sig-name descname"><span class="pre">jit_compile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'jit_compile'&gt;</span></em><a class="headerlink" href="#id46" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">global_clipnorm</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'global_clipnorm'&gt;</span></em><a class="headerlink" href="#id46" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id47">
-<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'learning_rate'&gt;</span></em><a class="headerlink" href="#id47" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">jit_compile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'jit_compile'&gt;</span></em><a class="headerlink" href="#id47" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id48">
-<span class="sig-name descname"><span class="pre">momentum</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'momentum'&gt;</span></em><a class="headerlink" href="#id48" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'learning_rate'&gt;</span></em><a class="headerlink" href="#id48" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id49">
-<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'name'&gt;</span></em><a class="headerlink" href="#id49" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">momentum</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'momentum'&gt;</span></em><a class="headerlink" href="#id49" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id50">
-<span class="sig-name descname"><span class="pre">nesterov</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'nesterov'&gt;</span></em><a class="headerlink" href="#id50" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;StringType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'name'&gt;</span></em><a class="headerlink" href="#id50" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id51">
-<span class="sig-name descname"><span class="pre">use_ema</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'use_ema'&gt;</span></em><a class="headerlink" href="#id51" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">nesterov</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'nesterov'&gt;</span></em><a class="headerlink" href="#id51" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id52">
-<span class="sig-name descname"><span class="pre">weight_decay</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'weight_decay'&gt;</span></em><a class="headerlink" href="#id52" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">use_ema</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;BooleanType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'use_ema'&gt;</span></em><a class="headerlink" href="#id52" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id53">
+<span class="sig-name descname"><span class="pre">weight_decay</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatType()</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">OptimizerConfig</span> <span class="pre">as</span> <span class="pre">'weight_decay'&gt;</span></em><a class="headerlink" href="#id53" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1376,33 +1396,33 @@ Default: None.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id53">
-<span class="sig-name descname"><span class="pre">callbacks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(CallbacksConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'callbacks'&gt;</span></em><a class="headerlink" href="#id53" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id54">
-<span class="sig-name descname"><span class="pre">compile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(CompileConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'compile'&gt;</span></em><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">callbacks</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(CallbacksConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'callbacks'&gt;</span></em><a class="headerlink" href="#id54" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id55">
-<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(DatasetConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'dataset'&gt;</span></em><a class="headerlink" href="#id55" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">compile</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(CompileConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'compile'&gt;</span></em><a class="headerlink" href="#id55" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id56">
-<span class="sig-name descname"><span class="pre">fit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(FitConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'fit'&gt;</span></em><a class="headerlink" href="#id56" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(DatasetConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'dataset'&gt;</span></em><a class="headerlink" href="#id56" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id57">
-<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(LoggerConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'logger'&gt;</span></em><a class="headerlink" href="#id57" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">fit</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(FitConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'fit'&gt;</span></em><a class="headerlink" href="#id57" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id58">
-<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(OptimizerConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'optimizer'&gt;</span></em><a class="headerlink" href="#id58" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(LoggerConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'logger'&gt;</span></em><a class="headerlink" href="#id58" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id59">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;ModelType(OptimizerConfig)</span> <span class="pre">instance</span> <span class="pre">on</span> <span class="pre">PipelineConfig</span> <span class="pre">as</span> <span class="pre">'optimizer'&gt;</span></em><a class="headerlink" href="#id59" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1992,6 +2012,27 @@ gradients.</p>
 <dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase._abc_impl" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase._logger">
+<span class="sig-name descname"><span class="pre">_logger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase._logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase._logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retreives a logger given a message, config and slack flag.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>str</em>) – Name of method calling logger.</p></li>
+<li><p><strong>message</strong> (<em>str</em>) – Log message or Slack title.</p></li>
+<li><p><strong>config</strong> (<em>dict</em>) – Config dict.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configured logger instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ficl.SlackLogger</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase.build">

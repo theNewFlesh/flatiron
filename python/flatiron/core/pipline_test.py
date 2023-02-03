@@ -16,7 +16,7 @@ import flatiron.core.pipeline as ficp
 # ------------------------------------------------------------------------------
 
 
-class TestModel:
+class FakeModel:
     def __init__(self, **kwargs):
         self.state = 'init'
         pass
@@ -30,17 +30,17 @@ class TestModel:
         pass
 
 
-class TestConfig(scm.Model):
+class FakeConfig(scm.Model):
     foo = scmt.StringType(required=True)
     bar = scmt.StringType(default='taco')
 
 
-class TestPipeline(ficp.PipelineBase):
+class FakePipeline(ficp.PipelineBase):
     def model_config(self):
-        return TestConfig
+        return FakeConfig
 
     def model_func(self):
-        return TestModel
+        return FakeModel
 # ------------------------------------------------------------------------------
 
 
@@ -96,26 +96,26 @@ class PipelineTests(unittest.TestCase):
     def test_init(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            result = TestPipeline(config).config['optimizer']['name']
+            result = FakePipeline(config).config['optimizer']['name']
             self.assertEqual(result, 'sgd')
 
     def test_init_model(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
 
-            result = TestPipeline(config).config['model']
+            result = FakePipeline(config).config['model']
             expected = dict(foo='bar', bar='taco')
             self.assertEqual(result, expected)
 
             config['model'] = {}
             with self.assertRaises(DataError):
-                TestPipeline(config)
+                FakePipeline(config)
 
     def test_logger(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             asset = Path(root, 'proj/dset001/dset001_v001').as_posix()
-            pipe = TestPipeline(config)
+            pipe = FakePipeline(config)
 
             # no slack
             config['dataset']['source'] = asset
@@ -136,20 +136,20 @@ class PipelineTests(unittest.TestCase):
 
             # directory
             config['dataset']['source'] = asset
-            result = TestPipeline(config).dataset
+            result = FakePipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
             # file
             src = Path(asset, 'info.csv').as_posix()
             config['dataset']['source'] = src
-            result = TestPipeline(config).dataset
+            result = FakePipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
     def test_from_string(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config = yaml.dump(config)
-            TestPipeline.from_string(config)
+            FakePipeline.from_string(config)
 
     def test_read_yaml(self):
         with TemporaryDirectory() as root:
@@ -157,12 +157,12 @@ class PipelineTests(unittest.TestCase):
             src = Path(root, 'config.yaml')
             with open(src, 'w') as f:
                 yaml.safe_dump(config, f)
-            TestPipeline.read_yaml(src)
+            FakePipeline.read_yaml(src)
 
     def test_load(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = TestPipeline(config)
+            pipe = FakePipeline(config)
             self.assertIsNone(pipe.dataset.data)
 
             with self.assertLogs(level=logging.WARNING) as log:
@@ -173,7 +173,7 @@ class PipelineTests(unittest.TestCase):
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = TestPipeline(config).load()
+            pipe = FakePipeline(config).load()
             self.assertIsNone(pipe.x_train)
             self.assertIsNone(pipe.x_test)
             self.assertIsNone(pipe.y_train)
@@ -190,7 +190,7 @@ class PipelineTests(unittest.TestCase):
     def test_unload(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = TestPipeline(config).load()
+            pipe = FakePipeline(config).load()
 
             with self.assertLogs(level=logging.WARNING) as log:
                 result = pipe.unload().dataset.data
@@ -200,7 +200,7 @@ class PipelineTests(unittest.TestCase):
     def test_build(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = TestPipeline(config)
+            pipe = FakePipeline(config)
 
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.build()
@@ -209,7 +209,7 @@ class PipelineTests(unittest.TestCase):
     def test_compile(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = TestPipeline(config).build()
+            pipe = FakePipeline(config).build()
 
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.compile()
@@ -219,7 +219,7 @@ class PipelineTests(unittest.TestCase):
     def test_fit(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = TestPipeline(config) \
+            pipe = FakePipeline(config) \
                 .load() \
                 .train_test_split() \
                 .unload() \
@@ -235,5 +235,5 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config = yaml.dump(config)
-            result = TestPipeline.from_string(config).run()
+            result = FakePipeline.from_string(config).run()
             self.assertEqual(result.model.state, 'fit')

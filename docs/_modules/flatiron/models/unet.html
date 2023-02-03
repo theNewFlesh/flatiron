@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.0
+                0.12.1
               </div>
             
           
@@ -179,6 +179,7 @@
 <span class="kn">import</span> <span class="nn">tensorflow.keras.layers</span> <span class="k">as</span> <span class="nn">tfl</span>
 <span class="kn">import</span> <span class="nn">tensorflow.keras.models</span> <span class="k">as</span> <span class="nn">tfm</span>
 
+<span class="kn">import</span> <span class="nn">flatiron.core.pipeline</span> <span class="k">as</span> <span class="nn">ficp</span>
 <span class="kn">import</span> <span class="nn">flatiron.core.tools</span> <span class="k">as</span> <span class="nn">fict</span>
 <span class="kn">import</span> <span class="nn">flatiron.core.validators</span> <span class="k">as</span> <span class="nn">vd</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -549,6 +550,17 @@
     <span class="p">)</span>
     <span class="n">attention_padding</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">vd</span><span class="o">.</span><span class="n">is_padding</span><span class="p">])</span>
     <span class="n">attention_kernel_initializer</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">)</span></div>
+
+
+<span class="c1"># PIPELINE----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="UNetPipeline"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline">[docs]</a><span class="k">class</span> <span class="nc">UNetPipeline</span><span class="p">(</span><span class="n">ficp</span><span class="o">.</span><span class="n">PipelineBase</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetPipeline.model_config"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline.model_config">[docs]</a>    <span class="k">def</span> <span class="nf">model_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; scm.Model</span>
+        <span class="k">return</span> <span class="n">UNetConfig</span></div>
+
+<div class="viewcode-block" id="UNetPipeline.model_func"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline.model_func">[docs]</a>    <span class="k">def</span> <span class="nf">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; kef.Functional</span>
+        <span class="k">return</span> <span class="n">get_unet_model</span></div></div>
 </pre></div>
 
            </div>

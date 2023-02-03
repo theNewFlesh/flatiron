@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.12.1
               </div>
             
           
@@ -180,8 +180,8 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
-<span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">import</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="k">as</span> <span class="nn">tfko</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">flatiron.core.dataset</span> <span class="kn">import</span> <span class="n">Dataset</span>
 <span class="kn">import</span> <span class="nn">flatiron.core.config</span> <span class="k">as</span> <span class="nn">cfg</span>
@@ -262,6 +262,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span></div>
 
+<div class="viewcode-block" id="PipelineBase._logger"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase._logger">[docs]</a>    <span class="k">def</span> <span class="nf">_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="c1"># type: (str, str, dict) -&gt; filog.SlackLogger</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Retreives a logger given a message, config and slack flag.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method (str): Name of method calling logger.</span>
+<span class="sd">            message (str): Log message or Slack title.</span>
+<span class="sd">            config (dict): Config dict.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ficl.SlackLogger: Configured logger instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">])</span>
+        <span class="n">methods</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;slack_methods&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;slack_methods&#39;</span><span class="p">]</span>
+        <span class="n">logger</span> <span class="o">=</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">methods</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">_message_func</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">logger</span></div>
+
 <div class="viewcode-block" id="PipelineBase.load"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; PipelineBase</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
@@ -272,9 +294,7 @@
 <span class="sd">            PipelineBase: Self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
-            <span class="s1">&#39;LOAD DATASET&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
-        <span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;LOAD DATASET&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
                 <span class="n">limit</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;load_limit&#39;</span><span class="p">],</span>
                 <span class="n">shuffle</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;load_shuffle&#39;</span><span class="p">],</span>
@@ -298,8 +318,8 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
 
-        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
-            <span class="s1">&#39;TRAIN TEST SPLIT&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span>
+            <span class="s1">&#39;train_test_split&#39;</span><span class="p">,</span> <span class="s1">&#39;TRAIN TEST SPLIT&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
         <span class="p">):</span>
             <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span>
                 <span class="n">index</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_index&#39;</span><span class="p">],</span>
@@ -325,9 +345,7 @@
 <span class="sd">            PipelineBase: Self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
-            <span class="s1">&#39;UNLOAD DATASET&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
-        <span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;unload&#39;</span><span class="p">,</span> <span class="s1">&#39;UNLOAD DATASET&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -341,9 +359,7 @@
 <span class="sd">            PipelineBase: Self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
-        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
-            <span class="s1">&#39;BUILD MODEL&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
-        <span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="s1">&#39;BUILD MODEL&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">config</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_func</span><span class="p">()(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
@@ -362,7 +378,7 @@
             <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">],</span>
             <span class="nb">compile</span><span class="o">=</span><span class="n">compile_</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span><span class="s1">&#39;COMPILE MODEL&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;compile&#39;</span><span class="p">,</span> <span class="s1">&#39;COMPILE MODEL&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
             <span class="c1"># get loss and metrics from flatiron modules</span>
             <span class="n">loss</span> <span class="o">=</span> <span class="n">ficl</span><span class="o">.</span><span class="n">FUNCTIONS</span><span class="p">[</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]]</span>
             <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">ficm</span><span class="o">.</span><span class="n">FUNCTIONS</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]]</span>
@@ -397,9 +413,7 @@
         <span class="n">fit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;fit&#39;</span><span class="p">]</span>
         <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
 
-        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
-            <span class="s1">&#39;FIT MODEL&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
-        <span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;fit&#39;</span><span class="p">,</span> <span class="s1">&#39;FIT MODEL&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">):</span>
             <span class="c1"># create tensorboard</span>
             <span class="n">tb</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_tensorboard_project</span><span class="p">(</span>
                 <span class="n">cb</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">],</span>
