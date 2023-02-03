@@ -7,6 +7,10 @@ a:hover {
     color: #DE958E !important;
 }
 
+p {
+    margin-bottom: 5px;
+}
+
 .btn,
 .btn-neutral,
 .btn:visited,
