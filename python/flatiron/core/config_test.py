@@ -180,6 +180,15 @@ class LoggerConfigTests(unittest.TestCase):
         config = self.get_config()
         ficc.LoggerConfig(config).validate()
 
+    def test_slack_methods(self):
+        config = self.get_config()
+        config['slack_methods'] = ['load', 'foo', 'bar']
+
+        expected = 'foo is not a legal pipeline method.*'
+        expected += 'bar is not a legal pipeline method'
+        with self.assertRaisesRegex(DataError, expected):
+            ficc.LoggerConfig(config).validate()
+
     def test_defaults(self):
         expected = self.get_config()
         result = ficc.LoggerConfig({}).to_native()

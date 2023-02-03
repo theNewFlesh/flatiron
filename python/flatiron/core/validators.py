@@ -111,3 +111,27 @@ def is_callback_mode(mode):
     if mode not in legal:
         msg = f'{mode} is not a legal callback mode. Legal types: {legal}.'
         raise ValidationError(msg)
+
+
+def is_pipeline_method(method):
+    # type: (str) -> None
+    '''
+    Validates that method is a legal pipeline method.
+
+    Args:
+        mode (str): Pipeline method.
+
+    Raises:
+        ValidationError: If methid is not legal.
+    '''
+    legal = [
+        'load',
+        'train_test_split',
+        'unload',
+        'build',
+        'compile',
+        'fit',
+    ]
+    if method not in legal:
+        msg = f'{method} is not a legal pipeline method. Legal methods: {legal}.'
+        raise ValidationError(msg)

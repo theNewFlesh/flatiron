@@ -53,3 +53,20 @@ class ValidatorsTests(unittest.TestCase):
         expected += 'Legal types:.*auto.*min.*max'
         with self.assertRaisesRegex(ValidationError, expected):
             vd.is_callback_mode('foobar')
+
+    def test_is_pipeline_method(self):
+        legal = [
+            'load',
+            'train_test_split',
+            'unload',
+            'build',
+            'compile',
+            'fit',
+        ]
+        for method in legal:
+            vd.is_pipeline_method(method)
+
+        expected = 'foobar is not a legal pipeline method. '
+        expected += 'Legal methods:.*' + '.*'.join(legal)
+        with self.assertRaisesRegex(ValidationError, expected):
+            vd.is_pipeline_method('foobar')

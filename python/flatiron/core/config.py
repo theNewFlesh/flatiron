@@ -203,7 +203,8 @@ class LoggerConfig(scm.Model):
     slack_channel = scmt.StringType(default=None)
     slack_url = scmt.StringType(default=None)
     slack_methods = scmt.ListType(
-        scmt.StringType, default=['load', 'compile', 'fit']
+        scmt.StringType(validators=[vd.is_pipeline_method]),
+        default=['load', 'compile', 'fit']
     )
     timezone = scmt.StringType(default='UTC')
     level = scmt.StringType(default='warn')
