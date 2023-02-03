@@ -9,6 +9,7 @@ services:
     ports:
       - "9100:9000"
       - "9180:8080"
+      - "9006:6006"
     userns_mode: "host"
     user: ubuntu
     env_file:
