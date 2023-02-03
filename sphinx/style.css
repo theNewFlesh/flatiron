@@ -258,3 +258,9 @@ span[id*='MathJax-Span'] {
 #architecture object[data="architecture.svg"] {
     max-width: 900px !important;
 }
+
+/* Intro Sections */
+h1 {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
