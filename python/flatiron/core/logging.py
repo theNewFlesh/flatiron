@@ -36,7 +36,7 @@ class SlackLogger(lbt.LogRuntime):
             level (str or int, optional): Log level. Default: warn.
             **kwargs (optional): LogRuntime kwargs.
         '''
-        super().__init__(level=level, **kwargs)
+        super().__init__(message=message, level=level, **kwargs)
 
         if slack_channel is not None and slack_url is not None:
             self._message_func = lambda _, stp: fict.slack_it(
