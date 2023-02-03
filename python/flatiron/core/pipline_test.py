@@ -1,5 +1,6 @@
 from pathlib import Path
 from tempfile import TemporaryDirectory
+import logging
 import os
 import unittest
 
@@ -16,6 +17,9 @@ import flatiron.core.pipeline as ficp
 
 
 class TestModel:
+    def __init__(self, **kwargs):
+        pass
+
     def compile(self, **kwargs):
         pass
 
@@ -33,7 +37,7 @@ class TestPipeline(ficp.PipelineBase):
         return TestConfig
 
     def model_func(self):
-        pass
+        return TestModel
 # ------------------------------------------------------------------------------
 
 
@@ -74,7 +78,10 @@ class PipelineTests(unittest.TestCase):
                 root=root,
             ),
             optimizer=dict(),
-            compile=dict(),
+            compile=dict(
+                loss='dice_loss',
+                metrics=['jaccard', 'dice'],
+            ),
             fit=dict(),
             logger=dict(),
         )
@@ -127,20 +134,61 @@ class PipelineTests(unittest.TestCase):
                 yaml.safe_dump(config, f)
             TestPipeline.read_yaml(src)
 
-    # def test_load(self):
-    #     pass
+    def test_load(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = TestPipeline(config)
+            self.assertIsNone(pipe.dataset.data)
 
-    # def test_train_test_split(self):
-    #     pass
+            with self.assertLogs(level=logging.WARNING) as log:
+                result = pipe.load().dataset.data
+            self.assertRegex(log.output[0], 'LOAD DATASET')
+            self.assertIsInstance(result, np.ndarray)
 
-    # def test_unload(self):
-    #     pass
+    def test_train_test_split(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = TestPipeline(config).load()
+            self.assertIsNone(pipe.x_train)
+            self.assertIsNone(pipe.x_test)
+            self.assertIsNone(pipe.y_train)
+            self.assertIsNone(pipe.y_test)
 
-    # def test_build(self):
-    #     pass
+            with self.assertLogs(level=logging.WARNING) as log:
+                result = pipe.train_test_split()
+            self.assertRegex(log.output[0], 'TRAIN TEST SPLIT')
+            self.assertIsInstance(result.x_train, np.ndarray)
+            self.assertIsInstance(result.x_test, np.ndarray)
+            self.assertIsInstance(result.y_train, np.ndarray)
+            self.assertIsInstance(result.y_test, np.ndarray)
 
-    # def test_compile(self):
-    #     pass
+    def test_unload(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = TestPipeline(config).load()
+
+            with self.assertLogs(level=logging.WARNING) as log:
+                result = pipe.unload().dataset.data
+            self.assertRegex(log.output[0], 'UNLOAD DATASET')
+            self.assertIsNone(result)
+
+    def test_build(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = TestPipeline(config)
+
+            with self.assertLogs(level=logging.WARNING) as log:
+                pipe.build()
+            self.assertRegex(log.output[0], 'BUILD MODEL')
+
+    def test_compile(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = TestPipeline(config).build()
+
+            with self.assertLogs(level=logging.WARNING) as log:
+                pipe.compile()
+            self.assertRegex(log.output[0], 'COMPILE MODEL')
 
     # def test_fit(self):
     #     pass

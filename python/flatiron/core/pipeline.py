@@ -84,6 +84,11 @@ class PipelineBase(ABC):
         else:
             self.dataset = Dataset.read_directory(src)
 
+        self.x_train = None
+        self.x_test = None
+        self.y_train = None
+        self.y_test = None
+
     def load(self):
         # type: () -> PipelineBase
         '''
@@ -119,18 +124,22 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         config = self.config['dataset']
-        x_train, x_test, y_train, y_test = self.dataset.train_test_split(
-            index=config['split_index'],
-            axis=config['split_axis'],
-            test_size=config['split_test_size'],
-            train_size=config['split_train_size'],
-            random_state=config['split_random_state'],
-            shuffle=config['split_shuffle'],
-        )
-        self.x_train = x_train
-        self.x_test = x_test
-        self.y_train = y_train
-        self.y_test = y_test
+
+        with filog.SlackLogger(
+            'TRAIN TEST SPLIT', dict(dataset=config), **self.config['logger']
+        ):
+            x_train, x_test, y_train, y_test = self.dataset.train_test_split(
+                index=config['split_index'],
+                axis=config['split_axis'],
+                test_size=config['split_test_size'],
+                train_size=config['split_train_size'],
+                random_state=config['split_random_state'],
+                shuffle=config['split_shuffle'],
+            )
+            self.x_train = x_train
+            self.x_test = x_test
+            self.y_train = y_train
+            self.y_test = y_test
         return self
 
     def unload(self):
@@ -142,7 +151,11 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        self.dataset.unload()
+        config = self.config['dataset']
+        with filog.SlackLogger(
+            'UNLOAD DATASET', dict(dataset=config), **self.config['logger']
+        ):
+            self.dataset.unload()
         return self
 
     def build(self):
@@ -154,7 +167,11 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        self.model = self.model_func(**self.config['model'])
+        config = self.config['model']
+        with filog.SlackLogger(
+            'BUILD MODEL', dict(model=config), **self.config['logger']
+        ):
+            self.model = self.model_func()(**config)
         return self
 
     def compile(self):
@@ -165,28 +182,34 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        comp = self.config['compile']
+        compile_ = self.config['compile']
 
-        # get loss and metrics from flatiron modules
-        loss = ficl.FUNCTIONS[comp['loss']]
-        metrics = [ficm.FUNCTIONS[x] for x in comp['metrics']]
-
-        # create optimizer
-        kwargs = deepcopy(self.config['optimizer'])
-        del kwargs['name']
-        opt = tfko.get(self.config['optimizer']['name'], **kwargs)
-
-        # compile
-        self.model.compile(
-            optimizer=opt,
-            loss=loss,
-            metrics=metrics,
-            loss_weights=comp['loss_weights'],
-            weighted_metrics=comp['weighted_metrics'],
-            run_eagerly=comp['run_eagerly'],
-            steps_per_execution=comp['steps_per_execution'],
-            jit_compile=comp['jit_compile'],
+        cfg = dict(
+            model=self.config['model'],
+            optimizer=self.config['optimizer'],
+            compile=compile_,
         )
+        with filog.SlackLogger('COMPILE MODEL', cfg, **self.config['logger']):
+            # get loss and metrics from flatiron modules
+            loss = ficl.FUNCTIONS[compile_['loss']]
+            metrics = [ficm.FUNCTIONS[x] for x in compile_['metrics']]
+
+            # create optimizer
+            kwargs = deepcopy(self.config['optimizer'])
+            del kwargs['name']
+            opt = tfko.get(self.config['optimizer']['name'], **kwargs)
+
+            # compile
+            self.model.compile(
+                optimizer=opt,
+                loss=loss,
+                metrics=metrics,
+                loss_weights=compile_['loss_weights'],
+                weighted_metrics=compile_['weighted_metrics'],
+                run_eagerly=compile_['run_eagerly'],
+                steps_per_execution=compile_['steps_per_execution'],
+                jit_compile=compile_['jit_compile'],
+            )
         return self
 
     def fit(self):
@@ -200,31 +223,35 @@ class PipelineBase(ABC):
         cb = self.config['callbacks']
         fit = self.config['fit']
 
-        # create tensorboard
-        tb = fict.get_tensorboard_project(
-            cb['project'],
-            cb['root'],
-            cb['timezone'],
-        )
+        with filog.SlackLogger(
+            'FIT MODEL', self.config, **self.config['logger']
+        ):
+            # create tensorboard
+            tb = fict.get_tensorboard_project(
+                cb['project'],
+                cb['root'],
+                cb['timezone'],
+            )
 
-        # create checkpoint params and callbacks
-        cp = deepcopy(cb)
-        del cp['project']
-        del cp['root']
-        callbacks = fict.get_callbacks(
-            tb['log_directory'], tb['checkpoint_pattern'], cp,
-        )
+            # create checkpoint params and callbacks
+            cp = deepcopy(cb)
+            del cp['project']
+            del cp['root']
+            callbacks = fict.get_callbacks(
+                tb['log_directory'], tb['checkpoint_pattern'], cp,
+            )
 
-        # train model
-        steps = math.ceil(self.x_train.shape[0] / fit['batch_size'])
-        self.model.fit(
-            x=self.x_train,
-            y=self.x_test,
-            callbacks=callbacks,
-            validation_data=(self.x_test, self.y_test),
-            steps_per_epoch=steps,
-            **fit,
-        )
+            # train model
+            steps = math.ceil(self.x_train.shape[0] / fit['batch_size'])
+            self.model.fit(
+                x=self.x_train,
+                y=self.x_test,
+                callbacks=callbacks,
+                validation_data=(self.x_test, self.y_test),
+                steps_per_epoch=steps,
+                steps=steps,
+                **fit,
+            )
         return self
 
     @abstractmethod
