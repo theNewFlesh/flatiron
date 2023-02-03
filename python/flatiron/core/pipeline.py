@@ -290,7 +290,7 @@ class PipelineBase(ABC):
         Returns:
             scm.Model: Model config class.
         '''
-        pass
+        pass  # pragma: no cover
 
     @abstractmethod
     def model_func(self):
@@ -302,4 +302,4 @@ class PipelineBase(ABC):
         Returns:
             kef.Functional: Machine learning model.
         '''
-        pass
+        pass  # pragma: no cover
