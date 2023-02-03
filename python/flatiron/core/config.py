@@ -82,8 +82,8 @@ class CompileConfig(scm.Model):
     See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile
 
     Attributes:
-        loss (string, optional): Loss metric name. Default: None.
-        metrics (list[str], optional): List of metrics. Default: None.
+        loss (string): Loss metric name.
+        metrics (list[str], optional): List of metrics. Default: [].
         loss_weights (list[float], optional): List of loss weights.
             Default: None.
         weighted_metrics (list[float], optional): List of metric weights.
@@ -93,8 +93,8 @@ class CompileConfig(scm.Model):
             call. Default: 1.
         jit_compile (boolean, optional): Use XLA. Default: False.
     '''
-    loss = scmt.StringType(default=None)
-    metrics = scmt.ListType(scmt.StringType, default=None)
+    loss = scmt.StringType(required=True)
+    metrics = scmt.ListType(scmt.StringType, default=[])
     loss_weights = scmt.ListType(scmt.FloatType, default=None)
     weighted_metrics = scmt.ListType(scmt.FloatType, default=None)
     run_eagerly = scmt.BooleanType(default=False)

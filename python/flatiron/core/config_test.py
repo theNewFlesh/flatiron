@@ -94,8 +94,8 @@ class OptimizerConfigTests(unittest.TestCase):
 class CompileConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            loss=None,
-            metrics=None,
+            loss='dice_loss',
+            metrics=[],
             loss_weights=None,
             weighted_metrics=None,
             run_eagerly=False,
@@ -109,7 +109,8 @@ class CompileConfigTests(unittest.TestCase):
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.CompileConfig({}).to_native()
+        config = dict(loss='dice_loss')
+        result = ficc.CompileConfig(config).to_native()
         self.assertEqual(result, expected)
 
 
@@ -192,7 +193,9 @@ class PipelineConfigTests(unittest.TestCase):
                 split_index=-1,
             ),
             optimizer=dict(),
-            compile=dict(),
+            compile=dict(
+                loss='jaccard_loss',
+            ),
             callbacks=dict(
                 project='project',
                 root='root',
