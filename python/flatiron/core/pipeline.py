@@ -8,8 +8,8 @@ from copy import deepcopy
 from pathlib import Path
 import math
 
-import yaml
 import tensorflow.keras.optimizers as tfko
+import yaml
 
 from flatiron.core.dataset import Dataset
 import flatiron.core.config as cfg
@@ -90,6 +90,28 @@ class PipelineBase(ABC):
         self.y_train = None  # type: Optional[np.ndarray]
         self.y_test = None  # type: Optional[np.ndarray]
 
+    def _logger(self, method, message, config):
+        # type: (str, str, dict) -> filog.SlackLogger
+        '''
+        Retreives a logger given a message, config and slack flag.
+
+        Args:
+            method (str): Name of method calling logger.
+            message (str): Log message or Slack title.
+            config (dict): Config dict.
+
+        Returns:
+            ficl.SlackLogger: Configured logger instance.
+        '''
+        kwargs = deepcopy(self.config['logger'])
+        methods = kwargs['slack_methods']
+        del kwargs['slack_methods']
+        logger = filog.SlackLogger(message, config, **kwargs)
+        if method not in methods:
+            logger._message_func = None
+            logger._callback = None
+        return logger
+
     def load(self):
         # type: () -> PipelineBase
         '''
@@ -100,9 +122,7 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         config = self.config['dataset']
-        with filog.SlackLogger(
-            'LOAD DATASET', dict(dataset=config), **self.config['logger']
-        ):
+        with self._logger('load', 'LOAD DATASET', dict(dataset=config)):
             self.dataset.load(
                 limit=config['load_limit'],
                 shuffle=config['load_shuffle'],
@@ -126,8 +146,8 @@ class PipelineBase(ABC):
         '''
         config = self.config['dataset']
 
-        with filog.SlackLogger(
-            'TRAIN TEST SPLIT', dict(dataset=config), **self.config['logger']
+        with self._logger(
+            'train_test_split', 'TRAIN TEST SPLIT', dict(dataset=config)
         ):
             x_train, x_test, y_train, y_test = self.dataset.train_test_split(
                 index=config['split_index'],
@@ -153,9 +173,7 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         config = self.config['dataset']
-        with filog.SlackLogger(
-            'UNLOAD DATASET', dict(dataset=config), **self.config['logger']
-        ):
+        with self._logger('unload', 'UNLOAD DATASET', dict(dataset=config)):
             self.dataset.unload()
         return self
 
@@ -169,9 +187,7 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         config = self.config['model']
-        with filog.SlackLogger(
-            'BUILD MODEL', dict(model=config), **self.config['logger']
-        ):
+        with self._logger('build', 'BUILD MODEL', dict(model=config)):
             self.model = self.model_func()(**config)
         return self
 
@@ -190,7 +206,7 @@ class PipelineBase(ABC):
             optimizer=self.config['optimizer'],
             compile=compile_,
         )
-        with filog.SlackLogger('COMPILE MODEL', cfg, **self.config['logger']):
+        with self._logger('compile', 'COMPILE MODEL', cfg):
             # get loss and metrics from flatiron modules
             loss = ficl.FUNCTIONS[compile_['loss']]
             metrics = [ficm.FUNCTIONS[x] for x in compile_['metrics']]
@@ -225,9 +241,7 @@ class PipelineBase(ABC):
         fit = self.config['fit']
         log = self.config['logger']
 
-        with filog.SlackLogger(
-            'FIT MODEL', self.config, **self.config['logger']
-        ):
+        with self._logger('fit', 'FIT MODEL', self.config):
             # create tensorboard
             tb = fict.get_tensorboard_project(
                 cb['project'],

@@ -86,7 +86,11 @@ class PipelineTests(unittest.TestCase):
                 metrics=['jaccard', 'dice'],
             ),
             fit=dict(),
-            logger=dict(),
+            logger=dict(
+                slack_url='https://hooks.slack.com/services/fake-service',
+                slack_channel='test',
+                slack_methods=['load'],
+            ),
         )
 
     def test_init(self):
@@ -106,6 +110,24 @@ class PipelineTests(unittest.TestCase):
             config['model'] = {}
             with self.assertRaises(DataError):
                 TestPipeline(config)
+
+    def test_logger(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            asset = Path(root, 'proj/dset001/dset001_v001').as_posix()
+            pipe = TestPipeline(config)
+
+            # no slack
+            config['dataset']['source'] = asset
+            result = pipe._logger('foobar', 'some-message', dict(foo='bar'))
+            self.assertIsNone(result._message_func)
+            self.assertIsNone(result._callback)
+
+            # slack
+            config['dataset']['source'] = asset
+            result = pipe._logger('load', 'some-message', dict(foo='bar'))
+            self.assertIsNotNone(result._message_func)
+            self.assertIsNotNone(result._callback)
 
     def test_init_dataset(self):
         with TemporaryDirectory() as root:

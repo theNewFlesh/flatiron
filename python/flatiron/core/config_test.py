@@ -171,6 +171,7 @@ class LoggerConfigTests(unittest.TestCase):
         return dict(
             slack_channel=None,
             slack_url=None,
+            slack_methods=['load', 'compile', 'fit'],
             timezone='UTC',
             level='warn',
         )
