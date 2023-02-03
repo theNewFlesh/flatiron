@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.12.0
               </div>
             
           
@@ -204,11 +204,11 @@
 <span class="sd">            config (dict): Config dict.</span>
 <span class="sd">            slack_channel (str, optional): Slack channel name. Default: None.</span>
 <span class="sd">            slack_url (str, optional): Slack URL name. Default: None.</span>
-<span class="sd">            timezone=&#39;UTC&#39; (str, optional): Timezone. Default: UTC.</span>
+<span class="sd">            timezone (str, optional): Timezone. Default: UTC.</span>
 <span class="sd">            level (str or int, optional): Log level. Default: warn.</span>
 <span class="sd">            **kwargs (optional): LogRuntime kwargs.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">message</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">slack_channel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">slack_url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_message_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">,</span> <span class="n">stp</span><span class="p">:</span> <span class="n">fict</span><span class="o">.</span><span class="n">slack_it</span><span class="p">(</span>

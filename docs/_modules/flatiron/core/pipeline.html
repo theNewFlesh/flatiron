@@ -1,0 +1,523 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>flatiron.core.pipeline &mdash; flatiron  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> flatiron
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.12.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#development-cli">Development CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../core.html">core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">flatiron</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>flatiron.core.pipeline</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for flatiron.core.pipeline</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa F401</span>
+<span class="kn">import</span> <span class="nn">keras.engine.functional</span> <span class="k">as</span> <span class="nn">kef</span>  <span class="c1"># noqa F401</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  <span class="c1"># noqa F401</span>
+<span class="kn">import</span> <span class="nn">schematics.models</span> <span class="k">as</span> <span class="nn">scm</span>  <span class="c1"># noqa F401</span>
+
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="k">as</span> <span class="nn">tfko</span>
+
+<span class="kn">from</span> <span class="nn">flatiron.core.dataset</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">flatiron.core.config</span> <span class="k">as</span> <span class="nn">cfg</span>
+<span class="kn">import</span> <span class="nn">flatiron.core.logging</span> <span class="k">as</span> <span class="nn">filog</span>
+<span class="kn">import</span> <span class="nn">flatiron.core.loss</span> <span class="k">as</span> <span class="nn">ficl</span>
+<span class="kn">import</span> <span class="nn">flatiron.core.metric</span> <span class="k">as</span> <span class="nn">ficm</span>
+<span class="kn">import</span> <span class="nn">flatiron.core.tools</span> <span class="k">as</span> <span class="nn">fict</span>
+
+<span class="n">Filepath</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="PipelineBase"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase">[docs]</a><span class="k">class</span> <span class="nc">PipelineBase</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<div class="viewcode-block" id="PipelineBase.read_yaml"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.read_yaml">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">read_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="c1"># type: (Filepath) -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct PipelineBase instance from given yaml file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (str or Path): YAML file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: PipelineBase instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PipelineBase.from_string"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.from_string">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct PipelineBase instance from given YAML text.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text (str): YAML text.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: PipelineBase instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PipelineBase.__init__"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="c1"># type: (dict) -&gt; None</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        PipelineBase is a base class for machine learning pipelines.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            config (dict): PipelineBase config.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+        <span class="c1"># model</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="p">()(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to_native</span><span class="p">()</span>
+        <span class="k">del</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+
+        <span class="c1"># pipeline</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PipelineConfig</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">to_native</span><span class="p">()</span>
+        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+
+        <span class="c1"># create Dataset instance</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">][</span><span class="s1">&#39;source&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">src</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">Dataset</span><span class="o">.</span><span class="n">read_directory</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[np.ndarray]</span></div>
+
+<div class="viewcode-block" id="PipelineBase.load"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Load dataset into memory.</span>
+<span class="sd">        Calls `self.dataset.load` with dataset params.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
+            <span class="s1">&#39;LOAD DATASET&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                <span class="n">limit</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;load_limit&#39;</span><span class="p">],</span>
+                <span class="n">shuffle</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;load_shuffle&#39;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.train_test_split"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.train_test_split">[docs]</a>    <span class="k">def</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Split dataset into train and test sets.</span>
+
+<span class="sd">        Assigns the following instance members:</span>
+
+<span class="sd">            * x_train</span>
+<span class="sd">            * x_test</span>
+<span class="sd">            * y_train</span>
+<span class="sd">            * y_test</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
+            <span class="s1">&#39;TRAIN TEST SPLIT&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span>
+                <span class="n">index</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_index&#39;</span><span class="p">],</span>
+                <span class="n">axis</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_axis&#39;</span><span class="p">],</span>
+                <span class="n">test_size</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_test_size&#39;</span><span class="p">],</span>
+                <span class="n">train_size</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_train_size&#39;</span><span class="p">],</span>
+                <span class="n">random_state</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_random_state&#39;</span><span class="p">],</span>
+                <span class="n">shuffle</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;split_shuffle&#39;</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span> <span class="o">=</span> <span class="n">x_train</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x_test</span> <span class="o">=</span> <span class="n">x_test</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y_train</span> <span class="o">=</span> <span class="n">y_train</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span> <span class="o">=</span> <span class="n">y_test</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.unload"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Unload dataset into memory. Train and test sets will be kept.</span>
+<span class="sd">        Calls `self.dataset.unload`.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
+            <span class="s1">&#39;UNLOAD DATASET&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.build"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Build machine learning model and assign it to self.model.</span>
+<span class="sd">        Calls `self.model_func` with model params.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
+            <span class="s1">&#39;BUILD MODEL&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">config</span><span class="p">),</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_func</span><span class="p">()(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.compile"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.compile">[docs]</a>    <span class="k">def</span> <span class="nf">compile</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Call `self.model.compile` with compile params.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">compile_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;compile&#39;</span><span class="p">]</span>
+
+        <span class="n">cfg</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span>
+            <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">],</span>
+            <span class="nb">compile</span><span class="o">=</span><span class="n">compile_</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span><span class="s1">&#39;COMPILE MODEL&#39;</span><span class="p">,</span> <span class="n">cfg</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]):</span>
+            <span class="c1"># get loss and metrics from flatiron modules</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">ficl</span><span class="o">.</span><span class="n">FUNCTIONS</span><span class="p">[</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]]</span>
+            <span class="n">metrics</span> <span class="o">=</span> <span class="p">[</span><span class="n">ficm</span><span class="o">.</span><span class="n">FUNCTIONS</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]]</span>
+
+            <span class="c1"># create optimizer</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">])</span>
+            <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+            <span class="n">opt</span> <span class="o">=</span> <span class="n">tfko</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="c1"># compile</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+                <span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span>
+                <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span>
+                <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+                <span class="n">loss_weights</span><span class="o">=</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;loss_weights&#39;</span><span class="p">],</span>
+                <span class="n">weighted_metrics</span><span class="o">=</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;weighted_metrics&#39;</span><span class="p">],</span>
+                <span class="n">run_eagerly</span><span class="o">=</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;run_eagerly&#39;</span><span class="p">],</span>
+                <span class="n">steps_per_execution</span><span class="o">=</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;steps_per_execution&#39;</span><span class="p">],</span>
+                <span class="n">jit_compile</span><span class="o">=</span><span class="n">compile_</span><span class="p">[</span><span class="s1">&#39;jit_compile&#39;</span><span class="p">],</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.fit"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Call `self.model.fit` with fit params.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">cb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;callbacks&#39;</span><span class="p">]</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;fit&#39;</span><span class="p">]</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+
+        <span class="k">with</span> <span class="n">filog</span><span class="o">.</span><span class="n">SlackLogger</span><span class="p">(</span>
+            <span class="s1">&#39;FIT MODEL&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="c1"># create tensorboard</span>
+            <span class="n">tb</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_tensorboard_project</span><span class="p">(</span>
+                <span class="n">cb</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">],</span>
+                <span class="n">cb</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">],</span>
+                <span class="n">log</span><span class="p">[</span><span class="s1">&#39;timezone&#39;</span><span class="p">],</span>
+            <span class="p">)</span>
+
+            <span class="c1"># create checkpoint params and callbacks</span>
+            <span class="n">cp</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">cb</span><span class="p">)</span>
+            <span class="k">del</span> <span class="n">cp</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]</span>
+            <span class="k">del</span> <span class="n">cp</span><span class="p">[</span><span class="s1">&#39;root&#39;</span><span class="p">]</span>
+            <span class="n">callbacks</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_callbacks</span><span class="p">(</span>
+                <span class="n">tb</span><span class="p">[</span><span class="s1">&#39;log_dir&#39;</span><span class="p">],</span> <span class="n">tb</span><span class="p">[</span><span class="s1">&#39;checkpoint_pattern&#39;</span><span class="p">],</span> <span class="n">cp</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># train model</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># type: ignore</span>
+            <span class="n">steps</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">fit</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+                <span class="n">x</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">x_train</span><span class="p">,</span>
+                <span class="n">y</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">,</span>
+                <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+                <span class="n">validation_data</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x_test</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_test</span><span class="p">),</span>
+                <span class="n">steps_per_epoch</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span>
+                <span class="n">steps</span><span class="o">=</span><span class="n">steps</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">fit</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.run"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; PipelineBase</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Run the following pipeline operations:</span>
+
+<span class="sd">        * load</span>
+<span class="sd">        * train_test_split</span>
+<span class="sd">        * unload</span>
+<span class="sd">        * build</span>
+<span class="sd">        * compile</span>
+<span class="sd">        * fit</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PipelineBase: Self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">train_test_split</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">unload</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">build</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">compile</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="PipelineBase.model_config"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.model_config">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">model_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; scm.Model</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Subclasses of PipelineBase wiil need to define a config class for models</span>
+<span class="sd">        created in the build method.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            scm.Model: Model config class.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="PipelineBase.model_func"><a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.model_func">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; kef.Functional</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Subclasses of PipelineBase need to define a function that builds and</span>
+<span class="sd">        returns a machine learning model.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            kef.Functional: Machine learning model.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

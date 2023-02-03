@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.12.0
               </div>
             
           
@@ -265,6 +265,23 @@
     <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="s1">&#39;same&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">pad_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pad_type</span><span class="si">}</span><span class="s1"> is not a legal padding type. Legal types: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_callback_mode"><a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_callback_mode">[docs]</a><span class="k">def</span> <span class="nf">is_callback_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; None</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Validates that mode is a legal calback mode.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        mode (str): Callback mode.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValidationError: If mode type is not legal.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1"> is not a legal callback mode. Legal types: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 </pre></div>
 

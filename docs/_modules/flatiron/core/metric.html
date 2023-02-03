@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.12.0
               </div>
             
           
@@ -365,6 +365,14 @@
     <span class="n">u</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">+</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
     <span class="n">dice</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dice</span></div>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="n">FUNCTIONS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">iou</span><span class="o">=</span><span class="n">intersection_over_union</span><span class="p">,</span>
+    <span class="n">jaccard</span><span class="o">=</span><span class="n">jaccard</span><span class="p">,</span>
+    <span class="n">dice</span><span class="o">=</span><span class="n">dice</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 
            </div>

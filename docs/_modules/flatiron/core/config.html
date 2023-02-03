@@ -1,0 +1,444 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>flatiron.core.config &mdash; flatiron  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> flatiron
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.12.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#production-cli">Production CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#development-cli">Development CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../core.html">core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../models.html">models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">flatiron</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>flatiron.core.config</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for flatiron.core.config</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">schematics</span> <span class="k">as</span> <span class="nn">scm</span>
+<span class="kn">import</span> <span class="nn">schematics.types</span> <span class="k">as</span> <span class="nn">scmt</span>
+
+<span class="kn">import</span> <span class="nn">flatiron.core.validators</span> <span class="k">as</span> <span class="nn">vd</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="DatasetConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.DatasetConfig">[docs]</a><span class="k">class</span> <span class="nc">DatasetConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for Dataset.</span>
+
+<span class="sd">    See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.dataset</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        source (str): Dataset directory or CSV filepath.</span>
+<span class="sd">        load_limit (str or int): Limit data by number of samples or memory size.</span>
+<span class="sd">            Default: None.</span>
+<span class="sd">        load_shuffle (bool): Shuffle chunks before loading. Default: False.</span>
+<span class="sd">        split_index (int): Index of axis to split on.</span>
+<span class="sd">        split_axis (int): Axis to split data on. Default: -1.</span>
+<span class="sd">        split_test_size (float): Test size. Default: 0.2</span>
+<span class="sd">        split_train_size (float): Train size. Default: None</span>
+<span class="sd">        split_random_state (int): Seed for shuffling randomness. Default: 42.</span>
+<span class="sd">        split_shuffle (bool): Shuffle data rows. Default: True.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">load_limit</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">UnionType</span><span class="p">([</span><span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">,</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">load_shuffle</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">split_index</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">split_axis</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">split_test_size</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">vd</span><span class="o">.</span><span class="n">is_gte</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+    <span class="p">)</span>
+    <span class="n">split_train_size</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">vd</span><span class="o">.</span><span class="n">is_gte</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)])</span>
+    <span class="n">split_random_state</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">split_shuffle</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="OptimizerConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.OptimizerConfig">[docs]</a><span class="k">class</span> <span class="nc">OptimizerConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for keras optimizer.</span>
+
+<span class="sd">    See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name: (string, optional): Name of optimizer. Default=&#39;sgd&#39;.</span>
+<span class="sd">        learning_rate: (float, optional): Learning rate. Default=0.001.</span>
+<span class="sd">        momentum: (float, optional): Momentum. Default=0.</span>
+<span class="sd">        nesterov: (boolean, optional): User Nesterov updates. Default=False.</span>
+<span class="sd">        weight_decay: (string, optional): Decay weights. Default: None.</span>
+<span class="sd">        clipnorm: (float, optional): Clip individual weights so norm is not</span>
+<span class="sd">            higher than this. Default: None.</span>
+<span class="sd">        clipvalue: (float, optional): Clip weights at this max value.</span>
+<span class="sd">            Default: None</span>
+<span class="sd">        global_clipnorm: (float, optional): Clip all weights so norm is not</span>
+<span class="sd">            higher than this. Default: None.</span>
+<span class="sd">        use_ema: (boolean, optional): Exponential moving average. Default=False.</span>
+<span class="sd">        ema_momentum: (float, optional): Exponential moving average momentum.</span>
+<span class="sd">            Default=0.99.</span>
+<span class="sd">        ema_overwrite_frequency: (int, optional): Frequency of EMA overwrites.</span>
+<span class="sd">            Default: None.</span>
+<span class="sd">        jit_compile: (boolean, optional): Use XLA. Default=True.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;sgd&#39;</span><span class="p">)</span>
+    <span class="n">learning_rate</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">momentum</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">nesterov</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">weight_decay</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">clipnorm</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">clipvalue</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">global_clipnorm</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">use_ema</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ema_momentum</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)</span>
+    <span class="n">ema_overwrite_frequency</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">jit_compile</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CompileConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.CompileConfig">[docs]</a><span class="k">class</span> <span class="nc">CompileConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for calls to model.compile.</span>
+
+<span class="sd">    See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        loss (string): Loss metric name.</span>
+<span class="sd">        metrics (list[str], optional): List of metrics. Default: [].</span>
+<span class="sd">        loss_weights (list[float], optional): List of loss weights.</span>
+<span class="sd">            Default: None.</span>
+<span class="sd">        weighted_metrics (list[float], optional): List of metric weights.</span>
+<span class="sd">            Default: None.</span>
+<span class="sd">        run_eagerly (boolean, optional): Leave as False. Default: False.</span>
+<span class="sd">        steps_per_execution (int, optional): Number of batches per function</span>
+<span class="sd">            call. Default: 1.</span>
+<span class="sd">        jit_compile (boolean, optional): Use XLA. Default: False.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ListType</span><span class="p">(</span><span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[])</span>
+    <span class="n">loss_weights</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ListType</span><span class="p">(</span><span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">weighted_metrics</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ListType</span><span class="p">(</span><span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">run_eagerly</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">steps_per_execution</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">jit_compile</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CallbacksConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.CallbacksConfig">[docs]</a><span class="k">class</span> <span class="nc">CallbacksConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for tensorflow callbacks.</span>
+
+<span class="sd">    See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.tools</span>
+<span class="sd">    See: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        project (str): Name of project.</span>
+<span class="sd">        root (str or Path): Tensorboard parent directory. Default: /mnt/storage.</span>
+<span class="sd">        monitor (str, optional): Metric to monitor. Default: &#39;val_loss&#39;.</span>
+<span class="sd">        verbose (int, optional): Log callback actions. Default: 0.</span>
+<span class="sd">        save_best_only (bool, optional): Save only best model. Default: False.</span>
+<span class="sd">        mode (str, optional): Overwrite best model via</span>
+<span class="sd">            `mode(old metric, new metric)`. Options: [auto, min, max].</span>
+<span class="sd">            Default: &#39;auto&#39;.</span>
+<span class="sd">        save_weights_only (bool, optional): Only save model weights.</span>
+<span class="sd">            Default: False.</span>
+<span class="sd">        save_freq (union, optional): Save after each epoch or N batches.</span>
+<span class="sd">            Options: &#39;epoch&#39; or int. Default: &#39;epoch&#39;.</span>
+<span class="sd">        initial_value_threshold (float, optional): Initial best value of metric.</span>
+<span class="sd">            Default: None.</span>
+<span class="sd">        experimental_io_device (str, optional): IO device name.</span>
+<span class="sd">            Default: None.</span>
+<span class="sd">        experimental_enable_async_checkpoint (bool, optional): Use async</span>
+<span class="sd">            checkpoint. Default: False.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">project</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">monitor</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">)</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">save_best_only</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">save_weights_only</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">vd</span><span class="o">.</span><span class="n">is_callback_mode</span><span class="p">])</span>
+    <span class="n">save_freq</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">UnionType</span><span class="p">([</span><span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">,</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">)</span>
+    <span class="n">initial_value_threshold</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">()</span>
+    <span class="n">experimental_io_device</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">()</span>
+    <span class="n">experimental_enable_async_checkpoint</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FitConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.FitConfig">[docs]</a><span class="k">class</span> <span class="nc">FitConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for calls to model.fit.</span>
+
+<span class="sd">    See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        batch_size (int, optional): Number of samples per update. Default: 32.</span>
+<span class="sd">        epochs (int, optional): Number of epochs to train model. Default: 30.</span>
+<span class="sd">        verbose (str or int, optional): Verbosity of model logging.</span>
+<span class="sd">            Options: &#39;auto&#39;, 0, 1, 2.</span>
+<span class="sd">            0 is silent. 1 is progress bar. 2 is one line per epoch.</span>
+<span class="sd">            Auto is usually 1. Default: auto.</span>
+<span class="sd">        validation_split (float, optional): Fraction of training data to use for</span>
+<span class="sd">            validation. Default: 0.</span>
+<span class="sd">        shuffle (bool, optional): Shuffle training data per epoch.</span>
+<span class="sd">            Default: True.</span>
+<span class="sd">        initial_epoch (int, optional): Epoch at which to start training</span>
+<span class="sd">            (useful for resuming a previous training run). Default: 1.</span>
+<span class="sd">        validation_freq (int, optional): Number of training epochs before new</span>
+<span class="sd">            validation. Default: 1.</span>
+<span class="sd">        max_queue_size (int, optional): Max size of generator queue.</span>
+<span class="sd">            Default: 10.</span>
+<span class="sd">        workers (int, optional): Max processes used by generator. Default: 1.</span>
+<span class="sd">        use_multiprocessing (bool, optional): Use multiprocessing for</span>
+<span class="sd">            generators. Default: False.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+    <span class="n">verbose</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">UnionType</span><span class="p">([</span><span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">,</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">],</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+    <span class="n">validation_split</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">shuffle</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">initial_epoch</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">validation_freq</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">max_queue_size</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">workers</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">IntType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">use_multiprocessing</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">BooleanType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+    <span class="c1"># class_weight</span>
+    <span class="c1"># sample_weight</span>
+    <span class="c1"># initial_epoch</span>
+    <span class="c1"># validation_steps</span>
+    <span class="c1"># validation_batch_size</span>
+
+
+<div class="viewcode-block" id="LoggerConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.LoggerConfig">[docs]</a><span class="k">class</span> <span class="nc">LoggerConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for logger.</span>
+
+<span class="sd">    See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.logging</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        slack_channel (str, optional): Slack channel name. Default: None.</span>
+<span class="sd">        slack_url (str, optional): Slack URL name. Default: None.</span>
+<span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
+<span class="sd">        level (str or int, optional): Log level. Default: warn.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">slack_channel</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">slack_url</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">timezone</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s1">&#39;warn&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PipelineConfig"><a class="viewcode-back" href="../../../core.html#flatiron.core.config.PipelineConfig">[docs]</a><span class="k">class</span> <span class="nc">PipelineConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for PipelineBase classes.</span>
+
+<span class="sd">    See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.pipeline</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        dataset (dict): Dataset configuration.</span>
+<span class="sd">        optimizer (dict): Optimizer configuration.</span>
+<span class="sd">        compile (dict): Compile configuration.</span>
+<span class="sd">        callbacks (dict): Callbacks configuration.</span>
+<span class="sd">        fit (dict): Fit configuration.</span>
+<span class="sd">        logger (dict): Logger configuration.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ModelType</span><span class="p">(</span><span class="n">DatasetConfig</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ModelType</span><span class="p">(</span><span class="n">OptimizerConfig</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">compile</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ModelType</span><span class="p">(</span><span class="n">CompileConfig</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">callbacks</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ModelType</span><span class="p">(</span><span class="n">CallbacksConfig</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ModelType</span><span class="p">(</span><span class="n">FitConfig</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">ModelType</span><span class="p">(</span><span class="n">LoggerConfig</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2023, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

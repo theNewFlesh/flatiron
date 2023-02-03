@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.12.0
               </div>
             
           
@@ -186,6 +186,7 @@
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -193,6 +194,7 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  | <a href="#X"><strong>X</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
@@ -205,16 +207,30 @@
       <ul>
         <li><a href="core.html#flatiron.core.logging.SlackLogger.__init__">(flatiron.core.logging.SlackLogger method)</a>
 </li>
+        <li><a href="core.html#flatiron.core.pipeline.PipelineBase.__init__">(flatiron.core.pipeline.PipelineBase method)</a>
+</li>
       </ul></li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase._abc_impl">_abc_impl (flatiron.core.pipeline.PipelineBase attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset._get_stats">_get_stats() (flatiron.core.dataset.Dataset static method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset._resolve_limit">_resolve_limit() (flatiron.core.dataset.Dataset static method)</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig._schema">_schema (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig._schema">_schema (flatiron.core.config.CallbacksConfig attribute)</a>
 
       <ul>
+        <li><a href="core.html#flatiron.core.config.CompileConfig._schema">(flatiron.core.config.CompileConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.DatasetConfig._schema">(flatiron.core.config.DatasetConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.FitConfig._schema">(flatiron.core.config.FitConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.LoggerConfig._schema">(flatiron.core.config.LoggerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.OptimizerConfig._schema">(flatiron.core.config.OptimizerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.PipelineConfig._schema">(flatiron.core.config.PipelineConfig attribute)</a>
+</li>
         <li><a href="models.html#flatiron.models.unet.UNetConfig._schema">(flatiron.models.unet.UNetConfig attribute)</a>
 </li>
       </ul></li>
@@ -234,10 +250,10 @@
 </li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_activation_2">attention_activation_2 (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id2">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.models.unet.attention_gate_2d">attention_gate_2d() (in module flatiron.models.unet)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="models.html#flatiron.models.unet.attention_gate_2d">attention_gate_2d() (in module flatiron.models.unet)</a>
+</li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_gates">attention_gates (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id3">[1]</a>
 </li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_kernel_initializer">attention_kernel_initializer (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id4">[1]</a>
@@ -248,8 +264,6 @@
 </li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.attention_strides">attention_strides (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id7">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.axis">axis (flatiron.core.dataset_config.DatasetConfig attribute)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -258,8 +272,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.batch_norm">batch_norm (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id8">[1]</a>
 </li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.batch_size">batch_size (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id27">[1]</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.build">build() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
       <li><a href="cli.html#cli.build_dev_command">build_dev_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.build_prod_command">build_prod_command() (in module cli)</a>
@@ -270,6 +288,10 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.callbacks">callbacks (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id53">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig">CallbacksConfig (class in flatiron.core.config)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.chunks">chunks (flatiron.core.dataset.Dataset property)</a>
 </li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.classes">classes (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id9">[1]</a>
@@ -283,6 +305,16 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.clipnorm">clipnorm (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id41">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.clipvalue">clipvalue (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id42">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.compile">compile (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id54">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.compile">compile() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CompileConfig">CompileConfig (class in flatiron.core.config)</a>
+</li>
       <li><a href="cli.html#cli.container_id_command">container_id_command() (in module cli)</a>
 </li>
       <li><a href="models.html#flatiron.models.unet.conv_2d_block">conv_2d_block() (in module flatiron.models.unet)</a>
@@ -295,7 +327,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset">Dataset (class in flatiron.core.dataset)</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig">DatasetConfig (class in flatiron.core.dataset_config)</a>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.dataset">dataset (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id55">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig">DatasetConfig (class in flatiron.core.config)</a>
 </li>
       <li><a href="cli.html#cli.destroy_dev_command">destroy_dev_command() (in module cli)</a>
 </li>
@@ -315,11 +349,21 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.ema_momentum">ema_momentum (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id43">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.ema_overwrite_frequency">ema_overwrite_frequency (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id44">[1]</a>
+</li>
       <li><a href="cli.html#cli.enter_repo">enter_repo() (in module cli)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.FitConfig.epochs">epochs (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id28">[1]</a>
+</li>
       <li><a href="cli.html#cli.exit_repo">exit_repo() (in module cli)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.experimental_enable_async_checkpoint">experimental_enable_async_checkpoint (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id0">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.experimental_io_device">experimental_io_device (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id1">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -329,18 +373,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.filters">filters (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id10">[1]</a>
 </li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.fit">fit (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id56">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.fit">fit() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FitConfig">FitConfig (class in flatiron.core.config)</a>
+</li>
+      <li>
+    flatiron.core.config
+
+      <ul>
+        <li><a href="core.html#module-flatiron.core.config">module</a>
+</li>
+      </ul></li>
       <li>
     flatiron.core.dataset
 
       <ul>
         <li><a href="core.html#module-flatiron.core.dataset">module</a>
-</li>
-      </ul></li>
-      <li>
-    flatiron.core.dataset_config
-
-      <ul>
-        <li><a href="core.html#module-flatiron.core.dataset_config">module</a>
 </li>
       </ul></li>
       <li>
@@ -367,6 +417,13 @@
 </li>
       </ul></li>
       <li>
+    flatiron.core.pipeline
+
+      <ul>
+        <li><a href="core.html#module-flatiron.core.pipeline">module</a>
+</li>
+      </ul></li>
+      <li>
     flatiron.core.tools
 
       <ul>
@@ -387,6 +444,8 @@
         <li><a href="models.html#module-flatiron.models.unet">module</a>
 </li>
       </ul></li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.from_string">from_string() (flatiron.core.pipeline.PipelineBase class method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -397,13 +456,15 @@
 </li>
       <li><a href="cli.html#cli.get_illegal_mode_command">get_illegal_mode_command() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.get_info">get_info() (in module cli)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.tools.get_tensorboard_project">get_tensorboard_project() (in module flatiron.core.tools)</a>
 </li>
       <li><a href="models.html#flatiron.models.unet.get_unet_model">get_unet_model() (in module flatiron.models.unet)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.global_clipnorm">global_clipnorm (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id45">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -413,9 +474,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.image_id_command">image_id_command() (in module cli)</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.index">index (flatiron.core.dataset_config.DatasetConfig attribute)</a>
-</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.info">info (flatiron.core.dataset.Dataset property)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.initial_epoch">initial_epoch (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id29">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.initial_value_threshold">initial_value_threshold (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id2">[1]</a>
 </li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.input_channels">input_channels (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id11">[1]</a>
 </li>
@@ -428,6 +491,8 @@
       <li><a href="core.html#flatiron.core.metric.intersection_over_union">intersection_over_union() (in module flatiron.core.metric)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_base_two">is_base_two() (in module flatiron.core.validators)</a>
+</li>
+      <li><a href="core.html#flatiron.core.validators.is_callback_mode">is_callback_mode() (in module flatiron.core.validators)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_even">is_even() (in module flatiron.core.validators)</a>
 </li>
@@ -445,10 +510,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.metric.jaccard">jaccard() (in module flatiron.core.metric)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.loss.jaccard_loss">jaccard_loss() (in module flatiron.core.loss)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.jit_compile">jit_compile (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id11">[1]</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.config.OptimizerConfig.jit_compile">(flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id46">[1]</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -465,17 +536,31 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.layers">layers (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id15">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.limit">limit (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.learning_rate">learning_rate (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id47">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.level">level (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id37">[1]</a>
 </li>
       <li><a href="cli.html#cli.line">line() (in module cli)</a>
 </li>
+      <li><a href="core.html#flatiron.core.dataset.Dataset.load">load() (flatiron.core.dataset.Dataset method)</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.pipeline.PipelineBase.load">(flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset.Dataset.load">load() (flatiron.core.dataset.Dataset method)</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.load_limit">load_limit (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id18">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.load_limit">load_limit (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.load_shuffle">load_shuffle (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id19">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.load_shuffle">load_shuffle (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.logger">logger (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id57">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig">LoggerConfig (class in flatiron.core.config)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.loss">loss (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id12">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.loss_weights">loss_weights (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id13">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -485,21 +570,33 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.main">main() (in module cli)</a>
 </li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.max_queue_size">max_queue_size (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id30">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.metrics">metrics (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id14">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.mode">mode (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id3">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.model_config">model_config() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.model_func">model_func() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
       <li>
     module
 
       <ul>
         <li><a href="cli.html#module-cli">cli</a>
 </li>
-        <li><a href="core.html#module-flatiron.core.dataset">flatiron.core.dataset</a>
+        <li><a href="core.html#module-flatiron.core.config">flatiron.core.config</a>
 </li>
-        <li><a href="core.html#module-flatiron.core.dataset_config">flatiron.core.dataset_config</a>
+        <li><a href="core.html#module-flatiron.core.dataset">flatiron.core.dataset</a>
 </li>
         <li><a href="core.html#module-flatiron.core.logging">flatiron.core.logging</a>
 </li>
         <li><a href="core.html#module-flatiron.core.loss">flatiron.core.loss</a>
 </li>
         <li><a href="core.html#module-flatiron.core.metric">flatiron.core.metric</a>
+</li>
+        <li><a href="core.html#module-flatiron.core.pipeline">flatiron.core.pipeline</a>
 </li>
         <li><a href="core.html#module-flatiron.core.tools">flatiron.core.tools</a>
 </li>
@@ -509,11 +606,35 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.momentum">momentum (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id48">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.monitor">monitor (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id4">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.name">name (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id49">[1]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.nesterov">nesterov (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id50">[1]</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.optimizer">optimizer (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id58">[1]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig">OptimizerConfig (class in flatiron.core.config)</a>
+</li>
       <li><a href="models.html#flatiron.models.unet.UNetConfig.output_activation">output_activation (flatiron.models.unet.UNetConfig attribute)</a>, <a href="models.html#id16">[1]</a>
 </li>
   </ul></td>
@@ -524,11 +645,17 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.tools.pad_layer_name">pad_layer_name() (in module flatiron.core.tools)</a>
 </li>
-      <li><a href="cli.html#cli.PORT">PORT (in module cli)</a>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase">PipelineBase (class in flatiron.core.pipeline)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig">PipelineConfig (class in flatiron.core.config)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cli.html#cli.PORT">PORT (in module cli)</a>
+</li>
       <li><a href="cli.html#cli.prod_command">prod_command() (in module cli)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.project">project (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id5">[1]</a>
 </li>
       <li><a href="cli.html#cli.push_command">push_command() (in module cli)</a>
 </li>
@@ -538,21 +665,27 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.random_state">random_state (flatiron.core.dataset_config.DatasetConfig attribute)</a>
-</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.read_csv">read_csv() (flatiron.core.dataset.Dataset class method)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.read_directory">read_directory() (flatiron.core.dataset.Dataset class method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.read_yaml">read_yaml() (flatiron.core.pipeline.PipelineBase class method)</a>
+</li>
       <li><a href="cli.html#cli.remove_command">remove_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.remove_container">remove_container() (in module cli)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.resolve">resolve() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.restart_command">restart_command() (in module cli)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.root">root (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id6">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase.run">run() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.run_eagerly">run_eagerly (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id15">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -560,27 +693,37 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.shuffle">shuffle (flatiron.core.dataset_config.DatasetConfig attribute)</a>, <a href="core.html#id0">[1]</a>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.save_best_only">save_best_only (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id7">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.save_freq">save_freq (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id8">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.save_weights_only">save_weights_only (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id9">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.shuffle">shuffle (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id31">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_channel">slack_channel (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id38">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.tools.slack_it">slack_it() (in module flatiron.core.tools)</a>
 </li>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_url">slack_url (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id39">[1]</a>
+</li>
       <li><a href="core.html#flatiron.core.logging.SlackLogger">SlackLogger (class in flatiron.core.logging)</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.source">source (flatiron.core.dataset_config.DatasetConfig attribute)</a>, <a href="core.html#id1">[1]</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.source">source (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id20">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_axis">split_axis (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.split_axis">split_axis (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id21">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_index">split_index (flatiron.core.dataset_config.DatasetConfig attribute)</a>
-</li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_random_state">split_random_state (flatiron.core.dataset_config.DatasetConfig attribute)</a>
-</li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_shuffle">split_shuffle (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.split_index">split_index (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id22">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_test_size">split_test_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.split_random_state">split_random_state (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id23">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.split_train_size">split_train_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.split_shuffle">split_shuffle (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id24">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.split_test_size">split_test_size (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id25">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.split_train_size">split_train_size (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id26">[1]</a>
 </li>
       <li><a href="cli.html#cli.start">start() (in module cli)</a>
 </li>
@@ -589,6 +732,8 @@
       <li><a href="cli.html#cli.state_command">state_command() (in module cli)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.stats">stats (flatiron.core.dataset.Dataset property)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.steps_per_execution">steps_per_execution (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id16">[1]</a>
 </li>
       <li><a href="cli.html#cli.stop">stop() (in module cli)</a>
 </li>
@@ -600,14 +745,16 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.test_size">test_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.timezone">timezone (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id40">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.dataset_config.DatasetConfig.train_size">train_size (flatiron.core.dataset_config.DatasetConfig attribute)</a>
-</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.train_test_split">train_test_split() (flatiron.core.dataset.Dataset method)</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.pipeline.PipelineBase.train_test_split">(flatiron.core.pipeline.PipelineBase method)</a>
 </li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -616,11 +763,21 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models.html#flatiron.models.unet.unet_width_and_layers_are_valid">unet_width_and_layers_are_valid() (in module flatiron.models.unet)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="models.html#flatiron.models.unet.UNetConfig">UNetConfig (class in flatiron.models.unet)</a>
 </li>
       <li><a href="core.html#flatiron.core.tools.unindent">unindent() (in module flatiron.core.tools)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset.Dataset.unload">unload() (flatiron.core.dataset.Dataset method)</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.pipeline.PipelineBase.unload">(flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      </ul></li>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.use_ema">use_ema (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id51">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.use_multiprocessing">use_multiprocessing (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id32">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -628,7 +785,33 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.FitConfig.validation_freq">validation_freq (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id33">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.validation_split">validation_split (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id34">[1]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.verbose">verbose (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id10">[1]</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.config.FitConfig.verbose">(flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id35">[1]</a>
+</li>
+      </ul></li>
       <li><a href="cli.html#cli.version_variable">version_variable() (in module cli)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig.weight_decay">weight_decay (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id52">[1]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.CompileConfig.weighted_metrics">weighted_metrics (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id17">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FitConfig.workers">workers (flatiron.core.config.FitConfig attribute)</a>, <a href="core.html#id36">[1]</a>
 </li>
   </ul></td>
 </tr></table>

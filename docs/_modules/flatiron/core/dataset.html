@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.12.0
               </div>
             
           
@@ -480,10 +480,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            Dataset: self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="c1"># reset data and info</span>
-        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s1">&#39;loaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unload</span><span class="p">()</span>
 
         <span class="c1"># resolve limit</span>
         <span class="n">limit_</span><span class="p">,</span> <span class="n">limit_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span>
@@ -536,6 +533,19 @@
         <span class="c1"># set class members</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nbytes</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Dataset.unload"><a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.unload">[docs]</a>    <span class="k">def</span> <span class="nf">unload</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; Dataset</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Delete self.data and reset self.info.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dataset: self.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s1">&#39;loaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Dataset.xy_split"><a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.xy_split">[docs]</a>    <span class="k">def</span> <span class="nf">xy_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>

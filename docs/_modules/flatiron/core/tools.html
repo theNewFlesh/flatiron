@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.10.2
+                0.12.0
               </div>
             
           
@@ -228,7 +228,7 @@
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="get_callbacks"><a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_callbacks">[docs]</a><span class="k">def</span> <span class="nf">get_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="n">checkpoint_params</span><span class="p">):</span>
+<div class="viewcode-block" id="get_callbacks"><a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_callbacks">[docs]</a><span class="k">def</span> <span class="nf">get_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="n">checkpoint_params</span><span class="o">=</span><span class="p">{}):</span>
     <span class="c1"># type: (Filepath, str, dict) -&gt; list</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create a list of callbacks for Tensoflow model.</span>
@@ -236,7 +236,8 @@
 <span class="sd">    Args:</span>
 <span class="sd">        log_directory (str or Path): Tensorboard project log directory.</span>
 <span class="sd">        checkpoint_pattern (str): Filepath pattern for checkpoint callback.</span>
-<span class="sd">        checkpoint_params (dict): Params to be passed to checkpoint callback.</span>
+<span class="sd">        checkpoint_params (dict, optional): Params to be passed to checkpoint</span>
+<span class="sd">            callback. Default: {}.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        EnforceError: If log directory does not exist.</span>
