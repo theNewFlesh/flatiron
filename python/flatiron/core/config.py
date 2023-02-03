@@ -5,9 +5,6 @@ import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-NONE = dict(serialize_when_none=True)
-
-
 class DatasetConfig(scm.Model):
     '''
     Configuration for Dataset.
@@ -27,7 +24,7 @@ class DatasetConfig(scm.Model):
         split_shuffle (bool): Shuffle data rows. Default: True.
     '''
     source = scmt.StringType(required=True)
-    load_limit = scmt.UnionType([scmt.IntType, scmt.StringType], **NONE)
+    load_limit = scmt.UnionType([scmt.IntType, scmt.StringType], default=None)
     load_shuffle = scmt.BooleanType(required=True, default=False)
     split_index = scmt.IntType(required=True)
     split_axis = scmt.IntType(required=True, default=-1)
@@ -50,7 +47,6 @@ class OptimizerConfig(scm.Model):
         learning_rate: (float, optional): Learning rate. Default=0.001.
         momentum: (float, optional): Momentum. Default=0.
         nesterov: (boolean, optional): User Nesterov updates. Default=False.
-        accumulator_name: (string, optional): Name of accumulator.
         weight_decay: (string, optional): Decay weights. Default: None.
         clipnorm: (float, optional): Clip individual weights so norm is not
             higher than this. Default: None.
@@ -69,14 +65,13 @@ class OptimizerConfig(scm.Model):
     learning_rate = scmt.FloatType(default=0.001)
     momentum = scmt.FloatType(default=0)
     nesterov = scmt.BooleanType(default=False)
-    accumulator_name = scmt.StringType()
-    weight_decay = scmt.StringType(default=0, **NONE)
-    clipnorm = scmt.FloatType(**NONE)
-    clipvalue = scmt.FloatType(**NONE)
-    global_clipnorm = scmt.FloatType(**NONE)
+    weight_decay = scmt.FloatType(default=0)
+    clipnorm = scmt.FloatType(default=None)
+    clipvalue = scmt.FloatType(default=None)
+    global_clipnorm = scmt.FloatType(default=None)
     use_ema = scmt.BooleanType(default=False)
     ema_momentum = scmt.FloatType(default=0.99)
-    ema_overwrite_frequency = scmt.IntType(**NONE)
+    ema_overwrite_frequency = scmt.IntType(default=None)
     jit_compile = scmt.BooleanType(default=True)
 
 
@@ -87,8 +82,8 @@ class CompileConfig(scm.Model):
     See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile
 
     Attributes:
-        loss (string, optional): Loss metric name.
-        metrics (list[str]): List of metrics.
+        loss (string, optional): Loss metric name. Default: None.
+        metrics (list[str], optional): List of metrics. Default: None.
         loss_weights (list[float], optional): List of loss weights.
             Default: None.
         weighted_metrics (list[float], optional): List of metric weights.
@@ -98,10 +93,10 @@ class CompileConfig(scm.Model):
             call. Default: 1.
         jit_compile (boolean, optional): Use XLA. Default: False.
     '''
-    loss = scmt.StringType(required=True)
-    metrics = scmt.ListType(scmt.StringType, required=True)
-    loss_weights = scmt.ListType(scmt.FloatType, **NONE)
-    weighted_metrics = scmt.ListType(scmt.FloatType, **NONE)
+    loss = scmt.StringType(default=None)
+    metrics = scmt.ListType(scmt.StringType, default=None)
+    loss_weights = scmt.ListType(scmt.FloatType, default=None)
+    weighted_metrics = scmt.ListType(scmt.FloatType, default=None)
     run_eagerly = scmt.BooleanType(default=False)
     steps_per_execution = scmt.IntType(default=1)
     jit_compile = scmt.BooleanType(default=False)
@@ -136,14 +131,12 @@ class CallbacksConfig(scm.Model):
     '''
     project = scmt.StringType(required=True)
     root = scmt.StringType(required=True)
-    monitor = scmt.StringType(required=True, default='val_loss')
+    monitor = scmt.StringType(default='val_loss')
     verbose = scmt.IntType(default=0)
     save_best_only = scmt.BooleanType(default=False)
     save_weights_only = scmt.BooleanType(default=False)
     mode = scmt.StringType(default='auto', validators=[vd.is_callback_mode])
-    save_freq = scmt.UnionType(
-        [scmt.StringType, scmt.IntType], required=True, default='epoch'
-    )
+    save_freq = scmt.UnionType([scmt.StringType, scmt.IntType], default='epoch')
     initial_value_threshold = scmt.FloatType()
     experimental_io_device = scmt.StringType()
     experimental_enable_async_checkpoint = scmt.BooleanType(default=False)
@@ -156,8 +149,8 @@ class FitConfig(scm.Model):
     See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit
 
     Attributes:
-        batch_size (int): Number of samples per update. Default: 32.
-        epochs: Number of epochs to train model. Default: 30.
+        batch_size (int, optional): Number of samples per update. Default: 32.
+        epochs (int, optional): Number of epochs to train model. Default: 30.
         verbose (str or int, optional): Verbosity of model logging.
             Options: 'auto', 0, 1, 2.
             0 is silent. 1 is progress bar. 2 is one line per epoch.
@@ -176,8 +169,8 @@ class FitConfig(scm.Model):
         use_multiprocessing (bool, optional): Use multiprocessing for
             generators. Default: False.
     '''
-    batch_size = scmt.IntType(required=True, **NONE)
-    epochs = scmt.IntType(required=True, default=30)
+    batch_size = scmt.IntType(default=32)
+    epochs = scmt.IntType(default=30)
     verbose = scmt.UnionType([scmt.StringType, scmt.IntType], default='auto')
     validation_split = scmt.FloatType(default=0.0)
     shuffle = scmt.BooleanType(default=True)
@@ -205,8 +198,8 @@ class LoggerConfig(scm.Model):
         timezone (str, optional): Timezone. Default: UTC.
         level (str or int, optional): Log level. Default: warn.
     '''
-    slack_channel = scmt.StringType(**NONE)
-    slack_url = scmt.StringType(**NONE)
+    slack_channel = scmt.StringType(default=None)
+    slack_url = scmt.StringType(default=None)
     timezone = scmt.StringType(default='UTC')
     level = scmt.StringType(default='warn')
 
