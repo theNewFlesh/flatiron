@@ -138,6 +138,46 @@ _x_gen_pdm_files () {
         --target $PDM_DIR/.pdm.toml;
 }
 
+# TENSORFLOW--------------------------------------------------------------------
+x_env_activate () {
+    # Activate a virtual env given a mode and python version
+    # args: mode, python_version
+    local CWD=`pwd`;
+    cd $PDM_DIR;
+    _x_gen_pdm_files $1 $2;
+    . `pdm venv activate $1-$2 | awk '{print $2}'`;
+    cd $CWD;
+}
+
+# TODO: remove this once PDM will install tensorflow
+_x_env_pip_install () {
+    # Pip install packages pdm refuses to
+    # args: mode, python_version, packages
+    cd $PDM_DIR;
+    x_env_activate $1 $2 && \
+    python3 -m pip install "$3";
+    deactivate;
+}
+
+# TODO: remove this once PDM will install tensorflow
+_x_env_install_tensorflow () {
+    # install tensorflow in given environment
+    # args: mode, python_version
+    echo "\n${CYAN2}INSTALL TENSORFLOW${CLEAR}\n";
+    _x_env_pip_install $1 $2 "tensorflow>=2.0.0";
+}
+
+# TODO: remove this once PDM will install tensorflow
+_x_build_add_tensorflow () {
+    # add tensorflow to pyproject file
+    # args: pyproject.toml file
+    DEPS=`rolling-pin toml $1 --search project.dependencies \
+        | grep dependencies \
+        | sed 's/.* = \[/[/' \
+        | sed 's/\]/ "tensorflow>=2.0.0"]/'`;
+    rolling-pin toml $1 --edit "project.dependencies=$DEPS" --target $1;
+}
+
 # ENV-FUNCTIONS-----------------------------------------------------------------
 _x_env_exists () {
     # determines if given env exists
@@ -177,16 +217,6 @@ _x_env_create () {
     pdm venv create -n $1-$2 --with-pip;
 }
 
-x_env_activate () {
-    # Activate a virtual env given a mode and python version
-    # args: mode, python_version
-    local CWD=`pwd`;
-    cd $PDM_DIR;
-    _x_gen_pdm_files $1 $2;
-    . `pdm venv activate $1-$2 | awk '{print $2}'`;
-    cd $CWD;
-}
-
 _x_env_lock () {
     # Resolve dependencies listed in pyrproject.toml into a pdm.lock file
     # args: mode, python_version
@@ -194,24 +224,6 @@ _x_env_lock () {
     x_env_activate $1 $2 && \
     pdm lock -v && \
     cat $PDM_DIR/pdm.lock > $CONFIG_DIR/$1.lock;
-}
-
-# TODO: remove this once PDM will install tensorflow
-_x_env_pip_install () {
-    # Pip install packages pdm refuses to
-    # args: mode, python_version, packages
-    cd $PDM_DIR;
-    x_env_activate $1 $2 && \
-    python3 -m pip install "$3";
-    deactivate;
-}
-
-# TODO: remove this once PDM will install tensorflow
-_x_env_install_tensorflow () {
-    # install tensorflow in given environment
-    # args: mode, python_version
-    echo "\n${CYAN2}INSTALL TENSORFLOW${CLEAR}\n";
-    _x_env_pip_install $1 $2 "tensorflow>=2.0.0";
 }
 
 _x_env_sync () {
@@ -294,6 +306,7 @@ x_build_prod () {
     echo "${CYAN2}BUILDING PROD REPO${CLEAR}\n";
     _x_build prod;
     _x_gen_pyproject package > $BUILD_DIR/repo/pyproject.toml;
+    _x_build_add_tensorflow $BUILD_DIR/repo/pyproject.toml;
     _x_build_show_dir;
 }
 
