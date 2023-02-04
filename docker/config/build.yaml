@@ -7,15 +7,10 @@ source_rules:
   - path: /home/ubuntu/flatiron/docker/config
     include: "flake8|prod.lock"
     exclude: "cache|__pypackages__"
-  - path: /home/ubuntu/flatiron/resources
-    include: ".*"
-    exclude: "__pycache__"
 rename_rules:
   - regex: "/home/ubuntu/flatiron"
     replace: "/home/ubuntu/build/repo"
-  - regex: ".*/resources"
-    replace: "/home/ubuntu/build/resources"
-  - regex: "/python|/docker|/config"
+  - regex: "/python|/docker/config|/docker"
     replace: ""
   - regex: "prod.lock"
     replace: "pdm.lock"
