@@ -53,8 +53,6 @@ lab = [
     "jupyterlab",
 ]
 dev = [
-    "pdm-bump",
-    "pdm",
     "sphinx-autodoc-typehints>=1.22",
     "sphinx-rtd-theme",
     "sphinx>=5.3.0",
