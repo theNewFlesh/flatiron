@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.1.0
+                0.13.0
               </div>
             
           
@@ -99,6 +99,7 @@
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../core.html">core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../models.html">models</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -254,6 +255,7 @@
 <span class="s1">    library-sync-dev     - Sync dev environment with packages listed in dev.lock</span>
 <span class="s1">    library-sync-prod    - Sync prod environment with packages listed in prod.lock</span>
 <span class="s1">    library-update       - Update dev dependencies</span>
+<span class="s1">    library-update-pdm   - Update PDM</span>
 <span class="s1">    session-lab          - Run jupyter lab server</span>
 <span class="s1">    session-python       - Run python session with dev dependencies</span>
 <span class="s1">    state                - State of </span><span class="si">{repo}</span>
@@ -877,6 +879,7 @@
         <span class="s1">&#39;library-sync-dev&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_sync_dev&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-sync-prod&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_sync_prod&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;library-update&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_update&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+        <span class="s1">&#39;library-update-pdm&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_library_update_pdm&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;session-lab&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_session_lab&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;session-python&#39;</span><span class="p">:</span> <span class="n">x_tools_command</span><span class="p">(</span><span class="s1">&#39;x_session_python&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
         <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">state_command</span><span class="p">(),</span>
