@@ -7,6 +7,7 @@ import schematics.types as scmt
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
 
+import flatiron.core.pipeline as ficp
 import flatiron.core.tools as fict
 import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
@@ -377,3 +378,14 @@ class UNetConfig(scm.Model):
     )
     attention_padding = scmt.StringType(required=True, default='same', validators=[vd.is_padding])
     attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
+
+
+# PIPELINE----------------------------------------------------------------------
+class UNetPipeline(ficp.PipelineBase):
+    def model_config(self):
+        # type: () -> scm.Model
+        return UNetConfig
+
+    def model_func(self):
+        # type: () -> kef.Functional
+        return get_unet_model
