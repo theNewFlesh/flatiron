@@ -210,7 +210,8 @@ _x_env_pip_install () {
 _x_env_install_tensorflow () {
     # install tensorflow in given environment
     # args: mode, python_version
-    _x_env_pip_install $1 $2 "tensorflow>=2.0.0" "tensorboard>=2.0.0";
+    echo "\n${CYAN2}INSTALL TENSORFLOW${CLEAR}\n";
+    _x_env_pip_install $1 $2 "tensorflow>=2.0.0";
 }
 
 _x_env_sync () {
