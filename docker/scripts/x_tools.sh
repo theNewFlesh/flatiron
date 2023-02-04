@@ -13,6 +13,7 @@ export PDM_DIR="$HOME/pdm"
 export SCRIPT_DIR="$REPO_DIR/docker/scripts"
 export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
+export MIN_TENSORFLOW_VERSION="2.0.0"
 export TEST_VERBOSITY=0
 export TEST_PROCS="auto"
 export JUPYTER_PLATFORM_DIRS=0
@@ -164,7 +165,7 @@ _x_env_install_tensorflow () {
     # install tensorflow in given environment
     # args: mode, python_version
     echo "\n${CYAN2}INSTALL TENSORFLOW${CLEAR}\n";
-    _x_env_pip_install $1 $2 "tensorflow>=2.0.0";
+    _x_env_pip_install $1 $2 "tensorflow>=$MIN_TENSORFLOW_VERSION";
 }
 
 # TODO: remove this once PDM will install tensorflow
@@ -174,7 +175,7 @@ _x_build_add_tensorflow () {
     DEPS=`rolling-pin toml $1 --search project.dependencies \
         | grep dependencies \
         | sed 's/.* = \[/[/' \
-        | sed 's/\]/ "tensorflow>=2.0.0"]/'`;
+        | sed "s/\]/ \"tensorflow>=$MIN_TENSORFLOW_VERSION\"]/"`;
     rolling-pin toml $1 --edit "project.dependencies=$DEPS" --target $1;
 }
 
