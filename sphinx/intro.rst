@@ -1,7 +1,7 @@
 Introduction
 ============
 
-A library of custom computer vision models.
+A library of computer vision models and a streamlined framework for training them.
 
 See `documentation <https://thenewflesh.github.io/flatiron/>`__ for
 details.

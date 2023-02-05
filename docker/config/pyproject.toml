@@ -1,13 +1,30 @@
 [project]
 name = "flatiron"
 version = "0.14.1"
-description = "A library of custom computer vision models."
+description = "A library of computer vision models and a streamlined framework for training them."
 authors = [
     { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },
 ]
 readme = "README.md"
 license = "MIT"
-keywords = []
+keywords = [
+    "unet",
+    "tensorflow",
+    "artificial intelligence",
+    "artificial-intelligence",
+    "cnn",
+    "computer vision",
+    "computer-vision",
+    "deep learning",
+    "deep-learning",
+    "machine learning",
+    "machine-learning",
+    "ml ops",
+    "ml-ops",
+    "mlops",
+    "neural network",
+    "neural-network",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
