@@ -8,9 +8,9 @@ from copy import deepcopy
 from pathlib import Path
 import math
 
-import tensorflow.keras.losses as tfkl
-import tensorflow.keras.metrics as tfkm
-import tensorflow.keras.optimizers as tfko
+import tensorflow.keras.losses as tfl
+import tensorflow.keras.metrics as tfm
+import tensorflow.keras.optimizers as tfo
 import yaml
 
 from flatiron.core.dataset import Dataset
@@ -214,7 +214,7 @@ class PipelineBase(ABC):
             try:
                 loss = ficl.get(loss)
             except NotImplementedError:
-                loss = tfkl.get(loss)
+                loss = tfl.get(loss)
 
             # metrics
             metrics = []
@@ -222,13 +222,13 @@ class PipelineBase(ABC):
                 try:
                     metric = ficm.get(m)
                 except NotImplementedError:
-                    metric = tfkm.get(m)
+                    metric = tfm.get(m)
                 metrics.append(metric)
 
             # create optimizer
             kwargs = deepcopy(self.config['optimizer'])
             del kwargs['name']
-            opt = tfko.get(self.config['optimizer']['name'], **kwargs)
+            opt = tfo.get(self.config['optimizer']['name'], **kwargs)
 
             # compile
             self.model.compile(

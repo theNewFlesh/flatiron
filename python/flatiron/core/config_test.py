@@ -3,7 +3,7 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from schematics.exceptions import DataError
-import tensorflow.keras.optimizers as tfko
+import tensorflow.keras.optimizers as tfo
 
 import flatiron.core.config as ficc
 # ------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ class OptimizerConfigTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
         del result['name']
-        tfko.get('sgd', **result)
+        tfo.get('sgd', **result)
 
 
 class CompileConfigTests(unittest.TestCase):

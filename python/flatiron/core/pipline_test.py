@@ -10,8 +10,8 @@ import pandas as pd
 import schematics.models as scm
 import schematics.types as scmt
 import yaml
-import tensorflow.keras.layers as tfkl
-import tensorflow.keras.models as tfkm
+import tensorflow.keras.layers as tfl
+import tensorflow.keras.models as tfm
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
@@ -19,9 +19,9 @@ import flatiron.core.pipeline as ficp
 
 
 def get_fake_model(shape):
-    input_ = tfkl.Input(shape, name='input')
-    output = tfkl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
-    model = tfkm.Model(inputs=[input_], outputs=[output])
+    input_ = tfl.Input(shape, name='input')
+    output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
+    model = tfm.Model(inputs=[input_], outputs=[output])
     return model
 
 
