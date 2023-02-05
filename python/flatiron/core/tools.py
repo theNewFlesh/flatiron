@@ -1,11 +1,13 @@
-from typing import Any, Optional, Union  # noqa F401
+from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
 
 from datetime import datetime
 from pathlib import Path
+import inspect
 import os
 import re
+import sys
 
 from lunchbox.enforce import Enforce
 import lunchbox.tools as lbt
@@ -184,3 +186,25 @@ def slack_it(
     if suppress:
         return message
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
+
+
+def get_module_function(name, module):
+    # type: (str, str) -> Callable[[Any], Any]
+    '''
+    Get a function from a given module.
+
+    Args:
+        name (str): Function name.
+        module (str): Module name.
+
+    Raises:
+        NotImplementedError: If function is not found in module.
+
+    Returns:
+        function: Module function.
+    '''
+    members = inspect.getmembers(sys.modules[module])
+    funcs = dict(filter(lambda x: inspect.isfunction(x[1]), members))
+    if name in funcs:
+        return funcs[name]
+    raise NotImplementedError(f'Function not found: {name}')

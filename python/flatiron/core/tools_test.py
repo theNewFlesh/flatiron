@@ -10,6 +10,10 @@ import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
+def fake_func(foo):
+    return foo + 'bar'
+
+
 class ToolsTests(unittest.TestCase):
     def test_get_tensorboard_project(self):
         with TemporaryDirectory() as root:
@@ -163,3 +167,12 @@ b
             ```'''[1:]
         expected = fict.unindent(expected, 12)
         self.assertRegex(result, expected)
+
+    def test_get_module_function(self):
+        func = fict.get_module_function('fake_func', __name__)
+        self.assertIs(func, fake_func)
+        self.assertEqual(func('foo'), 'foobar')
+
+        expected = 'Function not found: nonexistent_func'
+        with self.assertRaisesRegex(NotImplementedError, expected):
+            fict.get_module_function('nonexistent_func', __name__)

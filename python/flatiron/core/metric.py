@@ -1,10 +1,27 @@
-from typing import Union
+from typing import Any, Callable, Union  # noqa F401
 import numpy
 
 import tensorflow as tf
 import tensorflow.keras.backend as tfb
 
+import flatiron.core.tools as fict
+
 Arraylike = Union[numpy.ndarray, tf.Tensor]
+# ------------------------------------------------------------------------------
+
+
+def get(name):
+    # type: (str) -> Callable[[Any], Any]
+    '''
+    Get function from this module.
+
+    Args:
+        name (str): Function name.
+
+    Returns:
+        function: Module function.
+    '''
+    return fict.get_module_function(name, __name__)
 # ------------------------------------------------------------------------------
 
 
@@ -193,11 +210,3 @@ def dice(y_true, y_pred, smooth=1.0):
     u = tfb.sum(yt) + tfb.sum(yp)
     dice = (2.0 * i + smooth) / (u + smooth)
     return dice
-# ------------------------------------------------------------------------------
-
-
-FUNCTIONS = dict(
-    iou=intersection_over_union,
-    jaccard=jaccard,
-    dice=dice,
-)
