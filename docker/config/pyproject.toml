@@ -1,6 +1,6 @@
 [project]
 name = "flatiron"
-version = "0.13.0"
+version = "0.14.0"
 description = "A library of custom computer vision models."
 authors = [
     { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },
@@ -24,13 +24,11 @@ dependencies = [
     "humanfriendly",
     "lunchbox>=0.3.3",
     "numpy",
-    # "OpenEXR",
     "pandas",
     "pytz>=2022.7.1",
     "pyyaml>=6.0",
     "schematics>=2.1.1",
     "scikit-learn>=1.2.1",
-    # "tensorflow>=2.0.0",
     "tensorboard>=2.0.0",
     "tqdm>=4.64.1",
 ]

@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.14.0
               </div>
             
           
@@ -170,13 +170,30 @@
            <div itemprop="articleBody">
             
   <h1>Source code for flatiron.core.loss</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa F401</span>
 <span class="kn">import</span> <span class="nn">numpy</span>
 
 <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">tensorflow.keras.backend</span> <span class="k">as</span> <span class="nn">tfb</span>
 
+<span class="kn">import</span> <span class="nn">flatiron.core.tools</span> <span class="k">as</span> <span class="nn">fict</span>
+
 <span class="n">Arraylike</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="get"><a class="viewcode-back" href="../../../core.html#flatiron.core.loss.get">[docs]</a><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; Callable[[Any], Any]</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get function from this module.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Function name.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        function: Module function.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module_function</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span></div>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
 
@@ -310,13 +327,6 @@
     <span class="n">dice</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">intersection</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">union</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span>
     <span class="n">loss</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">-</span> <span class="n">dice</span>
     <span class="k">return</span> <span class="n">loss</span></div>
-<span class="c1"># ------------------------------------------------------------------------------</span>
-
-
-<span class="n">FUNCTIONS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-    <span class="n">jaccard_loss</span><span class="o">=</span><span class="n">jaccard_loss</span><span class="p">,</span>
-    <span class="n">dice_loss</span><span class="o">=</span><span class="n">dice_loss</span><span class="p">,</span>
-<span class="p">)</span>
 </pre></div>
 
            </div>
