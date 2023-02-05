@@ -120,17 +120,17 @@ class Dataset:
         Enforce(len(bad_ext), '==', 0, message=msg)
 
         # chunk indicators
-        chunk_regex = r'_f(\d+)\.npy$'
+        chunk_regex = r'_(f|c)(\d+)\.npy$'
         mask = info.filepath.apply(lambda x: re.search(chunk_regex, x) is None)
         bad_chunk = info.loc[mask, 'filepath'].tolist()
         msg = 'Found chunk files missing chunk indicators. '
-        msg += r"File names must match '_f\d+\.npy'. "
+        msg += r"File names must match '_(f|c)\d+\.npy'. "
         msg += f'Invalid chunks: {bad_chunk}'
         Enforce(len(bad_chunk), '==', 0, message=msg)
 
         # chunk column
         info['chunk'] = info.filepath \
-            .apply(lambda x: re.search(chunk_regex, x).group(1)).astype(int)  # type: ignore
+            .apply(lambda x: re.search(chunk_regex, x).group(2)).astype(int)  # type: ignore
         info['GB'] = info.filepath \
             .apply(lambda x: os.stat(x).st_size / 10**9)
 

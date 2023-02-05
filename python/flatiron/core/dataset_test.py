@@ -19,10 +19,10 @@ class DatasetTests(unittest.TestCase):
         array = np.ones(shape, dtype=np.uint8)
         np.save(target, array)
 
-    def create_dataset_files(self, root, shape=(10, 10, 3)):
+    def create_dataset_files(self, root, shape=(10, 10, 3), indicator='f'):
         os.makedirs(Path(root, 'data'))
         info = DataFrame()
-        info['filepath_relative'] = [f'data/foo_f{i:02d}.npy' for i in range(10)]
+        info['filepath_relative'] = [f'data/foo_{indicator}{i:02d}.npy' for i in range(10)]
         info['asset_path'] = root
         info.filepath_relative \
             .apply(lambda x: Path(root, x)) \
@@ -139,6 +139,23 @@ class DatasetTests(unittest.TestCase):
             os.rename(src, tgt)
             info.loc[3, 'filepath_relative'] = tgt
             expected = 'Found chunk files missing npy extension:.*foo_f03.txt'
+            with self.assertRaisesRegex(EnforceError, expected):
+                Dataset(info)
+
+    def test_init_chunk_indicator(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root, indicator='f')
+            Dataset(info)
+
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root, indicator='c')
+            Dataset(info)
+
+    def test_init_chunk_indicator_error(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root, indicator='q')
+            expected = 'Found chunk files missing chunk indicators. '
+            expected += r'File names must match.*f\|c'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info)
 
