@@ -60,9 +60,6 @@ git config --global --add safe.directory $REPO_DIR
 # activate dev env
 x_env_activate_dev;
 
-# remove zsh_cache
-rm -rf $REPO_DIR/.zsh_cache
-
 # ROLLING-PIN-------------------------------------------------------------------
 # if rolling-pin cli exists install its zsh completions if they do not exist
 if [[ `which rolling-pin` != "* not found" ]]; then
