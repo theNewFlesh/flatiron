@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.12.0
+                0.14.1
               </div>
             
           
@@ -292,17 +292,17 @@
         <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_ext</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># chunk indicators</span>
-        <span class="n">chunk_regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;_f(\d+)\.npy$&#39;</span>
+        <span class="n">chunk_regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;_(f|c)(\d+)\.npy$&#39;</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">chunk_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">bad_chunk</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Found chunk files missing chunk indicators. &#39;</span>
-        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;File names must match &#39;_f\d+\.npy&#39;. &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;File names must match &#39;_(f|c)\d+\.npy&#39;. &quot;</span>
         <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;Invalid chunks: </span><span class="si">{</span><span class="n">bad_chunk</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_chunk</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="c1"># chunk column</span>
         <span class="n">info</span><span class="p">[</span><span class="s1">&#39;chunk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">chunk_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">chunk_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
         <span class="n">info</span><span class="p">[</span><span class="s1">&#39;GB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
             <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
 
