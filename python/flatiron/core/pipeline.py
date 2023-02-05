@@ -8,6 +8,8 @@ from copy import deepcopy
 from pathlib import Path
 import math
 
+import tensorflow.keras.losses as tfkl
+import tensorflow.keras.metrics as tfkm
 import tensorflow.keras.optimizers as tfko
 import yaml
 
@@ -207,9 +209,21 @@ class PipelineBase(ABC):
             compile=compile_,
         )
         with self._logger('compile', 'COMPILE MODEL', cfg):
-            # get loss and metrics from flatiron modules
-            loss = ficl.FUNCTIONS[compile_['loss']]
-            metrics = [ficm.FUNCTIONS[x] for x in compile_['metrics']]
+            # loss
+            loss = compile_['loss']
+            try:
+                loss = ficl.get(loss)
+            except NotImplementedError:
+                loss = tfkl.get(loss)
+
+            # metrics
+            metrics = []
+            for m in compile_['metrics']:
+                try:
+                    metric = ficm.get(m)
+                except NotImplementedError:
+                    metric = tfkm.get(m)
+                metrics.append(metric)
 
             # create optimizer
             kwargs = deepcopy(self.config['optimizer'])

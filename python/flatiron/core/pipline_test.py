@@ -10,29 +10,23 @@ import pandas as pd
 import schematics.models as scm
 import schematics.types as scmt
 import yaml
+import tensorflow.keras.layers as tfkl
+import tensorflow.keras.models as tfkm
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
 # ------------------------------------------------------------------------------
 
 
-class FakeModel:
-    def __init__(self, **kwargs):
-        self.state = 'init'
-        pass
-
-    def compile(self, **kwargs):
-        self.state = 'compile'
-        pass
-
-    def fit(self, **kwargs):
-        self.state = 'fit'
-        pass
+def get_fake_model(shape):
+    input_ = tfkl.Input(shape, name='input')
+    output = tfkl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
+    model = tfkm.Model(inputs=[input_], outputs=[output])
+    return model
 
 
 class FakeConfig(scm.Model):
-    foo = scmt.StringType(required=True)
-    bar = scmt.StringType(default='taco')
+    shape = scmt.ListType(scmt.IntType, required=True)
 
 
 class FakePipeline(ficp.PipelineBase):
@@ -40,18 +34,18 @@ class FakePipeline(ficp.PipelineBase):
         return FakeConfig
 
     def model_func(self):
-        return FakeModel
+        return get_fake_model
 # ------------------------------------------------------------------------------
 
 
 class PipelineTests(unittest.TestCase):
-    def write_npy(self, target, shape=(10, 10, 3)):
+    def write_npy(self, target, shape=(10, 10, 10, 4)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
-        array = np.ones(shape, dtype=np.uint8)
+        array = np.ones(shape, dtype=np.float16)
         np.save(target, array)
 
-    def create_dataset_files(self, root, shape=(10, 10, 3)):
+    def create_dataset_files(self, root, shape=(10, 10, 10, 4)):
         os.makedirs(Path(root, 'data'))
         info = pd.DataFrame()
         info['filepath_relative'] = [f'data/chunk_f{i:02d}.npy' for i in range(10)]
@@ -70,7 +64,7 @@ class PipelineTests(unittest.TestCase):
         _, info_path = self.create_dataset_files(dset)
         return dict(
             model=dict(
-                foo='bar'
+                shape=[10, 10, 3]
             ),
             dataset=dict(
                 source=info_path,
@@ -85,7 +79,9 @@ class PipelineTests(unittest.TestCase):
                 loss='dice_loss',
                 metrics=['jaccard', 'dice'],
             ),
-            fit=dict(),
+            fit=dict(
+                epochs=1,
+            ),
             logger=dict(
                 slack_url='https://hooks.slack.com/services/fake-service',
                 slack_channel='test',
@@ -104,7 +100,7 @@ class PipelineTests(unittest.TestCase):
             config = self.get_config(root)
 
             result = FakePipeline(config).config['model']
-            expected = dict(foo='bar', bar='taco')
+            expected = dict(shape=[10, 10, 3])
             self.assertEqual(result, expected)
 
             config['model'] = {}
@@ -214,10 +210,16 @@ class PipelineTests(unittest.TestCase):
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.compile()
             self.assertRegex(log.output[0], 'COMPILE MODEL')
-            self.assertEqual(pipe.model.state, 'compile')
+
+    def test_compile_loss(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config['compile']['loss'] = 'mse'
+            pipe = FakePipeline(config).build().compile()
+            self.assertIs(pipe.model.loss.__name__, 'mean_squared_error')
 
     def test_fit(self):
-        with TemporaryDirectory() as root:
+        with TemporaryDirectory(prefix='test-fit-') as root:
             config = self.get_config(root)
             pipe = FakePipeline(config) \
                 .load() \
@@ -229,11 +231,14 @@ class PipelineTests(unittest.TestCase):
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.fit()
             self.assertRegex(log.output[0], 'FIT MODEL')
-            self.assertEqual(pipe.model.state, 'fit')
+            self.assertTrue(Path(root, 'proj/tensorboard').is_dir())
 
     def test_run(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config = yaml.dump(config)
-            result = FakePipeline.from_string(config).run()
-            self.assertEqual(result.model.state, 'fit')
+            tb = Path(root, 'proj/tensorboard')
+
+            self.assertFalse(tb.is_dir())
+            FakePipeline.from_string(config).run()
+            self.assertTrue(tb.is_dir())
