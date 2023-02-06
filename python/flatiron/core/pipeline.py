@@ -1,4 +1,4 @@
-from typing import Any, Optional, Union  # noqa F401
+from typing import Any, Generator, Optional, Tuple, Union  # noqa F401
 import keras.engine.functional as kef  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
@@ -14,10 +14,11 @@ import tensorflow.keras.optimizers as tfo
 import yaml
 
 from flatiron.core.dataset import Dataset
-import flatiron.core.config as cfg
+import flatiron.core.config as ficc
 import flatiron.core.logging as filog
 import flatiron.core.loss as ficl
 import flatiron.core.metric as ficm
+import flatiron.core.preprocess as ficp
 import flatiron.core.tools as fict
 
 Filepath = Union[str, Path]
@@ -25,6 +26,8 @@ Filepath = Union[str, Path]
 
 
 class PipelineBase(ABC):
+    spec = ficc.PipelineConfig
+
     @classmethod
     def read_yaml(cls, filepath):
         # type: (Filepath) -> PipelineBase
@@ -66,23 +69,10 @@ class PipelineBase(ABC):
         '''
         config = deepcopy(config)
 
-        # model
-        model = config.pop('model', {})
-        model = self.model_config()(model)
-        model.validate()
-        model = model.to_native()
-
-        # preprocess
-        preprocess = config.pop('preprocess', {})
-        preprocess = self.preprocess_config()(preprocess)
-        preprocess.validate()
-        preprocess = preprocess.to_native()
-
         # pipeline
-        config = cfg.PipelineConfig(config)
+        config = self.spec(config)
         config.validate()
         config = config.to_native()
-        config['model'] = model
         self.config = config
 
         # create Dataset instance
@@ -168,6 +158,7 @@ class PipelineBase(ABC):
             self.x_test = x_test
             self.y_train = y_train
             self.y_test = y_test
+            self._train = (x_train, y_train)
         return self
 
     def unload(self):
@@ -208,12 +199,12 @@ class PipelineBase(ABC):
         '''
         compile_ = self.config['compile']
 
-        cfg = dict(
+        ficc = dict(
             model=self.config['model'],
             optimizer=self.config['optimizer'],
             compile=compile_,
         )
-        with self._logger('compile', 'COMPILE MODEL', cfg):
+        with self._logger('compile', 'COMPILE MODEL', ficc):
             # loss
             loss = compile_['loss']
             try:
@@ -248,6 +239,20 @@ class PipelineBase(ABC):
             )
         return self
 
+    def preprocess(self):
+        # type: () -> PipelineBase
+        '''
+        Assign preprocess generator to self._train.
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        config = deepcopy(self.config['preprocess'])
+        name = config.pop('name')
+        preprocess = ficp.get(name)
+        self._train = preprocess(self._train, **config)
+        return self
+
     def fit(self):
         # type: () -> PipelineBase
         '''
@@ -279,8 +284,7 @@ class PipelineBase(ABC):
             # train model
             n = self.x_train.shape[0]  # type: ignore
             self.model.fit(
-                x=self.x_train,
-                y=self.y_train,
+                x=self._train,
                 callbacks=callbacks,
                 validation_data=(self.x_test, self.y_test),
                 steps_per_epoch=math.ceil(n / fit['batch_size']),
@@ -306,22 +310,11 @@ class PipelineBase(ABC):
         self.load() \
             .train_test_split() \
             .unload() \
+            .preprocess() \
             .build() \
             .compile() \
             .fit()
         return self
-
-    @abstractmethod
-    def model_config(self):
-        # type: () -> scm.Model
-        '''
-        Subclasses of PipelineBase wiil need to define a config class for models
-        created in the build method.
-
-        Returns:
-            scm.Model: Model config class.
-        '''
-        pass  # pragma: no cover
 
     @abstractmethod
     def model_func(self):
@@ -332,29 +325,5 @@ class PipelineBase(ABC):
 
         Returns:
             kef.Functional: Machine learning model.
-        '''
-        pass  # pragma: no cover
-
-    @abstractmethod
-    def preprocess_config(self):
-        # type: () -> scm.Model
-        '''
-        Subclasses of PipelineBase wiil need to define a config class for
-        a preprocess function.
-
-        Returns:
-            scm.Model: Preprocess config class.
-        '''
-        pass  # pragma: no cover
-
-    @abstractmethod
-    def preprocess_func(self):
-        # type: () -> kef.Functional
-        '''
-        Subclasses of PipelineBase need to define a preprocess function that
-        returns a generator function of signature (x, y) -> (x, y).
-
-        Returns:
-            function: Preprocess Generator.
         '''
         pass  # pragma: no cover
