@@ -67,11 +67,10 @@ class PipelineBase(ABC):
         config = deepcopy(config)
 
         # model
-        model = config.get('model', {})
+        model = config.pop('model', {})
         model = self.model_config()(model)
         model.validate()
         model = model.to_native()
-        del config['model']
 
         # pipeline
         config = cfg.PipelineConfig(config)
