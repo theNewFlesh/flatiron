@@ -248,7 +248,6 @@ class PipelineBase(ABC):
             )
         return self
 
-
     def fit(self):
         # type: () -> PipelineBase
         '''
