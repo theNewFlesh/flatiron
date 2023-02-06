@@ -198,18 +198,12 @@ class LoggerConfigTests(unittest.TestCase):
 class PipelineConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            dataset=dict(
-                source='/tmp/foobar/info.csv',
-                split_index=-1,
-            ),
+            model={},
+            dataset=dict(source='/tmp/foobar/info.csv', split_index=-1),
+            preprocess=dict(name='identity'),
             optimizer=dict(),
-            compile=dict(
-                loss='jaccard_loss',
-            ),
-            callbacks=dict(
-                project='project',
-                root='root',
-            ),
+            compile=dict(loss='jaccard_loss'),
+            callbacks=dict(project='project', root='root'),
             fit=dict(),
             logger=dict(),
         )

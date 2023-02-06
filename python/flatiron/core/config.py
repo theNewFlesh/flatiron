@@ -227,13 +227,16 @@ class PipelineConfig(scm.Model):
     See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.pipeline
 
     Attributes:
+        model (dict): Model configuration.
         dataset (dict): Dataset configuration.
+        preprocess (dict): Preprocess configuration.
         optimizer (dict): Optimizer configuration.
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
         fit (dict): Fit configuration.
         logger (dict): Logger configuration.
     '''
+    model = scmt.DictType(scmt.BaseType, required=True)
     dataset = scmt.ModelType(DatasetConfig, required=True)
     preprocess = scmt.ModelType(PreprocessConfig, required=True)
     optimizer = scmt.ModelType(OptimizerConfig, required=True)
