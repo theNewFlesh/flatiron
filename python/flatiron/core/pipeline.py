@@ -72,6 +72,12 @@ class PipelineBase(ABC):
         model.validate()
         model = model.to_native()
 
+        # preprocess
+        preprocess = config.pop('preprocess', {})
+        preprocess = self.preprocess_config()(preprocess)
+        preprocess.validate()
+        preprocess = preprocess.to_native()
+
         # pipeline
         config = cfg.PipelineConfig(config)
         config.validate()
@@ -242,6 +248,7 @@ class PipelineBase(ABC):
             )
         return self
 
+
     def fit(self):
         # type: () -> PipelineBase
         '''
@@ -326,5 +333,29 @@ class PipelineBase(ABC):
 
         Returns:
             kef.Functional: Machine learning model.
+        '''
+        pass  # pragma: no cover
+
+    @abstractmethod
+    def preprocess_config(self):
+        # type: () -> scm.Model
+        '''
+        Subclasses of PipelineBase wiil need to define a config class for
+        a preprocess function.
+
+        Returns:
+            scm.Model: Preprocess config class.
+        '''
+        pass  # pragma: no cover
+
+    @abstractmethod
+    def preprocess_func(self):
+        # type: () -> kef.Functional
+        '''
+        Subclasses of PipelineBase need to define a preprocess function that
+        returns a generator function of signature (x, y) -> (x, y).
+
+        Returns:
+            function: Preprocess Generator.
         '''
         pass  # pragma: no cover
