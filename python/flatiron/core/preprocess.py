@@ -1,4 +1,4 @@
-from typing import Any, Callable # noqa F401
+from typing import Any, Callable, Generator, Tuple  # noqa F401
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -17,3 +17,18 @@ def get(name):
     '''
     return fict.get_module_function(name, __name__)
 # ------------------------------------------------------------------------------
+
+
+def identity(data, **kwargs):
+    # type: (Tuple[Any, Any], Any) -> Generator[Tuple[Any, Any], None, None]
+    '''
+    Converts training data to generator function.
+
+    Args:
+        data (tuple): X, Y training data.
+        kwargs (optional): Extra keyword args.
+
+    Yields:
+        tuple: x, y data
+    '''
+    yield data

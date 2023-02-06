@@ -210,6 +210,16 @@ class LoggerConfig(scm.Model):
     level = scmt.StringType(default='warn')
 
 
+class PreprocessConfig(scm.Model):
+    '''
+    Base class for PreprocessConfig classes.
+
+    Attributes:
+        name (str, optional): Name of preprocess function. Default: identity.
+    '''
+    name = scmt.StringType(required=True, default='identity')
+
+
 class PipelineConfig(scm.Model):
     '''
     Configuration for PipelineBase classes.
@@ -225,6 +235,7 @@ class PipelineConfig(scm.Model):
         logger (dict): Logger configuration.
     '''
     dataset = scmt.ModelType(DatasetConfig, required=True)
+    preprocess = scmt.ModelType(PreprocessConfig, required=True)
     optimizer = scmt.ModelType(OptimizerConfig, required=True)
     compile = scmt.ModelType(CompileConfig, required=True)
     callbacks = scmt.ModelType(CallbacksConfig, required=True)
@@ -232,17 +243,7 @@ class PipelineConfig(scm.Model):
     logger = scmt.ModelType(LoggerConfig, required=True)
 
 
-class PreprocessConfigBase(scm.Model):
-    '''
-    Base class for PreprocessConfig classes.
-
-    Attributes:
-        name (str): Name of preprocess function.
-    '''
-    name = scmt.StringType(required=True)
-
-
-class ImagePreprocessConfig(PreprocessConfigBase):
+class ImagePreprocessConfig(PreprocessConfig):
     '''
     Config for parameters passed to ImageDataGenerator.
 
