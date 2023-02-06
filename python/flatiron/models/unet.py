@@ -156,9 +156,9 @@ def get_unet_model(
     input_height,  # type: int
     input_channels,  # type: int
     classes=1,  # type: int
-    filters=16,  # type: int
+    filters=32,  # type: int
     layers=9,  # type: int
-    activation='relu',  # type: str
+    activation='leaky_relu',  # type: str
     batch_norm=True,  # type: bool
     output_activation='sigmoid',  # type: str
     kernel_initializer='he_normal',  # type: str
@@ -184,10 +184,10 @@ def get_unet_model(
         input_channels (int): Input channels.
         classes (int, optional): Number of output classes. Default: 1.
         filters (int, optional): Number of filters for initial con 2d block.
-            Default: 16.
+            Default: 32.
         layers (int, optional): Total number of layers. Default: 9.
         activation (KerasTensor, optional): Activation function to be used.
-            Default: relu.
+            Default: leaky_relu.
         batch_norm (KerasTensor, optional): Use batch normalization.
             Default: True.
         output_activation (KerasTensor, optional): Output activation function.
