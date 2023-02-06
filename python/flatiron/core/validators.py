@@ -128,6 +128,7 @@ def is_pipeline_method(method):
         'load',
         'train_test_split',
         'unload',
+        'preprocess',
         'build',
         'compile',
         'fit',

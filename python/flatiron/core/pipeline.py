@@ -248,9 +248,11 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         config = deepcopy(self.config['preprocess'])
+        pre = dict(preprocess=deepcopy(config))
         name = config.pop('name')
         preprocess = ficp.get(name)
-        self._train = preprocess(self._train, **config)
+        with self._logger('preprocess', 'PREPROCESS DATA', pre):
+            self._train = preprocess(self._train, **config)
         return self
 
     def fit(self):

@@ -59,6 +59,7 @@ class ValidatorsTests(unittest.TestCase):
             'load',
             'train_test_split',
             'unload',
+            'preprocess',
             'build',
             'compile',
             'fit',
