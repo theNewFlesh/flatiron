@@ -21,14 +21,14 @@ def get(name):
 
 def identity(data, **kwargs):
     # type: (Tuple[Any, Any], Any) -> Generator[Tuple[Any, Any], None, None]
-    '''
+    r'''
     Converts training data to generator function.
 
     Args:
         data (tuple): X, Y training data.
-        kwargs (optional): Extra keyword args.
+        \*\*kwargs (optional): Extra keyword args.
 
     Yields:
-        tuple: x, y data
+        tuple: (x, y) data
     '''
     yield data
