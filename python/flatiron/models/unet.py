@@ -29,7 +29,7 @@ def unet_width_and_layers_are_valid(width, layers):
     Returns:
         bool: True if width and layers are compatible.
     '''
-    layers = int((layers - 1) / 2)
+    layers = int((layers - 1) / 2) - 1
     x = float(width)
     for _ in range(layers):
         x /= 2

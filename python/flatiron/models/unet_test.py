@@ -10,8 +10,8 @@ import flatiron.models.unet as fimu
 class UNetTests(unittest.TestCase):
     def get_kwargs(self):
         return dict(
-            input_width=192,
-            input_height=192,
+            input_width=208,
+            input_height=208,
             input_channels=3,
             classes=1,
             filters=16,
