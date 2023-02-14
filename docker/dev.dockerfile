@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:latest-gpu AS base
+FROM tensorflow/tensorflow:nightly-gpu AS base
 
 USER root
 

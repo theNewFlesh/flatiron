@@ -9,7 +9,7 @@ services:
     ports:
       - "9100:9000"
       - "9180:8080"
-      - "9106:6006"
+      - "9106:9006"
     userns_mode: "host"
     user: ubuntu
     env_file:
@@ -19,13 +19,13 @@ services:
       - ~/.ssh:/home/ubuntu/.ssh:ro
       - ./config/jupyter:/home/ubuntu/.jupyter
       - ./config/zshrc:/home/ubuntu/.zshrc
-      - ~/Documents/misc/storage:/mnt/storage
+      - /mnt/storage-02:/mnt/storage
     working_dir: "/home/ubuntu"
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [gpu]
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     command: "tail -f /dev/null"
