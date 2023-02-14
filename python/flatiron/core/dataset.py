@@ -66,7 +66,7 @@ class Dataset:
 
         files = [Path(directory, x) for x in os.listdir(directory)]  # type: Any
         files = list(filter(lambda x: x.suffix.lower()[1:] == 'csv', files))
-        files = [x.as_posix() for x in files]
+        files = sorted([x.as_posix() for x in files])
         msg = 'Dataset directory must contain only 1 CSV file. '
         msg += f'CSV files found: {files}'
         Enforce(len(files), '==', 1, message=msg)
