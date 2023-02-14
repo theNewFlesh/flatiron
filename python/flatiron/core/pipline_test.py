@@ -166,6 +166,23 @@ class PipelineTests(unittest.TestCase):
             self.assertRegex(log.output[0], 'LOAD DATASET')
             self.assertIsInstance(result, np.ndarray)
 
+    def test_xy_split(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = FakePipeline(config).load()
+            self.assertIsNone(pipe.x_train)
+            self.assertIsNone(pipe.x_test)
+            self.assertIsNone(pipe.y_train)
+            self.assertIsNone(pipe.y_test)
+
+            with self.assertLogs(level=logging.WARNING) as log:
+                result = pipe.xy_split()
+            self.assertRegex(log.output[0], 'XY SPLIT')
+            self.assertIsInstance(result.x_train, np.ndarray)
+            self.assertIsInstance(result.y_train, np.ndarray)
+            self.assertIsNone(result.x_test)
+            self.assertIsNone(result.y_test)
+
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
