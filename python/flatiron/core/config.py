@@ -160,7 +160,7 @@ class FitConfig(scm.Model):
         shuffle (bool, optional): Shuffle training data per epoch.
             Default: True.
         initial_epoch (int, optional): Epoch at which to start training
-            (useful for resuming a previous training run). Default: 1.
+            (useful for resuming a previous training run). Default: 0.
         validation_freq (int, optional): Number of training epochs before new
             validation. Default: 1.
         max_queue_size (int, optional): Max size of generator queue.
@@ -174,16 +174,17 @@ class FitConfig(scm.Model):
     verbose = scmt.UnionType([scmt.StringType, scmt.IntType], default='auto')
     validation_split = scmt.FloatType(default=0.0)
     shuffle = scmt.BooleanType(default=True)
-    initial_epoch = scmt.IntType(default=1)
+    initial_epoch = scmt.IntType(default=0)
     validation_freq = scmt.IntType(default=1)
     max_queue_size = scmt.IntType(default=10)
     workers = scmt.IntType(default=1)
     use_multiprocessing = scmt.BooleanType(default=False)
     # class_weight
     # sample_weight
-    # initial_epoch
-    # validation_steps
+    # steps_per_epoch
     # validation_batch_size
+    # validation_data
+    # validation_steps
 
 
 class LoggerConfig(scm.Model):

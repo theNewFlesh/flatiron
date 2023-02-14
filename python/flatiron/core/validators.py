@@ -127,6 +127,7 @@ def is_pipeline_method(method):
     legal = [
         'load',
         'train_test_split',
+        'xy_split',
         'unload',
         'build',
         'compile',

@@ -164,6 +164,32 @@ class PipelineBase(ABC):
             self.y_test = y_test
         return self
 
+    def xy_split(self):
+        # type: () -> PipelineBase
+        '''
+        Split dataset into x_train and y_train sets.
+
+        Assigns the following instance members:
+
+            * x_train
+            * y_train
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        config = self.config['dataset']
+
+        with self._logger(
+            'xy_split', 'XY SPLIT', dict(dataset=config)
+        ):
+            x, y = self.dataset.xy_split(
+                index=config['split_index'],
+                axis=config['split_axis'],
+            )
+            self.x_train = x
+            self.y_train = y
+        return self
+
     def unload(self):
         # type: () -> PipelineBase
         '''
@@ -254,7 +280,12 @@ class PipelineBase(ABC):
         fit = self.config['fit']
         log = self.config['logger']
 
-        with self._logger('fit', 'FIT MODEL', self.config):
+        # log training start
+        with self._logger('fit', 'TRAINING STARTED', self.config):
+            pass
+
+        # train model
+        with self._logger('fit', 'TRAINING COMPLETED', self.config):
             # create tensorboard
             tb = fict.get_tensorboard_project(
                 cb['project'],
@@ -269,6 +300,9 @@ class PipelineBase(ABC):
             callbacks = fict.get_callbacks(
                 tb['log_dir'], tb['checkpoint_pattern'], cp,
             )
+            validation_data = None
+            if self.x_test is not None and self.y_test is not None:
+                validation_data = (self.x_test, self.y_test)
 
             # train model
             n = self.x_train.shape[0]  # type: ignore
@@ -276,7 +310,7 @@ class PipelineBase(ABC):
                 x=self.x_train,
                 y=self.y_train,
                 callbacks=callbacks,
-                validation_data=(self.x_test, self.y_test),
+                validation_data=validation_data,
                 steps_per_epoch=math.ceil(n / fit['batch_size']),
                 **fit,
             )

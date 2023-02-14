@@ -4,6 +4,7 @@ import keras.engine.functional as kef  # noqa F401
 from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
+import tensorflow.keras as tfk
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
 
@@ -380,6 +381,17 @@ class UNetConfig(scm.Model):
     attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
 
 
+def preprocess(model):
+    return tfk.Sequential([
+        tfl.RandomFlip(seed=42),
+        model,
+    ])
+
+
+def get_unet_model_preprocessed(**kwargs):
+    return preprocess(get_unet_model(**kwargs))
+
+
 # PIPELINE----------------------------------------------------------------------
 class UNetPipeline(ficp.PipelineBase):
     def model_config(self):
@@ -388,4 +400,4 @@ class UNetPipeline(ficp.PipelineBase):
 
     def model_func(self):
         # type: () -> kef.Functional
-        return get_unet_model
+        return get_unet_model_preprocessed
