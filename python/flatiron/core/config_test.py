@@ -149,7 +149,7 @@ class FitConfigTests(unittest.TestCase):
             verbose='auto',
             validation_split=0.0,
             shuffle=True,
-            initial_epoch=1,
+            initial_epoch=0,
             validation_freq=1,
             max_queue_size=10,
             workers=1,
