@@ -136,7 +136,7 @@ def split_tensor(tensor, index, axis=-1, output='left'):
     msg = f'Index must be an integer. Given value: {index}.'
     Enforce(index, 'instance of', int, message=msg)
 
-    # index vaule
+    # index value
     nind = shape[axis]  # type: Any
     ind_max = nind - 1
     ind_min = -ind_max
