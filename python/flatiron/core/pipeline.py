@@ -8,6 +8,7 @@ from copy import deepcopy
 from pathlib import Path
 import math
 
+import tensorflow.data as tfd
 import tensorflow.keras.losses as tfl
 import tensorflow.keras.metrics as tfm
 import tensorflow.keras.optimizers as tfo
@@ -113,6 +114,7 @@ class PipelineBase(ABC):
             logger._callback = None
         return logger
 
+    # DATA----------------------------------------------------------------------
     def load(self):
         # type: () -> PipelineBase
         '''
@@ -190,6 +192,35 @@ class PipelineBase(ABC):
             self.y_train = y
         return self
 
+    def convert(self):
+        # type: () -> PipelineBase
+        '''
+        Converts train data to tensorflow Dataset instance
+
+        Assigns the following instance members:
+
+            * train_data
+            * x_train
+            * y_train
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        config = self.config['fit']
+        with self._logger('convert', 'CONVERT DATASET', dict(fit=config)):
+            self.train_data = tfd.Dataset.from_tensor_slices(dict(
+                x_train=self.x_train,
+                y_train=self.y_train,
+            )).batch(config['batch_size'])
+        self.x_train = None
+        self.y_train = None
+        return self
+
+    def preprocess(self):
+        self.train_data = self.train_data \
+            .map(self.preprocess_func)
+        return self
+
     def unload(self):
         # type: () -> PipelineBase
         '''
@@ -204,6 +235,7 @@ class PipelineBase(ABC):
             self.dataset.unload()
         return self
 
+    # MODEL---------------------------------------------------------------------
     def build(self):
         # type: () -> PipelineBase
         '''
@@ -307,8 +339,8 @@ class PipelineBase(ABC):
             # train model
             n = self.x_train.shape[0]  # type: ignore
             self.model.fit(
-                x=self.x_train,
-                y=self.y_train,
+                x=self.train_data['x_train'],
+                y=self.train_data['y_train'],
                 callbacks=callbacks,
                 validation_data=validation_data,
                 steps_per_epoch=math.ceil(n / fit['batch_size']),
@@ -334,6 +366,7 @@ class PipelineBase(ABC):
         self.load() \
             .train_test_split() \
             .unload() \
+            .convert() \
             .build() \
             .compile() \
             .fit()
