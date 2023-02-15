@@ -4,6 +4,8 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
+import numpy as np
+import tensorflow as tf
 import tensorflow.keras.callbacks as tfc
 
 import flatiron.core.tools as fict
@@ -64,6 +66,56 @@ class ToolsTests(unittest.TestCase):
             expected += 'Given value: foobar'
             with self.assertRaisesRegex(EnforceError, expected):
                 fict.get_callbacks(root, 'foobar', {})
+
+    def test_split_tensor(self):
+        arr = np.zeros([5, 10, 10, 4])
+        tensor = tf.convert_to_tensor(arr)
+        result = fict.split_tensor(tensor, 3, -1, 'left')
+        self.assertEqual(result.shape, [5, 10, 10, 3])
+
+        result = fict.split_tensor(tensor, 3, -1, 'right')
+        self.assertEqual(result.shape, [5, 10, 10, 1])
+
+    def test_split_tensor_errors(self):
+        arr = np.zeros([5, 10, 10, 4])
+        tensor = tf.convert_to_tensor(arr)
+
+        # tensor
+        with self.assertRaises(EnforceError):
+            fict.split_tensor(99, 3)
+
+        # axis type
+        expected = 'Axis must be an integer. Given value: 1.0.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.split_tensor(tensor, 2, 1.0)
+
+        # axis value
+        expected = r'Illegal axis: 4\. Given tensor of shape: \(5, 10, 10, 4\) '
+        expected += r'dictates that axis must lie within the range: -4 to 3\.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.split_tensor(tensor, 2, 4)
+
+        # index type
+        expected = 'Index must be an integer. Given value: 1.0.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.split_tensor(tensor, 1.0, 1)
+
+        # index value
+        expected = r'Illegal index: 4\. Axis -1 has a size of 4 which dictates '
+        expected += 'that index must lie within the the range: -3 to 3'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.split_tensor(tensor, 4, -1)
+
+        # index value 0
+        expected = 'Illegal index: 0.*cannot be 0'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.split_tensor(tensor, 0, -1)
+
+        # output
+        expected = r'Illegal output given: foobar\. '
+        expected += r"Legal outputs: \['left', 'right'\]\."
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.split_tensor(tensor, 3, -1, 'foobar')
 
     def test_pad_layer_name(self):
         expected = 'foo____bar'

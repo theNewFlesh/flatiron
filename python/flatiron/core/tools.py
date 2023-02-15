@@ -14,6 +14,7 @@ import lunchbox.tools as lbt
 import pytz
 import yaml
 
+import tensorflow as tf
 import tensorflow.keras.callbacks as tfc
 
 Filepath = Union[str, Path]
@@ -71,7 +72,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 
     Raises:
         EnforceError: If log directory does not exist.
-        EnforeError: If checkpoint pattern does not contain '{epoch}'.
+        EnforceError: If checkpoint pattern does not contain '{epoch}'.
 
     Returns:
         list: Tensorboard and ModelCheckpoint callbacks.
@@ -92,6 +93,73 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
+
+
+def split_tensor(tensor, index, axis=-1, output='left'):
+    # type: (tf.Tensor, int, int, str) -> tf.Tensor
+    '''
+    Splits a given tensor according along the index of a given axis.
+
+    Args:
+        tensor (tf.Tensor): Tensor to be split.
+        index (int): Index of axis to split tensor at.
+        axis (int, optional): Axis to split on. Default: -1.
+        output (str, optional): Return left or right tensor. Default: left.
+
+    Raises:
+        EnforceError: If tensor is not an instance of tf.Tensor.
+        EnforceError: If axis is not an integer within the legal range.
+        EnforceError: If index is not an integer within the legal range.
+        EnforceError: If output is not 'left' or 'right'.
+
+    Returns:
+        tf.Tensor: Left or right tensor.
+    '''
+    # tensor
+    Enforce(tensor, 'instance of', tf.Tensor)
+    shape = tensor.shape
+
+    # axis type
+    msg = f'Axis must be an integer. Given value: {axis}.'
+    Enforce(axis, 'instance of', int, message=msg)
+
+    # axis value
+    ndim = len(shape)
+    axis_min = -ndim
+    axis_max = ndim - 1
+    msg = f'Illegal axis: {axis}. Given tensor of shape: {shape} dictates that '
+    msg += f'axis must lie within the range: {axis_min} to {axis_max}.'
+    Enforce(axis, '>=', axis_min, message=msg)
+    Enforce(axis, '<=', axis_max, message=msg)
+
+    # index type
+    msg = f'Index must be an integer. Given value: {index}.'
+    Enforce(index, 'instance of', int, message=msg)
+
+    # index value
+    nind = shape[axis]  # type: Any
+    ind_max = nind - 1
+    ind_min = -ind_max
+    msg = f'Illegal index: {index}. Axis {axis} has a size of {nind} which '
+    msg += 'dictates that index must lie within the the range: '
+    msg += f'{ind_min} to {ind_max} and cannot be 0.'
+    Enforce(index, '>=', ind_min, message=msg)
+    Enforce(index, '<=', ind_max, message=msg)
+    Enforce(index, '!=', 0, message=msg)
+
+    # output
+    output = output.lower()
+    msg = 'Illegal output given: {a}. Legal outputs: {b}.'
+    Enforce(output, 'in', ['left', 'right'], message=msg)
+    # --------------------------------------------------------------------------
+
+    full = slice(None)
+    slices = [full] * len(tensor.shape)  # type: Any
+    if output == 'left':
+        slices[axis] = slice(None, index)
+    else:
+        slices[axis] = slice(index, None)
+    return tensor[slices]
 
 
 # MISC--------------------------------------------------------------------------
