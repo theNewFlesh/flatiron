@@ -4,10 +4,10 @@ import keras.engine.functional as kef  # noqa F401
 from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
-import tensorflow.keras as tfk
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
 
+import flatiron.core.config as ficc
 import flatiron.core.pipeline as ficp
 import flatiron.core.tools as fict
 import flatiron.core.validators as vd
@@ -325,7 +325,7 @@ def get_unet_model(
 
 
 # CONFIG------------------------------------------------------------------------
-class UNetConfig(scm.Model):
+class UNetModelConfig(scm.Model):
     '''
     Configuration for UNet model.
 
@@ -381,23 +381,14 @@ class UNetConfig(scm.Model):
     attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
 
 
-def preprocess(model):
-    return tfk.Sequential([
-        tfl.RandomFlip(seed=42),
-        model,
-    ])
-
-
-def get_unet_model_preprocessed(**kwargs):
-    return preprocess(get_unet_model(**kwargs))
+class UNetPipelineConfig(ficc.PipelineConfig):
+    model = scmt.ModelType(UNetModelConfig, required=True)
 
 
 # PIPELINE----------------------------------------------------------------------
 class UNetPipeline(ficp.PipelineBase):
-    def model_config(self):
-        # type: () -> scm.Model
-        return UNetConfig
+    spec = UNetPipelineConfig
 
     def model_func(self):
         # type: () -> kef.Functional
-        return get_unet_model_preprocessed
+        return get_unet_model

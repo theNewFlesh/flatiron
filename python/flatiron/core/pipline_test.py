@@ -13,6 +13,7 @@ import yaml
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
 
+import flatiron.core.config as ficc
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
 # ------------------------------------------------------------------------------
@@ -25,13 +26,16 @@ def get_fake_model(shape):
     return model
 
 
-class FakeConfig(scm.Model):
+class FakeModelConfig(scm.Model):
     shape = scmt.ListType(scmt.IntType, required=True)
 
 
+class FakeConfig(ficc.PipelineConfig):
+    model = scmt.ModelType(FakeModelConfig)
+
+
 class FakePipeline(ficp.PipelineBase):
-    def model_config(self):
-        return FakeConfig
+    spec = FakeConfig
 
     def model_func(self):
         return get_fake_model
@@ -69,6 +73,9 @@ class PipelineTests(unittest.TestCase):
             dataset=dict(
                 source=info_path,
                 split_index=-1,
+            ),
+            preprocess=dict(
+                name='identity',
             ),
             callbacks=dict(
                 project='proj',
@@ -242,6 +249,8 @@ class PipelineTests(unittest.TestCase):
                 .load() \
                 .train_test_split() \
                 .unload() \
+                .convert() \
+                .preprocess() \
                 .build() \
                 .compile()
 

@@ -202,6 +202,10 @@ class PipelineConfigTests(unittest.TestCase):
                 source='/tmp/foobar/info.csv',
                 split_index=-1,
             ),
+            preprocess=dict(
+                name='identity'
+            ),
+            model={},
             optimizer=dict(),
             compile=dict(
                 loss='jaccard_loss',

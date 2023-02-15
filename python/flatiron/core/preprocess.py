@@ -2,7 +2,6 @@ from typing import Any, Callable, Union  # noqa F401
 import numpy
 
 import tensorflow as tf
-import tensorflow.keras.backend as tfb
 
 import flatiron.core.tools as fict
 
@@ -26,4 +25,4 @@ def get(name):
 
 
 def identity(data):
-    return data
+    return dict(input=data['x_train'], target=data['y_train'])

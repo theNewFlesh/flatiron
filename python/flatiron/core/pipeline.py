@@ -15,7 +15,7 @@ import tensorflow.keras.optimizers as tfo
 import yaml
 
 from flatiron.core.dataset import Dataset
-import flatiron.core.config as cfg
+import flatiron.core.config as ficc
 import flatiron.core.logging as filog
 import flatiron.core.loss as ficl
 import flatiron.core.metric as ficm
@@ -27,6 +27,8 @@ Filepath = Union[str, Path]
 
 
 class PipelineBase(ABC):
+    spec = ficc.PipelineConfig
+
     @classmethod
     def read_yaml(cls, filepath):
         # type: (Filepath) -> PipelineBase
@@ -68,17 +70,10 @@ class PipelineBase(ABC):
         '''
         config = deepcopy(config)
 
-        # model
-        model = config.pop('model', {})
-        model = self.model_config()(model)
-        model.validate()
-        model = model.to_native()
-
         # pipeline
-        config = cfg.PipelineConfig(config)
+        config = self.spec(config)
         config.validate()
         config = config.to_native()
-        config['model'] = model
         self.config = config
 
         # create Dataset instance
@@ -200,19 +195,23 @@ class PipelineBase(ABC):
 
         Assigns the following instance members:
 
-            * train_data
+            * xy_train
             * x_train
             * y_train
+            * _steps_per_epoch
 
         Returns:
             PipelineBase: Self.
         '''
         config = self.config['fit']
+        batch_size = config['batch_size']
         with self._logger('convert', 'CONVERT DATASET', dict(fit=config)):
-            self.train_data = tfd.Dataset.from_tensor_slices(dict(
+            self.xy_train = tfd.Dataset.from_tensor_slices(dict(
                 x_train=self.x_train,
                 y_train=self.y_train,
-            )).batch(config['batch_size'])
+            )).batch(batch_size)
+        n = self.x_train.shape[0]  # type: ignore
+        self._steps_per_epoch = math.ceil(n / batch_size)
         self.x_train = None
         self.y_train = None
         return self
@@ -224,16 +223,19 @@ class PipelineBase(ABC):
 
         Assigns the following instance members:
 
-            * train_data
+            * xy_train
 
         Returns:
             PipelineBase: Self.
         '''
         config = deepcopy(self.config['preprocess'])
-        name = config.pop('name')
-        func = ficp.get(name)
-        self.train_data = self.train_data \
-            .map(lambda x: func(x, **config))
+        with self._logger(
+            'preprocess', 'PREPROCESS DATASET', dict(preprocess=config)
+        ):
+            name = config.pop('name')
+            func = ficp.get(name)
+            self.xy_train = self.xy_train \
+                .map(lambda x: func(x, **config))
         return self
 
     def unload(self):
@@ -352,13 +354,11 @@ class PipelineBase(ABC):
                 validation_data = (self.x_test, self.y_test)
 
             # train model
-            n = self.x_train.shape[0]  # type: ignore
             self.model.fit(
-                x=self.train_data['x_train'],
-                y=self.train_data['y_train'],
+                self.xy_train,
                 callbacks=callbacks,
                 validation_data=validation_data,
-                steps_per_epoch=math.ceil(n / fit['batch_size']),
+                steps_per_epoch=self._steps_per_epoch,
                 **fit,
             )
         return self
@@ -389,18 +389,6 @@ class PipelineBase(ABC):
             .compile() \
             .fit()
         return self
-
-    @abstractmethod
-    def model_config(self):
-        # type: () -> scm.Model
-        '''
-        Subclasses of PipelineBase wiil need to define a config class for models
-        created in the build method.
-
-        Returns:
-            scm.Model: Model config class.
-        '''
-        pass  # pragma: no cover
 
     @abstractmethod
     def model_func(self):
