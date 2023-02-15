@@ -19,6 +19,7 @@ import flatiron.core.config as cfg
 import flatiron.core.logging as filog
 import flatiron.core.loss as ficl
 import flatiron.core.metric as ficm
+import flatiron.core.preprocess as ficp
 import flatiron.core.tools as fict
 
 Filepath = Union[str, Path]
@@ -217,8 +218,22 @@ class PipelineBase(ABC):
         return self
 
     def preprocess(self):
+        # type: () -> PipelineBase
+        '''
+        Applies preprocessing to training data.
+
+        Assigns the following instance members:
+
+            * train_data
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        config = deepcopy(self.config['preprocess'])
+        name = config.pop('name')
+        func = ficp.get(name)
         self.train_data = self.train_data \
-            .map(self.preprocess_func)
+            .map(lambda x: func(x, **config))
         return self
 
     def unload(self):
@@ -356,6 +371,8 @@ class PipelineBase(ABC):
         * load
         * train_test_split
         * unload
+        * convert
+        * preprocess
         * build
         * compile
         * fit
@@ -367,6 +384,7 @@ class PipelineBase(ABC):
             .train_test_split() \
             .unload() \
             .convert() \
+            .preprocess() \
             .build() \
             .compile() \
             .fit()
