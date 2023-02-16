@@ -4,6 +4,7 @@ import keras.engine.functional as kef  # noqa F401
 from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
+import tensorflow as tf
 import tensorflow.keras.layers as tfl
 import tensorflow.keras.models as tfm
 
@@ -45,6 +46,7 @@ def conv_2d_block(
     batch_norm=True,  # type: bool
     kernel_initializer='he_normal',  # type: str
     name='conv-2d-block',  # type: str
+    dtype='float16',  # type: str
 ):
     # type: (...) -> KerasTensor
     r'''
@@ -71,6 +73,7 @@ def conv_2d_block(
         batch_norm (str, bool): Default: True.
         kernel_initializer (str, optional): Default: he_normal.
         name (str, optional): Layer name. Default: conv-2d-block
+        dtype (str, optional): Model dtype. Default: float16.
 
     Returns:
         KerasTensor: Conv2D Block
@@ -84,17 +87,18 @@ def conv_2d_block(
         kernel_initializer=kernel_initializer,
         padding='same',
         use_bias=not batch_norm,
+        dtype='float16',
     )
 
     name2 = f'{name}-1'
     conv_1 = tfl.Conv2D(**kwargs, name=f'{name}-0')(input_)
     if batch_norm:
-        conv_1 = tfl.BatchNormalization(name=f'{name}-1')(conv_1)
+        conv_1 = tfl.BatchNormalization(name=f'{name}-1', dtype=dtype)(conv_1)
         name2 = f'{name}-2'
 
     conv_2 = tfl.Conv2D(**kwargs, name=name2)(conv_1)
     if batch_norm:
-        conv_2 = tfl.BatchNormalization(name=f'{name}-3')(conv_2)
+        conv_2 = tfl.BatchNormalization(name=f'{name}-3', dtype=dtype)(conv_2)
 
     return conv_2
 
@@ -109,6 +113,7 @@ def attention_gate_2d(
     padding='same',  # type: str
     kernel_initializer='he_normal',  # type: str
     name='attention-gate',  # type: str
+    dtype='float16',  # type: str
 ):
     # type: (...) -> KerasTensor
     '''
@@ -126,6 +131,7 @@ def attention_gate_2d(
         kernel_initializer (str, optional): Kernel initializer.
             Default: 'he_normal'
         name (str, optional): Layer name. Default: attention-gate
+        dtype (str, optional): Model dtype. Default: float16.
 
     Returns:
         KerasTensor: 2D Attention Gate.
@@ -137,17 +143,18 @@ def attention_gate_2d(
         strides=strides,
         padding=padding,
         kernel_initializer=kernel_initializer,
+        dtype=dtype,
     )
     conv_0 = tfl.Conv2D(
         filters=filters, **kwargs, name=f'{name}-0'
     )(skip_connection)
     conv_1 = tfl.Conv2D(filters=filters, **kwargs, name=f'{name}-1')(query)
-    gate = tfl.add([conv_0, conv_1], name=f'{name}-2')
-    gate = tfl.Activation(activation_1, name=f'{name}-3')(gate)
+    gate = tfl.add([conv_0, conv_1], name=f'{name}-2', dtype=dtype)
+    gate = tfl.Activation(activation_1, name=f'{name}-3', dtype=dtype)(gate)
     gate = tfl.Conv2D(filters=1, **kwargs, name=f'{name}-4')(gate)
-    gate = tfl.Activation(activation_2, name=f'{name}-5')(gate)
-    gate = tfl.multiply([skip_connection, gate], name=f'{name}-6')
-    output = tfl.concatenate([gate, query], name=f'{name}-7')
+    gate = tfl.Activation(activation_2, name=f'{name}-5', dtype=dtype)(gate)
+    gate = tfl.multiply([skip_connection, gate], name=f'{name}-6', dtype=dtype)
+    output = tfl.concatenate([gate, query], name=f'{name}-7', dtype=dtype)
     return output
 
 
@@ -169,6 +176,7 @@ def get_unet_model(
     attention_strides=1,  # type: int
     attention_padding='same',  # type: str
     attention_kernel_initializer='he_normal',  # type: str
+    dtype='float16',  # type: str
 ):
     # type: (...) -> kef.Functional
     '''
@@ -204,6 +212,7 @@ def get_unet_model(
         attention_padding (str, optional): Padding. Default: 'same'
         attention_kernel_initializer (str, optional): Kernel initializer.
             Default: 'he_normal'
+        dtype (str, optional): Model dtype. Default: float16.
 
     Raises:
         EnforceError: If input_width is not even.
@@ -241,7 +250,7 @@ def get_unet_model(
 
     # input layer
     shape = (input_width, input_height, input_channels)
-    input_ = tfl.Input(shape, name='input')
+    input_ = tfl.Input(shape, name='input', dtype=dtype)
 
     # encode layers
     x = input_
@@ -254,12 +263,13 @@ def get_unet_model(
             activation=activation,
             kernel_initializer=kernel_initializer,
             name=f'encode-block_{i:02d}',
+            dtype=dtype,
         )
         encode_layers.append(x)
 
         # downsample
         name = fict.pad_layer_name(f'downsample_{i:02d}', length=PAD)
-        x = tfl.MaxPooling2D((2, 2), name=name)(x)
+        x = tfl.MaxPooling2D((2, 2), name=name, dtype=dtype)(x)
         filters *= 2
 
     # middle layer
@@ -271,6 +281,7 @@ def get_unet_model(
         activation=activation,
         kernel_initializer=kernel_initializer,
         name=name,
+        dtype=dtype,
     )
 
     # decode layers
@@ -286,6 +297,7 @@ def get_unet_model(
             strides=(2, 2),
             padding='same',
             name=name,
+            dtype=dtype,
         )(x)
 
         # attention gate
@@ -301,6 +313,7 @@ def get_unet_model(
                 padding=attention_padding,
                 kernel_initializer=attention_kernel_initializer,
                 name=name,
+                dtype=dtype,
             )
         else:
             name = fict.pad_layer_name(f'concat_{i:02d}', length=PAD)
@@ -314,10 +327,12 @@ def get_unet_model(
             activation=activation,
             kernel_initializer=kernel_initializer,
             name=f'decode-block_{i:02d}',
+            dtype=dtype,
         )
 
     output = tfl.Conv2D(
-        classes, (1, 1), activation=output_activation, name='output'
+        classes, (1, 1), activation=output_activation, name='output',
+        dtype=dtype
     )(x)
     model = tfm.Model(inputs=[input_], outputs=[output])
     return model
