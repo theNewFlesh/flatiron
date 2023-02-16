@@ -48,6 +48,9 @@ __pycache__
 *.py[cod]
 *$py.class
 
+# resources
+slack-url.txt
+
 # sublime
 sftp-config.json
 
