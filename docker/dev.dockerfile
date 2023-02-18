@@ -38,7 +38,6 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         git \
         graphviz \
         npm \
-        pandoc \
         parallel \
         software-properties-common \
         unzip \
