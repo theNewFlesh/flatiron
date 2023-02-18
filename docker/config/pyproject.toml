@@ -68,6 +68,7 @@ lab = [
     "jupyterlab",
 ]
 dev = [
+    "m2r2",
     "pydot>=1.4.2",
     "sphinx-autodoc-typehints>=1.22",
     "sphinx-rtd-theme",
