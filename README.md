@@ -122,6 +122,7 @@ Its usage pattern is: `bin/flatiron COMMAND [-a --args]=ARGS [-h --help] [--dryr
 | library-sync-dev     | Sync dev environment with packages listed in dev.lock               |
 | library-sync-prod    | Sync prod environment with packages listed in prod.lock             |
 | library-update       | Update dev dependencies                                             |
+| library-update-pdm   | Update PDM                                                          |
 | session-lab          | Run jupyter lab server                                              |
 | session-python       | Run python session with dev dependencies                            |
 | state                | State of flatiron                                                   |
