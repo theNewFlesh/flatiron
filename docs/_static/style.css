@@ -1,3 +1,7 @@
+body {
+    background: #242424 !important;
+}
+
 a,
 a:visited {
     color: #B6ECF3 !important;
@@ -9,6 +13,10 @@ a:hover {
 
 p {
     margin-bottom: 5px;
+}
+
+h2 {
+    font-size: 120%;
 }
 
 .btn,
@@ -195,6 +203,7 @@ span[id*='MathJax-Span'] {
 .rst-content table.docutils thead th {
     background: #343434 !important;
     color: #B6ECF3 !important;
+    border: 0px solid #242424 !important;
     border-bottom: 1px solid #B6ECF3 !important;
 }
 
@@ -241,17 +250,9 @@ span[id*='MathJax-Span'] {
     padding-left: 40px !important;
 }
 
-/* Custom table widths */
-#environment-variables {
-    min-width: 950px;
-}
-
-#configuration {
-    min-width: 980px;
-}
-
-#commands {
-    min-width: 960px;
+.rst-content code.literal,
+.rst-content tt.literal {
+    white-space: pre-wrap;
 }
 
 /* Architecture Diagram */

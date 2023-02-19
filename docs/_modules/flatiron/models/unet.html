@@ -64,7 +64,7 @@
             
             
               <div class="version">
-                0.12.1
+                0.14.1
               </div>
             
           
@@ -176,6 +176,7 @@
 <span class="kn">from</span> <span class="nn">lunchbox.enforce</span> <span class="kn">import</span> <span class="n">Enforce</span>
 <span class="kn">import</span> <span class="nn">schematics</span> <span class="k">as</span> <span class="nn">scm</span>
 <span class="kn">import</span> <span class="nn">schematics.types</span> <span class="k">as</span> <span class="nn">scmt</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">tensorflow.keras.layers</span> <span class="k">as</span> <span class="nn">tfl</span>
 <span class="kn">import</span> <span class="nn">tensorflow.keras.models</span> <span class="k">as</span> <span class="nn">tfm</span>
 
@@ -201,7 +202,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        bool: True if width and layers are compatible.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">layers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">layers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">layers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">layers</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">/=</span> <span class="mi">2</span>
@@ -217,6 +218,7 @@
     <span class="n">batch_norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
     <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;conv-2d-block&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
 <span class="p">):</span>
     <span class="c1"># type: (...) -&gt; KerasTensor</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&#39;&#39;&#39;</span>
@@ -243,6 +245,7 @@
 <span class="sd">        batch_norm (str, bool): Default: True.</span>
 <span class="sd">        kernel_initializer (str, optional): Default: he_normal.</span>
 <span class="sd">        name (str, optional): Layer name. Default: conv-2d-block</span>
+<span class="sd">        dtype (str, optional): Model dtype. Default: float16.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        KerasTensor: Conv2D Block</span>
@@ -256,17 +259,18 @@
         <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">kernel_initializer</span><span class="p">,</span>
         <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>
         <span class="n">use_bias</span><span class="o">=</span><span class="ow">not</span> <span class="n">batch_norm</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="n">name2</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-1&#39;</span>
     <span class="n">conv_1</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-0&#39;</span><span class="p">)(</span><span class="n">input_</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">batch_norm</span><span class="p">:</span>
-        <span class="n">conv_1</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-1&#39;</span><span class="p">)(</span><span class="n">conv_1</span><span class="p">)</span>
+        <span class="n">conv_1</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-1&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)(</span><span class="n">conv_1</span><span class="p">)</span>
         <span class="n">name2</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-2&#39;</span>
 
     <span class="n">conv_2</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name2</span><span class="p">)(</span><span class="n">conv_1</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">batch_norm</span><span class="p">:</span>
-        <span class="n">conv_2</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-3&#39;</span><span class="p">)(</span><span class="n">conv_2</span><span class="p">)</span>
+        <span class="n">conv_2</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-3&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)(</span><span class="n">conv_2</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">conv_2</span></div>
 
@@ -281,6 +285,7 @@
     <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">name</span><span class="o">=</span><span class="s1">&#39;attention-gate&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
 <span class="p">):</span>
     <span class="c1"># type: (...) -&gt; KerasTensor</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -298,6 +303,7 @@
 <span class="sd">        kernel_initializer (str, optional): Kernel initializer.</span>
 <span class="sd">            Default: &#39;he_normal&#39;</span>
 <span class="sd">        name (str, optional): Layer name. Default: attention-gate</span>
+<span class="sd">        dtype (str, optional): Model dtype. Default: float16.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        KerasTensor: 2D Attention Gate.</span>
@@ -309,17 +315,18 @@
         <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span>
         <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">,</span>
         <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">kernel_initializer</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">conv_0</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span>
         <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-0&#39;</span>
     <span class="p">)(</span><span class="n">skip_connection</span><span class="p">)</span>
     <span class="n">conv_1</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-1&#39;</span><span class="p">)(</span><span class="n">query</span><span class="p">)</span>
-    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">conv_0</span><span class="p">,</span> <span class="n">conv_1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-2&#39;</span><span class="p">)</span>
-    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="n">activation_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-3&#39;</span><span class="p">)(</span><span class="n">gate</span><span class="p">)</span>
+    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">add</span><span class="p">([</span><span class="n">conv_0</span><span class="p">,</span> <span class="n">conv_1</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-2&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="n">activation_1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-3&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)(</span><span class="n">gate</span><span class="p">)</span>
     <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-4&#39;</span><span class="p">)(</span><span class="n">gate</span><span class="p">)</span>
-    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="n">activation_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-5&#39;</span><span class="p">)(</span><span class="n">gate</span><span class="p">)</span>
-    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">multiply</span><span class="p">([</span><span class="n">skip_connection</span><span class="p">,</span> <span class="n">gate</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-6&#39;</span><span class="p">)</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">gate</span><span class="p">,</span> <span class="n">query</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-7&#39;</span><span class="p">)</span>
+    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Activation</span><span class="p">(</span><span class="n">activation_2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-5&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)(</span><span class="n">gate</span><span class="p">)</span>
+    <span class="n">gate</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">multiply</span><span class="p">([</span><span class="n">skip_connection</span><span class="p">,</span> <span class="n">gate</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-6&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">gate</span><span class="p">,</span> <span class="n">query</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">-7&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 
@@ -328,9 +335,9 @@
     <span class="n">input_height</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">input_channels</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">classes</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: int</span>
-    <span class="n">filters</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># type: int</span>
+    <span class="n">filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">layers</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span>  <span class="c1"># type: int</span>
-    <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;leaky_relu&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">batch_norm</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
     <span class="n">output_activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
@@ -341,6 +348,7 @@
     <span class="n">attention_strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">attention_padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">attention_kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
 <span class="p">):</span>
     <span class="c1"># type: (...) -&gt; kef.Functional</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -356,10 +364,10 @@
 <span class="sd">        input_channels (int): Input channels.</span>
 <span class="sd">        classes (int, optional): Number of output classes. Default: 1.</span>
 <span class="sd">        filters (int, optional): Number of filters for initial con 2d block.</span>
-<span class="sd">            Default: 16.</span>
+<span class="sd">            Default: 32.</span>
 <span class="sd">        layers (int, optional): Total number of layers. Default: 9.</span>
 <span class="sd">        activation (KerasTensor, optional): Activation function to be used.</span>
-<span class="sd">            Default: relu.</span>
+<span class="sd">            Default: leaky_relu.</span>
 <span class="sd">        batch_norm (KerasTensor, optional): Use batch normalization.</span>
 <span class="sd">            Default: True.</span>
 <span class="sd">        output_activation (KerasTensor, optional): Output activation function.</span>
@@ -376,6 +384,7 @@
 <span class="sd">        attention_padding (str, optional): Padding. Default: &#39;same&#39;</span>
 <span class="sd">        attention_kernel_initializer (str, optional): Kernel initializer.</span>
 <span class="sd">            Default: &#39;he_normal&#39;</span>
+<span class="sd">        dtype (str, optional): Model dtype. Default: float16.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        EnforceError: If input_width is not even.</span>
@@ -413,7 +422,7 @@
 
     <span class="c1"># input layer</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">input_width</span><span class="p">,</span> <span class="n">input_height</span><span class="p">,</span> <span class="n">input_channels</span><span class="p">)</span>
-    <span class="n">input_</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input&#39;</span><span class="p">)</span>
+    <span class="n">input_</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="c1"># encode layers</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">input_</span>
@@ -426,12 +435,13 @@
             <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
             <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">kernel_initializer</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;encode-block_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">encode_layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="c1"># downsample</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">pad_layer_name</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;downsample_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">PAD</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">MaxPooling2D</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">filters</span> <span class="o">*=</span> <span class="mi">2</span>
 
     <span class="c1"># middle layer</span>
@@ -443,6 +453,7 @@
         <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
         <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">kernel_initializer</span><span class="p">,</span>
         <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># decode layers</span>
@@ -458,6 +469,7 @@
             <span class="n">strides</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
             <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
         <span class="p">)(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="c1"># attention gate</span>
@@ -473,6 +485,7 @@
                 <span class="n">padding</span><span class="o">=</span><span class="n">attention_padding</span><span class="p">,</span>
                 <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">attention_kernel_initializer</span><span class="p">,</span>
                 <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">pad_layer_name</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;concat_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">PAD</span><span class="p">)</span>
@@ -486,10 +499,12 @@
             <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">,</span>
             <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">kernel_initializer</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;decode-block_</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s1">02d</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">tfl</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span>
-        <span class="n">classes</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="n">output_activation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span>
+        <span class="n">classes</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">activation</span><span class="o">=</span><span class="n">output_activation</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;output&#39;</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span>
     <span class="p">)(</span><span class="n">x</span><span class="p">)</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">tfm</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="p">[</span><span class="n">input_</span><span class="p">],</span> <span class="n">outputs</span><span class="o">=</span><span class="p">[</span><span class="n">output</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">model</span></div>
