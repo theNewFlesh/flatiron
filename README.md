@@ -91,19 +91,19 @@ Its usage pattern is: `bin/flatiron COMMAND [-a --args]=ARGS [-h --help] [--dryr
 | build-prod           | Publish pip package of repo to PyPi                                 |
 | build-publish        | Run production tests first then publish pip package of repo to PyPi |
 | build-test           | Build test version of repo for prod testing                         |
-| docker-build         | Build image of flatiron                                              |
-| docker-build-prod    | Build production image of flatiron                                   |
-| docker-container     | Display the Docker container id of flatiron                          |
-| docker-coverage      | Generate coverage report for flatiron                                |
-| docker-destroy       | Shutdown flatiron container and destroy its image                    |
-| docker-destroy-prod  | Shutdown flatiron production container and destroy its image         |
-| docker-image         | Display the Docker image id of flatiron                              |
-| docker-prod          | Start flatiron production container                                  |
-| docker-push          | Push flatiron production image to Dockerhub                          |
-| docker-remove        | Remove flatiron Docker image                                         |
-| docker-restart       | Restart flatiron container                                           |
-| docker-start         | Start flatiron container                                             |
-| docker-stop          | Stop flatiron container                                              |
+| docker-build         | Build image of flatiron                                             |
+| docker-build-prod    | Build production image of flatiron                                  |
+| docker-container     | Display the Docker container id of flatiron                         |
+| docker-coverage      | Generate coverage report for flatiron                               |
+| docker-destroy       | Shutdown flatiron container and destroy its image                   |
+| docker-destroy-prod  | Shutdown flatiron production container and destroy its image        |
+| docker-image         | Display the Docker image id of flatiron                             |
+| docker-prod          | Start flatiron production container                                 |
+| docker-push          | Push flatiron production image to Dockerhub                         |
+| docker-remove        | Remove flatiron Docker image                                        |
+| docker-restart       | Restart flatiron container                                          |
+| docker-start         | Start flatiron container                                            |
+| docker-stop          | Stop flatiron container                                             |
 | docs                 | Generate sphinx documentation                                       |
 | docs-architecture    | Generate architecture.svg diagram from all import statements        |
 | docs-full            | Generate documentation, coverage report, diagram and code           |
@@ -122,9 +122,10 @@ Its usage pattern is: `bin/flatiron COMMAND [-a --args]=ARGS [-h --help] [--dryr
 | library-sync-dev     | Sync dev environment with packages listed in dev.lock               |
 | library-sync-prod    | Sync prod environment with packages listed in prod.lock             |
 | library-update       | Update dev dependencies                                             |
+| library-update-pdm   | Update PDM                                                          |
 | session-lab          | Run jupyter lab server                                              |
 | session-python       | Run python session with dev dependencies                            |
-| state                | State of flatiron                                                    |
+| state                | State of flatiron                                                   |
 | test-coverage        | Generate test coverage report                                       |
 | test-dev             | Run all tests                                                       |
 | test-fast            | Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator  |
@@ -134,9 +135,9 @@ Its usage pattern is: `bin/flatiron COMMAND [-a --args]=ARGS [-h --help] [--dryr
 | version-bump-major   | Bump pyproject major version                                        |
 | version-bump-minor   | Bump pyproject minor version                                        |
 | version-bump-patch   | Bump pyproject patch version                                        |
-| zsh                  | Run ZSH session inside flatiron container                            |
+| zsh                  | Run ZSH session inside flatiron container                           |
 | zsh-complete         | Generate oh-my-zsh completions                                      |
-| zsh-root             | Run ZSH session as root inside flatiron container                    |
+| zsh-root             | Run ZSH session as root inside flatiron container                   |
 
 ### Flags
 
@@ -144,4 +145,4 @@ Its usage pattern is: `bin/flatiron COMMAND [-a --args]=ARGS [-h --help] [--dryr
 | ----- | --------- | ---------------------------------------------------- |
 | -a    | --args    | Additional arguments, this can generally be ignored  |
 | -h    | --help    | Prints command help message to stdout                |
-|       | --dryrun  | Prints command that would otherwise be run to stdout |
+| -     | --dryrun  | Prints command that would otherwise be run to stdout |
