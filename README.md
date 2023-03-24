@@ -26,6 +26,8 @@
     </a>
 </p>
 
+[![PyPI version](https://badge.fury.io/py/flatiron.svg)](https://badge.fury.io/py/flatiron)
+
 # Introduction
 A library of computer vision models and a streamlined framework for training them.
 
