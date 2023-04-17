@@ -41,5 +41,5 @@ RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
 USER ubuntu
 ENV REPO='flatiron'
 ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
-RUN echo "\n${CYAN}INSTALL flatiron{CLEAR}"; \
+RUN echo "\n${CYAN}INSTALL FLATIRON{CLEAR}"; \
     pip3.10 install --user --upgrade flatiron
