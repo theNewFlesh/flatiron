@@ -52,7 +52,7 @@ See [documentation](https://thenewflesh.github.io/flatiron/) for details.
 3. `git clone git@github.com:thenewflesh/flatiron.git`
 4. `cd flatiron`
 6. `chmod +x bin/flatiron`
-7. `bin/flatiron start`
+7. `bin/flatiron docker-start`
 
 The service should take a few minutes to start up.
 
