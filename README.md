@@ -101,7 +101,6 @@ Its usage pattern is: `bin/flatiron COMMAND [-a --args]=ARGS [-h --help] [--dryr
 | docker-build         | Build image of flatiron                                             |
 | docker-build-prod    | Build production image of flatiron                                  |
 | docker-container     | Display the Docker container id of flatiron                         |
-| docker-coverage      | Generate coverage report for flatiron                               |
 | docker-destroy       | Shutdown flatiron container and destroy its image                   |
 | docker-destroy-prod  | Shutdown flatiron production container and destroy its image        |
 | docker-image         | Display the Docker image id of flatiron                             |
