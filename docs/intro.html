@@ -33,6 +33,8 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
@@ -204,7 +206,7 @@
         >
     </a>
     <a href="http://vimeo.com/user3965452" rel="nofollow noreferrer">
-        <img src="https://cdn1.iconfinder.com/data/icons/somacro___dpi_social_media_icons_by_vervex-dfjq/500/vimeo.png"
+        <img src="https://cdn.iconscout.com/icon/free/png-512/movie-52-151107.png?f=avif&w=512"
              alt="vimeo" width="30px" height="30px"
         >
     </a>
@@ -213,7 +215,11 @@
              alt="alexgbraun" width="30px" height="30px"
         >
     </a>
-</p><section id="introduction">
+</p><!-- <img id="logo" src="resources/logo.png" style="max-width: 717px"> --><a class="reference external image-reference" href="https://github.com/theNewFlesh/flatiron/blob/master/LICENSE"><img alt="" src="https://img.shields.io/badge/License-MIT-F77E70?style=for-the-badge" /></a>
+<a class="reference external image-reference" href="https://github.com/theNewFlesh/flatiron/blob/master/docker/config/pyproject.toml"><img alt="" src="https://img.shields.io/pypi/pyversions/flatiron?style=for-the-badge&amp;label=Python&amp;color=A0D17B&amp;logo=python&amp;logoColor=A0D17B" /></a>
+<a class="reference external image-reference" href="https://pypi.org/project/flatiron/"><img alt="" src="https://img.shields.io/pypi/v/flatiron?style=for-the-badge&amp;label=PyPI&amp;color=5F95DE&amp;logo=pypi&amp;logoColor=5F95DE" /></a>
+<a class="reference external image-reference" href="https://pepy.tech/project/flatiron"><img alt="" src="https://img.shields.io/pypi/dm/flatiron?style=for-the-badge&amp;label=Downloads&amp;color=5F95DE" /></a>
+<section id="introduction">
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
 <p>A library of computer vision models and a streamlined framework for training them.</p>
 <p>See <a class="reference external" href="https://thenewflesh.github.io/flatiron/">documentation</a> for details.</p>
@@ -239,7 +245,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">git&#64;github.com:thenewflesh/flatiron.git</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">flatiron</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">bin/flatiron</span></code></p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">bin/flatiron</span> <span class="pre">start</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bin/flatiron</span> <span class="pre">docker-start</span></code></p></li>
 </ol>
 <p>The service should take a few minutes to start up.</p>
 <p>Run <code class="docutils literal notranslate"><span class="pre">bin/flatiron</span> <span class="pre">--help</span></code> for more help on the command line tool.</p>
@@ -299,89 +305,89 @@ any version of python 2.7 and above, as it has no dependencies.</p>
 <tr class="row-even"><td><p>docker-container</p></td>
 <td><p>Display the Docker container id of flatiron</p></td>
 </tr>
-<tr class="row-odd"><td><p>docker-coverage</p></td>
-<td><p>Generate coverage report for flatiron</p></td>
-</tr>
-<tr class="row-even"><td><p>docker-destroy</p></td>
+<tr class="row-odd"><td><p>docker-destroy</p></td>
 <td><p>Shutdown flatiron container and destroy its image</p></td>
 </tr>
-<tr class="row-odd"><td><p>docker-destroy-prod</p></td>
+<tr class="row-even"><td><p>docker-destroy-prod</p></td>
 <td><p>Shutdown flatiron production container and destroy its image</p></td>
 </tr>
-<tr class="row-even"><td><p>docker-image</p></td>
+<tr class="row-odd"><td><p>docker-image</p></td>
 <td><p>Display the Docker image id of flatiron</p></td>
 </tr>
-<tr class="row-odd"><td><p>docker-prod</p></td>
+<tr class="row-even"><td><p>docker-prod</p></td>
 <td><p>Start flatiron production container</p></td>
 </tr>
-<tr class="row-even"><td><p>docker-push</p></td>
+<tr class="row-odd"><td><p>docker-push</p></td>
 <td><p>Push flatiron production image to Dockerhub</p></td>
 </tr>
-<tr class="row-odd"><td><p>docker-remove</p></td>
+<tr class="row-even"><td><p>docker-remove</p></td>
 <td><p>Remove flatiron Docker image</p></td>
 </tr>
-<tr class="row-even"><td><p>docker-restart</p></td>
+<tr class="row-odd"><td><p>docker-restart</p></td>
 <td><p>Restart flatiron container</p></td>
 </tr>
-<tr class="row-odd"><td><p>docker-start</p></td>
+<tr class="row-even"><td><p>docker-start</p></td>
 <td><p>Start flatiron container</p></td>
 </tr>
-<tr class="row-even"><td><p>docker-stop</p></td>
+<tr class="row-odd"><td><p>docker-stop</p></td>
 <td><p>Stop flatiron container</p></td>
 </tr>
-<tr class="row-odd"><td><p>docs</p></td>
+<tr class="row-even"><td><p>docs</p></td>
 <td><p>Generate sphinx documentation</p></td>
 </tr>
-<tr class="row-even"><td><p>docs-architecture</p></td>
+<tr class="row-odd"><td><p>docs-architecture</p></td>
 <td><p>Generate architecture.svg diagram from all import statements</p></td>
 </tr>
-<tr class="row-odd"><td><p>docs-full</p></td>
+<tr class="row-even"><td><p>docs-full</p></td>
 <td><p>Generate documentation, coverage report, diagram and code</p></td>
 </tr>
-<tr class="row-even"><td><p>docs-metrics</p></td>
+<tr class="row-odd"><td><p>docs-metrics</p></td>
 <td><p>Generate code metrics report, plots and tables</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-add</p></td>
+<tr class="row-even"><td><p>library-add</p></td>
 <td><p>Add a given package to a given dependency group</p></td>
 </tr>
-<tr class="row-even"><td><p>library-graph-dev</p></td>
+<tr class="row-odd"><td><p>library-graph-dev</p></td>
 <td><p>Graph dependencies in dev environment</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-graph-prod</p></td>
+<tr class="row-even"><td><p>library-graph-prod</p></td>
 <td><p>Graph dependencies in prod environment</p></td>
 </tr>
-<tr class="row-even"><td><p>library-install-dev</p></td>
+<tr class="row-odd"><td><p>library-install-dev</p></td>
 <td><p>Install all dependencies into dev environment</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-install-prod</p></td>
+<tr class="row-even"><td><p>library-install-prod</p></td>
 <td><p>Install all dependencies into prod environment</p></td>
 </tr>
-<tr class="row-even"><td><p>library-list-dev</p></td>
+<tr class="row-odd"><td><p>library-list-dev</p></td>
 <td><p>List packages in dev environment</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-list-prod</p></td>
+<tr class="row-even"><td><p>library-list-prod</p></td>
 <td><p>List packages in prod environment</p></td>
 </tr>
-<tr class="row-even"><td><p>library-lock-dev</p></td>
+<tr class="row-odd"><td><p>library-lock-dev</p></td>
 <td><p>Resolve dev.lock file</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-lock-prod</p></td>
+<tr class="row-even"><td><p>library-lock-prod</p></td>
 <td><p>Resolve prod.lock file</p></td>
 </tr>
-<tr class="row-even"><td><p>library-remove</p></td>
+<tr class="row-odd"><td><p>library-remove</p></td>
 <td><p>Remove a given package from a given dependency group</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-search</p></td>
+<tr class="row-even"><td><p>library-search</p></td>
 <td><p>Search for pip packages</p></td>
 </tr>
-<tr class="row-even"><td><p>library-sync-dev</p></td>
+<tr class="row-odd"><td><p>library-sync-dev</p></td>
 <td><p>Sync dev environment with packages listed in dev.lock</p></td>
 </tr>
-<tr class="row-odd"><td><p>library-sync-prod</p></td>
+<tr class="row-even"><td><p>library-sync-prod</p></td>
 <td><p>Sync prod environment with packages listed in prod.lock</p></td>
 </tr>
-<tr class="row-even"><td><p>library-update</p></td>
+<tr class="row-odd"><td><p>library-update</p></td>
 <td><p>Update dev dependencies</p></td>
+</tr>
+<tr class="row-even"><td><p>library-update-pdm</p></td>
+<td><p>Update PDM</p></td>
 </tr>
 <tr class="row-odd"><td><p>session-lab</p></td>
 <td><p>Run jupyter lab server</p></td>
