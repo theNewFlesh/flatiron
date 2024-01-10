@@ -11,7 +11,6 @@ export BUILD_DIR="$HOME/build"
 export CONFIG_DIR="$REPO_DIR/docker/config"
 export PDM_DIR="$HOME/pdm"
 export SCRIPT_DIR="$REPO_DIR/docker/scripts"
-export DOCS_DIR="$REPO_DIR/docs"
 export MIN_PYTHON_VERSION="3.8"
 export MAX_PYTHON_VERSION="3.10"
 export MIN_TENSORFLOW_VERSION="2.0.0"
@@ -348,17 +347,16 @@ x_build_test () {
 
 # DOCS-FUNCTIONS----------------------------------------------------------------
 x_docs () {
-    # Generate documentation
+    # Generate sphinx documentation
     x_env_activate_dev;
     cd $REPO_DIR;
     echo "${CYAN2}GENERATING DOCS${CLEAR}\n";
-    rm -rf $DOCS_DIR;
-    mkdir -p $DOCS_DIR;
-    sphinx-build sphinx $DOCS_DIR;
-    cp -f sphinx/style.css $DOCS_DIR/_static/style.css;
-    touch $DOCS_DIR/.nojekyll;
-    # mkdir -p $DOCS_DIR/resources;
-    # cp resources/* $DOCS_DIR/resources/;
+    mkdir -p docs;
+    sphinx-build sphinx docs;
+    cp -f sphinx/style.css docs/_static/style.css;
+    touch docs/.nojekyll;
+    mkdir -p docs/resources;
+    # cp -r resources docs/;
 }
 
 x_docs_architecture () {
@@ -366,7 +364,7 @@ x_docs_architecture () {
     echo "${CYAN2}GENERATING ARCHITECTURE DIAGRAM${CLEAR}\n";
     x_env_activate_dev;
     rolling-pin graph \
-        $REPO_DIR/python $DOCS_DIR/architecture.svg \
+        $REPO_DIR/python $REPO_DIR/docs/architecture.svg \
         --exclude 'test|mock|__init__' \
         --orient 'lr';
 }
@@ -383,9 +381,9 @@ x_docs_metrics () {
     x_env_activate_dev;
     cd $REPO_DIR;
     rolling-pin plot \
-        $REPO_DIR/python $DOCS_DIR/plots.html;
+        $REPO_DIR/python $REPO_DIR/docs/plots.html;
     rolling-pin table \
-        $REPO_DIR/python $DOCS_DIR;
+        $REPO_DIR/python $REPO_DIR/docs;
 }
 
 # LIBRARY-FUNCTIONS-------------------------------------------------------------
@@ -590,9 +588,8 @@ x_test_coverage () {
         --verbosity $TEST_VERBOSITY \
         --cov=$REPO_DIR/python \
         --cov-config=$CONFIG_DIR/pyproject.toml \
-        --cov-report=html:$DOCS_DIR/htmlcov \
+        --cov-report=html:$REPO_DIR/docs/htmlcov \
         $REPO_SUBPACKAGE;
-    rm -f $DOCS_DIR/htmlcov/.gitignore;
 }
 
 x_test_dev () {
@@ -674,38 +671,29 @@ x_version () {
     x_docs_full;
 }
 
-_x_version_bump () {
-    # Bump repo's version
-    # args: type
-    x_env_activate_dev;
-    local title=`echo $1 | tr '[a-z]' '[A-Z]'`;
-    echo "${CYAN2}BUMPING $title VERSION${CLEAR}\n";
-    cd $PDM_DIR
-    pdm bump $1;
-    _x_library_pdm_to_repo_dev;
-}
-
 x_version_bump_major () {
     # Bump repo's major version
-    _x_version_bump major;
+    x_env_activate_dev;
+    echo "${CYAN2}BUMPING MAJOR VERSION${CLEAR}\n";
+    cd $PDM_DIR
+    pdm bump major;
+    _x_library_pdm_to_repo_dev;
 }
 
 x_version_bump_minor () {
     # Bump repo's minor version
     x_env_activate_dev;
-    _x_version_bump minor;
+    echo "${CYAN2}BUMPING MINOR VERSION${CLEAR}\n";
+    cd $PDM_DIR
+    pdm bump minor;
+    _x_library_pdm_to_repo_dev;
 }
 
 x_version_bump_patch () {
     # Bump repo's patch version
-    _x_version_bump patch;
-}
-
-x_version_commit () {
-    # Tag with version and commit changes to master with given message
-    # args: message
-    local version=`_x_get_version`;
-    git commit --message $version;
-    git tag --annotate $version --message "$1";
-    git push --follow-tags origin HEAD:master --push-option ci.skip;
+    x_env_activate_dev;
+    echo "${CYAN2}BUMPING PATCH VERSION${CLEAR}\n";
+    cd $PDM_DIR
+    pdm bump patch;
+    _x_library_pdm_to_repo_dev;
 }
