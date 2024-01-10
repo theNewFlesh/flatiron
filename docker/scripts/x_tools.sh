@@ -674,29 +674,38 @@ x_version () {
     x_docs_full;
 }
 
+_x_version_bump () {
+    # Bump repo's version
+    # args: type
+    x_env_activate_dev;
+    local title=`echo $1 | tr '[a-z]' '[A-Z]'`;
+    echo "${CYAN2}BUMPING $title VERSION${CLEAR}\n";
+    cd $PDM_DIR
+    pdm bump $1;
+    _x_library_pdm_to_repo_dev;
+}
+
 x_version_bump_major () {
     # Bump repo's major version
-    x_env_activate_dev;
-    echo "${CYAN2}BUMPING MAJOR VERSION${CLEAR}\n";
-    cd $PDM_DIR
-    pdm bump major;
-    _x_library_pdm_to_repo_dev;
+    _x_version_bump major;
 }
 
 x_version_bump_minor () {
     # Bump repo's minor version
     x_env_activate_dev;
-    echo "${CYAN2}BUMPING MINOR VERSION${CLEAR}\n";
-    cd $PDM_DIR
-    pdm bump minor;
-    _x_library_pdm_to_repo_dev;
+    _x_version_bump minor;
 }
 
 x_version_bump_patch () {
     # Bump repo's patch version
-    x_env_activate_dev;
-    echo "${CYAN2}BUMPING PATCH VERSION${CLEAR}\n";
-    cd $PDM_DIR
-    pdm bump patch;
-    _x_library_pdm_to_repo_dev;
+    _x_version_bump patch;
+}
+
+x_version_commit () {
+    # Tag with version and commit changes to master with given message
+    # args: message
+    local version=`_x_get_version`;
+    git commit --message $version;
+    git tag --annotate $version --message "$1";
+    git push --follow-tags origin HEAD:master --push-option ci.skip;
 }
