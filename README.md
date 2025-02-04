@@ -34,7 +34,7 @@
 [![](https://img.shields.io/pypi/dm/flatiron?style=for-the-badge&label=Downloads&color=5F95DE)](https://pepy.tech/project/flatiron)
 
 # Introduction
-Stndardized computer vision pipeline framework with a chaniable API and procedurally
+Standardized computer vision pipeline framework with a chainable API and procedurally
 defined model architecture.
 
 See [documentation](https://thenewflesh.github.io/flatiron/) for details.
