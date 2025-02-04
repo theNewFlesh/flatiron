@@ -1,0 +1,41 @@
+{
+  "template": "https://github.com/thenewflesh/cookiecutter-datalus",
+  "commit": "ef58ed4d2f3be06b2b08c5161538d78dc96fda50",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "repo": "flatiron",
+      "repo_type": "library",
+      "include_black": "no",
+      "include_gcc": "yes",
+      "include_helm": "no",
+      "include_mkdocs": "no",
+      "include_nvidia": "yes",
+      "include_openexr": "no",
+      "include_prod_cli": "yes",
+      "include_prod_envs": "yes",
+      "include_rsync": "no",
+      "include_secret_env": "no",
+      "include_tensorflow": "yes",
+      "include_vscode_server": "no",
+      "port_prefix": "91",
+      "git_user": "theNewFlesh",
+      "git_host": "github",
+      "git_organization": "thenewflesh",
+      "docker_registry": "dockerhub",
+      "organization_url": "github.com",
+      "description": "Standardized computer vision pipeline framework with a chainable API and procedurally defined model architecture.",
+      "author": "Alex Braun",
+      "email": "alexander.g.braun@gmail.com",
+      "website": "http://www.alexgbraun.com",
+      "volume": "",
+      "keywords": "computer-vision, cv, tensorflow, pytorch, ai, ml, machine-learning",
+      "year": "2025",
+      "python_min_version": "10",
+      "python_max_version": "10",
+      "initial_repo_version": "0.0.1",
+      "_template": "https://github.com/thenewflesh/cookiecutter-datalus"
+    }
+  },
+  "directory": null
+}

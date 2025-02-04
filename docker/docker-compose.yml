@@ -1,8 +1,8 @@
-version: "3.8"
 services:
   flatiron:
     container_name: flatiron
     image: flatiron:dev
+    platform: linux/amd64
     build:
       context: .
       dockerfile: dev.dockerfile
@@ -28,4 +28,3 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-    command: "tail -f /dev/null"
