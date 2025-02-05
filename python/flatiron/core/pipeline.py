@@ -1,4 +1,4 @@
-from typing import Optional, Union  # noqa F401
+from typing import Optional, Module  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
 from flatiron.core.types import Filepath, Model  # noqa F401
@@ -185,6 +185,16 @@ class PipelineBase(ABC):
             self.model = self.model_func()(**config)
         return self
 
+    @property
+    def _engine(self):
+        # type: () -> Module
+        engine = self.config['engine']
+        if engine == 'tensorflow':
+            import flatiron.tf as engine
+        # elif engine == 'torch':
+        #     import flatiron.torch as engine
+        return engine
+
     def compile(self):
         # type: () -> PipelineBase
         '''
@@ -193,6 +203,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
+        engine = self._engine
         compile_ = self.config['compile']
 
         cfg = dict(
@@ -201,9 +212,9 @@ class PipelineBase(ABC):
             compile=compile_,
         )
         with self._logger('compile', 'COMPILE MODEL', cfg):
-            loss = fict.get_loss(compile_['loss'])
-            metrics = [fict.get_metric(m) for m in compile_['metrics']]
-            opt = fict.get_optimizer(self.config['optimizer'])
+            loss = engine.loss.get(compile_['loss'])
+            metrics = [engine.metric.get(m) for m in compile_['metrics']]
+            opt = engine.optimizer.get(self.config['optimizer'])
 
             # compile
             self.model.compile(
@@ -226,6 +237,8 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
+        engine = self._engine
+
         cb = self.config['callbacks']
         fit = self.config['fit']
         log = self.config['logger']
@@ -242,7 +255,7 @@ class PipelineBase(ABC):
             cp = deepcopy(cb)
             del cp['project']
             del cp['root']
-            callbacks = fict.get_callbacks(
+            callbacks = engine.tools.get_callbacks(
                 tb['log_dir'], tb['checkpoint_pattern'], cp,
             )
 
