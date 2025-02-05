@@ -64,6 +64,7 @@ class PipelineTests(unittest.TestCase):
         dset = Path(proj, 'dset001', 'dset001_v001').as_posix()
         _, info_path = self.create_dataset_files(dset)
         return dict(
+            engine='tensorflow',
             model=dict(
                 shape=[10, 10, 3]
             ),

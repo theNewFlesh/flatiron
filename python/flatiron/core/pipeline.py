@@ -1,4 +1,4 @@
-from typing import Optional, Module  # noqa F401
+from typing import Optional, Any  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
 from flatiron.core.types import Filepath, Model  # noqa F401
@@ -187,7 +187,13 @@ class PipelineBase(ABC):
 
     @property
     def _engine(self):
-        # type: () -> Module
+        # type: () -> Any
+        '''
+        Uses config to retrieve flatiron engine subpackage.
+
+        Returns:
+            Any: flatiron.tf or flatiron.torch
+        '''
         engine = self.config['engine']
         if engine == 'tensorflow':
             import flatiron.tf as engine

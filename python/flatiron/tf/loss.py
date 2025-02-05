@@ -4,7 +4,7 @@ import numpy
 import tensorflow as tf
 from tensorflow import keras  # noqa: F401
 from keras import backend as tfb
-from keras import layers as tfl
+from keras import losses as tfl
 
 import flatiron.core.tools as fict
 

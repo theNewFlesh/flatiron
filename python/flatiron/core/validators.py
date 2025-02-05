@@ -135,3 +135,20 @@ def is_pipeline_method(method):
     if method not in legal:
         msg = f'{method} is not a legal pipeline method. Legal methods: {legal}.'
         raise ValidationError(msg)
+
+
+def is_engine(engine):
+    # type: (str) -> None
+    '''
+    Validates that engine is a legal deep learning framework.
+
+    Args:
+        engine (str): Deep learning framework.
+
+    Raises:
+        ValidationError: If engine is not legal.
+    '''
+    legal = ['tensorflow', 'pytorch']
+    if engine not in legal:
+        msg = f'{engine} is not a legal deep learning framework. Legal engines: {legal}.'
+        raise ValidationError(msg)
