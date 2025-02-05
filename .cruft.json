@@ -2,6 +2,19 @@
   "template": "https://github.com/thenewflesh/cookiecutter-datalus",
   "commit": "ef58ed4d2f3be06b2b08c5161538d78dc96fda50",
   "checkout": null,
+  "skip": [
+    "__init__\\.py$",
+    "\\.gitignore$",
+    "\\.gitkeep$",
+    "docker/config/.*\\.lock$",
+    "docker/config/build\\.yaml",
+    "docs/.*",
+    "mkdocs/md/(?!index\\.md|style\\.css)",
+    "public/.*",
+    "python/flatiron/.*(?!command\\.py$)",
+    "resources/.*",
+    "sphinx/.*rst$"
+  ],
   "context": {
     "cookiecutter": {
       "repo": "flatiron",
