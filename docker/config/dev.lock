@@ -5,7 +5,7 @@
 groups = ["default", "dev", "lab", "test"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:53448511e54163db3964ee4173de135d3b97459ab1c1b89629038baa75c8eb22"
+content_hash = "sha256:3de6c7217f656255c6d07faee2b39f20727eaa92bfbdb074aa0f56d5dafd7f19"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -905,6 +905,23 @@ files = [
 ]
 
 [[package]]
+name = "jupyter"
+version = "1.1.1"
+summary = ""
+dependencies = [
+    "ipykernel",
+    "ipywidgets",
+    "jupyter-console",
+    "jupyterlab",
+    "nbconvert",
+    "notebook",
+]
+files = [
+    {file = "jupyter-1.1.1-py2.py3-none-any.whl", hash = "sha256:7a59533c22af65439b24bbe60373a4e95af8f16ac65a6c00820ad378e3f7cc83"},
+    {file = "jupyter-1.1.1.tar.gz", hash = "sha256:d55467bceabdea49d7e3624af7e33d59c37fff53ed3a350e1ac957bed731de7a"},
+]
+
+[[package]]
 name = "jupyter-client"
 version = "7.4.9"
 summary = ""
@@ -920,6 +937,25 @@ dependencies = [
 files = [
     {file = "jupyter_client-7.4.9-py3-none-any.whl", hash = "sha256:214668aaea208195f4c13d28eb272ba79f945fc0cf3f11c7092c20b2ca1980e7"},
     {file = "jupyter_client-7.4.9.tar.gz", hash = "sha256:52be28e04171f07aed8f20e1616a5a552ab9fee9cbbe6c1896ae170c3880d392"},
+]
+
+[[package]]
+name = "jupyter-console"
+version = "6.6.3"
+summary = ""
+dependencies = [
+    "ipykernel",
+    "ipython",
+    "jupyter-client",
+    "jupyter-core",
+    "prompt-toolkit",
+    "pygments",
+    "pyzmq",
+    "traitlets",
+]
+files = [
+    {file = "jupyter_console-6.6.3-py3-none-any.whl", hash = "sha256:309d33409fcc92ffdad25f0bcdf9a4a9daa61b6f341177570fdac03de5352485"},
+    {file = "jupyter_console-6.6.3.tar.gz", hash = "sha256:566a4bf31c87adbfadf22cdf846e3069b59a71ed5da71d6ba4d8aaad14a53539"},
 ]
 
 [[package]]
