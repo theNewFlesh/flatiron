@@ -3,7 +3,7 @@ models
 
 unet
 ----
-.. automodule:: flatiron.models.unet
+.. automodule:: flatiron.tf.models.unet
     :members:
     :private-members:
     :undoc-members:
