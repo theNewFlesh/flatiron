@@ -251,7 +251,7 @@ class Dataset:
         stats.loc['total', 'chunk'] = stats.loc['count', 'chunk']
         stats.loc['mean', 'chunk'] = np.nan
         stats.loc['std', 'chunk'] = np.nan
-        stats = stats.applymap(lambda x: round(x, 2))
+        stats = stats.map(lambda x: round(x, 2))
         stats.drop('count', inplace=True)
         return stats
 

@@ -2,7 +2,8 @@ from typing import Any, Callable, Union  # noqa F401
 import numpy
 
 import tensorflow as tf
-import tensorflow.keras.backend as tfb
+from tensorflow import keras  # noqa: F401
+from keras import backend as tfb
 
 import flatiron.core.tools as fict
 

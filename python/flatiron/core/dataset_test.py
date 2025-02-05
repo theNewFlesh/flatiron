@@ -186,7 +186,7 @@ class DatasetTests(unittest.TestCase):
         info['chunk'] = [0, 1, 2, 3]
         stats = Dataset._get_stats(info)
 
-        exp = info.describe().applymap(lambda x: round(x, 2))
+        exp = info.describe().map(lambda x: round(x, 2))
         exp.loc['total', 'GB'] = info['GB'].sum()
         exp.loc['total', 'chunk'] = info['chunk'].count()
         exp.loc['mean', 'chunk'] = np.nan
