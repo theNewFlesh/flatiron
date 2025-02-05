@@ -10,8 +10,9 @@ import pandas as pd
 import schematics.models as scm
 import schematics.types as scmt
 import yaml
-import tensorflow.keras.layers as tfl
-import tensorflow.keras.models as tfm
+from tensorflow import keras  # noqa: F401
+from keras import layers as tfl
+from keras import models as tfm
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
@@ -92,7 +93,7 @@ class PipelineTests(unittest.TestCase):
     def test_init(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            result = FakePipeline(config).config['optimizer']['name']
+            result = FakePipeline(config).config['optimizer']['class_name']
             self.assertEqual(result, 'sgd')
 
     def test_init_model(self):

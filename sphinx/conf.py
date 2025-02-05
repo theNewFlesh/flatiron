@@ -19,7 +19,7 @@ sys.path.insert(0, os.path.abspath('../python'))
 # -- Project information -----------------------------------------------------
 
 project = 'flatiron'
-copyright = '2023, Alex Braun <alexander.g.braun@gmail.com>'
+copyright = '2025, Alex Braun <alexander.g.braun@gmail.com>'
 author = 'Alex Braun <alexander.g.braun@gmail.com>'
 version = toml.load('../docker/config/pyproject.toml')['project']['version']
 # release = ''
@@ -30,7 +30,7 @@ version = toml.load('../docker/config/pyproject.toml')['project']['version']
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'm2r2',
+    'myst_parser',
     'sphinxcontrib.jquery',
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
@@ -42,6 +42,9 @@ extensions = [
     'sphinx.ext.viewcode',
     "sphinx_autodoc_typehints",
 ]
+
+# Include todo items in docs
+todo_include_todos = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,9 +58,9 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = 'sphinx_rtd_theme'
 html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+suppress_warnings = ['myst.header']
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

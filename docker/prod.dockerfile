@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS base
+FROM nvidia/cuda:12.2.2-base-ubuntu22.04 AS base
 
 USER root
 
@@ -23,8 +23,22 @@ WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
     apt update && \
     apt install -y \
-        software-properties-common \
-        wget && \
+        curl \
+        software-properties-common && \
+    rm -rf /var/lib/apt/lists/*
+
+# install nvidia container toolkit
+RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+    | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
+        | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
+        | tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && \
+    sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list && \
+    apt update && \
+    apt install -y \
+        libgl1-mesa-glx \
+        nvidia-container-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
 # install python3.10 and pip
@@ -33,13 +47,14 @@ RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
     apt update && \
     apt install --fix-missing -y python3.10 && \
     rm -rf /var/lib/apt/lists/* && \
-    wget https://bootstrap.pypa.io/get-pip.py && \
+    curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3.10 get-pip.py && \
     rm -rf /home/ubuntu/get-pip.py
 
 # install flatiron
 USER ubuntu
-ENV REPO='flatiron'
-ENV PYTHONPATH "${PYTHONPATH}:/home/ubuntu/$REPO/python"
-RUN echo "\n${CYAN}INSTALL FLATIRON{CLEAR}"; \
-    pip3.10 install --user --upgrade flatiron
+ARG VERSION
+RUN echo "\n${CYAN}INSTALL FLATIRON${CLEAR}"; \
+    pip3.10 install --user flatiron==$VERSION
+
+ENV PATH="$PATH:/home/ubuntu/.local/bin"

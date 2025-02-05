@@ -3,7 +3,8 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from schematics.exceptions import DataError
-import tensorflow.keras.optimizers as tfo
+from tensorflow import keras  # noqa: F401
+from keras import optimizers as tfo
 
 import flatiron.core.config as ficc
 # ------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ class DatasetConfigTests(unittest.TestCase):
 class OptimizerConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            name='sgd',
+            class_name='sgd',
             learning_rate=0.001,
             momentum=0,
             nesterov=False,
@@ -84,11 +85,9 @@ class OptimizerConfigTests(unittest.TestCase):
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.OptimizerConfig(dict(name='sgd')).to_native()
+        result = ficc.OptimizerConfig(dict(class_name='sgd')).to_native()
         self.assertEqual(result, expected)
-
-        del result['name']
-        tfo.get('sgd', **result)
+        tfo.get(result)
 
 
 class CompileConfigTests(unittest.TestCase):
@@ -126,8 +125,6 @@ class CallbacksConfigTests(unittest.TestCase):
             mode='auto',
             save_freq='epoch',
             initial_value_threshold=None,
-            experimental_io_device=None,
-            experimental_enable_async_checkpoint=False,
         )
 
     def test_validate(self):
@@ -151,9 +148,6 @@ class FitConfigTests(unittest.TestCase):
             shuffle=True,
             initial_epoch=1,
             validation_freq=1,
-            max_queue_size=10,
-            workers=1,
-            use_multiprocessing=False,
         )
 
     def test_validate(self):

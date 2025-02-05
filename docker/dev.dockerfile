@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:nightly-gpu AS base
+FROM nvidia/cuda:12.2.2-base-ubuntu22.04 AS base
 
 USER root
 
@@ -33,35 +33,30 @@ WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
     apt update && \
     apt install -y \
+        apt-transport-https \
         bat \
+        btop \
+        ca-certificates \
         curl \
+        exa \
         git \
+        gnupg \
         graphviz \
-        npm \
+        jq \
         parallel \
+        ripgrep \
         software-properties-common \
         unzip \
         vim \
         wget && \
-    rm -rf /var/lib/apt/lists/* && \
-    curl -fsSL \
-        "https://github.com/ogham/exa/releases/latest/download/exa-linux-x86_64-v0.10.1.zip" \
-        -o exa.zip && \
-    unzip -q exa.zip bin/exa -d /usr/local && \
-    rm -rf exa.zip && \
-    curl -fsSL \
-        "https://github.com/BurntSushi/ripgrep/releases/latest/download/ripgrep_13.0.0_amd64.deb" \
-        -o ripgrep.deb && \
-    apt install -y ./ripgrep.deb && \
-    rm -rf ripgrep.deb
+    rm -rf /var/lib/apt/lists/*
 
-# install nvidia drivers
-# RUN echo "\n${CYAN}INSTALL NVIDIA DRIVERS${CLEAR}"; \
-#     apt update && \
-#     apt install -y \
-#         nvidia-utils-525 \
-#         nvidia-driver-525 && \
-#     rm -rf /var/lib/apt/lists/*
+# install yq
+RUN echo "\n${CYAN}INSTALL YQ${CLEAR}"; \
+    curl -fsSL \
+        https://github.com/mikefarah/yq/releases/download/v4.9.1/yq_linux_amd64 \
+        -o /usr/local/bin/yq && \
+    chmod +x /usr/local/bin/yq
 
 # install all python versions
 RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
@@ -72,13 +67,7 @@ RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
         python3.10-dev \
         python3.10-venv \
         python3.10-distutils \
-        python3.9-dev \
-        python3.9-venv \
-        python3.9-distutils \
-        python3.8-dev \
-        python3.8-venv \
-        python3.8-distutils && \
-    rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 # install pip
 RUN echo "\n${CYAN}INSTALL PIP${CLEAR}"; \
@@ -86,6 +75,21 @@ RUN echo "\n${CYAN}INSTALL PIP${CLEAR}"; \
     python3.10 get-pip.py && \
     pip3.10 install --upgrade pip && \
     rm -rf get-pip.py
+
+# install nodejs (needed by jupyter lab)
+RUN echo "\n${CYAN}INSTALL NODEJS${CLEAR}"; \
+    mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+        | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    export NODE_VERSION=20 && \
+    echo "deb \
+        [signed-by=/etc/apt/keyrings/nodesource.gpg] \
+        https://deb.nodesource.com/node_$NODE_VERSION.x \
+        nodistro main" \
+        | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt update && \
+    apt install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
 
 # install and setup zsh
 RUN echo "\n${CYAN}SETUP ZSH${CLEAR}"; \
@@ -106,6 +110,26 @@ RUN echo "\n${CYAN}SETUP ZSH${CLEAR}"; \
     rm -rf install-oh-my-zsh.sh && \
     echo 'UTC' > /etc/timezone
 
+# install s6-overlay
+RUN echo "\n${CYAN}INSTALL S6${CLEAR}"; \
+    export S6_ARCH="x86_64" && \
+    export S6_VERSION="v3.1.5.0" && \
+    export S6_URL="https://github.com/just-containers/s6-overlay/releases/download" && \
+    curl -fsSL "${S6_URL}/${S6_VERSION}/s6-overlay-noarch.tar.xz" \
+        -o /tmp/s6-overlay-noarch.tar.xz && \
+    curl -fsSL "${S6_URL}/${S6_VERSION}/s6-overlay-noarch.tar.xz.sha256" \
+        -o /tmp/s6-overlay-noarch.tar.xz.sha256 && \
+    curl -fsSL "${S6_URL}/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
+        -o /tmp/s6-overlay-${S6_ARCH}.tar.xz && \
+    curl -fsSL "${S6_URL}/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.xz.sha256" \
+        -o /tmp/s6-overlay-${S6_ARCH}.tar.xz.sha256 && \
+    tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz && \
+    tar -C / -Jxpf /tmp/s6-overlay-${S6_ARCH}.tar.xz && \
+    rm /tmp/s6-overlay-noarch.tar.xz \
+       /tmp/s6-overlay-noarch.tar.xz.sha256 \
+       /tmp/s6-overlay-${S6_ARCH}.tar.xz \
+       /tmp/s6-overlay-${S6_ARCH}.tar.xz.sha256
+
 USER ubuntu
 ENV PATH="/home/ubuntu/.local/bin:$PATH"
 COPY ./config/henanigans.zsh-theme .oh-my-zsh/custom/themes/henanigans.zsh-theme
@@ -118,40 +142,57 @@ ENV LC_ALL "C.UTF-8"
 FROM base AS dev
 USER root
 
-# install OpenEXR
+# install gcc
 ENV CC=gcc
 ENV CXX=g++
-# ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
-RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
+RUN echo "\n${CYAN}INSTALL GCC${CLEAR}"; \
     apt update && \
     apt install -y \
         build-essential \
         g++ \
         gcc \
-        libopenexr-dev \
-        openexr \
         zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# install nvidia container toolkit
+RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
+    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
+    | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
+    curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list \
+        | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
+        | tee /etc/apt/sources.list.d/nvidia-container-toolkit.list && \
+    sed -i -e '/experimental/ s/^#//g' /etc/apt/sources.list.d/nvidia-container-toolkit.list && \
+    apt update && \
+    apt install -y \
+        libgl1-mesa-glx \
+        nvidia-container-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
 USER ubuntu
 WORKDIR /home/ubuntu
 
-# insetll dev dependencies
+# install dev dependencies
 RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     curl -sSL \
         https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py \
         | python3.10 - && \
     pip3.10 install --upgrade --user \
-        pdm \
+        'pdm>=2.19.1' \
         'pdm-bump<0.7.0' \
-        'rolling-pin>=0.9.2' && \
+        'rolling-pin>=0.10.1' \
+        'uv' && \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm self update --pip-args='--user' && \
     pdm completion zsh > /home/ubuntu/.oh-my-zsh/custom/completions/_pdm
 
 # setup pdm
-COPY --chown=ubuntu:ubuntu config/* /home/ubuntu/config/
-COPY --chown=ubuntu:ubuntu scripts/* /home/ubuntu/scripts/
+COPY --chown=ubuntu:ubuntu config/build.yaml /home/ubuntu/config/
+COPY --chown=ubuntu:ubuntu config/dev.lock /home/ubuntu/config/
+COPY --chown=ubuntu:ubuntu config/pdm.toml /home/ubuntu/config/
+COPY --chown=ubuntu:ubuntu config/prod.lock /home/ubuntu/config/
+COPY --chown=ubuntu:ubuntu config/pyproject.toml /home/ubuntu/config/
+COPY --chown=ubuntu:ubuntu scripts/prod-cli /home/ubuntu/scripts/
+COPY --chown=ubuntu:ubuntu scripts/x_tools.sh /home/ubuntu/scripts/
 RUN echo "\n${CYAN}SETUP DIRECTORIES${CLEAR}"; \
     mkdir pdm
 
@@ -171,15 +212,41 @@ RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init prod 3.10 && \
-    x_env_init prod 3.9 && \
-    x_env_init prod 3.8
+    x_env_init prod 3.10
+
+# install prod cli
+RUN echo "\n${CYAN}INSTALL PROD CLI${CLEAR}"; \
+    cp /home/ubuntu/scripts/prod-cli /home/ubuntu/.local/bin/flatiron && \
+    chmod 755 /home/ubuntu/.local/bin/flatiron
+
+# build jupyter lab
+RUN echo "\n${CYAN}BUILD JUPYTER LAB${CLEAR}"; \
+    . /home/ubuntu/scripts/x_tools.sh && \
+    export CONFIG_DIR=/home/ubuntu/config && \
+    export SCRIPT_DIR=/home/ubuntu/scripts && \
+    x_env_activate_dev && \
+    jupyter lab build
+
+USER root
+
+# add s6 service and init scripts
+COPY --chown=ubuntu:ubuntu --chmod=755 scripts/s_tools.sh /home/ubuntu/scripts/
+RUN echo "\n${CYAN}SETUP S6 SERVICES${CLEAR}"; \
+    . /home/ubuntu/scripts/s_tools.sh && \
+    s_setup_services
+
+USER ubuntu
+WORKDIR /home/ubuntu
 
 # cleanup dirs
-WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}REMOVE DIRECTORIES${CLEAR}"; \
-    rm -rf config scripts
+    rm -rf /home/ubuntu/config /home/ubuntu/scripts
 
 ENV REPO='flatiron'
 ENV PYTHONPATH ":/home/ubuntu/$REPO/python:/home/ubuntu/.local/lib"
 ENV PYTHONPYCACHEPREFIX "/home/ubuntu/.python_cache"
+ENV HOME /home/ubuntu
+ENV JUPYTER_RUNTIME_DIR /tmp/jupyter_runtime
+
+EXPOSE 8888/tcp
+ENTRYPOINT ["/init"]

@@ -1,12 +1,11 @@
-from keras.engine.keras_tensor import KerasTensor  # noqa F401
-import keras.engine.functional as kef  # noqa F401
+from tensorflow import keras  # noqa F401
+from keras import KerasTensor  # noqa F401
 
 from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
-import tensorflow as tf
-import tensorflow.keras.layers as tfl
-import tensorflow.keras.models as tfm
+from keras import layers as tfl
+from keras import models as tfm
 
 import flatiron.core.pipeline as ficp
 import flatiron.core.tools as fict
@@ -178,7 +177,7 @@ def get_unet_model(
     attention_kernel_initializer='he_normal',  # type: str
     dtype='float16',  # type: str
 ):
-    # type: (...) -> kef.Functional
+    # type: (...) -> tfm.Model
     '''
     UNet model for 2D semantic segmentation.
 
@@ -221,7 +220,7 @@ def get_unet_model(
         EnforceError: If input_width and layers are not compatible.
 
     Returns:
-        kef.Functional: UNet model.
+        tfm.Model: UNet model.
     '''
     # shape
     msg = 'Input width and height must be equal, even numbers. '
@@ -402,5 +401,5 @@ class UNetPipeline(ficp.PipelineBase):
         return UNetConfig
 
     def model_func(self):
-        # type: () -> kef.Functional
+        # type: () -> tfm.Model
         return get_unet_model

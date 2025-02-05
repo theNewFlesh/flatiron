@@ -1,16 +1,17 @@
-from typing import Any, Optional, Union  # noqa F401
-import keras.engine.functional as kef  # noqa F401
+from typing import Optional, Union  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
+from tensorflow import keras  # noqa F401
+from keras import models as tfm  # noqa F401
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from pathlib import Path
 import math
 
-import tensorflow.keras.losses as tfl
-import tensorflow.keras.metrics as tfm
-import tensorflow.keras.optimizers as tfo
+from keras import losses as tfl
+from keras import metrics as tfmet
+from keras import optimizers as tfo
 import yaml
 
 from flatiron.core.dataset import Dataset
@@ -221,13 +222,11 @@ class PipelineBase(ABC):
                 try:
                     metric = ficm.get(m)
                 except NotImplementedError:
-                    metric = tfm.get(m)
+                    metric = tfmet.get(m)
                 metrics.append(metric)
 
             # create optimizer
-            kwargs = deepcopy(self.config['optimizer'])
-            del kwargs['name']
-            opt = tfo.get(self.config['optimizer']['name'], **kwargs)
+            opt = tfo.get(self.config['optimizer'])
 
             # compile
             self.model.compile(
@@ -319,12 +318,12 @@ class PipelineBase(ABC):
 
     @abstractmethod
     def model_func(self):
-        # type: () -> kef.Functional
+        # type: () -> tfm.Model
         '''
         Subclasses of PipelineBase need to define a function that builds and
         returns a machine learning model.
 
         Returns:
-            kef.Functional: Machine learning model.
+            tfm.Model: Machine learning model.
         '''
         pass  # pragma: no cover
