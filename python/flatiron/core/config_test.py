@@ -192,6 +192,7 @@ class LoggerConfigTests(unittest.TestCase):
 class PipelineConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
+            engine='tensorflow',
             dataset=dict(
                 source='/tmp/foobar/info.csv',
                 split_index=-1,
