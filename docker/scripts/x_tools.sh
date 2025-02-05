@@ -13,7 +13,6 @@ export CONFIG_DIR="$REPO_DIR/docker/config"
 export DOCS_DIR="$REPO_DIR/docs"
 export MIN_PYTHON_VERSION="3.10"
 export MAX_PYTHON_VERSION="3.10"
-export MIN_TENSORFLOW_VERSION="2.0.0"
 export MKDOCS_DIR="$REPO_DIR/mkdocs"
 export PDM_DIR="$HOME/pdm"
 export PYPI_URL="pypi"
@@ -149,7 +148,7 @@ _x_set_uv_vars () {
     export UV_PROJECT_ENVIRONMENT=`find $PDM_DIR/envs -maxdepth 1 -type d | grep $1-$2`;
 }
 
-# TENSORFLOW--------------------------------------------------------------------
+# ENV-FUNCTIONS-----------------------------------------------------------------
 x_env_activate () {
     # Activate a virtual env given a mode and python version
     # args: mode, python_version
@@ -161,36 +160,6 @@ x_env_activate () {
     cd $CWD;
 }
 
-# TODO: remove this once PDM will install tensorflow
-_x_env_pip_install () {
-    # Pip install packages pdm refuses to
-    # args: mode, python_version, packages
-    cd $PDM_DIR;
-    x_env_activate $1 $2 && \
-    python3 -m pip install "$3";
-    deactivate;
-}
-
-# TODO: remove this once PDM will install tensorflow
-_x_env_install_tensorflow () {
-    # install tensorflow in given environment
-    # args: mode, python_version
-    echo "\n${CYAN2}INSTALL TENSORFLOW${CLEAR}\n";
-    _x_env_pip_install $1 $2 "tensorflow>=$MIN_TENSORFLOW_VERSION";
-}
-
-# TODO: remove this once PDM will install tensorflow
-_x_build_add_tensorflow () {
-    # add tensorflow to pyproject file
-    # args: pyproject.toml file
-    DEPS=`rolling-pin toml $1 --search project.dependencies \
-        | grep dependencies \
-        | sed 's/.* = \[/[/' \
-        | sed "s/\]/ \"tensorflow>=$MIN_TENSORFLOW_VERSION\"]/"`;
-    rolling-pin toml $1 --edit "project.dependencies=$DEPS" --target $1;
-}
-
-# ENV-FUNCTIONS-----------------------------------------------------------------
 _x_env_exists () {
     # determines if given env exists
     # args: environment name
@@ -252,8 +221,6 @@ _x_env_sync () {
     pdm sync --no-self --dev --clean -v;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
     deactivate;
-    _x_env_install_tensorflow $1 $2;
-    exit_code=`_x_resolve_exit_code $exit_code $?`;
     return $exit_code;
 }
 
@@ -344,7 +311,6 @@ x_build_prod () {
     echo "${CYAN2}BUILDING PROD REPO${CLEAR}\n";
     _x_build prod;
     _x_gen_pyproject package > $BUILD_DIR/repo/pyproject.toml;
-    _x_build_add_tensorflow $BUILD_DIR/repo/pyproject.toml;
     _x_build_show_dir;
 }
 
@@ -448,7 +414,6 @@ _x_library_sync () {
     cd $PDM_DIR;
     pdm sync --no-self --dev --clean -v;
     deactivate;
-    _x_env_install_tensorflow $1 $2;
     x_env_activate_dev;
 }
 
