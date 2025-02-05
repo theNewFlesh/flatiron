@@ -42,14 +42,14 @@ dependencies = [
     "ipywidgets",
     "jupyter",
     "lunchbox>=0.3.3",
-    "numpy",
+    "numpy>=2.0.2",
     "pandas",
     "pytz>=2022.7.1",
     "pyyaml>=6.0",
     "schematics>=2.1.1",
     "scikit-learn>=1.2.1",
     "tensorboard>=2.0.0",
-    "tensorflow>=2.0.0",
+    "tensorflow>=2.18.0",
     "tqdm>=4.64.1",
 ]
 
