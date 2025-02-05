@@ -1,7 +1,8 @@
 import unittest
 
 from lunchbox.enforce import EnforceError
-import keras.engine.functional as kef
+from tensorflow import keras  # noqa: F401
+from keras import models as tfm
 
 import flatiron.models.unet as fimu
 # ------------------------------------------------------------------------------
@@ -31,7 +32,7 @@ class UNetTests(unittest.TestCase):
 
     def test_get_unet_model(self):
         result = fimu.get_unet_model(**self.get_kwargs())
-        self.assertIsInstance(result, kef.Functional)
+        self.assertIsInstance(result, tfm.Model)
 
     def test_get_unet_model_errors(self):
         kwargs = self.get_kwargs()

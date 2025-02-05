@@ -14,7 +14,8 @@ import lunchbox.tools as lbt
 import pytz
 import yaml
 
-import tensorflow.keras.callbacks as tfc
+from tensorflow import keras  # noqa: F401
+from keras import callbacks as tfc
 
 Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
     os.makedirs(model_dir, exist_ok=True)
 
     # checkpoint pattern
-    target = f'p-{project}_{timestamp}' + '_e-{epoch:03d}'
+    target = f'p-{project}_{timestamp}' + '_e-{epoch:03d}.keras'
     target = Path(model_dir, target).as_posix()
 
     output = dict(
@@ -88,7 +89,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     # --------------------------------------------------------------------------
 
     callbacks = [
-        tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfc.TensorBoard(log_dir=log_dir.as_posix(), histogram_freq=1),
         tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
@@ -163,14 +164,14 @@ def slack_it(
         HTTPResponse: Slack response.
     '''
     now = datetime.now(tz=pytz.timezone(timezone)).isoformat()
-    config = config or {}
+    cfg = config or {}
     delta = 'none'
     hdelta = 'none'
     if stopwatch is not None:
         hdelta = stopwatch.human_readable_delta
         delta = str(stopwatch.delta)
 
-    config = yaml.safe_dump(config, indent=4)
+    config_ = yaml.safe_dump(cfg, indent=4)
     message = f'''
         {title.upper()}
 
@@ -179,7 +180,7 @@ def slack_it(
         POST TIME:
         ```{now}```
         CONFIG:
-        ```{config}```
+        ```{config_}```
     '''[1:-1]
     message = unindent(message, spaces=8)
 

@@ -43,7 +43,7 @@ class OptimizerConfig(scm.Model):
     See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer
 
     Attributes:
-        name: (string, optional): Name of optimizer. Default='sgd'.
+        class_name: (string, optional): Name of optimizer. Default='sgd'.
         learning_rate: (float, optional): Learning rate. Default=0.001.
         momentum: (float, optional): Momentum. Default=0.
         nesterov: (boolean, optional): User Nesterov updates. Default=False.
@@ -61,7 +61,7 @@ class OptimizerConfig(scm.Model):
             Default: None.
         jit_compile: (boolean, optional): Use XLA. Default=True.
     '''
-    name = scmt.StringType(default='sgd')
+    class_name = scmt.StringType(default='sgd')
     learning_rate = scmt.FloatType(default=0.001)
     momentum = scmt.FloatType(default=0)
     nesterov = scmt.BooleanType(default=False)
@@ -124,10 +124,6 @@ class CallbacksConfig(scm.Model):
             Options: 'epoch' or int. Default: 'epoch'.
         initial_value_threshold (float, optional): Initial best value of metric.
             Default: None.
-        experimental_io_device (str, optional): IO device name.
-            Default: None.
-        experimental_enable_async_checkpoint (bool, optional): Use async
-            checkpoint. Default: False.
     '''
     project = scmt.StringType(required=True)
     root = scmt.StringType(required=True)
@@ -138,8 +134,6 @@ class CallbacksConfig(scm.Model):
     mode = scmt.StringType(default='auto', validators=[vd.is_callback_mode])
     save_freq = scmt.UnionType([scmt.StringType, scmt.IntType], default='epoch')
     initial_value_threshold = scmt.FloatType()
-    experimental_io_device = scmt.StringType()
-    experimental_enable_async_checkpoint = scmt.BooleanType(default=False)
 
 
 class FitConfig(scm.Model):
@@ -163,11 +157,6 @@ class FitConfig(scm.Model):
             (useful for resuming a previous training run). Default: 1.
         validation_freq (int, optional): Number of training epochs before new
             validation. Default: 1.
-        max_queue_size (int, optional): Max size of generator queue.
-            Default: 10.
-        workers (int, optional): Max processes used by generator. Default: 1.
-        use_multiprocessing (bool, optional): Use multiprocessing for
-            generators. Default: False.
     '''
     batch_size = scmt.IntType(default=32)
     epochs = scmt.IntType(default=30)
@@ -176,14 +165,14 @@ class FitConfig(scm.Model):
     shuffle = scmt.BooleanType(default=True)
     initial_epoch = scmt.IntType(default=1)
     validation_freq = scmt.IntType(default=1)
-    max_queue_size = scmt.IntType(default=10)
-    workers = scmt.IntType(default=1)
-    use_multiprocessing = scmt.BooleanType(default=False)
+    # callbacks
     # class_weight
-    # sample_weight
     # initial_epoch
-    # validation_steps
+    # sample_weight
+    # steps_per_epoch
     # validation_batch_size
+    # validation_data
+    # validation_steps
 
 
 class LoggerConfig(scm.Model):

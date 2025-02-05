@@ -71,8 +71,8 @@ class DatasetTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root)
             Path(root, 'foobar.csv').touch()
-            expected = r'Dataset directory must contain only 1 CSV file\. '
-            expected += r'CSV files found:.*/foobar\.csv.*info\.csv'
+            expected = 'Dataset directory must contain only 1 CSV file. '
+            expected += 'CSV files found:.*/foobar.csv.*info.csv'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset.read_directory(root)
 
@@ -186,7 +186,7 @@ class DatasetTests(unittest.TestCase):
         info['chunk'] = [0, 1, 2, 3]
         stats = Dataset._get_stats(info)
 
-        exp = info.describe().applymap(lambda x: round(x, 2))
+        exp = info.describe().map(lambda x: round(x, 2))
         exp.loc['total', 'GB'] = info['GB'].sum()
         exp.loc['total', 'chunk'] = info['chunk'].count()
         exp.loc['mean', 'chunk'] = np.nan

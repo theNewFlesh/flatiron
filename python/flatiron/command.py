@@ -16,7 +16,7 @@ def main():
 @main.command()
 def bash_completion():
     '''
-        BASH completion code to be written to a _flatiron completion file.
+    BASH completion code to be written to a _flatiron completion file.
     '''
     cmd = '_FLATIRON_COMPLETE=bash_source flatiron'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
@@ -27,7 +27,7 @@ def bash_completion():
 @main.command()
 def zsh_completion():
     '''
-        ZSH completion code to be written to a _flatiron completion file.
+    ZSH completion code to be written to a _flatiron completion file.
     '''
     cmd = '_FLATIRON_COMPLETE=zsh_source flatiron'
     result = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)

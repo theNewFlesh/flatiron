@@ -1,102 +1,53 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
-  
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>flatiron.models.unet &mdash; flatiron  documentation</title>
-  
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
 
   
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../../_static/style.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/jquery.js"></script>
-        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-        <script src="../../../_static/doctools.js"></script>
-        <script src="../../../_static/sphinx_highlight.js"></script>
-    
-    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
-
-    
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../../index.html" class="icon icon-home"> flatiron
           
-
-          
+          <a href="../../../index.html" class="icon icon-home">
+            flatiron
           </a>
-
-          
-            
-            
-              <div class="version">
-                0.14.1
-              </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#installation">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#production-cli">Production CLI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#production-cli">Production CLI</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
@@ -108,83 +59,43 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">flatiron</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../../index.html">Module code</a> &raquo;</li>
-        
-      <li>flatiron.models.unet</li>
-    
-    
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">flatiron.models.unet</li>
       <li class="wy-breadcrumbs-aside">
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <h1>Source code for flatiron.models.unet</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">keras.engine.keras_tensor</span> <span class="kn">import</span> <span class="n">KerasTensor</span>  <span class="c1"># noqa F401</span>
-<span class="kn">import</span> <span class="nn">keras.engine.functional</span> <span class="k">as</span> <span class="nn">kef</span>  <span class="c1"># noqa F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># noqa F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">KerasTensor</span>  <span class="c1"># noqa F401</span>
 
-<span class="kn">from</span> <span class="nn">lunchbox.enforce</span> <span class="kn">import</span> <span class="n">Enforce</span>
-<span class="kn">import</span> <span class="nn">schematics</span> <span class="k">as</span> <span class="nn">scm</span>
-<span class="kn">import</span> <span class="nn">schematics.types</span> <span class="k">as</span> <span class="nn">scmt</span>
-<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
-<span class="kn">import</span> <span class="nn">tensorflow.keras.layers</span> <span class="k">as</span> <span class="nn">tfl</span>
-<span class="kn">import</span> <span class="nn">tensorflow.keras.models</span> <span class="k">as</span> <span class="nn">tfm</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">lunchbox.enforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enforce</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">schematics</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">scm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">schematics.types</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">scmt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">layers</span> <span class="k">as</span> <span class="n">tfl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">tfm</span>
 
-<span class="kn">import</span> <span class="nn">flatiron.core.pipeline</span> <span class="k">as</span> <span class="nn">ficp</span>
-<span class="kn">import</span> <span class="nn">flatiron.core.tools</span> <span class="k">as</span> <span class="nn">fict</span>
-<span class="kn">import</span> <span class="nn">flatiron.core.validators</span> <span class="k">as</span> <span class="nn">vd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.pipeline</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ficp</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.validators</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">vd</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
 
@@ -192,7 +103,9 @@
 
 
 <span class="c1"># FUNCS-------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="unet_width_and_layers_are_valid"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.unet_width_and_layers_are_valid">[docs]</a><span class="k">def</span> <span class="nf">unet_width_and_layers_are_valid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">layers</span><span class="p">):</span>
+<div class="viewcode-block" id="unet_width_and_layers_are_valid">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.unet_width_and_layers_are_valid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">unet_width_and_layers_are_valid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">layers</span><span class="p">):</span>
     <span class="c1"># type: (int, int) -&gt; bool</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Determines whether given UNet width and layers are valid.</span>
@@ -213,7 +126,10 @@
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="conv_2d_block"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.conv_2d_block">[docs]</a><span class="k">def</span> <span class="nf">conv_2d_block</span><span class="p">(</span>
+
+<div class="viewcode-block" id="conv_2d_block">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.conv_2d_block">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">conv_2d_block</span><span class="p">(</span>
     <span class="n">input_</span><span class="p">,</span>  <span class="c1"># type: KerasTensor</span>
     <span class="n">filters</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
@@ -277,7 +193,10 @@
     <span class="k">return</span> <span class="n">conv_2</span></div>
 
 
-<div class="viewcode-block" id="attention_gate_2d"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.attention_gate_2d">[docs]</a><span class="k">def</span> <span class="nf">attention_gate_2d</span><span class="p">(</span>
+
+<div class="viewcode-block" id="attention_gate_2d">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.attention_gate_2d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">attention_gate_2d</span><span class="p">(</span>
     <span class="n">query</span><span class="p">,</span>  <span class="c1"># type: KerasTensor</span>
     <span class="n">skip_connection</span><span class="p">,</span>  <span class="c1"># type: KerasTensor</span>
     <span class="n">activation_1</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
@@ -332,7 +251,10 @@
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="get_unet_model"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.get_unet_model">[docs]</a><span class="k">def</span> <span class="nf">get_unet_model</span><span class="p">(</span>
+
+<div class="viewcode-block" id="get_unet_model">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.get_unet_model">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_unet_model</span><span class="p">(</span>
     <span class="n">input_width</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">input_height</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">input_channels</span><span class="p">,</span>  <span class="c1"># type: int</span>
@@ -352,7 +274,7 @@
     <span class="n">attention_kernel_initializer</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
     <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">,</span>  <span class="c1"># type: str</span>
 <span class="p">):</span>
-    <span class="c1"># type: (...) -&gt; kef.Functional</span>
+    <span class="c1"># type: (...) -&gt; tfm.Model</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    UNet model for 2D semantic segmentation.</span>
 
@@ -395,7 +317,7 @@
 <span class="sd">        EnforceError: If input_width and layers are not compatible.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        kef.Functional: UNet model.</span>
+<span class="sd">        tfm.Model: UNet model.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># shape</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Input width and height must be equal, even numbers. &#39;</span>
@@ -512,8 +434,11 @@
     <span class="k">return</span> <span class="n">model</span></div>
 
 
+
 <span class="c1"># CONFIG------------------------------------------------------------------------</span>
-<div class="viewcode-block" id="UNetConfig"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetConfig">[docs]</a><span class="k">class</span> <span class="nc">UNetConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetConfig">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UNetConfig</span><span class="p">(</span><span class="n">scm</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for UNet model.</span>
 
@@ -569,58 +494,52 @@
     <span class="n">attention_kernel_initializer</span> <span class="o">=</span> <span class="n">scmt</span><span class="o">.</span><span class="n">StringType</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;he_normal&#39;</span><span class="p">)</span></div>
 
 
+
 <span class="c1"># PIPELINE----------------------------------------------------------------------</span>
-<div class="viewcode-block" id="UNetPipeline"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline">[docs]</a><span class="k">class</span> <span class="nc">UNetPipeline</span><span class="p">(</span><span class="n">ficp</span><span class="o">.</span><span class="n">PipelineBase</span><span class="p">):</span>
-<div class="viewcode-block" id="UNetPipeline.model_config"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline.model_config">[docs]</a>    <span class="k">def</span> <span class="nf">model_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetPipeline">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">UNetPipeline</span><span class="p">(</span><span class="n">ficp</span><span class="o">.</span><span class="n">PipelineBase</span><span class="p">):</span>
+<div class="viewcode-block" id="UNetPipeline.model_config">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline.model_config">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; scm.Model</span>
         <span class="k">return</span> <span class="n">UNetConfig</span></div>
 
-<div class="viewcode-block" id="UNetPipeline.model_func"><a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline.model_func">[docs]</a>    <span class="k">def</span> <span class="nf">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; kef.Functional</span>
-        <span class="k">return</span> <span class="n">get_unet_model</span></div></div>
+
+<div class="viewcode-block" id="UNetPipeline.model_func">
+<a class="viewcode-back" href="../../../models.html#flatiron.models.unet.UNetPipeline.model_func">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; tfm.Model</span>
+        <span class="k">return</span> <span class="n">get_unet_model</span></div>
+</div>
+
 </pre></div>
 
            </div>
-           
           </div>
           <footer>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2023, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.
-
-    </p>
+    <p>&#169; Copyright 2025, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

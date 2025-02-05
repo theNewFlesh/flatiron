@@ -66,7 +66,7 @@ class Dataset:
 
         files = [Path(directory, x) for x in os.listdir(directory)]  # type: Any
         files = list(filter(lambda x: x.suffix.lower()[1:] == 'csv', files))
-        files = [x.as_posix() for x in files]
+        files = sorted([x.as_posix() for x in files])
         msg = 'Dataset directory must contain only 1 CSV file. '
         msg += f'CSV files found: {files}'
         Enforce(len(files), '==', 1, message=msg)
@@ -251,7 +251,7 @@ class Dataset:
         stats.loc['total', 'chunk'] = stats.loc['count', 'chunk']
         stats.loc['mean', 'chunk'] = np.nan
         stats.loc['std', 'chunk'] = np.nan
-        stats = stats.applymap(lambda x: round(x, 2))
+        stats = stats.map(lambda x: round(x, 2))
         stats.drop('count', inplace=True)
         return stats
 
