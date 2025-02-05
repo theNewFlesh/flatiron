@@ -193,3 +193,15 @@ def get_module_function(name, module):
     if name in funcs:
         return funcs[name]
     raise NotImplementedError(f'Function not found: {name}')
+
+
+def get_loss():
+    pass
+
+
+def get_metric():
+    pass
+
+
+def get_optimizer():
+    pass

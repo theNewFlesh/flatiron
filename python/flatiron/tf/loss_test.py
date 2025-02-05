@@ -1,10 +1,10 @@
 import unittest
 
-import flatiron.core.loss as ficl
+import flatiron.tf.loss as ftfl
 # ------------------------------------------------------------------------------
 
 
 class LossTests(unittest.TestCase):
     def test_get(self):
-        ficl.get('jaccard_loss')
-        ficl.get('dice_loss')
+        ftfl.get('jaccard_loss')
+        ftfl.get('dice_loss')
