@@ -71,8 +71,8 @@ class DatasetTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root)
             Path(root, 'foobar.csv').touch()
-            expected = r'Dataset directory must contain only 1 CSV file\. '
-            expected += r'CSV files found:.*/foobar\.csv.*info\.csv'
+            expected = 'Dataset directory must contain only 1 CSV file. '
+            expected += 'CSV files found:.*/foobar.csv.*info.csv'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset.read_directory(root)
 

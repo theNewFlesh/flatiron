@@ -328,7 +328,7 @@ def zshrc_tools(command, args=[]):
 
 # COMMANDS----------------------------------------------------------------------
 def build_dev_command(use_cache=True):
-    # type: (str) -> str
+    # type: (bool) -> str
     '''
     Build image for development.
 
