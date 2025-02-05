@@ -452,7 +452,7 @@
                     "source $X_TOOLS_PATH &&",
                     "x_vscode_reinstall_extensions"
                 ]
-            },
+            }
         ],
         "inputs": [
             {

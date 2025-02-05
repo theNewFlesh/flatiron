@@ -149,17 +149,6 @@ _x_set_uv_vars () {
 }
 
 # ENV-FUNCTIONS-----------------------------------------------------------------
-x_env_activate () {
-    # Activate a virtual env given a mode and python version
-    # args: mode, python_version
-    local CWD=`pwd`;
-    cd $PDM_DIR;
-    _x_gen_pdm_files $1 $2;
-    . `pdm venv activate $1-$2 | awk '{print $2}'`;
-    _x_set_uv_vars $1 $2;
-    cd $CWD;
-}
-
 _x_env_exists () {
     # determines if given env exists
     # args: environment name
@@ -195,7 +184,18 @@ _x_env_create () {
     # args: mode, python_version
     cd $PDM_DIR;
     _x_gen_pdm_files $1 $2;
-    pdm venv create -n $1-$2 --with-pip;
+    pdm venv create -n $1-$2;
+}
+
+x_env_activate () {
+    # Activate a virtual env given a mode and python version
+    # args: mode, python_version
+    local CWD=`pwd`;
+    cd $PDM_DIR;
+    _x_gen_pdm_files $1 $2;
+    . `pdm venv activate $1-$2 | awk '{print $2}'`;
+    _x_set_uv_vars $1 $2;
+    cd $CWD;
 }
 
 _x_env_lock () {

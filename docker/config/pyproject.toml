@@ -113,6 +113,9 @@ omit = [
     "*/conftest.py",
 ]
 
+[tool.uv]
+cache-dir = "/home/ubuntu/pdm/cache"
+
 [tool.mypy]
 cache_dir = "/home/ubuntu/.mypy_cache"
 python_version = "3.10"
