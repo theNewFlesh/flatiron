@@ -1,27 +1,19 @@
 from typing import Optional, Union  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
-from tensorflow import keras  # noqa F401
-from keras import models as tfm  # noqa F401
+from flatiron.core.types import Filepath, Model  # noqa F401
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from pathlib import Path
 import math
 
-from keras import losses as tfl
-from keras import metrics as tfmet
-from keras import optimizers as tfo
 import yaml
 
 from flatiron.core.dataset import Dataset
 import flatiron.core.config as cfg
 import flatiron.core.logging as filog
-import flatiron.core.loss as ficl
-import flatiron.core.metric as ficm
 import flatiron.core.tools as fict
-
-Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
 
 
@@ -209,24 +201,9 @@ class PipelineBase(ABC):
             compile=compile_,
         )
         with self._logger('compile', 'COMPILE MODEL', cfg):
-            # loss
-            loss = compile_['loss']
-            try:
-                loss = ficl.get(loss)
-            except NotImplementedError:
-                loss = tfl.get(loss)
-
-            # metrics
-            metrics = []
-            for m in compile_['metrics']:
-                try:
-                    metric = ficm.get(m)
-                except NotImplementedError:
-                    metric = tfmet.get(m)
-                metrics.append(metric)
-
-            # create optimizer
-            opt = tfo.get(self.config['optimizer'])
+            loss = fict.get_loss(compile_['loss'])
+            metrics = [fict.get_metric(m) for m in compile_['metrics']]
+            opt = fict.get_optimizer(self.config['optimizer'])
 
             # compile
             self.model.compile(
@@ -265,7 +242,7 @@ class PipelineBase(ABC):
             cp = deepcopy(cb)
             del cp['project']
             del cp['root']
-            callbacks = fict.get_callbacks(
+            callbacks = fict.enforce_callbacks(
                 tb['log_dir'], tb['checkpoint_pattern'], cp,
             )
 
@@ -318,12 +295,12 @@ class PipelineBase(ABC):
 
     @abstractmethod
     def model_func(self):
-        # type: () -> tfm.Model
+        # type: () -> Model
         '''
         Subclasses of PipelineBase need to define a function that builds and
         returns a machine learning model.
 
         Returns:
-            tfm.Model: Machine learning model.
+            Model: Machine learning model.
         '''
         pass  # pragma: no cover

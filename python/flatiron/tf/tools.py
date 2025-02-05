@@ -1,3 +1,12 @@
+from flatiron.core.types import Filepath  # noqa: F401
+
+from tensorflow import keras  # noqa: F401
+from keras import callbacks as tfc
+
+import flatiron.core.tools as fict
+# ------------------------------------------------------------------------------
+
+
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     # type: (Filepath, str, dict) -> list
     '''
@@ -16,17 +25,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     Returns:
         list: Tensorboard and ModelCheckpoint callbacks.
     '''
-    log_dir = Path(log_directory)
-    msg = f'Log directory: {log_dir} does not exist.'
-    Enforce(log_dir.is_dir(), '==', True, message=msg)
-
-    match = re.search(r'\{epoch.*?\}', checkpoint_pattern)
-    msg = "Checkpoint pattern must contain '{epoch}'. "
-    msg += f'Given value: {checkpoint_pattern}'
-    msg = msg.replace('{', '{{').replace('}', '}}')
-    Enforce(match, '!=', None, message=msg)
-    # --------------------------------------------------------------------------
-
+    fict.enforce_callbacks(log_directory, checkpoint_pattern)
     callbacks = [
         tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
         tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),

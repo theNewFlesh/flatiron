@@ -47,7 +47,7 @@ class ToolsTests(unittest.TestCase):
     def test_get_callbacks(self):
         with TemporaryDirectory() as root:
             proj = fict.get_tensorboard_project('proj', root)
-            result = fict.get_callbacks(
+            result = fict.enforce_callbacks(
                 proj['log_dir'], proj['checkpoint_pattern']
             )
             self.assertIsInstance(result[0], tfc.TensorBoard)
@@ -57,14 +57,14 @@ class ToolsTests(unittest.TestCase):
         # log dir
         expected = 'Log directory: /tmp/foobar does not exist.'
         with self.assertRaisesRegex(EnforceError, expected):
-            fict.get_callbacks('/tmp/foobar', 'pattern', {})
+            fict.enforce_callbacks('/tmp/foobar', 'pattern', {})
 
         # checkpoint pattern
         with TemporaryDirectory() as root:
             expected = r"Checkpoint pattern must contain '\{epoch\}'\. "
             expected += 'Given value: foobar'
             with self.assertRaisesRegex(EnforceError, expected):
-                fict.get_callbacks(root, 'foobar', {})
+                fict.enforce_callbacks(root, 'foobar', {})
 
     def test_pad_layer_name(self):
         expected = 'foo____bar'
