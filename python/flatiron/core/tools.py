@@ -1,6 +1,7 @@
 from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
+from flatiron.core.types import Filepath  # noqa: F401
 
 from datetime import datetime
 from pathlib import Path
@@ -13,11 +14,6 @@ from lunchbox.enforce import Enforce
 import lunchbox.tools as lbt
 import pytz
 import yaml
-
-from tensorflow import keras  # noqa: F401
-from keras import callbacks as tfc
-
-Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
 
 
@@ -59,23 +55,18 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
     return output
 
 
-def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
-    # type: (Filepath, str, dict) -> list
+def enforce_callbacks(log_directory, checkpoint_pattern):
+    # type: (Filepath, str) -> None
     '''
-    Create a list of callbacks for Tensoflow model.
+    Enforces callback parameters.
 
     Args:
         log_directory (str or Path): Tensorboard project log directory.
         checkpoint_pattern (str): Filepath pattern for checkpoint callback.
-        checkpoint_params (dict, optional): Params to be passed to checkpoint
-            callback. Default: {}.
 
     Raises:
         EnforceError: If log directory does not exist.
         EnforeError: If checkpoint pattern does not contain '{epoch}'.
-
-    Returns:
-        list: Tensorboard and ModelCheckpoint callbacks.
     '''
     log_dir = Path(log_directory)
     msg = f'Log directory: {log_dir} does not exist.'
@@ -86,13 +77,6 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     msg += f'Given value: {checkpoint_pattern}'
     msg = msg.replace('{', '{{').replace('}', '}}')
     Enforce(match, '!=', None, message=msg)
-    # --------------------------------------------------------------------------
-
-    callbacks = [
-        tfc.TensorBoard(log_dir=log_dir.as_posix(), histogram_freq=1),
-        tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
-    ]
-    return callbacks
 
 
 # MISC--------------------------------------------------------------------------

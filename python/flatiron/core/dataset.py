@@ -1,4 +1,5 @@
 from typing import Any, List, Optional, Tuple, Union  # noqa F401
+from flatiron.core.types import Filepath  # noqa: F401
 
 from pathlib import Path
 import os
@@ -13,8 +14,6 @@ import pandas as pd
 import sklearn.model_selection as skm
 
 import flatiron.core.tools as fict
-
-Filepath = Union[str, Path]
 # ------------------------------------------------------------------------------
 
 

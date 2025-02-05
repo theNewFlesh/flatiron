@@ -210,6 +210,7 @@ class PipelineConfig(scm.Model):
         optimizer (dict): Optimizer configuration.
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
+        engine (str): Deep learning framework.
         fit (dict): Fit configuration.
         logger (dict): Logger configuration.
     '''
@@ -217,5 +218,6 @@ class PipelineConfig(scm.Model):
     optimizer = scmt.ModelType(OptimizerConfig, required=True)
     compile = scmt.ModelType(CompileConfig, required=True)
     callbacks = scmt.ModelType(CallbacksConfig, required=True)
+    engine = scmt.StringType(required=True, validators=[vd.is_engine])
     fit = scmt.ModelType(FitConfig, required=True)
     logger = scmt.ModelType(LoggerConfig, required=True)

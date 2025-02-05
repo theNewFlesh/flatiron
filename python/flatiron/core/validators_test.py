@@ -70,3 +70,13 @@ class ValidatorsTests(unittest.TestCase):
         expected += 'Legal methods:.*' + '.*'.join(legal)
         with self.assertRaisesRegex(ValidationError, expected):
             vd.is_pipeline_method('foobar')
+
+    def test_is_engine(self):
+        legal = ['tensorflow', 'pytorch']
+        for method in legal:
+            vd.is_engine(method)
+
+        expected = 'foobar is not a legal deep learning framework. '
+        expected += 'Legal engines:.*' + '.*'.join(legal)
+        with self.assertRaisesRegex(ValidationError, expected):
+            vd.is_engine('foobar')

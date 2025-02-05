@@ -16,6 +16,7 @@ from keras import models as tfm
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
+import flatiron.tf as fitf
 # ------------------------------------------------------------------------------
 
 
@@ -64,6 +65,7 @@ class PipelineTests(unittest.TestCase):
         dset = Path(proj, 'dset001', 'dset001_v001').as_posix()
         _, info_path = self.create_dataset_files(dset)
         return dict(
+            engine='tensorflow',
             model=dict(
                 shape=[10, 10, 3]
             ),
@@ -202,6 +204,13 @@ class PipelineTests(unittest.TestCase):
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.build()
             self.assertRegex(log.output[0], 'BUILD MODEL')
+
+    def test_engine(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config['engine'] = 'tensorflow'
+            result = FakePipeline(config)._engine
+            self.assertIs(result, fitf)
 
     def test_compile(self):
         with TemporaryDirectory() as root:

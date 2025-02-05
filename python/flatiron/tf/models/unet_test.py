@@ -4,7 +4,7 @@ from lunchbox.enforce import EnforceError
 from tensorflow import keras  # noqa: F401
 from keras import models as tfm
 
-import flatiron.models.unet as fimu
+import flatiron.tf.models.unet as ftfu
 # ------------------------------------------------------------------------------
 
 
@@ -31,7 +31,7 @@ class UNetTests(unittest.TestCase):
         )
 
     def test_get_unet_model(self):
-        result = fimu.get_unet_model(**self.get_kwargs())
+        result = ftfu.get_unet_model(**self.get_kwargs())
         self.assertIsInstance(result, tfm.Model)
 
     def test_get_unet_model_errors(self):
@@ -43,21 +43,21 @@ class UNetTests(unittest.TestCase):
         kwargs['layers'] = layers
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
-            fimu.get_unet_model(**kwargs)
+            ftfu.get_unet_model(**kwargs)
 
         # < 3
         layers = 2
         kwargs['layers'] = layers
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
-            fimu.get_unet_model(**kwargs)
+            ftfu.get_unet_model(**kwargs)
 
         # even
         layers = 8
         kwargs['layers'] = layers
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
-            fimu.get_unet_model(**kwargs)
+            ftfu.get_unet_model(**kwargs)
 
         # bad width and layers
         layers = 9
@@ -67,11 +67,11 @@ class UNetTests(unittest.TestCase):
         expected = 'Given input_width and layers are not compatible. '
         expected += 'Input_width: 100. Layers: 9.'
         with self.assertRaisesRegex(EnforceError, expected):
-            fimu.get_unet_model(**kwargs)
+            ftfu.get_unet_model(**kwargs)
 
     def test_unet_width_and_layers_are_valid(self):
-        result = fimu.unet_width_and_layers_are_valid(128, 9)
+        result = ftfu.unet_width_and_layers_are_valid(128, 9)
         self.assertTrue(result)
 
-        result = fimu.unet_width_and_layers_are_valid(130, 9)
+        result = ftfu.unet_width_and_layers_are_valid(130, 9)
         self.assertFalse(result)
