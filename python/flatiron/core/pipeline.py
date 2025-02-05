@@ -242,7 +242,7 @@ class PipelineBase(ABC):
             cp = deepcopy(cb)
             del cp['project']
             del cp['root']
-            callbacks = fict.enforce_callbacks(
+            callbacks = fict.get_callbacks(
                 tb['log_dir'], tb['checkpoint_pattern'], cp,
             )
 
