@@ -4,8 +4,6 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
-from tensorflow import keras  # noqa: F401
-from keras import callbacks as tfc
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------

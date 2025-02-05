@@ -1,0 +1,513 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tf &mdash; flatiron  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/style.css" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="models" href="models.html" />
+    <link rel="prev" title="core" href="core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            flatiron
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="readme.html#production-cli">Production CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="core.html">core</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">tf</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.tf.loss">loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.loss.dice_loss"><code class="docutils literal notranslate"><span class="pre">dice_loss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.loss.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.loss.jaccard_loss"><code class="docutils literal notranslate"><span class="pre">jaccard_loss()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.tf.metric">metric</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.metric.dice"><code class="docutils literal notranslate"><span class="pre">dice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.metric.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.metric.intersection_over_union"><code class="docutils literal notranslate"><span class="pre">intersection_over_union()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.metric.jaccard"><code class="docutils literal notranslate"><span class="pre">jaccard()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.tf.optimizer">optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.optimizer.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.tf.tools">tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.tools.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">cli</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">flatiron</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">&lt;no title&gt;</a></li>
+      <li class="breadcrumb-item active">tf</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/tf.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tf">
+<h1>tf<a class="headerlink" href="#tf" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="models.html">models</a></li>
+</ul>
+</div>
+<section id="module-flatiron.tf.loss">
+<span id="loss"></span><h2>loss<a class="headerlink" href="#module-flatiron.tf.loss" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.loss.dice_loss">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.loss.</span></span><span class="sig-name descname"><span class="pre">dice_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/loss.html#dice_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.loss.dice_loss" title="Link to this definition">¶</a></dt>
+<dd><p>Dice loss function with smoothing factor to prevent exploding or vanishing
+gradients.</p>
+<p>See: <a class="reference external" href="https://cnvrg.io/semantic-segmentation">https://cnvrg.io/semantic-segmentation</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} L_{dice}(y, \hat{y}, S) &amp;&amp; =
+            1 - \frac{2 * I + S}{U + S}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{|y_i * \hat{y_i}|}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(|y_i| + |\hat{y_i}|)}
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S &amp;&amp;
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} L_{dice}(y, \hat{y}, S) &amp;&amp; =
+                1 - \frac{
+                    2 *
+                    \color{red2} \sum{|y_i * \hat{y_i}|}
+                    \color{white} + \color{blue2} S
+                }{
+                    \color{green2} \sum{(|y_i| + |\hat{y_i}|)}
+                    \color{white} + \color{blue2} S
+                }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Ground truth labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>int</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loss function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.loss.get">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.loss.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/loss.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.loss.get" title="Link to this definition">¶</a></dt>
+<dd><p>Get function from this module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Function name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Module function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.loss.jaccard_loss">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.loss.</span></span><span class="sig-name descname"><span class="pre">jaccard_loss</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/loss.html#jaccard_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.loss.jaccard_loss" title="Link to this definition">¶</a></dt>
+<dd><p>Jaccard’s loss is usefull for unbalanced datasets. This has been shifted so
+it converges on 0 and is smoothed to avoid exploding or disappearing
+gradients.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_index">https://en.wikipedia.org/wiki/Jaccard_index</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} L_{jacc}(y, \hat{y}, S) &amp;&amp; =
+            (1 - \frac{I + S}{U - I + S}) S
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{|y_i * \hat{y_i}|}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(|y_i| + |\hat{y_i}|)}
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S &amp;&amp;
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} L_{jacc}(y, \hat{y}, S) &amp;&amp; =
+                (1 - \frac{
+                    \color{red2} \sum{|y_i * \hat{y_i}|}
+                    \color{white} + \color{blue2} S
+                }{
+                    \color{green2} \sum{(|y_i| + |\hat{y_i}|)}
+                    \color{white} -
+                    \color{red2} \sum{|y_i * \hat{y_i}|}
+                    \color{white} + \color{blue2} S
+                }) \color{blue2} S
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Ground truth labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>int</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 100.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loss function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flatiron.tf.metric">
+<span id="metric"></span><h2>metric<a class="headerlink" href="#module-flatiron.tf.metric" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.metric.dice">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.metric.</span></span><span class="sig-name descname"><span class="pre">dice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/metric.html#dice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.metric.dice" title="Link to this definition">¶</a></dt>
+<dd><p>Dice metric.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient">https://en.wikipedia.org/wiki/S%C3%B8rensen%E2%80%93Dice_coefficient</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} Dice(y, \hat{y}) &amp;&amp; = \frac{2 * I + S}{U + S}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{(y_i * \hat{y_i})}
+        \\
+        \text{union} &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(y_i + \hat{y_i})}
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} Dice(y, \hat{y}, S) &amp;&amp; =
+            \frac{
+                \color{white} 2 * \color{red2} \sum{(y_i * \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }{
+                \color{green2} \sum{(y_i + \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>float</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 1.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dice metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.metric.get">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.metric.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/metric.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.metric.get" title="Link to this definition">¶</a></dt>
+<dd><p>Get function from this module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Function name.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Module function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.metric.intersection_over_union">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.metric.</span></span><span class="sig-name descname"><span class="pre">intersection_over_union</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smooth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/metric.html#intersection_over_union"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.metric.intersection_over_union" title="Link to this definition">¶</a></dt>
+<dd><p>Intersection over union metric.</p>
+<p>See: <a class="reference external" href="https://medium.com/analytics-vidhya/iou-intersection-over-union-705a39e7acef">https://medium.com/analytics-vidhya/iou-intersection-over-union-705a39e7acef</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} IOU (y, \hat{y}, S) &amp;&amp; = \frac{I + S}{U + S}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{(y_i * \hat{y_i})}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
+        \\
+        \text{smoothing factor} &amp; \rightarrow \color{blue2} S
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} IOU(y, \hat{y}, S) &amp;&amp; =
+            \frac{
+                \color{red2} \sum{(y_i * \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }{
+                \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})}
+                \color{white} + \color{blue2} S
+            }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+<li><p><strong>smooth</strong> (<em>float</em><em>, </em><em>optional</em>) – Smoothing factor. Default: 1.0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>IOU metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.metric.jaccard">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.metric.</span></span><span class="sig-name descname"><span class="pre">jaccard</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/metric.html#jaccard"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.metric.jaccard" title="Link to this definition">¶</a></dt>
+<dd><p>Jaccard metric.</p>
+<p>See: <a class="reference external" href="https://en.wikipedia.org/wiki/Jaccard_index">https://en.wikipedia.org/wiki/Jaccard_index</a></p>
+<p>Equation:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        \definecolor{blue2}{rgb}{0.58, 0.71, 0.9}
+        \definecolor{cyan2}{rgb}{0.71, 0.93, 0.95}
+        \definecolor{green2}{rgb}{0.63, 0.82, 0.48}
+        \definecolor{light1}{rgb}{0.64, 0.64, 0.64}
+        \definecolor{red2}{rgb}{0.87, 0.58, 0.56}
+
+        \color{cyan2} Jacc(y, \hat{y}) &amp;&amp; =
+            \frac{1}{N} \sum_{i=0}^{N} \frac{I + 1}{U + 1}
+    \end{alignat*}</div><p>Terms:</p>
+<div class="math notranslate nohighlight">
+    \begin{alignat*}{3}
+        intersection &amp; \rightarrow \color{red2}
+            I(y, \hat{y}) &amp;&amp; = \sum{(y_i * \hat{y_i})}
+        \\
+        union &amp; \rightarrow \color{green2}
+            U(y, \hat{y}) &amp;&amp; = \sum{(y_i + \hat{y_i})} - I(y_i, \hat{y_i})
+        \\
+        \text{expansion} &amp; \rightarrow
+            \color{cyan2} Jacc(y, \hat{y}) &amp;&amp; =
+            \frac{1}{N} \sum_{i=0}^{N}
+            \frac{
+                \color{red2} \sum{(y_i * \hat{y_i})}
+                \color{white} + 1
+            }{
+                \color{green2} \sum{(y_i + \hat{y_i})} - \sum{(y_i * \hat{y_i})}
+                \color{white} + 1
+            }
+    \end{alignat*}</div><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y_true</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – True labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>NDArray</em><em> or </em><em>Tensor</em>) – Predicted labels.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Jaccard metric.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tf.Tensor</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flatiron.tf.optimizer">
+<span id="optimizer"></span><h2>optimizer<a class="headerlink" href="#module-flatiron.tf.optimizer" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.optimizer.get">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.optimizer.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/optimizer.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.optimizer.get" title="Link to this definition">¶</a></dt>
+<dd><p>Get function from this module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Optimizer params.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Module function.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-flatiron.tf.tools">
+<span id="tools"></span><h2>tools<a class="headerlink" href="#module-flatiron.tf.tools" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.tools.get_callbacks">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.tools.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/tools.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.tools.get_callbacks" title="Link to this definition">¶</a></dt>
+<dd><p>Create a list of callbacks for Tensoflow model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>log_directory</strong> (<em>str</em><em> or </em><em>Path</em>) – Tensorboard project log directory.</p></li>
+<li><p><strong>checkpoint_pattern</strong> (<em>str</em>) – Filepath pattern for checkpoint callback.</p></li>
+<li><p><strong>checkpoint_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Params to be passed to checkpoint
+callback. Default: {}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>EnforceError</strong> – If log directory does not exist.</p></li>
+<li><p><strong>EnforeError</strong> – If checkpoint pattern does not contain ‘{epoch}’.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tensorboard and ModelCheckpoint callbacks.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="core.html" class="btn btn-neutral float-left" title="core" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="models.html" class="btn btn-neutral float-right" title="models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

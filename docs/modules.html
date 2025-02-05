@@ -56,7 +56,7 @@
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="core.html">core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="models.html">models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tf.html">tf</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -218,15 +218,17 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.optimizer"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.compile"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.callbacks"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.engine"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.engine</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.fit"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.fit</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.logger"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig._schema"><code class="docutils literal notranslate"><span class="pre">PipelineConfig._schema</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#id49"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#id50"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#id51"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id52"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.fit</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id53"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id54"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id52"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.engine</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id53"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.fit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id54"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id55"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -258,23 +260,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="core.html#module-flatiron.core.loss">loss</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.loss.dice_loss"><code class="docutils literal notranslate"><span class="pre">dice_loss()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.loss.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.loss.jaccard_loss"><code class="docutils literal notranslate"><span class="pre">jaccard_loss()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="core.html#module-flatiron.core.metric">metric</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.metric.dice"><code class="docutils literal notranslate"><span class="pre">dice()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.metric.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.metric.intersection_over_union"><code class="docutils literal notranslate"><span class="pre">intersection_over_union()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.metric.jaccard"><code class="docutils literal notranslate"><span class="pre">jaccard()</span></code></a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-flatiron.core.pipeline">pipeline</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase"><code class="docutils literal notranslate"><span class="pre">PipelineBase</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineBase.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase._abc_impl"><code class="docutils literal notranslate"><span class="pre">PipelineBase._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase._engine"><code class="docutils literal notranslate"><span class="pre">PipelineBase._engine</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase._logger"><code class="docutils literal notranslate"><span class="pre">PipelineBase._logger()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase.build"><code class="docutils literal notranslate"><span class="pre">PipelineBase.build()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase.compile"><code class="docutils literal notranslate"><span class="pre">PipelineBase.compile()</span></code></a></li>
@@ -292,7 +282,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-flatiron.core.tools">tools</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.tools.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.tools.enforce_callbacks"><code class="docutils literal notranslate"><span class="pre">enforce_callbacks()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.tools.get_module_function"><code class="docutils literal notranslate"><span class="pre">get_module_function()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.tools.get_tensorboard_project"><code class="docutils literal notranslate"><span class="pre">get_tensorboard_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.tools.pad_layer_name"><code class="docutils literal notranslate"><span class="pre">pad_layer_name()</span></code></a></li>
@@ -303,6 +293,7 @@
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-flatiron.core.validators">validators</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.validators.is_base_two"><code class="docutils literal notranslate"><span class="pre">is_base_two()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.validators.is_callback_mode"><code class="docutils literal notranslate"><span class="pre">is_callback_mode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.validators.is_engine"><code class="docutils literal notranslate"><span class="pre">is_engine()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.validators.is_even"><code class="docutils literal notranslate"><span class="pre">is_even()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.validators.is_gte"><code class="docutils literal notranslate"><span class="pre">is_gte()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.validators.is_odd"><code class="docutils literal notranslate"><span class="pre">is_odd()</span></code></a></li>
@@ -312,56 +303,38 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="models.html">models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="models.html#module-flatiron.models.unet">unet</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig"><code class="docutils literal notranslate"><span class="pre">UNetConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.input_width"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_width</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.input_height"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_height</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.input_channels"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_channels</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.classes"><code class="docutils literal notranslate"><span class="pre">UNetConfig.classes</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.filters"><code class="docutils literal notranslate"><span class="pre">UNetConfig.filters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.layers"><code class="docutils literal notranslate"><span class="pre">UNetConfig.layers</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.activation"><code class="docutils literal notranslate"><span class="pre">UNetConfig.activation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.batch_norm"><code class="docutils literal notranslate"><span class="pre">UNetConfig.batch_norm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.output_activation"><code class="docutils literal notranslate"><span class="pre">UNetConfig.output_activation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.kernel_initializer"><code class="docutils literal notranslate"><span class="pre">UNetConfig.kernel_initializer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_gates"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_gates</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_activation_1"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_1</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_activation_2"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_2</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_kernel_size"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_size</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_strides"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_strides</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_padding"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_padding</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig.attention_kernel_initializer"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_initializer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetConfig._schema"><code class="docutils literal notranslate"><span class="pre">UNetConfig._schema</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id0"><code class="docutils literal notranslate"><span class="pre">UNetConfig.activation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id1"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_1</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id2"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_activation_2</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id3"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_gates</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id4"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_initializer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id5"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_kernel_size</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id6"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_padding</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id7"><code class="docutils literal notranslate"><span class="pre">UNetConfig.attention_strides</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id8"><code class="docutils literal notranslate"><span class="pre">UNetConfig.batch_norm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id9"><code class="docutils literal notranslate"><span class="pre">UNetConfig.classes</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id10"><code class="docutils literal notranslate"><span class="pre">UNetConfig.filters</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id11"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_channels</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id12"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_height</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id13"><code class="docutils literal notranslate"><span class="pre">UNetConfig.input_width</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id14"><code class="docutils literal notranslate"><span class="pre">UNetConfig.kernel_initializer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id15"><code class="docutils literal notranslate"><span class="pre">UNetConfig.layers</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#id16"><code class="docutils literal notranslate"><span class="pre">UNetConfig.output_activation</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tf.html">tf</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="models.html">models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models.html#module-flatiron.tf.models.unet">unet</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.tf.models.unet.UNetConfig"><code class="docutils literal notranslate"><span class="pre">UNetConfig</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.tf.models.unet.UNetPipeline"><code class="docutils literal notranslate"><span class="pre">UNetPipeline</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.tf.models.unet.attention_gate_2d"><code class="docutils literal notranslate"><span class="pre">attention_gate_2d()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.tf.models.unet.conv_2d_block"><code class="docutils literal notranslate"><span class="pre">conv_2d_block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.tf.models.unet.get_unet_model"><code class="docutils literal notranslate"><span class="pre">get_unet_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.tf.models.unet.unet_width_and_layers_are_valid"><code class="docutils literal notranslate"><span class="pre">unet_width_and_layers_are_valid()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="models.html#flatiron.models.unet.UNetPipeline"><code class="docutils literal notranslate"><span class="pre">UNetPipeline</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetPipeline._abc_impl"><code class="docutils literal notranslate"><span class="pre">UNetPipeline._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetPipeline.model_config"><code class="docutils literal notranslate"><span class="pre">UNetPipeline.model_config()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="models.html#flatiron.models.unet.UNetPipeline.model_func"><code class="docutils literal notranslate"><span class="pre">UNetPipeline.model_func()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="models.html#flatiron.models.unet.attention_gate_2d"><code class="docutils literal notranslate"><span class="pre">attention_gate_2d()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="models.html#flatiron.models.unet.conv_2d_block"><code class="docutils literal notranslate"><span class="pre">conv_2d_block()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="models.html#flatiron.models.unet.get_unet_model"><code class="docutils literal notranslate"><span class="pre">get_unet_model()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="models.html#flatiron.models.unet.unet_width_and_layers_are_valid"><code class="docutils literal notranslate"><span class="pre">unet_width_and_layers_are_valid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.loss">loss</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.loss.dice_loss"><code class="docutils literal notranslate"><span class="pre">dice_loss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.loss.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.loss.jaccard_loss"><code class="docutils literal notranslate"><span class="pre">jaccard_loss()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.metric">metric</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.metric.dice"><code class="docutils literal notranslate"><span class="pre">dice()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.metric.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.metric.intersection_over_union"><code class="docutils literal notranslate"><span class="pre">intersection_over_union()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.metric.jaccard"><code class="docutils literal notranslate"><span class="pre">jaccard()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.optimizer">optimizer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.optimizer.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.tools">tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.tools.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
 </ul>
 </li>
 </ul>

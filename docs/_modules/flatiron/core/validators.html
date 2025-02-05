@@ -52,7 +52,7 @@
 <p class="caption" role="heading"><span class="caption-text">Python API</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../core.html">core</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../models.html">models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tf.html">tf</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -240,6 +240,26 @@
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1"> is not a legal pipeline method. Legal methods: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
+        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_engine">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_engine">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_engine</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; None</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Validates that engine is a legal deep learning framework.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        engine (str): Deep learning framework.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValidationError: If engine is not legal.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tensorflow&#39;</span><span class="p">,</span> <span class="s1">&#39;pytorch&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">engine</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s1"> is not a legal deep learning framework. Legal engines: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
         <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
 
 </pre></div>
