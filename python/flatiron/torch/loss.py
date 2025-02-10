@@ -20,4 +20,4 @@ def get(name):
     try:
         return fict.get_module_class(name, __name__)
     except NotImplementedError:
-        return fict.get_module_class(torchloss, __name__)
+        return getattr(torchloss, name)
