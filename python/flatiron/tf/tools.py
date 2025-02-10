@@ -1,7 +1,7 @@
 from flatiron.core.types import Filepath  # noqa: F401
 
 from tensorflow import keras  # noqa: F401
-from keras import callbacks as tfc
+from keras import callbacks as tfcallbacks
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -27,7 +27,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
     callbacks = [
-        tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
-        tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
+        tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks

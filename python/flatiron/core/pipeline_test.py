@@ -12,7 +12,7 @@ import schematics.types as scmt
 import yaml
 from tensorflow import keras  # noqa: F401
 from keras import layers as tfl
-from keras import models as tfm
+from keras import models as tfmodels
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
@@ -26,7 +26,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 def get_fake_model(shape):
     input_ = tfl.Input(shape, name='input')
     output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
-    model = tfm.Model(inputs=[input_], outputs=[output])
+    model = tfmodels.Model(inputs=[input_], outputs=[output])
     return model
 
 

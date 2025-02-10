@@ -5,7 +5,7 @@ from lunchbox.enforce import Enforce
 import schematics as scm
 import schematics.types as scmt
 from keras import layers as tfl
-from keras import models as tfm
+from keras import models as tfmodels
 
 import flatiron.core.pipeline as ficp
 import flatiron.core.tools as fict
@@ -177,7 +177,7 @@ def get_unet_model(
     attention_kernel_initializer='he_normal',  # type: str
     dtype='float16',  # type: str
 ):
-    # type: (...) -> tfm.Model
+    # type: (...) -> tfmodels.Model
     '''
     UNet model for 2D semantic segmentation.
 
@@ -220,7 +220,7 @@ def get_unet_model(
         EnforceError: If input_width and layers are not compatible.
 
     Returns:
-        tfm.Model: UNet model.
+        tfmodels.Model: UNet model.
     '''
     # shape
     msg = 'Input width and height must be equal, even numbers. '
@@ -333,7 +333,7 @@ def get_unet_model(
         classes, (1, 1), activation=output_activation, name='output',
         dtype=dtype
     )(x)
-    model = tfm.Model(inputs=[input_], outputs=[output])
+    model = tfmodels.Model(inputs=[input_], outputs=[output])
     return model
 
 
@@ -401,5 +401,5 @@ class UNetPipeline(ficp.PipelineBase):
         return UNetConfig
 
     def model_func(self):
-        # type: () -> tfm.Model
+        # type: () -> tfmodels.Model
         return get_unet_model

@@ -1,11 +1,11 @@
 import unittest
 
-import flatiron.tf.metric as ftfm
+import flatiron.tf.metric as f_tfmetric
 # ------------------------------------------------------------------------------
 
 
 class TFMetricTests(unittest.TestCase):
     def test_get(self):
-        ftfm.get('intersection_over_union')
-        ftfm.get('jaccard')
-        ftfm.get('dice')
+        f_tfmetric.get('intersection_over_union')
+        f_tfmetric.get('jaccard')
+        f_tfmetric.get('dice')

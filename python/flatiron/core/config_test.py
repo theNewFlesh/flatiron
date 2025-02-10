@@ -4,7 +4,7 @@ import unittest
 
 from schematics.exceptions import DataError
 from tensorflow import keras  # noqa: F401
-from keras import optimizers as tfo
+from keras import optimizers as tfoptim
 
 import flatiron.core.config as ficc
 # ------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ class OptimizerConfigTests(unittest.TestCase):
         expected = self.get_config()
         result = ficc.OptimizerConfig(dict(class_name='sgd')).to_native()
         self.assertEqual(result, expected)
-        tfo.get(result)
+        tfoptim.get(result)
 
 
 class CompileConfigTests(unittest.TestCase):
