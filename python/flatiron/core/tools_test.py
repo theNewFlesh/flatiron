@@ -13,6 +13,10 @@ def fake_func(foo):
     return foo + 'bar'
 
 
+class FakeClass:
+    pass
+
+
 class ToolsTests(unittest.TestCase):
     def test_get_tensorboard_project(self):
         with TemporaryDirectory() as root:
@@ -171,3 +175,11 @@ b
         expected = 'Function not found: nonexistent_func'
         with self.assertRaisesRegex(NotImplementedError, expected):
             fict.get_module_function('nonexistent_func', __name__)
+
+    def test_get_module_class(self):
+        func = fict.get_module_class('FakeClass', __name__)
+        self.assertIs(func, FakeClass)
+
+        expected = 'Class not found: NonClass'
+        with self.assertRaisesRegex(NotImplementedError, expected):
+            fict.get_module_class('NonClass', __name__)
