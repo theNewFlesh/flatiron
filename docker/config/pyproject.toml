@@ -49,6 +49,8 @@ dependencies = [
     "tensorboard>=2.0.0",
     "tensorflow>=2.18.0",
     "tqdm>=4.64.1",
+    "torch",
+    "torchvision",
 ]
 
 [project.urls]
