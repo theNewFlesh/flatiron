@@ -1,3 +1,4 @@
+import os
 import unittest
 
 from lunchbox.enforce import EnforceError
@@ -5,6 +6,9 @@ from tensorflow import keras  # noqa: F401
 from keras import models as tfm
 
 import flatiron.tf.models.unet as ftfu
+
+# disable GPU
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 # ------------------------------------------------------------------------------
 
 
