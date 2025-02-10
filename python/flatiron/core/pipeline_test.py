@@ -17,6 +17,9 @@ from keras import models as tfm
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
 import flatiron.tf as fitf
+
+# disable GPU
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 # ------------------------------------------------------------------------------
 
 
