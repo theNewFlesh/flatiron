@@ -50,6 +50,7 @@ dependencies = [
     "tensorflow>=2.18.0",
     "tqdm>=4.64.1",
     "torch",
+    "torchmetrics>=1.6.1",
     "torchvision",
 ]
 
@@ -59,8 +60,6 @@ documentation = "https://theNewFlesh.github.io/flatiron"
 
 [project.scripts]
 flatiron = "flatiron.command:main"
-
-[project.optional-dependencies]
 
 [tool.pdm.dev-dependencies]
 lab = [
