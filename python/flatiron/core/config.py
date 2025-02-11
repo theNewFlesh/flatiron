@@ -223,11 +223,6 @@ class PipelineConfig(pyd.BaseModel):
     optimizer: OptimizerConfig
     compile: CompileConfig
     callbacks: CallbacksConfig
-    engine: str
+    engine: Annotated[str, pyd.AfterValidator(vd.is_engine)]
     fit: FitConfig
     logger: LoggerConfig
-
-    @pyd.field_validator('engine')
-    def _validate_engine(cls, value):
-        vd.is_engine(value)
-        return value
