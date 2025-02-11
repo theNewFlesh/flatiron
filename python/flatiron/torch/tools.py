@@ -29,11 +29,10 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         list: Tensorboard and ModelCheckpoint callbacks.
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
-    writer = SummaryWriter(log_directory=log_directory)
-    # callbacks = [
-    #     tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
-    #     tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
-    # ]
+    callbacks = [
+        SummaryWriter(log_directory=log_directory),
+        # torch.save function
+    ]
     return callbacks
 
 
@@ -45,15 +44,17 @@ def _train_step(
     metrics,      # type: Callable
     device,       # type: torch.device
 ):
-    train_loss, train_acc = 0, 0
+    # type: (...) -> tuple[float, float]
+    loss = 0
+    score = 0
     model.to(device)
     for x, y in data_loader:
         x = x.to(device)
         y = y.to(device)
         y_pred = model(x)
         loss = loss_fn(y_pred, y)
-        train_loss += loss
-        train_acc += metrics(
+        loss += loss
+        score += metrics(
             y_true=y,
             y_pred=y_pred.argmax(dim=1)
         )
@@ -61,9 +62,9 @@ def _train_step(
         loss.backward()
         optimizer.step()
 
-    train_loss /= len(data_loader)
-    train_acc /= len(data_loader)
-    print(f"Train loss: {train_loss:.5f} | Train accuracy: {train_acc:.2f}%")
+    loss /= len(data_loader)
+    score /= len(data_loader)
+    return loss, score
 
 
 def _test_step(
@@ -73,22 +74,24 @@ def _test_step(
     metrics,      # type: Callable
     device,       # type: torch.device
 ):
-    test_loss, test_acc = 0, 0
+    # type: (...) -> tuple[float, float]
+    loss = 0
+    score = 0
     model.to(device)
     model.eval()
-    with torch.inference_mode(): 
+    with torch.inference_mode():
         for x, y in data_loader:
             x = x.to(device)
             y = y.to(device)
             test_pred = model(x)
-            test_loss += loss_fn(test_pred, y)
-            test_acc += metrics(    
+            loss += loss_fn(test_pred, y)
+            score += metrics(
                 y_true=y,
                 y_pred=test_pred.argmax(dim=1)
             )
-        test_loss /= len(data_loader)
-        test_acc /= len(data_loader)
-        print(f"Test loss: {test_loss:.5f} | Test accuracy: {test_acc:.2f}%\n")
+        loss /= len(data_loader)
+        score /= len(data_loader)
+    return loss, score
 
 
 def train(
@@ -99,6 +102,7 @@ def train(
     y_test=None,     # type: np.ndarray
     callbacks=None,  # type: list
     batch_size=32,   # type: int
+    seed=42,         # type: int
     **kwargs,
 ):
     # type: (...) -> None
@@ -113,31 +117,26 @@ def train(
         y_test (np.ndarray, optional): Test labels. Default: None.
         callbacks (list, optional): List of callbacks. Default: None.
         batch_size (int, optional): Batch size. Default: 32.
+        seed (int, optional): Random seed. Default: 42.
         **kwargs: Other params to be passed to `model.fit`.
     '''
-    torch.manual_seed(42)
-    n = x_train.shape[0]  # type: ignore
+    torch.manual_seed(seed)
+    n = x_train.shape[0]
     val = None
     if x_test is not None and y_test is not None:
         val = (x_test, y_test)
 
     for epoch in tqdm(range(epochs)):
         _train_step(
-            data_loader=train_dataloader, 
-            model=model, 
-            loss_fn=loss_fn,
-            optimizer=optimizer,
-            metrics=    metrics
-            )
-        _test_step(data_loader=test_dataloader,
+            data_loader=train_dataloader,
             model=model,
             loss_fn=loss_fn,
-            metrics=    metrics
+            optimizer=optimizer,
+            metrics=metrics
             )
-
-    train_time_end_on_gpu = timer()
-    total_train_time_model = print_train_time(
-        start=train_time_start_on_gpu,
-        end=train_time_end_on_gpu,
-        device=device,
-    )
+        _test_step(
+            data_loader=test_dataloader,
+            model=model,
+            loss_fn=loss_fn,
+            metrics=metrics
+        )
