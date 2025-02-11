@@ -1,12 +1,11 @@
-from typing import Optional, Any  # noqa F401
+from typing import Any  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
-from flatiron.core.types import Filepath, Model  # noqa F401
+from flatiron.core.types import Filepath, Model, OptArray  # noqa F401
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
 from pathlib import Path
-import math
 
 import yaml
 
@@ -79,10 +78,10 @@ class PipelineBase(ABC):
         else:
             self.dataset = Dataset.read_directory(src)
 
-        self.x_train = None  # type: Optional[np.ndarray]
-        self.x_test = None  # type: Optional[np.ndarray]
-        self.y_train = None  # type: Optional[np.ndarray]
-        self.y_test = None  # type: Optional[np.ndarray]
+        self.x_train = None  # type: OptArray
+        self.x_test = None  # type: OptArray
+        self.y_train = None  # type: OptArray
+        self.y_test = None  # type: OptArray
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
