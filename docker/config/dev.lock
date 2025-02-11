@@ -5,7 +5,7 @@
 groups = ["default", "dev", "lab", "test"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:9ce5750f180432b36f055094f5dc67931bee505d478cd3851bbbbca48f4ae3e2"
+content_hash = "sha256:4becbaf26f8a1f7b3a10cc3ac8bc4bacb25829e340b8b4d6ea2594f7dcd548ed"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -2518,15 +2518,6 @@ files = [
     {file = "rpds_py-0.22.3-pp310-pypy310_pp73-musllinux_1_2_x86_64.whl", hash = "sha256:26fd7cac7dd51011a245f29a2cc6489c4608b5a8ce8d75661bb4a1066c52dfbe"},
     {file = "rpds_py-0.22.3-pp310-pypy310_pp73-win_amd64.whl", hash = "sha256:177c7c0fce2855833819c98e43c262007f42ce86651ffbb84f37883308cb0e7d"},
     {file = "rpds_py-0.22.3.tar.gz", hash = "sha256:e32fee8ab45d3c2db6da19a5323bc3362237c8b653c70194414b892fd06a080d"},
-]
-
-[[package]]
-name = "schematics"
-version = "2.1.1"
-summary = ""
-files = [
-    {file = "schematics-2.1.1-py2.py3-none-any.whl", hash = "sha256:be2d451bfb86789975e5ec0864aec569b63cea9010f0d24cbbd992a4e564c647"},
-    {file = "schematics-2.1.1.tar.gz", hash = "sha256:34c87f51a25063bb498ae1cc201891b134cfcb329baf9e9f4f3ae869b767560f"},
 ]
 
 [[package]]
