@@ -1,5 +1,4 @@
 from typing import Any  # noqa F401
-from schematics.exceptions import ValidationError
 
 import math
 # ------------------------------------------------------------------------------
@@ -20,14 +19,14 @@ def is_gte(a, b):
         b (object): Object.
 
     Raises:
-        ValidationError: If a is not greater than or equal to b.
+        ValueError: If a is not greater than or equal to b.
 
     Returns:
         bool: A is greater than or equal to b.
     '''
     if not a >= b:
         msg = f'{a} is not greater than or equal to {b}.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_even(number):
@@ -39,11 +38,11 @@ def is_even(number):
         number (int): Number.
 
     Raises:
-        ValidationError: If number is not even.
+        ValueError: If number is not even.
     '''
     if number % 2 != 0:
         msg = f'{number} is not an even number.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_odd(number):
@@ -55,11 +54,11 @@ def is_odd(number):
         number (int): Number.
 
     Raises:
-        ValidationError: If number is not odd.
+        ValueError: If number is not odd.
     '''
     if number % 2 == 0:
         msg = f'{number} is not an odd number.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_base_two(number):
@@ -71,12 +70,12 @@ def is_base_two(number):
         number (int): Number.
 
     Raises:
-        ValidationError: If number is not base two.
+        ValueError: If number is not base two.
     '''
     exp = math.log2(number)
     if exp != int(exp):
         msg = f'{number} is not a base two number.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_padding(pad_type):
@@ -88,12 +87,12 @@ def is_padding(pad_type):
         pad_type (str): Padding type.
 
     Raises:
-        ValidationError: If padding type is not legal.
+        ValueError: If padding type is not legal.
     '''
     legal = ['valid', 'same']
     if pad_type not in legal:
         msg = f'{pad_type} is not a legal padding type. Legal types: {legal}.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_callback_mode(mode):
@@ -105,12 +104,12 @@ def is_callback_mode(mode):
         mode (str): Callback mode.
 
     Raises:
-        ValidationError: If mode type is not legal.
+        ValueError: If mode type is not legal.
     '''
     legal = ['auto', 'min', 'max']
     if mode not in legal:
         msg = f'{mode} is not a legal callback mode. Legal types: {legal}.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_pipeline_method(method):
@@ -122,7 +121,7 @@ def is_pipeline_method(method):
         mode (str): Pipeline method.
 
     Raises:
-        ValidationError: If methid is not legal.
+        ValueError: If methid is not legal.
     '''
     legal = [
         'load',
@@ -134,7 +133,7 @@ def is_pipeline_method(method):
     ]
     if method not in legal:
         msg = f'{method} is not a legal pipeline method. Legal methods: {legal}.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
 
 
 def is_engine(engine):
@@ -146,9 +145,9 @@ def is_engine(engine):
         engine (str): Deep learning framework.
 
     Raises:
-        ValidationError: If engine is not legal.
+        ValueError: If engine is not legal.
     '''
     legal = ['tensorflow', 'pytorch']
     if engine not in legal:
         msg = f'{engine} is not a legal deep learning framework. Legal engines: {legal}.'
-        raise ValidationError(msg)
+        raise ValueError(msg)
