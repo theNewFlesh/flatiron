@@ -61,10 +61,14 @@ class PipelineBase(ABC):
 
         # model
         model_config = config.pop('model', {})
-        model = self.model_config()(**model_config).model_dump()
+        model = self.model_config() \
+            .model_validate(model_config, strict=True) \
+            .model_dump()
 
         # pipeline
-        config = cfg.PipelineConfig(**config).model_dump()
+        config = cfg.PipelineConfig \
+            .model_validate(config, strict=True)\
+            .model_dump()
         config['model'] = model
         self.config = config
 

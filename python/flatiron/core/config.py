@@ -7,12 +7,6 @@ import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-IsGTE0 = pyd.AfterValidator(lambda x: vd.is_gte(x, 0))
-IsCallbackMode = pyd.AfterValidator(vd.is_callback_mode)
-IsEngine = pyd.AfterValidator(vd.is_engine)
-IsPipeline = pyd.AfterValidator(vd.is_pipeline_method)
-
-
 class DatasetConfig(pyd.BaseModel):
     '''
     Configuration for Dataset.
@@ -139,7 +133,7 @@ class CallbacksConfig(pyd.BaseModel):
     verbose: int = 0
     save_best_only: bool = False
     save_weights_only: bool = False
-    mode: Annotated[str, IsCallbackMode] = 'auto'
+    mode: Annotated[str, pyd.AfterValidator(vd.is_callback_mode)] = 'auto'
     save_freq: Union[str, int] = 'epoch'
     initial_value_threshold: Optional[float] = None
 
@@ -229,6 +223,11 @@ class PipelineConfig(pyd.BaseModel):
     optimizer: OptimizerConfig
     compile: CompileConfig
     callbacks: CallbacksConfig
-    engine: Annotated[str, IsEngine]
+    engine: str
     fit: FitConfig
     logger: LoggerConfig
+
+    @pyd.field_validator('engine')
+    def _validate_engine(cls, value):
+        vd.is_engine(value)
+        return value

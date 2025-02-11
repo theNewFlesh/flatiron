@@ -125,6 +125,11 @@ class CallbacksConfigTests(unittest.TestCase):
     def test_validate(self):
         ficc.CallbacksConfig(**self.get_config())
 
+        config = self.get_config()
+        config['mode'] = None
+        with self.assertRaises(ValueError):
+            ficc.CallbacksConfig(**config)
+
     def test_defaults(self):
         expected = self.get_config()
         config = dict(project='project', root='root')
@@ -201,4 +206,28 @@ class PipelineConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        ficc.PipelineConfig(**self.get_config())
+        result = ficc.PipelineConfig \
+            .model_validate(self.get_config(), strict=True) \
+            .model_dump()
+        self.assertEqual(result['callbacks']['mode'], 'auto')
+        self.assertEqual(result['engine'], 'tensorflow')
+
+    def test_errors(self):
+        config = self.get_config()
+        config['engine'] = None
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
+
+        del config['engine']
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
+
+        config = self.get_config()
+        config['logger'] = 123
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
+
+        config = self.get_config()
+        config['callbacks']['mode'] = 'foobar'
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
