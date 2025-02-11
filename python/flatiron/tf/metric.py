@@ -4,7 +4,7 @@ import numpy
 import tensorflow as tf
 from tensorflow import keras  # noqa: F401
 from keras import backend as tfb
-from keras import metrics as tfmet
+from keras import metrics as tfmetric
 
 import flatiron.core.tools as fict
 
@@ -26,7 +26,7 @@ def get(name):
     try:
         return fict.get_module_function(name, __name__)
     except NotImplementedError:
-        return tfmet.get(name)
+        return tfmetric.get(name)
 # ------------------------------------------------------------------------------
 
 
