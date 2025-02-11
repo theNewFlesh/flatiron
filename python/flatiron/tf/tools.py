@@ -1,14 +1,18 @@
-from flatiron.core.types import Filepath  # noqa: F401
+from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa: F401
+from tensorflow import keras  # noqa F401
+from keras import models as tfmodels  # noqa F401
+import numpy as np  # noqa F401
 
-from tensorflow import keras  # noqa: F401
-from keras import callbacks as tfc
+import math
+
+from keras import callbacks as tfcallbacks
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
-    # type: (Filepath, str, dict) -> list
+    # type: (Filepath, str, dict) -> Callbacks
     '''
     Create a list of callbacks for Tensoflow model.
 
@@ -27,7 +31,45 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
     callbacks = [
-        tfc.TensorBoard(log_dir=log_directory, histogram_freq=1),
-        tfc.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
+        tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
+
+
+def train(
+    model,          # type: tfmodels.Model
+    callbacks,      # type: Callbacks
+    x_train,        # type: np.ndarray
+    y_train,        # type: np.ndarray
+    x_test=None,    # type: OptArray
+    y_test=None,    # type: OptArray
+    batch_size=32,  # type: int
+    **kwargs,
+):
+    # type: (...) -> None
+    '''
+    Train TensorFlow model.
+
+    Args:
+        model (tfmodels.Model): TensorFlow model.
+        callbacks (list): List of callbacks.
+        x_train (np.ndarray): Training data.
+        y_train (np.ndarray): Training labels.
+        x_test (np.ndarray, optional): Test data. Default: None.
+        y_test (np.ndarray, optional): Test labels. Default: None.
+        batch_size (int, optional): Batch size. Default: 32.
+        **kwargs: Other params to be passed to `model.fit`.
+    '''
+    n = x_train.shape[0]
+    val = None
+    if x_test is not None and y_test is not None:
+        val = (x_test, y_test)
+    model.fit(
+        x=x_train,
+        y=y_train,
+        callbacks=callbacks,
+        validation_data=val,
+        steps_per_epoch=math.ceil(n / batch_size),
+        **kwargs,
+    )
