@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.17.1
+                0.17.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -301,6 +301,31 @@
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">funcs</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">funcs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Function not found: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="get_module_class">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_module_class">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_module_class</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
+    <span class="c1"># type: (str, str) -&gt; Any</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get a class from a given module.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Class name.</span>
+<span class="sd">        module (str): Module name.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        NotImplementedError: If class is not found in module.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        class: Module class.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">members</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module</span><span class="p">])</span>
+    <span class="n">classes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">members</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">classes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Class not found: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
 
 </pre></div>
 

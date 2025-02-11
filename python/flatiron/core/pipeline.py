@@ -1,5 +1,5 @@
 from typing import Any, Type  # noqa F401
-from flatiron.core.types import AnyModel, Filepath  # noqa F401
+from flatiron.core.types import AnyModel, Filepath, OptArray  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
