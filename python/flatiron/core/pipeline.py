@@ -1,7 +1,6 @@
-from typing import Optional, Any, Type  # noqa F401
-from flatiron.core.types import AnyModel, Filepath  # noqa F401
+from typing import Any, Type  # noqa F401
+from flatiron.core.types import AnyModel, Filepath, OptArray  # noqa F401
 from pydantic import BaseModel  # noqa F401
-import numpy as np  # noqa F401
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
@@ -78,10 +77,10 @@ class PipelineBase(ABC):
         else:
             self.dataset = Dataset.read_directory(src)
 
-        self.x_train = None  # type: Optional[np.ndarray]
-        self.x_test = None  # type: Optional[np.ndarray]
-        self.y_train = None  # type: Optional[np.ndarray]
-        self.y_test = None  # type: Optional[np.ndarray]
+        self.x_train = None  # type: OptArray
+        self.x_test = None  # type: OptArray
+        self.y_train = None  # type: OptArray
+        self.y_test = None  # type: OptArray
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
@@ -319,6 +318,6 @@ class PipelineBase(ABC):
         returns a machine learning model.
 
         Returns:
-            Model: Machine learning model.
+            AnyModel: Machine learning model.
         '''
         pass  # pragma: no cover

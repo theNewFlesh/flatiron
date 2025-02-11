@@ -1,5 +1,5 @@
 from typing import Any, Optional, Union  # noqa F401
-from flatiron.core.types import Filepath  # noqa: F401
+from flatiron.core.types import Filepath, OptArray  # noqa: F401
 
 from pathlib import Path
 import os
@@ -46,7 +46,7 @@ class Dataset:
 
     @classmethod
     def read_directory(cls, directory):
-        # type: (Union[str, Path]) -> Dataset
+        # type: (Filepath) -> Dataset
         '''
         Construct dataset from directory.
 
@@ -146,7 +146,7 @@ class Dataset:
         info = info[cols]
 
         self._info = info  # type: pd.DataFrame
-        self.data = None  # type: Optional[np.ndarray]
+        self.data = None  # type: OptArray
         self._sample_gb = np.nan  # type: Union[float, np.ndarray]
 
     @property
@@ -405,7 +405,7 @@ class Dataset:
         train_size=None,  # type: Optional[Union[float, int]]
         random_state=42,  # type: Optional[int]
         shuffle=True,  # type: bool
-        stratify=None,  # type: Optional[np.ndarray]
+        stratify=None,  # type: OptArray
     ):
         # type: (...) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
         '''
