@@ -130,7 +130,7 @@ def is_pipeline_method(method):
         'unload',
         'build',
         'compile',
-        'fit',
+        'train',
     ]
     if method not in legal:
         msg = f'{method} is not a legal pipeline method. Legal methods: {legal}.'

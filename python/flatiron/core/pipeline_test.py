@@ -85,7 +85,7 @@ class PipelineTests(unittest.TestCase):
                 loss='dice_loss',
                 metrics=['jaccard', 'dice'],
             ),
-            fit=dict(
+            train=dict(
                 epochs=1,
             ),
             logger=dict(
@@ -231,8 +231,8 @@ class PipelineTests(unittest.TestCase):
             pipe = FakePipeline(config).build().compile()
             self.assertIs(pipe.model.loss.__name__, 'mean_squared_error')
 
-    def test_fit(self):
-        with TemporaryDirectory(prefix='test-fit-') as root:
+    def test_train(self):
+        with TemporaryDirectory(prefix='test-train-') as root:
             config = self.get_config(root)
             pipe = FakePipeline(config) \
                 .load() \
@@ -242,8 +242,8 @@ class PipelineTests(unittest.TestCase):
                 .compile()
 
             with self.assertLogs(level=logging.WARNING) as log:
-                pipe.fit()
-            self.assertRegex(log.output[0], 'FIT MODEL')
+                pipe.train()
+            self.assertRegex(log.output[0], 'TRAIN MODEL')
             self.assertTrue(Path(root, 'proj/tensorboard').is_dir())
 
     def test_run(self):

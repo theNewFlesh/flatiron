@@ -136,9 +136,9 @@ class CallbacksConfig(scm.Model):
     initial_value_threshold = scmt.FloatType()
 
 
-class FitConfig(scm.Model):
+class TrainConfig(scm.Model):
     '''
-    Configuration for calls to model.fit.
+    Configuration for calls to model train function.
 
     See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit
 
@@ -185,7 +185,7 @@ class LoggerConfig(scm.Model):
         slack_channel (str, optional): Slack channel name. Default: None.
         slack_url (str, optional): Slack URL name. Default: None.
         slack_methods (list[str], optional): Pipeline methods to be logged to
-            Slack. Default: [load, compile, fit].
+            Slack. Default: [load, compile, train].
         timezone (str, optional): Timezone. Default: UTC.
         level (str or int, optional): Log level. Default: warn.
     '''
@@ -193,7 +193,7 @@ class LoggerConfig(scm.Model):
     slack_url = scmt.StringType(default=None)
     slack_methods = scmt.ListType(
         scmt.StringType(validators=[vd.is_pipeline_method]),
-        default=['load', 'compile', 'fit']
+        default=['load', 'compile', 'train']
     )
     timezone = scmt.StringType(default='UTC')
     level = scmt.StringType(default='warn')
@@ -211,7 +211,7 @@ class PipelineConfig(scm.Model):
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
         engine (str): Deep learning framework.
-        fit (dict): Fit configuration.
+        train (dict): Train configuration.
         logger (dict): Logger configuration.
     '''
     dataset = scmt.ModelType(DatasetConfig, required=True)
@@ -219,5 +219,5 @@ class PipelineConfig(scm.Model):
     compile = scmt.ModelType(CompileConfig, required=True)
     callbacks = scmt.ModelType(CallbacksConfig, required=True)
     engine = scmt.StringType(required=True, validators=[vd.is_engine])
-    fit = scmt.ModelType(FitConfig, required=True)
+    train = scmt.ModelType(TrainConfig, required=True)
     logger = scmt.ModelType(LoggerConfig, required=True)
