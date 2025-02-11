@@ -25,8 +25,7 @@ class DatasetConfigTests(unittest.TestCase):
 
     def test_validate(self):
         with TemporaryDirectory() as root:
-            config = self.get_config(root)
-            ficc.DatasetConfig(**config)
+            ficc.DatasetConfig(**self.get_config(root))
 
     def test_model_dump(self):
         with TemporaryDirectory() as root:
@@ -79,12 +78,11 @@ class OptimizerConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.OptimizerConfig(config).validate()
+        ficc.OptimizerConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.OptimizerConfig(dict(class_name='sgd')).to_native()
+        result = ficc.OptimizerConfig(class_name='sgd').model_dump()
         self.assertEqual(result, expected)
         tfo.get(result)
 
@@ -102,13 +100,11 @@ class CompileConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.CompileConfig(config).validate()
+        ficc.CompileConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        config = dict(loss='dice_loss')
-        result = ficc.CompileConfig(config).to_native()
+        result = ficc.CompileConfig(loss='dice_loss').model_dump()
         self.assertEqual(result, expected)
 
 
@@ -127,13 +123,12 @@ class CallbacksConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.CallbacksConfig(config).validate()
+        ficc.CallbacksConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
         config = dict(project='project', root='root')
-        result = ficc.CallbacksConfig(config).to_native()
+        result = ficc.CallbacksConfig(**config).model_dump()
         self.assertEqual(result, expected)
 
 
@@ -150,12 +145,11 @@ class FitConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.FitConfig(config).validate()
+        ficc.FitConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.FitConfig({}).to_native()
+        result = ficc.FitConfig().model_dump()
         self.assertEqual(result, expected)
 
 
@@ -170,21 +164,23 @@ class LoggerConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.LoggerConfig(config).validate()
+        ficc.LoggerConfig(**self.get_config())
 
     def test_slack_methods(self):
         config = self.get_config()
         config['slack_methods'] = ['load', 'foo', 'bar']
 
-        expected = 'foo is not a legal pipeline method.*'
-        expected += 'bar is not a legal pipeline method'
-        with self.assertRaisesRegex(DataError, expected):
-            ficc.LoggerConfig(config).validate()
+        expected = 'foo is not a legal pipeline method'
+        with self.assertRaisesRegex(ValueError, expected):
+            ficc.LoggerConfig(**config)
+
+        expected = 'bar is not a legal pipeline method'
+        with self.assertRaisesRegex(ValueError, expected):
+            ficc.LoggerConfig(**config)
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.LoggerConfig({}).to_native()
+        result = ficc.LoggerConfig().model_dump()
         self.assertEqual(result, expected)
 
 
@@ -209,5 +205,4 @@ class PipelineConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.PipelineConfig(config).validate()
+        ficc.PipelineConfig(**self.get_config())

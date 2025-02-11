@@ -141,7 +141,7 @@ class CallbacksConfig(BaseModel):
     save_weights_only: bool = False
     mode: Annotated[str, IsCallbackMode] = 'auto'
     save_freq: Union[str, int] = 'epoch'
-    initial_value_threshold: float
+    initial_value_threshold: Optional[float] = None
 
 
 class FitConfig(BaseModel):
@@ -199,7 +199,7 @@ class LoggerConfig(BaseModel):
     '''
     slack_channel: Optional[str] = None
     slack_url: Optional[str] = None
-    slack_methods: Annotated[list[str], IsPipeline] = ['load', 'compile', 'fit']
+    slack_methods: list[Annotated[str, IsPipeline]] = ['load', 'compile', 'fit']
     timezone: str = 'UTC'
     level: str = 'warn'
 
