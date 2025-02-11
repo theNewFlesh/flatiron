@@ -46,7 +46,7 @@ class Dataset:
 
     @classmethod
     def read_directory(cls, directory):
-        # type: (Union[str, Path]) -> Dataset
+        # type: (Filepath) -> Dataset
         '''
         Construct dataset from directory.
 
