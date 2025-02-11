@@ -2,7 +2,6 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from schematics.exceptions import DataError
 from tensorflow import keras  # noqa: F401
 from keras import optimizers as tfoptim
 
@@ -26,10 +25,9 @@ class DatasetConfigTests(unittest.TestCase):
 
     def test_validate(self):
         with TemporaryDirectory() as root:
-            config = self.get_config(root)
-            ficc.DatasetConfig(config).validate()
+            ficc.DatasetConfig(**self.get_config(root))
 
-    def test_to_native(self):
+    def test_model_dump(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             keys = [
@@ -44,22 +42,22 @@ class DatasetConfigTests(unittest.TestCase):
             for key in keys:
                 del config[key]
 
-            result = ficc.DatasetConfig(config).to_native()
+            result = ficc.DatasetConfig(**config).model_dump()
             self.assertEqual(result, self.get_config(root))
 
     def test_split_test_size(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['split_test_size'] = -0.2
-            with self.assertRaises(DataError):
-                ficc.DatasetConfig(config).validate()
+            with self.assertRaises(ValueError):
+                ficc.DatasetConfig(**config)
 
     def test_split_train_size(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['split_train_size'] = -0.2
-            with self.assertRaises(DataError):
-                ficc.DatasetConfig(config).validate()
+            with self.assertRaises(ValueError):
+                ficc.DatasetConfig(**config)
 
 
 class OptimizerConfigTests(unittest.TestCase):
@@ -80,12 +78,11 @@ class OptimizerConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.OptimizerConfig(config).validate()
+        ficc.OptimizerConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.OptimizerConfig(dict(class_name='sgd')).to_native()
+        result = ficc.OptimizerConfig(class_name='sgd').model_dump()
         self.assertEqual(result, expected)
         tfoptim.get(result)
 
@@ -103,13 +100,11 @@ class CompileConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.CompileConfig(config).validate()
+        ficc.CompileConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        config = dict(loss='dice_loss')
-        result = ficc.CompileConfig(config).to_native()
+        result = ficc.CompileConfig(loss='dice_loss').model_dump()
         self.assertEqual(result, expected)
 
 
@@ -128,13 +123,17 @@ class CallbacksConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
+        ficc.CallbacksConfig(**self.get_config())
+
         config = self.get_config()
-        ficc.CallbacksConfig(config).validate()
+        config['mode'] = None
+        with self.assertRaises(ValueError):
+            ficc.CallbacksConfig(**config)
 
     def test_defaults(self):
         expected = self.get_config()
         config = dict(project='project', root='root')
-        result = ficc.CallbacksConfig(config).to_native()
+        result = ficc.CallbacksConfig(**config).model_dump()
         self.assertEqual(result, expected)
 
 
@@ -151,12 +150,11 @@ class TrainConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.TrainConfig(config).validate()
+        ficc.TrainConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.TrainConfig({}).to_native()
+        result = ficc.TrainConfig().model_dump()
         self.assertEqual(result, expected)
 
 
@@ -171,21 +169,19 @@ class LoggerConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        config = self.get_config()
-        ficc.LoggerConfig(config).validate()
+        ficc.LoggerConfig(**self.get_config())
 
     def test_slack_methods(self):
         config = self.get_config()
         config['slack_methods'] = ['load', 'foo', 'bar']
 
-        expected = 'foo is not a legal pipeline method.*'
-        expected += 'bar is not a legal pipeline method'
-        with self.assertRaisesRegex(DataError, expected):
-            ficc.LoggerConfig(config).validate()
+        expected = 'foo is not a legal pipeline method'
+        with self.assertRaisesRegex(ValueError, expected):
+            ficc.LoggerConfig(**config)
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.LoggerConfig({}).to_native()
+        result = ficc.LoggerConfig().model_dump()
         self.assertEqual(result, expected)
 
 
@@ -205,10 +201,33 @@ class PipelineConfigTests(unittest.TestCase):
                 project='project',
                 root='root',
             ),
-            train=dict(),
             logger=dict(),
+            train=dict(),
         )
 
     def test_validate(self):
+        result = ficc.PipelineConfig \
+            .model_validate(self.get_config(), strict=True) \
+            .model_dump()
+        self.assertEqual(result['callbacks']['mode'], 'auto')
+        self.assertEqual(result['engine'], 'tensorflow')
+
+    def test_errors(self):
         config = self.get_config()
-        ficc.PipelineConfig(config).validate()
+        config['engine'] = None
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
+
+        del config['engine']
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
+
+        config = self.get_config()
+        config['logger'] = 123
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)
+
+        config = self.get_config()
+        config['callbacks']['mode'] = 'foobar'
+        with self.assertRaises(ValueError):
+            ficc.PipelineConfig(**config)

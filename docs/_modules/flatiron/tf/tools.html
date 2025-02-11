@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.16.1
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -89,10 +89,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for flatiron.tf.tools</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filepath</span>  <span class="c1"># noqa: F401</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callbacks</span><span class="p">,</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">OptArray</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># noqa F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">tfmodels</span>  <span class="c1"># noqa F401</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>  <span class="c1"># noqa F401</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># noqa: F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">callbacks</span> <span class="k">as</span> <span class="n">tfc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">callbacks</span> <span class="k">as</span> <span class="n">tfcallbacks</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -101,7 +105,7 @@
 <div class="viewcode-block" id="get_callbacks">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.tools.get_callbacks">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="n">checkpoint_params</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="c1"># type: (Filepath, str, dict) -&gt; list</span>
+    <span class="c1"># type: (Filepath, str, dict) -&gt; Callbacks</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create a list of callbacks for Tensoflow model.</span>
 
@@ -120,10 +124,51 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">fict</span><span class="o">.</span><span class="n">enforce_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">)</span>
     <span class="n">callbacks</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">tfc</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">histogram_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
-        <span class="n">tfc</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="o">**</span><span class="n">checkpoint_params</span><span class="p">),</span>
+        <span class="n">tfcallbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">histogram_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">tfcallbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="o">**</span><span class="n">checkpoint_params</span><span class="p">),</span>
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">callbacks</span></div>
+
+
+
+<div class="viewcode-block" id="train">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.tools.train">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">,</span>          <span class="c1"># type: tfmodels.Model</span>
+    <span class="n">callbacks</span><span class="p">,</span>      <span class="c1"># type: Callbacks</span>
+    <span class="n">x_train</span><span class="p">,</span>        <span class="c1"># type: np.ndarray</span>
+    <span class="n">y_train</span><span class="p">,</span>        <span class="c1"># type: np.ndarray</span>
+    <span class="n">x_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>    <span class="c1"># type: OptArray</span>
+    <span class="n">y_test</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>    <span class="c1"># type: OptArray</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>  <span class="c1"># type: int</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="c1"># type: (...) -&gt; None</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Train TensorFlow model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (tfmodels.Model): TensorFlow model.</span>
+<span class="sd">        callbacks (list): List of callbacks.</span>
+<span class="sd">        x_train (np.ndarray): Training data.</span>
+<span class="sd">        y_train (np.ndarray): Training labels.</span>
+<span class="sd">        x_test (np.ndarray, optional): Test data. Default: None.</span>
+<span class="sd">        y_test (np.ndarray, optional): Test labels. Default: None.</span>
+<span class="sd">        batch_size (int, optional): Batch size. Default: 32.</span>
+<span class="sd">        **kwargs: Other params to be passed to `model.fit`.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">x_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">val</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">x_test</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">y_test</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">x_train</span><span class="p">,</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+        <span class="n">callbacks</span><span class="o">=</span><span class="n">callbacks</span><span class="p">,</span>
+        <span class="n">validation_data</span><span class="o">=</span><span class="n">val</span><span class="p">,</span>
+        <span class="n">steps_per_epoch</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">batch_size</span><span class="p">),</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span></div>
 
 </pre></div>
 

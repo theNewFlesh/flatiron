@@ -1,6 +1,6 @@
 [project]
 name = "flatiron"
-version = "0.16.1"
+version = "0.17.1"
 description = "Standardized computer vision pipeline framework with a chainable API and procedurally defined model architecture."
 authors = [
     { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },
@@ -42,9 +42,9 @@ dependencies = [
     "lunchbox>=0.3.3",
     "numpy>=2.0.2",
     "pandas",
+    "pydantic>=2.10.6",
     "pytz>=2022.7.1",
     "pyyaml>=6.0",
-    "schematics>=2.1.1",
     "scikit-learn>=1.2.1",
     "tensorboard>=2.0.0",
     "tensorflow>=2.18.0",

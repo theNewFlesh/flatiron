@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.16.1
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -90,7 +90,6 @@
              
   <h1>Source code for flatiron.core.validators</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">schematics.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ValidationError</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -101,33 +100,10 @@
 <span class="sd">&#39;&#39;&#39;</span>
 
 
-<div class="viewcode-block" id="is_gte">
-<a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_gte">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">is_gte</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-    <span class="c1"># type: (Any, Any) -&gt; None</span>
-<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Validates that a is greater than or equal to b.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        a (object): Object.</span>
-<span class="sd">        b (object): Object.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If a is not greater than or equal to b.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        bool: A is greater than or equal to b.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">b</span><span class="p">:</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> is not greater than or equal to </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1">.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
-
-
-
 <div class="viewcode-block" id="is_even">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_even">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_even</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="c1"># type: (int) -&gt; None</span>
+    <span class="c1"># type: (int) -&gt; int</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that number is even.</span>
 
@@ -135,18 +111,22 @@
 <span class="sd">        number (int): Number.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If number is not even.</span>
+<span class="sd">        ValueError: If number is not even.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Input number.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s1"> is not an even number.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">number</span></div>
 
 
 
 <div class="viewcode-block" id="is_odd">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_odd">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_odd</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="c1"># type: (int) -&gt; None</span>
+    <span class="c1"># type: (int) -&gt; int</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that number is odd.</span>
 
@@ -154,18 +134,22 @@
 <span class="sd">        number (int): Number.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If number is not odd.</span>
+<span class="sd">        ValueError: If number is not odd.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Input number.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s1"> is not an odd number.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">number</span></div>
 
 
 
 <div class="viewcode-block" id="is_base_two">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_base_two">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_base_two</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
-    <span class="c1"># type: (int) -&gt; None</span>
+    <span class="c1"># type: (int) -&gt; int</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that number is base two.</span>
 
@@ -173,19 +157,23 @@
 <span class="sd">        number (int): Number.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If number is not base two.</span>
+<span class="sd">        ValueError: If number is not base two.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        int: Input number.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">exp</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">exp</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">exp</span><span class="p">):</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s1"> is not a base two number.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">number</span></div>
 
 
 
 <div class="viewcode-block" id="is_padding">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_padding">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_padding</span><span class="p">(</span><span class="n">pad_type</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; None</span>
+    <span class="c1"># type: (str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that pad_type is a legal padding type.</span>
 
@@ -193,19 +181,23 @@
 <span class="sd">        pad_type (str): Padding type.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If padding type is not legal.</span>
+<span class="sd">        ValueError: If padding type is not legal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Input padding type.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;valid&#39;</span><span class="p">,</span> <span class="s1">&#39;same&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">pad_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pad_type</span><span class="si">}</span><span class="s1"> is not a legal padding type. Legal types: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pad_type</span></div>
 
 
 
 <div class="viewcode-block" id="is_callback_mode">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_callback_mode">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_callback_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; None</span>
+    <span class="c1"># type: (str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that mode is a legal calback mode.</span>
 
@@ -213,19 +205,23 @@
 <span class="sd">        mode (str): Callback mode.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If mode type is not legal.</span>
+<span class="sd">        ValueError: If mode type is not legal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Input callback mode.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1"> is not a legal callback mode. Legal types: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mode</span></div>
 
 
 
 <div class="viewcode-block" id="is_pipeline_method">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_pipeline_method">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_pipeline_method</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; None</span>
+    <span class="c1"># type: (str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that method is a legal pipeline method.</span>
 
@@ -233,7 +229,10 @@
 <span class="sd">        mode (str): Pipeline method.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If methid is not legal.</span>
+<span class="sd">        ValueError: If method is not legal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Input pipeline method.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s1">&#39;load&#39;</span><span class="p">,</span>
@@ -241,18 +240,19 @@
         <span class="s1">&#39;unload&#39;</span><span class="p">,</span>
         <span class="s1">&#39;build&#39;</span><span class="p">,</span>
         <span class="s1">&#39;compile&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;fit&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;train&#39;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">method</span><span class="si">}</span><span class="s1"> is not a legal pipeline method. Legal methods: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">method</span></div>
 
 
 
 <div class="viewcode-block" id="is_engine">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.validators.is_engine">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_engine</span><span class="p">(</span><span class="n">engine</span><span class="p">):</span>
-    <span class="c1"># type: (str) -&gt; None</span>
+    <span class="c1"># type: (str) -&gt; str</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Validates that engine is a legal deep learning framework.</span>
 
@@ -260,12 +260,16 @@
 <span class="sd">        engine (str): Deep learning framework.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        ValidationError: If engine is not legal.</span>
+<span class="sd">        ValueError: If engine is not legal.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        str: Input engine.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tensorflow&#39;</span><span class="p">,</span> <span class="s1">&#39;pytorch&#39;</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">engine</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">:</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">engine</span><span class="si">}</span><span class="s1"> is not a legal deep learning framework. Legal engines: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
-        <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">engine</span></div>
 
 </pre></div>
 

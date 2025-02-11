@@ -4,15 +4,13 @@ import logging
 import os
 import unittest
 
-from schematics.exceptions import DataError
-import numpy as np
-import pandas as pd
-import schematics.models as scm
-import schematics.types as scmt
-import yaml
+from pydantic import BaseModel
 from tensorflow import keras  # noqa: F401
 from keras import layers as tfl
 from keras import models as tfmodels
+import numpy as np
+import pandas as pd
+import yaml
 
 import flatiron.core.dataset as ficd
 import flatiron.core.pipeline as ficp
@@ -30,8 +28,8 @@ def get_fake_model(shape):
     return model
 
 
-class FakeConfig(scm.Model):
-    shape = scmt.ListType(scmt.IntType, required=True)
+class FakeConfig(BaseModel):
+    shape: list[int]
 
 
 class FakePipeline(ficp.PipelineBase):
@@ -110,7 +108,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(result, expected)
 
             config['model'] = {}
-            with self.assertRaises(DataError):
+            with self.assertRaises(ValueError):
                 FakePipeline(config)
 
     def test_logger(self):

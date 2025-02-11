@@ -1,11 +1,11 @@
+from typing_extensions import Annotated
 from tensorflow import keras  # noqa F401
 from keras import KerasTensor  # noqa F401
 
 from lunchbox.enforce import Enforce
-import schematics as scm
-import schematics.types as scmt
 from keras import layers as tfl
 from keras import models as tfmodels
+import pydantic as pyd
 
 import flatiron.core.pipeline as ficp
 import flatiron.core.tools as fict
@@ -338,7 +338,7 @@ def get_unet_model(
 
 
 # CONFIG------------------------------------------------------------------------
-class UNetConfig(scm.Model):
+class UNetConfig(pyd.BaseModel):
     '''
     Configuration for UNet model.
 
@@ -369,35 +369,29 @@ class UNetConfig(scm.Model):
         attention_kernel_initializer (str, optional): Kernel initializer.
             Default: 'he_normal'
     '''
-    input_width = scmt.IntType(required=True, validators=[lambda x: vd.is_gte(x, 1)])
-    input_height = scmt.IntType(required=True, validators=[lambda x: vd.is_gte(x, 1)])
-    input_channels = scmt.IntType(required=True, validators=[lambda x: vd.is_gte(x, 1)])
-    classes = scmt.IntType(required=True, default=1, validators=[lambda x: vd.is_gte(x, 1)])
-    filters = scmt.IntType(required=True, default=16, validators=[lambda x: vd.is_gte(x, 1)])
-    layers = scmt.IntType(
-        required=True, default=9, validators=[lambda x: vd.is_gte(x, 3), vd.is_odd]
-    )
-    activation = scmt.StringType(required=True, default='relu')
-    batch_norm = scmt.BooleanType(required=True, default=True)
-    output_activation = scmt.StringType(required=True, default='sigmoid')
-    kernel_initializer = scmt.StringType(required=True, default='he_normal')
-    attention_gates = scmt.BooleanType(required=True, default=False)
-    attention_activation_1 = scmt.StringType(required=True, default='relu')
-    attention_activation_2 = scmt.StringType(required=True, default='sigmoid')
-    attention_kernel_size = scmt.IntType(
-        required=True, default=1, validators=[lambda x: vd.is_gte(x, 1)]
-    )
-    attention_strides = scmt.IntType(
-        required=True, default=1, validators=[lambda x: vd.is_gte(x, 1)]
-    )
-    attention_padding = scmt.StringType(required=True, default='same', validators=[vd.is_padding])
-    attention_kernel_initializer = scmt.StringType(required=True, default='he_normal')
+    input_width: Annotated[int, pyd.Field(ge=1)]
+    input_height: Annotated[int, pyd.Field(ge=1)]
+    input_channels: Annotated[int, pyd.Field(ge=1)]
+    classes: Annotated[int, pyd.Field(ge=1)] = 1
+    filters: Annotated[int, pyd.Field(ge=1)] = 16
+    layers: Annotated[int, pyd.Field(ge=3), pyd.AfterValidator(vd.is_odd)] = 9
+    activation: str = 'relu'
+    batch_norm: bool = True
+    output_activation: str = 'sigmoid'
+    kernel_initializer: str = 'he_normal'
+    attention_gates: bool = False
+    attention_activation_1: str = 'relu'
+    attention_activation_2: str = 'sigmoid'
+    attention_kernel_size: Annotated[int, pyd.Field(ge=1)] = 1
+    attention_strides: Annotated[int, pyd.Field(ge=1)] = 1
+    attention_padding: Annotated[str, pyd.AfterValidator(vd.is_padding)] = 'same'
+    attention_kernel_initializer: str = 'he_normal'
 
 
 # PIPELINE----------------------------------------------------------------------
 class UNetPipeline(ficp.PipelineBase):
     def model_config(self):
-        # type: () -> scm.Model
+        # type: () -> type[UNetConfig]
         return UNetConfig
 
     def model_func(self):

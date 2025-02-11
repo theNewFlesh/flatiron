@@ -1,11 +1,13 @@
-import schematics as scm
-import schematics.types as scmt
+from typing import Optional, Union
+from typing_extensions import Annotated
+
+import pydantic as pyd
 
 import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-class DatasetConfig(scm.Model):
+class DatasetConfig(pyd.BaseModel):
     '''
     Configuration for Dataset.
 
@@ -15,28 +17,28 @@ class DatasetConfig(scm.Model):
         source (str): Dataset directory or CSV filepath.
         load_limit (str or int): Limit data by number of samples or memory size.
             Default: None.
-        load_shuffle (bool): Shuffle chunks before loading. Default: False.
-        split_index (int): Index of axis to split on.
+        load_shuffle (bool, optional): Shuffle chunks before loading.
+            Default: False.
+        split_index (int, optional): Index of axis to split on.
         split_axis (int): Axis to split data on. Default: -1.
-        split_test_size (float): Test size. Default: 0.2
-        split_train_size (float): Train size. Default: None
-        split_random_state (int): Seed for shuffling randomness. Default: 42.
-        split_shuffle (bool): Shuffle data rows. Default: True.
+        split_test_size (float, optional): Test size. Default: 0.2
+        split_train_size (float, optional): Train size. Default: None
+        split_random_state (int, optional): Seed for shuffling randomness.
+            Default: 42.
+        split_shuffle (bool, optional): Shuffle data rows. Default: True.
     '''
-    source = scmt.StringType(required=True)
-    load_limit = scmt.UnionType([scmt.IntType, scmt.StringType], default=None)
-    load_shuffle = scmt.BooleanType(required=True, default=False)
-    split_index = scmt.IntType(required=True)
-    split_axis = scmt.IntType(required=True, default=-1)
-    split_test_size = scmt.FloatType(
-        required=True, default=0.2, validators=[lambda x: vd.is_gte(x, 0)]
-    )
-    split_train_size = scmt.FloatType(validators=[lambda x: vd.is_gte(x, 0)])
-    split_random_state = scmt.IntType(required=True, default=42)
-    split_shuffle = scmt.BooleanType(required=True, default=True)
+    source: str
+    load_limit: Optional[Union[int, str]] = None
+    load_shuffle: bool = False
+    split_index: int
+    split_axis: int = -1
+    split_test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
+    split_train_size: Optional[Annotated[float, pyd.Field(ge=0)]] = None
+    split_random_state: Optional[int] = 42
+    split_shuffle: bool = True
 
 
-class OptimizerConfig(scm.Model):
+class OptimizerConfig(pyd.BaseModel):
     '''
     Configuration for keras optimizer.
 
@@ -61,21 +63,21 @@ class OptimizerConfig(scm.Model):
             Default: None.
         jit_compile: (boolean, optional): Use XLA. Default=True.
     '''
-    class_name = scmt.StringType(default='sgd')
-    learning_rate = scmt.FloatType(default=0.001)
-    momentum = scmt.FloatType(default=0)
-    nesterov = scmt.BooleanType(default=False)
-    weight_decay = scmt.FloatType(default=0)
-    clipnorm = scmt.FloatType(default=None)
-    clipvalue = scmt.FloatType(default=None)
-    global_clipnorm = scmt.FloatType(default=None)
-    use_ema = scmt.BooleanType(default=False)
-    ema_momentum = scmt.FloatType(default=0.99)
-    ema_overwrite_frequency = scmt.IntType(default=None)
-    jit_compile = scmt.BooleanType(default=True)
+    class_name: str = 'sgd'
+    learning_rate: float = 0.001
+    momentum: float = 0
+    nesterov: bool = False
+    weight_decay: float = 0
+    clipnorm: Optional[float] = None
+    clipvalue: Optional[float] = None
+    global_clipnorm: Optional[float] = None
+    use_ema: bool = False
+    ema_momentum: float = 0.99
+    ema_overwrite_frequency: Optional[int] = None
+    jit_compile: bool = True
 
 
-class CompileConfig(scm.Model):
+class CompileConfig(pyd.BaseModel):
     '''
     Configuration for calls to model.compile.
 
@@ -93,16 +95,16 @@ class CompileConfig(scm.Model):
             call. Default: 1.
         jit_compile (boolean, optional): Use XLA. Default: False.
     '''
-    loss = scmt.StringType(required=True)
-    metrics = scmt.ListType(scmt.StringType, default=[])
-    loss_weights = scmt.ListType(scmt.FloatType, default=None)
-    weighted_metrics = scmt.ListType(scmt.FloatType, default=None)
-    run_eagerly = scmt.BooleanType(default=False)
-    steps_per_execution = scmt.IntType(default=1)
-    jit_compile = scmt.BooleanType(default=False)
+    loss: str
+    metrics: list[str] = []
+    loss_weights: Optional[list[float]] = None
+    weighted_metrics: Optional[list[float]] = None
+    run_eagerly: bool = False
+    steps_per_execution: int = 1
+    jit_compile: bool = False
 
 
-class CallbacksConfig(scm.Model):
+class CallbacksConfig(pyd.BaseModel):
     '''
     Configuration for tensorflow callbacks.
 
@@ -125,18 +127,18 @@ class CallbacksConfig(scm.Model):
         initial_value_threshold (float, optional): Initial best value of metric.
             Default: None.
     '''
-    project = scmt.StringType(required=True)
-    root = scmt.StringType(required=True)
-    monitor = scmt.StringType(default='val_loss')
-    verbose = scmt.IntType(default=0)
-    save_best_only = scmt.BooleanType(default=False)
-    save_weights_only = scmt.BooleanType(default=False)
-    mode = scmt.StringType(default='auto', validators=[vd.is_callback_mode])
-    save_freq = scmt.UnionType([scmt.StringType, scmt.IntType], default='epoch')
-    initial_value_threshold = scmt.FloatType()
+    project: str
+    root: str
+    monitor: str = 'val_loss'
+    verbose: int = 0
+    save_best_only: bool = False
+    save_weights_only: bool = False
+    mode: Annotated[str, pyd.AfterValidator(vd.is_callback_mode)] = 'auto'
+    save_freq: Union[str, int] = 'epoch'
+    initial_value_threshold: Optional[float] = None
 
 
-class TrainConfig(scm.Model):
+class TrainConfig(pyd.BaseModel):
     '''
     Configuration for calls to model train function.
 
@@ -158,13 +160,13 @@ class TrainConfig(scm.Model):
         validation_freq (int, optional): Number of training epochs before new
             validation. Default: 1.
     '''
-    batch_size = scmt.IntType(default=32)
-    epochs = scmt.IntType(default=30)
-    verbose = scmt.UnionType([scmt.StringType, scmt.IntType], default='auto')
-    validation_split = scmt.FloatType(default=0.0)
-    shuffle = scmt.BooleanType(default=True)
-    initial_epoch = scmt.IntType(default=1)
-    validation_freq = scmt.IntType(default=1)
+    batch_size: int = 32
+    epochs: int = 30
+    verbose: Union[str, int] = 'auto'
+    validation_split: float = 0.0
+    shuffle: bool = True
+    initial_epoch: int = 1
+    validation_freq: int = 1
     # callbacks
     # class_weight
     # initial_epoch
@@ -175,7 +177,7 @@ class TrainConfig(scm.Model):
     # validation_steps
 
 
-class LoggerConfig(scm.Model):
+class LoggerConfig(pyd.BaseModel):
     '''
     Configuration for logger.
 
@@ -189,17 +191,20 @@ class LoggerConfig(scm.Model):
         timezone (str, optional): Timezone. Default: UTC.
         level (str or int, optional): Log level. Default: warn.
     '''
-    slack_channel = scmt.StringType(default=None)
-    slack_url = scmt.StringType(default=None)
-    slack_methods = scmt.ListType(
-        scmt.StringType(validators=[vd.is_pipeline_method]),
-        default=['load', 'compile', 'train']
-    )
-    timezone = scmt.StringType(default='UTC')
-    level = scmt.StringType(default='warn')
+    slack_channel: Optional[str] = None
+    slack_url: Optional[str] = None
+    slack_methods: list[str] = pyd.Field(default=['load', 'compile', 'train'])
+    timezone: str = 'UTC'
+    level: str = 'warn'
+
+    @pyd.field_validator('slack_methods')
+    def _validate_slack_methods(cls, value):
+        for item in value:
+            vd.is_pipeline_method(item)
+        return value
 
 
-class PipelineConfig(scm.Model):
+class PipelineConfig(pyd.BaseModel):
     '''
     Configuration for PipelineBase classes.
 
@@ -211,13 +216,13 @@ class PipelineConfig(scm.Model):
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
         engine (str): Deep learning framework.
-        train (dict): Train configuration.
         logger (dict): Logger configuration.
+        train (dict): Train configuration.
     '''
-    dataset = scmt.ModelType(DatasetConfig, required=True)
-    optimizer = scmt.ModelType(OptimizerConfig, required=True)
-    compile = scmt.ModelType(CompileConfig, required=True)
-    callbacks = scmt.ModelType(CallbacksConfig, required=True)
-    engine = scmt.StringType(required=True, validators=[vd.is_engine])
-    train = scmt.ModelType(TrainConfig, required=True)
-    logger = scmt.ModelType(LoggerConfig, required=True)
+    dataset: DatasetConfig
+    optimizer: OptimizerConfig
+    compile: CompileConfig
+    callbacks: CallbacksConfig
+    engine: Annotated[str, pyd.AfterValidator(vd.is_engine)]
+    logger: LoggerConfig
+    train: TrainConfig
