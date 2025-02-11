@@ -1,6 +1,6 @@
 from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa: F401
-from keras import models as tfmodels  # noqa F401
 from tensorflow import keras  # noqa F401
+from keras import models as tfmodels  # noqa F401
 import numpy as np  # noqa F401
 
 import math
@@ -12,7 +12,7 @@ import flatiron.core.tools as fict
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
-    # type: (Filepath, str, dict) -> list
+    # type: (Filepath, str, dict) -> Callbacks
     '''
     Create a list of callbacks for Tensoflow model.
 
