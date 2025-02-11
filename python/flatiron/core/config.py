@@ -39,7 +39,7 @@ class DatasetConfig(BaseModel):
     split_shuffle: bool = True
 
 
-class OptimizerConfig(scm.Model):
+class OptimizerConfig(BaseModel):
     '''
     Configuration for keras optimizer.
 
@@ -64,21 +64,21 @@ class OptimizerConfig(scm.Model):
             Default: None.
         jit_compile: (boolean, optional): Use XLA. Default=True.
     '''
-    class_name = scmt.StringType(default='sgd')
-    learning_rate = scmt.FloatType(default=0.001)
-    momentum = scmt.FloatType(default=0)
-    nesterov = scmt.BooleanType(default=False)
-    weight_decay = scmt.FloatType(default=0)
-    clipnorm = scmt.FloatType(default=None)
-    clipvalue = scmt.FloatType(default=None)
-    global_clipnorm = scmt.FloatType(default=None)
-    use_ema = scmt.BooleanType(default=False)
-    ema_momentum = scmt.FloatType(default=0.99)
-    ema_overwrite_frequency = scmt.IntType(default=None)
-    jit_compile = scmt.BooleanType(default=True)
+    class_name: str = 'sgd'
+    learning_rate: float = 0.001
+    momentum: float = 0
+    nesterov: bool = False
+    weight_decay: float = 0
+    clipnorm: Optional[float] = None
+    clipvalue: Optional[float] = None
+    global_clipnorm: Optional[float] = None
+    use_ema: bool = False
+    ema_momentum: float = 0.99
+    ema_overwrite_frequency: Optional[int] = None
+    jit_compile: bool = True
 
 
-class CompileConfig(scm.Model):
+class CompileConfig(BaseModel):
     '''
     Configuration for calls to model.compile.
 
@@ -96,16 +96,16 @@ class CompileConfig(scm.Model):
             call. Default: 1.
         jit_compile (boolean, optional): Use XLA. Default: False.
     '''
-    loss = scmt.StringType(required=True)
-    metrics = scmt.ListType(scmt.StringType, default=[])
-    loss_weights = scmt.ListType(scmt.FloatType, default=None)
-    weighted_metrics = scmt.ListType(scmt.FloatType, default=None)
-    run_eagerly = scmt.BooleanType(default=False)
-    steps_per_execution = scmt.IntType(default=1)
-    jit_compile = scmt.BooleanType(default=False)
+    loss: str
+    metrics: list[str] = []
+    loss_weights: Optional[list[float]] = None
+    weighted_metrics: Optional[list[float]] = None
+    run_eagerly: bool = False
+    steps_per_execution: int = 1
+    jit_compile: bool = False
 
 
-class CallbacksConfig(scm.Model):
+class CallbacksConfig(BaseModel):
     '''
     Configuration for tensorflow callbacks.
 
@@ -128,18 +128,18 @@ class CallbacksConfig(scm.Model):
         initial_value_threshold (float, optional): Initial best value of metric.
             Default: None.
     '''
-    project = scmt.StringType(required=True)
-    root = scmt.StringType(required=True)
-    monitor = scmt.StringType(default='val_loss')
-    verbose = scmt.IntType(default=0)
-    save_best_only = scmt.BooleanType(default=False)
-    save_weights_only = scmt.BooleanType(default=False)
-    mode = scmt.StringType(default='auto', validators=[vd.is_callback_mode])
-    save_freq = scmt.UnionType([scmt.StringType, scmt.IntType], default='epoch')
-    initial_value_threshold = scmt.FloatType()
+    project: str (required=True)
+    root: str (required=True)
+    monitor: str = 'val_loss'
+    verbose: int = 0
+    save_best_only: bool = False
+    save_weights_only: bool = False
+    mode: Annotated[str, AfterValidator(vd.is_callback_mode)] = 'auto'
+    save_freq: Union[str, int] = 'epoch'
+    initial_value_threshold: float
 
 
-class FitConfig(scm.Model):
+class FitConfig(BaseModel):
     '''
     Configuration for calls to model.fit.
 
@@ -161,13 +161,13 @@ class FitConfig(scm.Model):
         validation_freq (int, optional): Number of training epochs before new
             validation. Default: 1.
     '''
-    batch_size = scmt.IntType(default=32)
-    epochs = scmt.IntType(default=30)
-    verbose = scmt.UnionType([scmt.StringType, scmt.IntType], default='auto')
-    validation_split = scmt.FloatType(default=0.0)
-    shuffle = scmt.BooleanType(default=True)
-    initial_epoch = scmt.IntType(default=1)
-    validation_freq = scmt.IntType(default=1)
+    batch_size: int = 32
+    epochs: int = 30
+    verbose: Union[str, int] = 'auto'
+    validation_split: float = 0.0
+    shuffle: bool = True
+    initial_epoch: int = 1
+    validation_freq: int = 1
     # callbacks
     # class_weight
     # initial_epoch
