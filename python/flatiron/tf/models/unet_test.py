@@ -3,7 +3,7 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from tensorflow import keras  # noqa: F401
-from keras import models as tfm
+from keras import models as tfmodels
 
 import flatiron.tf.models.unet as fi_tfunet
 
@@ -36,7 +36,7 @@ class UNetTests(unittest.TestCase):
 
     def test_get_unet_model(self):
         result = fi_tfunet.get_unet_model(**self.get_kwargs())
-        self.assertIsInstance(result, tfm.Model)
+        self.assertIsInstance(result, tfmodels.Model)
 
     def test_get_unet_model_errors(self):
         kwargs = self.get_kwargs()
