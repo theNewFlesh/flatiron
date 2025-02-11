@@ -1,6 +1,6 @@
 from typing import Optional, Union
 
-from pydantic import AfterValidator, BaseModel
+from pydantic import AfterValidator, BaseModel, Field
 from typing_extensions import Annotated
 
 import flatiron.core.validators as vd
@@ -38,8 +38,8 @@ class DatasetConfig(BaseModel):
     load_shuffle: bool = False
     split_index: int
     split_axis: int = -1
-    split_test_size: Optional[Annotated[float, IsGTE0]] = 0.2
-    split_train_size: Optional[Annotated[float, IsGTE0]] = None
+    split_test_size: Optional[Annotated[float, Field(gte=0)]] = 0.2
+    split_train_size: Optional[Annotated[float, Field(gte=0)]] = None
     split_random_state: Optional[int] = 42
     split_shuffle: bool = True
 

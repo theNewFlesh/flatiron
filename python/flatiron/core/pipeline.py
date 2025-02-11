@@ -1,7 +1,7 @@
-from typing import Optional, Any  # noqa F401
-import numpy as np  # noqa F401
-import schematics.models as scm  # noqa F401
+from typing import Optional, Any, Type  # noqa F401
 from flatiron.core.types import Filepath, Model  # noqa F401
+from pydantic import BaseModel  # noqa F401
+import numpy as np  # noqa F401
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
@@ -60,15 +60,11 @@ class PipelineBase(ABC):
         config = deepcopy(config)
 
         # model
-        model = config.pop('model', {})
-        model = self.model_config()(model)
-        model.validate()
-        model = model.to_native()
+        model_config = config.pop('model', {})
+        model = self.model_config()(**model_config).model_dump()
 
         # pipeline
-        config = cfg.PipelineConfig(config)
-        config.validate()
-        config = config.to_native()
+        config = cfg.PipelineConfig(**config).model_dump()
         config['model'] = model
         self.config = config
 
@@ -302,13 +298,13 @@ class PipelineBase(ABC):
 
     @abstractmethod
     def model_config(self):
-        # type: () -> scm.Model
+        # type: () -> Type[BaseModel]
         '''
-        Subclasses of PipelineBase wiil need to define a config class for models
+        Subclasses of PipelineBase will need to define a config class for models
         created in the build method.
 
         Returns:
-            scm.Model: Model config class.
+            BaseModel: Pydantic BaseModel config class.
         '''
         pass  # pragma: no cover
 
