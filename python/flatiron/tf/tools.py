@@ -38,13 +38,13 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 
 
 def train(
-    model,           # type: tfmodels.Model
-    callbacks,       # type: Callbacks
-    x_train,         # type: np.ndarray
-    y_train,         # type: np.ndarray
-    x_test=None,     # type: OptArray
-    y_test=None,     # type: OptArray
-    batch_size=32,   # type: int
+    model,          # type: tfmodels.Model
+    callbacks,      # type: Callbacks
+    x_train,        # type: np.ndarray
+    y_train,        # type: np.ndarray
+    x_test=None,    # type: OptArray
+    y_test=None,    # type: OptArray
+    batch_size=32,  # type: int
     **kwargs,
 ):
     # type: (...) -> None
