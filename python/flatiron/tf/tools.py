@@ -1,4 +1,4 @@
-from flatiron.core.types import Filepath  # noqa: F401
+from flatiron.core.types import Filepath, OptArray  # noqa: F401
 from keras import models as tfmodels  # noqa F401
 from tensorflow import keras  # noqa F401
 import numpy as np  # noqa F401
@@ -38,13 +38,13 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 
 
 def train(
-    model,  # type: tfmodels.Model
-    x_train,  # type: np.ndarray
-    y_train,  # type: np.ndarray
-    x_test=None,  # type: np.ndarray
-    y_test=None,  # type: np.ndarray
+    model,           # type: tfmodels.Model
+    x_train,         # type: np.ndarray
+    y_train,         # type: np.ndarray
+    x_test=None,     # type: OptArray
+    y_test=None,     # type: OptArray
     callbacks=None,  # type: list
-    batch_size=32,  # type: int
+    batch_size=32,   # type: int
     **kwargs,
 ):
     # type: (...) -> None
