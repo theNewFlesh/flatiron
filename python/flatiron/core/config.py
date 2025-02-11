@@ -10,7 +10,7 @@ import flatiron.core.validators as vd
 IsGTE0 = AfterValidator(lambda x: vd.is_gte(x, 0))
 IsCallbackMode = AfterValidator(vd.is_callback_mode)
 IsEngine = AfterValidator(vd.is_engine)
-IsPipeline = AfterValidator(vd.is_pipeline_method)
+IsPipeline = AfterValidator(vd.is_pipeline_methods)
 
 
 class DatasetConfig(BaseModel):
@@ -199,7 +199,7 @@ class LoggerConfig(BaseModel):
     '''
     slack_channel: Optional[str] = None
     slack_url: Optional[str] = None
-    slack_methods: list[Annotated[str, IsPipeline]] = ['load', 'compile', 'fit']
+    slack_methods: Annotated[list[str], IsPipeline] = ['load', 'compile', 'fit']
     timezone: str = 'UTC'
     level: str = 'warn'
 
