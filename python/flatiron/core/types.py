@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Callable, Optional, Union
 from pathlib import Path
 
 from keras import models as tfmodels
@@ -9,3 +9,4 @@ import torch.nn
 AnyModel = Union[tfmodels.Model, torch.nn.Module]
 Filepath = Union[str, Path]
 OptArray = Optional[np.ndarray]
+Callbacks = list[Callable]
