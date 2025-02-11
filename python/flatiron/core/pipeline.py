@@ -267,11 +267,11 @@ class PipelineBase(ABC):
             # train model
             engine.tools.train(
                 model=self.model,
+                callbacks=callbacks,
                 x_train=self.x_train,
                 y_train=self.y_train,
                 x_test=self.x_test,
                 y_test=self.y_test,
-                callbacks=callbacks,
                 **train,
             )
         return self

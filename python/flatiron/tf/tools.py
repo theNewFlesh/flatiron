@@ -39,11 +39,11 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 
 def train(
     model,           # type: tfmodels.Model
+    callbacks,       # type: Callbacks
     x_train,         # type: np.ndarray
     y_train,         # type: np.ndarray
     x_test=None,     # type: OptArray
     y_test=None,     # type: OptArray
-    callbacks=None,  # type: Callbacks
     batch_size=32,   # type: int
     **kwargs,
 ):
@@ -53,15 +53,15 @@ def train(
 
     Args:
         model (tfmodels.Model): TensorFlow model.
+        callbacks (list): List of callbacks.
         x_train (np.ndarray): Training data.
         y_train (np.ndarray): Training labels.
         x_test (np.ndarray, optional): Test data. Default: None.
         y_test (np.ndarray, optional): Test labels. Default: None.
-        callbacks (list, optional): List of callbacks. Default: None.
         batch_size (int, optional): Batch size. Default: 32.
         **kwargs: Other params to be passed to `model.fit`.
     '''
-    n = x_train.shape[0]  # type: ignore
+    n = x_train.shape[0]
     val = None
     if x_test is not None and y_test is not None:
         val = (x_test, y_test)
