@@ -1,6 +1,13 @@
-from typing import Any, Union
+from typing import Any, Callable, Optional, Union
 from pathlib import Path
+
+from tensorflow import keras  # noqa F401
+from keras import callbacks as tfcb
+from keras import models as tfmodels
+import numpy as np
 # ------------------------------------------------------------------------------
 
-Model = Any
+AnyModel = Union[tfmodels.Model, Any]
+Callbacks = list[Union[Callable, tfcb.TensorBoard, tfcb.ModelCheckpoint]]
 Filepath = Union[str, Path]
+OptArray = Optional[np.ndarray]
