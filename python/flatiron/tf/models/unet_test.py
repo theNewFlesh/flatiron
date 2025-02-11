@@ -79,3 +79,18 @@ class UNetTests(unittest.TestCase):
 
         result = ftfu.unet_width_and_layers_are_valid(130, 9)
         self.assertFalse(result)
+
+    def test_unet_config(self):
+        result = ftfu.UNetConfig \
+            .model_validate(self.get_kwargs(), strict=True) \
+            .model_dump()
+        self.assertEqual(result['layers'], 9)
+
+        kwargs = self.get_kwargs()
+        kwargs['layers'] = 8
+        with self.assertRaises(ValueError):
+            ftfu.UNetConfig.model_validate(kwargs, strict=True)
+
+        kwargs['layers'] = 1
+        with self.assertRaises(ValueError):
+            ftfu.UNetConfig.model_validate(kwargs, strict=True)
