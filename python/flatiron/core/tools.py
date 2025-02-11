@@ -193,3 +193,25 @@ def get_module_function(name, module):
     if name in funcs:
         return funcs[name]
     raise NotImplementedError(f'Function not found: {name}')
+
+
+def get_module_class(name, module):
+    # type: (str, str) -> Any
+    '''
+    Get a class from a given module.
+
+    Args:
+        name (str): Class name.
+        module (str): Module name.
+
+    Raises:
+        NotImplementedError: If class is not found in module.
+
+    Returns:
+        class: Module class.
+    '''
+    members = inspect.getmembers(sys.modules[module])
+    classes = dict(filter(lambda x: inspect.isclass(x[1]), members))
+    if name in classes:
+        return classes[name]
+    raise NotImplementedError(f'Class not found: {name}')
