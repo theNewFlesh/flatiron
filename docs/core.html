@@ -38,7 +38,7 @@
             flatiron
           </a>
               <div class="version">
-                0.17.1
+                0.17.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -261,6 +261,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.tools">tools</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.enforce_callbacks"><code class="docutils literal notranslate"><span class="pre">enforce_callbacks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.get_module_class"><code class="docutils literal notranslate"><span class="pre">get_module_class()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.get_module_function"><code class="docutils literal notranslate"><span class="pre">get_module_function()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.get_tensorboard_project"><code class="docutils literal notranslate"><span class="pre">get_tensorboard_project()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.tools.pad_layer_name"><code class="docutils literal notranslate"><span class="pre">pad_layer_name()</span></code></a></li>
@@ -1749,7 +1750,7 @@ returns a machine learning model.</p>
 <dd class="field-odd"><p>Machine learning model.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Model</p>
+<dd class="field-even"><p>AnyModel</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1869,6 +1870,29 @@ Calls <cite>self.dataset.unload</cite>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.tools.get_module_class">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.tools.</span></span><span class="sig-name descname"><span class="pre">get_module_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/tools.html#get_module_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.tools.get_module_class" title="Link to this definition"></a></dt>
+<dd><p>Get a class from a given module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Class name.</p></li>
+<li><p><strong>module</strong> (<em>str</em>) – Module name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotImplementedError</strong> – If class is not found in module.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Module class.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>class</p>
 </dd>
 </dl>
 </dd></dl>

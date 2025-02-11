@@ -1,6 +1,6 @@
 [project]
 name = "flatiron"
-version = "0.17.1"
+version = "0.17.2"
 description = "Standardized computer vision pipeline framework with a chainable API and procedurally defined model architecture."
 authors = [
     { name = "Alex Braun", email = "alexander.g.braun@gmail.com" },
