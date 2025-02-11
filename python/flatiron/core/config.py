@@ -7,7 +7,10 @@ import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-GTE0 = AfterValidator(lambda x: vd.is_gte(x, 0))
+IsGTE0 = AfterValidator(lambda x: vd.is_gte(x, 0))
+IsCallbackMode = AfterValidator(vd.is_callback_mode)
+IsEngine = AfterValidator(vd.is_engine)
+IsPipeline = AfterValidator(vd.is_pipeline_method)
 
 
 class DatasetConfig(BaseModel):
@@ -33,8 +36,8 @@ class DatasetConfig(BaseModel):
     load_shuffle: bool = False
     split_index: int
     split_axis: int = -1
-    split_test_size: Annotated[float, GTE0] = 0.2
-    split_train_size: Annotated[float, GTE0] = 0.2
+    split_test_size: Annotated[float, IsGTE0] = 0.2
+    split_train_size: Annotated[float, IsGTE0] = 0.2
     split_random_state: int = 42
     split_shuffle: bool = True
 
@@ -128,13 +131,13 @@ class CallbacksConfig(BaseModel):
         initial_value_threshold (float, optional): Initial best value of metric.
             Default: None.
     '''
-    project: str (required=True)
-    root: str (required=True)
+    project: str
+    root: str
     monitor: str = 'val_loss'
     verbose: int = 0
     save_best_only: bool = False
     save_weights_only: bool = False
-    mode: Annotated[str, AfterValidator(vd.is_callback_mode)] = 'auto'
+    mode: Annotated[str, IsCallbackMode] = 'auto'
     save_freq: Union[str, int] = 'epoch'
     initial_value_threshold: float
 
@@ -178,7 +181,7 @@ class FitConfig(BaseModel):
     # validation_steps
 
 
-class LoggerConfig(scm.Model):
+class LoggerConfig(BaseModel):
     '''
     Configuration for logger.
 
@@ -192,17 +195,14 @@ class LoggerConfig(scm.Model):
         timezone (str, optional): Timezone. Default: UTC.
         level (str or int, optional): Log level. Default: warn.
     '''
-    slack_channel = scmt.StringType(default=None)
-    slack_url = scmt.StringType(default=None)
-    slack_methods = scmt.ListType(
-        scmt.StringType(validators=[vd.is_pipeline_method]),
-        default=['load', 'compile', 'fit']
-    )
-    timezone = scmt.StringType(default='UTC')
-    level = scmt.StringType(default='warn')
+    slack_channel: Optional[str] = None
+    slack_url: Optional[str] = None
+    slack_methods: Annotated[list[str], IsPipeline] = ['load', 'compile', 'fit']
+    timezone: str = 'UTC'
+    level: str = 'warn'
 
 
-class PipelineConfig(scm.Model):
+class PipelineConfig(BaseModel):
     '''
     Configuration for PipelineBase classes.
 
@@ -217,10 +217,10 @@ class PipelineConfig(scm.Model):
         fit (dict): Fit configuration.
         logger (dict): Logger configuration.
     '''
-    dataset = scmt.ModelType(DatasetConfig, required=True)
-    optimizer = scmt.ModelType(OptimizerConfig, required=True)
-    compile = scmt.ModelType(CompileConfig, required=True)
-    callbacks = scmt.ModelType(CallbacksConfig, required=True)
-    engine = scmt.StringType(required=True, validators=[vd.is_engine])
-    fit = scmt.ModelType(FitConfig, required=True)
-    logger = scmt.ModelType(LoggerConfig, required=True)
+    dataset: DatasetConfig
+    optimizer: OptimizerConfig
+    compile: CompileConfig
+    callbacks: CallbacksConfig
+    engine: Annotated[str, IsEngine]
+    fit: FitConfig
+    logger: LoggerConfig
