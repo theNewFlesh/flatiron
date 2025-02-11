@@ -137,7 +137,7 @@ class CallbacksConfigTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-class FitConfigTests(unittest.TestCase):
+class TrainConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
             batch_size=32,
@@ -150,11 +150,11 @@ class FitConfigTests(unittest.TestCase):
         )
 
     def test_validate(self):
-        ficc.FitConfig(**self.get_config())
+        ficc.TrainConfig(**self.get_config())
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.FitConfig().model_dump()
+        result = ficc.TrainConfig().model_dump()
         self.assertEqual(result, expected)
 
 
@@ -163,7 +163,7 @@ class LoggerConfigTests(unittest.TestCase):
         return dict(
             slack_channel=None,
             slack_url=None,
-            slack_methods=['load', 'compile', 'fit'],
+            slack_methods=['load', 'compile', 'train'],
             timezone='UTC',
             level='warn',
         )
@@ -201,8 +201,8 @@ class PipelineConfigTests(unittest.TestCase):
                 project='project',
                 root='root',
             ),
-            fit=dict(),
             logger=dict(),
+            train=dict(),
         )
 
     def test_validate(self):

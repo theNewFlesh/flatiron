@@ -234,10 +234,10 @@ class PipelineBase(ABC):
             )
         return self
 
-    def fit(self):
+    def train(self):
         # type: () -> PipelineBase
         '''
-        Call `self.model.fit` with fit params.
+        Call model train function with params.
 
         Returns:
             PipelineBase: Self.
@@ -245,10 +245,10 @@ class PipelineBase(ABC):
         engine = self._engine
 
         cb = self.config['callbacks']
-        fit = self.config['fit']
+        train = self.config['train']
         log = self.config['logger']
 
-        with self._logger('fit', 'FIT MODEL', self.config):
+        with self._logger('train', 'TRAIN MODEL', self.config):
             # create tensorboard
             tb = fict.get_tensorboard_project(
                 cb['project'],
@@ -265,14 +265,14 @@ class PipelineBase(ABC):
             )
 
             # train model
-            n = self.x_train.shape[0]  # type: ignore
-            self.model.fit(
-                x=self.x_train,
-                y=self.y_train,
+            engine.tools.train(
+                model=self.model,
                 callbacks=callbacks,
-                validation_data=(self.x_test, self.y_test),
-                steps_per_epoch=math.ceil(n / fit['batch_size']),
-                **fit,
+                x_train=self.x_train,
+                y_train=self.y_train,
+                x_test=self.x_test,
+                y_test=self.y_test,
+                **train,
             )
         return self
 
@@ -286,7 +286,7 @@ class PipelineBase(ABC):
         * unload
         * build
         * compile
-        * fit
+        * train
 
         Returns:
             PipelineBase: Self.
@@ -296,7 +296,7 @@ class PipelineBase(ABC):
             .unload() \
             .build() \
             .compile() \
-            .fit()
+            .train()
         return self
 
     @abstractmethod

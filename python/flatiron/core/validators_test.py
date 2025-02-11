@@ -52,7 +52,7 @@ class ValidatorsTests(unittest.TestCase):
             'unload',
             'build',
             'compile',
-            'fit',
+            'train',
         ]
         for method in legal:
             self.assertEqual(vd.is_pipeline_method(method), method)

@@ -138,9 +138,9 @@ class CallbacksConfig(pyd.BaseModel):
     initial_value_threshold: Optional[float] = None
 
 
-class FitConfig(pyd.BaseModel):
+class TrainConfig(pyd.BaseModel):
     '''
-    Configuration for calls to model.fit.
+    Configuration for calls to model train function.
 
     See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit
 
@@ -187,13 +187,13 @@ class LoggerConfig(pyd.BaseModel):
         slack_channel (str, optional): Slack channel name. Default: None.
         slack_url (str, optional): Slack URL name. Default: None.
         slack_methods (list[str], optional): Pipeline methods to be logged to
-            Slack. Default: [load, compile, fit].
+            Slack. Default: [load, compile, train].
         timezone (str, optional): Timezone. Default: UTC.
         level (str or int, optional): Log level. Default: warn.
     '''
     slack_channel: Optional[str] = None
     slack_url: Optional[str] = None
-    slack_methods: list[str] = pyd.Field(default=['load', 'compile', 'fit'])
+    slack_methods: list[str] = pyd.Field(default=['load', 'compile', 'train'])
     timezone: str = 'UTC'
     level: str = 'warn'
 
@@ -216,13 +216,13 @@ class PipelineConfig(pyd.BaseModel):
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
         engine (str): Deep learning framework.
-        fit (dict): Fit configuration.
         logger (dict): Logger configuration.
+        train (dict): Train configuration.
     '''
     dataset: DatasetConfig
     optimizer: OptimizerConfig
     compile: CompileConfig
     callbacks: CallbacksConfig
     engine: Annotated[str, pyd.AfterValidator(vd.is_engine)]
-    fit: FitConfig
     logger: LoggerConfig
+    train: TrainConfig
