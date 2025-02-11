@@ -6,6 +6,6 @@ import numpy as np
 import torch.nn
 # ------------------------------------------------------------------------------
 
-Model = Union[tfmodels.Model, torch.nn.Module]
+AnyModel = Union[tfmodels.Model, torch.nn.Module]
 Filepath = Union[str, Path]
 OptArray = Optional[np.ndarray]

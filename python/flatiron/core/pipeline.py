@@ -1,7 +1,7 @@
 from typing import Any  # noqa F401
 import numpy as np  # noqa F401
 import schematics.models as scm  # noqa F401
-from flatiron.core.types import Filepath, Model, OptArray  # noqa F401
+from flatiron.core.types import AnyModel, Filepath, OptArray  # noqa F401
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
@@ -313,12 +313,12 @@ class PipelineBase(ABC):
 
     @abstractmethod
     def model_func(self):
-        # type: () -> Model
+        # type: () -> AnyModel
         '''
         Subclasses of PipelineBase need to define a function that builds and
         returns a machine learning model.
 
         Returns:
-            Model: Machine learning model.
+            AnyModel: Machine learning model.
         '''
         pass  # pragma: no cover
