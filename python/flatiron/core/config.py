@@ -1,11 +1,16 @@
-import schematics as scm
-import schematics.types as scmt
+from typing import Optional, Union
+
+from pydantic import AfterValidator, BaseModel
+from typing_extensions import Annotated
 
 import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-class DatasetConfig(scm.Model):
+GTE0 = AfterValidator(lambda x: vd.is_gte(x, 0))
+
+
+class DatasetConfig(BaseModel):
     '''
     Configuration for Dataset.
 
@@ -23,17 +28,15 @@ class DatasetConfig(scm.Model):
         split_random_state (int): Seed for shuffling randomness. Default: 42.
         split_shuffle (bool): Shuffle data rows. Default: True.
     '''
-    source = scmt.StringType(required=True)
-    load_limit = scmt.UnionType([scmt.IntType, scmt.StringType], default=None)
-    load_shuffle = scmt.BooleanType(required=True, default=False)
-    split_index = scmt.IntType(required=True)
-    split_axis = scmt.IntType(required=True, default=-1)
-    split_test_size = scmt.FloatType(
-        required=True, default=0.2, validators=[lambda x: vd.is_gte(x, 0)]
-    )
-    split_train_size = scmt.FloatType(validators=[lambda x: vd.is_gte(x, 0)])
-    split_random_state = scmt.IntType(required=True, default=42)
-    split_shuffle = scmt.BooleanType(required=True, default=True)
+    source: str
+    load_limit: Optional[Union[int, str]] = None
+    load_shuffle: bool = False
+    split_index: int
+    split_axis: int = -1
+    split_test_size: Annotated[float, GTE0] = 0.2
+    split_train_size: Annotated[float, GTE0] = 0.2
+    split_random_state: int = 42
+    split_shuffle: bool = True
 
 
 class OptimizerConfig(scm.Model):
