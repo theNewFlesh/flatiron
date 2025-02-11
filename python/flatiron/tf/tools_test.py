@@ -5,7 +5,7 @@ import numpy as np
 from keras import callbacks as tfcallbacks
 
 import flatiron.core.tools as fict
-import flatiron.tf.tools as f_tftools
+import flatiron.tf.tools as fi_tftools
 # ------------------------------------------------------------------------------
 
 
@@ -19,7 +19,7 @@ class TFToolsTests(unittest.TestCase):
     def test_get_callbacks(self):
         with TemporaryDirectory() as root:
             proj = fict.get_tensorboard_project('proj', root)
-            result = f_tftools.get_callbacks(
+            result = fi_tftools.get_callbacks(
                 proj['log_dir'], proj['checkpoint_pattern']
             )
             self.assertIsInstance(result[0], tfcallbacks.TensorBoard)
@@ -35,7 +35,7 @@ class TFToolsTests(unittest.TestCase):
             steps_per_epoch=4,
             foobar=True,
         )
-        f_tftools.train(
+        fi_tftools.train(
             model=model,
             callbacks=[],
             x_train=np.ones(100),

@@ -5,7 +5,7 @@ from lunchbox.enforce import EnforceError
 from tensorflow import keras  # noqa: F401
 from keras import models as tfm
 
-import flatiron.tf.models.unet as ftfu
+import flatiron.tf.models.unet as fi_tfunet
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -35,7 +35,7 @@ class UNetTests(unittest.TestCase):
         )
 
     def test_get_unet_model(self):
-        result = ftfu.get_unet_model(**self.get_kwargs())
+        result = fi_tfunet.get_unet_model(**self.get_kwargs())
         self.assertIsInstance(result, tfm.Model)
 
     def test_get_unet_model_errors(self):
@@ -47,21 +47,21 @@ class UNetTests(unittest.TestCase):
         kwargs['layers'] = layers
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
-            ftfu.get_unet_model(**kwargs)
+            fi_tfunet.get_unet_model(**kwargs)
 
         # < 3
         layers = 2
         kwargs['layers'] = layers
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
-            ftfu.get_unet_model(**kwargs)
+            fi_tfunet.get_unet_model(**kwargs)
 
         # even
         layers = 8
         kwargs['layers'] = layers
         expected = exp + str(layers)
         with self.assertRaisesRegex(EnforceError, expected):
-            ftfu.get_unet_model(**kwargs)
+            fi_tfunet.get_unet_model(**kwargs)
 
         # bad width and layers
         layers = 9
@@ -71,17 +71,17 @@ class UNetTests(unittest.TestCase):
         expected = 'Given input_width and layers are not compatible. '
         expected += 'Input_width: 100. Layers: 9.'
         with self.assertRaisesRegex(EnforceError, expected):
-            ftfu.get_unet_model(**kwargs)
+            fi_tfunet.get_unet_model(**kwargs)
 
     def test_unet_width_and_layers_are_valid(self):
-        result = ftfu.unet_width_and_layers_are_valid(128, 9)
+        result = fi_tfunet.unet_width_and_layers_are_valid(128, 9)
         self.assertTrue(result)
 
-        result = ftfu.unet_width_and_layers_are_valid(130, 9)
+        result = fi_tfunet.unet_width_and_layers_are_valid(130, 9)
         self.assertFalse(result)
 
     def test_unet_config(self):
-        result = ftfu.UNetConfig \
+        result = fi_tfunet.UNetConfig \
             .model_validate(self.get_kwargs(), strict=True) \
             .model_dump()
         self.assertEqual(result['layers'], 9)
@@ -89,8 +89,8 @@ class UNetTests(unittest.TestCase):
         kwargs = self.get_kwargs()
         kwargs['layers'] = 8
         with self.assertRaises(ValueError):
-            ftfu.UNetConfig.model_validate(kwargs, strict=True)
+            fi_tfunet.UNetConfig.model_validate(kwargs, strict=True)
 
         kwargs['layers'] = 1
         with self.assertRaises(ValueError):
-            ftfu.UNetConfig.model_validate(kwargs, strict=True)
+            fi_tfunet.UNetConfig.model_validate(kwargs, strict=True)

@@ -1,10 +1,10 @@
 import unittest
 
-import flatiron.tf.optimizer as ftfo
+import flatiron.tf.optimizer as fi_tfoptim
 # ------------------------------------------------------------------------------
 
 
 class TFOptimizerTests(unittest.TestCase):
     def test_get(self):
-        ftfo.get(dict(class_name='sgd'))
-        ftfo.get(dict(class_name='adam'))
+        fi_tfoptim.get(dict(class_name='sgd'))
+        fi_tfoptim.get(dict(class_name='adam'))
