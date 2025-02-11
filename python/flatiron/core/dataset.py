@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Tuple, Union  # noqa F401
+from typing import Any, Optional, Union  # noqa F401
 from flatiron.core.types import Filepath  # noqa: F401
 
 from pathlib import Path
@@ -160,7 +160,7 @@ class Dataset:
 
     @property
     def chunks(self):
-        # type: () -> List[str]
+        # type: () -> list[str]
         '''
         Returns:
             list[str]: Chunk filepaths.
@@ -275,7 +275,7 @@ class Dataset:
 
     @staticmethod
     def _resolve_limit(limit):
-        # type: (Union[int, str, None]) -> Tuple[int, str]
+        # type: (Union[int, str, None]) -> tuple[int, str]
         '''
         Resolves a given limit into a number of samples and limit type.
 
@@ -376,7 +376,7 @@ class Dataset:
         return self
 
     def xy_split(self, index, axis=-1):
-        # type: (int, int) -> Tuple[np.ndarray, np.ndarray]
+        # type: (int, int) -> tuple[np.ndarray, np.ndarray]
         '''
         Split data into x and y arrays.
         Index and axis support negative ingegers.
@@ -407,7 +407,7 @@ class Dataset:
         shuffle=True,  # type: bool
         stratify=None,  # type: Optional[np.ndarray]
     ):
-        # type: (...) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
+        # type: (...) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
         '''
         Split data into x_train, x_test, y_train, y_test arrays.
 
