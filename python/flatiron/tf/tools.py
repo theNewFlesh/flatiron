@@ -1,4 +1,4 @@
-from flatiron.core.types import Filepath, OptArray  # noqa: F401
+from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa: F401
 from keras import models as tfmodels  # noqa F401
 from tensorflow import keras  # noqa F401
 import numpy as np  # noqa F401
@@ -43,7 +43,7 @@ def train(
     y_train,         # type: np.ndarray
     x_test=None,     # type: OptArray
     y_test=None,     # type: OptArray
-    callbacks=None,  # type: list
+    callbacks=None,  # type: Callbacks
     batch_size=32,   # type: int
     **kwargs,
 ):

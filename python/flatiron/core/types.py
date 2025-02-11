@@ -7,6 +7,6 @@ import torch.nn
 # ------------------------------------------------------------------------------
 
 AnyModel = Union[tfmodels.Model, torch.nn.Module]
+Callbacks = list[Callable]
 Filepath = Union[str, Path]
 OptArray = Optional[np.ndarray]
-Callbacks = list[Callable]
