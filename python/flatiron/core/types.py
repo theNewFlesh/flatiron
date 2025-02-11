@@ -11,4 +11,4 @@ import torch.nn
 AnyModel = Union[tfmodels.Model, torch.nn.Module]
 Callbacks = list[Union[Callable, tfcb.TensorBoard, tfcb.ModelCheckpoint]]
 Filepath = Union[str, Path]
-OptArray = Optional[np.NDArray]
+OptArray = Optional[np.ndarray]
