@@ -2,7 +2,6 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from schematics.exceptions import DataError
 from tensorflow import keras  # noqa: F401
 from keras import optimizers as tfo
 
@@ -27,9 +26,9 @@ class DatasetConfigTests(unittest.TestCase):
     def test_validate(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            ficc.DatasetConfig(config).validate()
+            ficc.DatasetConfig(**config)
 
-    def test_to_native(self):
+    def test_model_dump(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             keys = [
@@ -44,22 +43,22 @@ class DatasetConfigTests(unittest.TestCase):
             for key in keys:
                 del config[key]
 
-            result = ficc.DatasetConfig(config).to_native()
+            result = ficc.DatasetConfig(**config).model_dump()
             self.assertEqual(result, self.get_config(root))
 
     def test_split_test_size(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['split_test_size'] = -0.2
-            with self.assertRaises(DataError):
-                ficc.DatasetConfig(config).validate()
+            with self.assertRaises(ValueError):
+                ficc.DatasetConfig(**config)
 
     def test_split_train_size(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['split_train_size'] = -0.2
-            with self.assertRaises(DataError):
-                ficc.DatasetConfig(config).validate()
+            with self.assertRaises(ValueError):
+                ficc.DatasetConfig(**config)
 
 
 class OptimizerConfigTests(unittest.TestCase):
