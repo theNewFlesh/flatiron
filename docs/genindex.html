@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.16.1
+                0.17.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -129,40 +129,40 @@
         <li><a href="core.html#flatiron.core.pipeline.PipelineBase.__init__">(flatiron.core.pipeline.PipelineBase method)</a>
 </li>
       </ul></li>
-      <li><a href="core.html#flatiron.core.pipeline.PipelineBase._abc_impl">_abc_impl (flatiron.core.pipeline.PipelineBase attribute)</a>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig._abc_impl">_abc_impl (flatiron.core.config.CallbacksConfig attribute)</a>
 
       <ul>
+        <li><a href="core.html#flatiron.core.config.CompileConfig._abc_impl">(flatiron.core.config.CompileConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.DatasetConfig._abc_impl">(flatiron.core.config.DatasetConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.FitConfig._abc_impl">(flatiron.core.config.FitConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.LoggerConfig._abc_impl">(flatiron.core.config.LoggerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.OptimizerConfig._abc_impl">(flatiron.core.config.OptimizerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.PipelineConfig._abc_impl">(flatiron.core.config.PipelineConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.pipeline.PipelineBase._abc_impl">(flatiron.core.pipeline.PipelineBase attribute)</a>
+</li>
+        <li><a href="models.html#flatiron.tf.models.unet.UNetConfig._abc_impl">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+</li>
         <li><a href="models.html#flatiron.tf.models.unet.UNetPipeline._abc_impl">(flatiron.tf.models.unet.UNetPipeline attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase._engine">_engine (flatiron.core.pipeline.PipelineBase property)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset._get_stats">_get_stats() (flatiron.core.dataset.Dataset static method)</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase._logger">_logger() (flatiron.core.pipeline.PipelineBase method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset._resolve_limit">_resolve_limit() (flatiron.core.dataset.Dataset static method)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CallbacksConfig._schema">_schema (flatiron.core.config.CallbacksConfig attribute)</a>
-
-      <ul>
-        <li><a href="core.html#flatiron.core.config.CompileConfig._schema">(flatiron.core.config.CompileConfig attribute)</a>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig._validate_slack_methods">_validate_slack_methods() (flatiron.core.config.LoggerConfig class method)</a>
 </li>
-        <li><a href="core.html#flatiron.core.config.DatasetConfig._schema">(flatiron.core.config.DatasetConfig attribute)</a>
-</li>
-        <li><a href="core.html#flatiron.core.config.FitConfig._schema">(flatiron.core.config.FitConfig attribute)</a>
-</li>
-        <li><a href="core.html#flatiron.core.config.LoggerConfig._schema">(flatiron.core.config.LoggerConfig attribute)</a>
-</li>
-        <li><a href="core.html#flatiron.core.config.OptimizerConfig._schema">(flatiron.core.config.OptimizerConfig attribute)</a>
-</li>
-        <li><a href="core.html#flatiron.core.config.PipelineConfig._schema">(flatiron.core.config.PipelineConfig attribute)</a>
-</li>
-        <li><a href="models.html#flatiron.tf.models.unet.UNetConfig._schema">(flatiron.tf.models.unet.UNetConfig attribute)</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -441,10 +441,10 @@
 </li>
       <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.input_width">input_width (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id13">[1]</a>
 </li>
-      <li><a href="tf.html#flatiron.tf.metric.intersection_over_union">intersection_over_union() (in module flatiron.tf.metric)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tf.html#flatiron.tf.metric.intersection_over_union">intersection_over_union() (in module flatiron.tf.metric)</a>
+</li>
       <li><a href="core.html#flatiron.core.validators.is_base_two">is_base_two() (in module flatiron.core.validators)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_callback_mode">is_callback_mode() (in module flatiron.core.validators)</a>
@@ -452,8 +452,6 @@
       <li><a href="core.html#flatiron.core.validators.is_engine">is_engine() (in module flatiron.core.validators)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_even">is_even() (in module flatiron.core.validators)</a>
-</li>
-      <li><a href="core.html#flatiron.core.validators.is_gte">is_gte() (in module flatiron.core.validators)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_odd">is_odd() (in module flatiron.core.validators)</a>
 </li>
@@ -533,6 +531,24 @@
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.mode">mode (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id1">[1]</a>
 </li>
+      <li><a href="core.html#flatiron.core.config.CallbacksConfig.model_config">model_config (flatiron.core.config.CallbacksConfig attribute)</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.config.CompileConfig.model_config">(flatiron.core.config.CompileConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.DatasetConfig.model_config">(flatiron.core.config.DatasetConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.FitConfig.model_config">(flatiron.core.config.FitConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.LoggerConfig.model_config">(flatiron.core.config.LoggerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.OptimizerConfig.model_config">(flatiron.core.config.OptimizerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.PipelineConfig.model_config">(flatiron.core.config.PipelineConfig attribute)</a>
+</li>
+        <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.model_config">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.model_config">model_config() (flatiron.core.pipeline.PipelineBase method)</a>
 
       <ul>
@@ -545,6 +561,8 @@
         <li><a href="models.html#flatiron.tf.models.unet.UNetPipeline.model_func">(flatiron.tf.models.unet.UNetPipeline method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
@@ -574,8 +592,6 @@
         <li><a href="tf.html#module-flatiron.tf.tools">flatiron.tf.tools</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.config.OptimizerConfig.momentum">momentum (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id45">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.monitor">monitor (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id2">[1]</a>
