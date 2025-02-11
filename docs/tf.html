@@ -39,7 +39,7 @@
             flatiron
           </a>
               <div class="version">
-                0.17.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -82,6 +82,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.tf.tools">tools</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.tools.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.tools.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -477,6 +478,29 @@ callback. Default: {}.</p></li>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.tools.train">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.tools.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/tools.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.tools.train" title="Link to this definition"></a></dt>
+<dd><p>Train TensorFlow model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>tfmodels.Model</em>) – TensorFlow model.</p></li>
+<li><p><strong>callbacks</strong> (<em>list</em>) – List of callbacks.</p></li>
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Training data.</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Training labels.</p></li>
+<li><p><strong>x_test</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Test data. Default: None.</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Test labels. Default: None.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Batch size. Default: 32.</p></li>
+<li><p><strong>**kwargs</strong> – Other params to be passed to <cite>model.fit</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>

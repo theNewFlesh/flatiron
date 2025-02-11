@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.17.0
+                0.17.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -241,11 +241,11 @@
 
 
 
-<div class="viewcode-block" id="FitConfig">
-<a class="viewcode-back" href="../../../core.html#flatiron.core.config.FitConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">FitConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<div class="viewcode-block" id="TrainConfig">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.config.TrainConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrainConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Configuration for calls to model.fit.</span>
+<span class="sd">    Configuration for calls to model train function.</span>
 
 <span class="sd">    See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit</span>
 
@@ -295,13 +295,13 @@
 <span class="sd">        slack_channel (str, optional): Slack channel name. Default: None.</span>
 <span class="sd">        slack_url (str, optional): Slack URL name. Default: None.</span>
 <span class="sd">        slack_methods (list[str], optional): Pipeline methods to be logged to</span>
-<span class="sd">            Slack. Default: [load, compile, fit].</span>
+<span class="sd">            Slack. Default: [load, compile, train].</span>
 <span class="sd">        timezone (str, optional): Timezone. Default: UTC.</span>
 <span class="sd">        level (str or int, optional): Log level. Default: warn.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">slack_channel</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">slack_url</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">slack_methods</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;compile&#39;</span><span class="p">,</span> <span class="s1">&#39;fit&#39;</span><span class="p">])</span>
+    <span class="n">slack_methods</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;compile&#39;</span><span class="p">,</span> <span class="s1">&#39;train&#39;</span><span class="p">])</span>
     <span class="n">timezone</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;UTC&#39;</span>
     <span class="n">level</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;warn&#39;</span>
 
@@ -330,16 +330,16 @@
 <span class="sd">        compile (dict): Compile configuration.</span>
 <span class="sd">        callbacks (dict): Callbacks configuration.</span>
 <span class="sd">        engine (str): Deep learning framework.</span>
-<span class="sd">        fit (dict): Fit configuration.</span>
 <span class="sd">        logger (dict): Logger configuration.</span>
+<span class="sd">        train (dict): Train configuration.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">dataset</span><span class="p">:</span> <span class="n">DatasetConfig</span>
     <span class="n">optimizer</span><span class="p">:</span> <span class="n">OptimizerConfig</span>
     <span class="nb">compile</span><span class="p">:</span> <span class="n">CompileConfig</span>
     <span class="n">callbacks</span><span class="p">:</span> <span class="n">CallbacksConfig</span>
     <span class="n">engine</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">AfterValidator</span><span class="p">(</span><span class="n">vd</span><span class="o">.</span><span class="n">is_engine</span><span class="p">)]</span>
-    <span class="n">fit</span><span class="p">:</span> <span class="n">FitConfig</span>
-    <span class="n">logger</span><span class="p">:</span> <span class="n">LoggerConfig</span></div>
+    <span class="n">logger</span><span class="p">:</span> <span class="n">LoggerConfig</span>
+    <span class="n">train</span><span class="p">:</span> <span class="n">TrainConfig</span></div>
 
 </pre></div>
 
