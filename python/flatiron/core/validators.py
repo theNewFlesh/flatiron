@@ -112,16 +112,16 @@ def is_callback_mode(mode):
         raise ValueError(msg)
 
 
-def is_pipeline_methods(methods):
-    # type: (list[str]) -> None
+def is_pipeline_method(method):
+    # type: (str) -> None
     '''
-    Validates that each method in a list is a legal pipeline method.
+    Validates that method is a legal pipeline method.
 
     Args:
-        mode (list[str]): Pipeline methods.
+        mode (str): Pipeline method.
 
     Raises:
-        ValueError: If any method illegal.
+        ValueError: If method is not legal.
     '''
     legal = [
         'load',
@@ -131,10 +131,8 @@ def is_pipeline_methods(methods):
         'compile',
         'fit',
     ]
-    bad = list(filter(lambda x: x not in legal, methods))
-    if bad != []:
-        msg = ', '.join(bad)
-        msg = f'[{msg}] are not legal pipeline methods. Legal methods: {legal}.'
+    if method not in legal:
+        msg = f'{method} is not a legal pipeline method. Legal methods: {legal}.'
         raise ValueError(msg)
 
 

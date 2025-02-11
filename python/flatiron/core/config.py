@@ -1,19 +1,19 @@
 from typing import Optional, Union
-
-from pydantic import AfterValidator, BaseModel, Field
 from typing_extensions import Annotated
+
+import pydantic as pyd
 
 import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-IsGTE0 = AfterValidator(lambda x: vd.is_gte(x, 0))
-IsCallbackMode = AfterValidator(vd.is_callback_mode)
-IsEngine = AfterValidator(vd.is_engine)
-IsPipeline = AfterValidator(vd.is_pipeline_methods)
+IsGTE0 = pyd.AfterValidator(lambda x: vd.is_gte(x, 0))
+IsCallbackMode = pyd.AfterValidator(vd.is_callback_mode)
+IsEngine = pyd.AfterValidator(vd.is_engine)
+IsPipeline = pyd.AfterValidator(vd.is_pipeline_method)
 
 
-class DatasetConfig(BaseModel):
+class DatasetConfig(pyd.BaseModel):
     '''
     Configuration for Dataset.
 
@@ -38,13 +38,13 @@ class DatasetConfig(BaseModel):
     load_shuffle: bool = False
     split_index: int
     split_axis: int = -1
-    split_test_size: Optional[Annotated[float, Field(ge=0)]] = 0.2
-    split_train_size: Optional[Annotated[float, Field(ge=0)]] = None
+    split_test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
+    split_train_size: Optional[Annotated[float, pyd.Field(ge=0)]] = None
     split_random_state: Optional[int] = 42
     split_shuffle: bool = True
 
 
-class OptimizerConfig(BaseModel):
+class OptimizerConfig(pyd.BaseModel):
     '''
     Configuration for keras optimizer.
 
@@ -83,7 +83,7 @@ class OptimizerConfig(BaseModel):
     jit_compile: bool = True
 
 
-class CompileConfig(BaseModel):
+class CompileConfig(pyd.BaseModel):
     '''
     Configuration for calls to model.compile.
 
@@ -110,7 +110,7 @@ class CompileConfig(BaseModel):
     jit_compile: bool = False
 
 
-class CallbacksConfig(BaseModel):
+class CallbacksConfig(pyd.BaseModel):
     '''
     Configuration for tensorflow callbacks.
 
@@ -144,7 +144,7 @@ class CallbacksConfig(BaseModel):
     initial_value_threshold: Optional[float] = None
 
 
-class FitConfig(BaseModel):
+class FitConfig(pyd.BaseModel):
     '''
     Configuration for calls to model.fit.
 
@@ -183,7 +183,7 @@ class FitConfig(BaseModel):
     # validation_steps
 
 
-class LoggerConfig(BaseModel):
+class LoggerConfig(pyd.BaseModel):
     '''
     Configuration for logger.
 
@@ -199,12 +199,18 @@ class LoggerConfig(BaseModel):
     '''
     slack_channel: Optional[str] = None
     slack_url: Optional[str] = None
-    slack_methods: Annotated[list[str], IsPipeline] = ['load', 'compile', 'fit']
+    slack_methods: list[str] = pyd.Field(default=['load', 'compile', 'fit'])
     timezone: str = 'UTC'
     level: str = 'warn'
 
+    @pyd.field_validator('slack_methods')
+    def _validate_slack_methods(cls, value):
+        for item in value:
+            vd.is_pipeline_method(item)
+        return value
 
-class PipelineConfig(BaseModel):
+
+class PipelineConfig(pyd.BaseModel):
     '''
     Configuration for PipelineBase classes.
 

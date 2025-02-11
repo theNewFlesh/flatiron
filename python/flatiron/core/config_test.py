@@ -170,7 +170,7 @@ class LoggerConfigTests(unittest.TestCase):
         config = self.get_config()
         config['slack_methods'] = ['load', 'foo', 'bar']
 
-        expected = r'\[foo, bar\] are not legal pipeline methods'
+        expected = 'foo is not a legal pipeline method'
         with self.assertRaisesRegex(ValueError, expected):
             ficc.LoggerConfig(**config)
 

@@ -52,7 +52,7 @@ class ValidatorsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, expected):
             vd.is_callback_mode('foobar')
 
-    def test_is_pipeline_methods(self):
+    def test_is_pipeline_method(self):
         legal = [
             'load',
             'train_test_split',
@@ -61,12 +61,13 @@ class ValidatorsTests(unittest.TestCase):
             'compile',
             'fit',
         ]
-        vd.is_pipeline_methods(legal)
+        for method in legal:
+            vd.is_pipeline_method(method)
 
-        expected = r'\[foo, bar\] are not legal pipeline methods. '
+        expected = 'foobar is not a legal pipeline method. '
         expected += 'Legal methods:.*' + '.*'.join(legal)
         with self.assertRaisesRegex(ValueError, expected):
-            vd.is_pipeline_methods(['load', 'foo', 'bar'])
+            vd.is_pipeline_method('foobar')
 
     def test_is_engine(self):
         legal = ['tensorflow', 'pytorch']
