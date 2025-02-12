@@ -1527,7 +1527,7 @@ files = [
 
 [[package]]
 name = "myst-parser"
-version = "4.0.0"
+version = "4.0.1"
 summary = ""
 dependencies = [
     "docutils",
@@ -1538,8 +1538,8 @@ dependencies = [
     "sphinx",
 ]
 files = [
-    {file = "myst_parser-4.0.0-py3-none-any.whl", hash = "sha256:b9317997552424448c6096c2558872fdb6f81d3ecb3a40ce84a7518798f3f28d"},
-    {file = "myst_parser-4.0.0.tar.gz", hash = "sha256:851c9dfb44e36e56d15d05e72f02b80da21a9e0d07cba96baf5e2d476bb91531"},
+    {file = "myst_parser-4.0.1-py3-none-any.whl", hash = "sha256:9134e88959ec3b5780aedf8a99680ea242869d012e8821db3126d427edc9c95d"},
+    {file = "myst_parser-4.0.1.tar.gz", hash = "sha256:5cfea715e4f3574138aecbf7d54132296bfd72bb614d31168f48c477a830a7c4"},
 ]
 
 [[package]]
