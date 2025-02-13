@@ -310,6 +310,19 @@ class Dataset:
         filepath = filepaths[0]
         return self._read_file(filepath)
 
+    def _read_file(self, filepath):
+        # type: (str) -> Any
+        '''
+        Read given file.
+
+        Args:
+            filepath (str): Filepath.
+
+        Returns:
+            object: File content.
+        '''
+        return self._read_file_as_array(filepath)
+
     def _read_file_as_array(self, filepath):
         # type: (str) -> np.ndarray
         '''

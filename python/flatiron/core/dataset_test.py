@@ -241,6 +241,14 @@ class DatasetTests(DatasetTestBase):
             result = data._read_file_as_array(filepath)
             self.assertEqual(result.shape, (10, 10, 3))
 
+    def test_read_file(self):
+        with TemporaryDirectory() as root:
+            _, csv = self.create_dataset_files(root)
+            data = Dataset.read_csv(csv)
+            filepath = data.info.filepath[0]
+            result = data._read_file(filepath)
+            self.assertEqual(result.shape, (10, 10, 3))
+
     def test_stats_unloaded(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root, shape=(200, 100, 100, 4))
