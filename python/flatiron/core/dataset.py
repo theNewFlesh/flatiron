@@ -289,6 +289,27 @@ class Dataset:
         '''
         return len(self._info)
 
+    def __getitem__(self, frame):
+        # type: (int) -> Any
+        '''
+        Get data by frame.
+
+        Raises:
+            IndexError: If frame is missing or multiple frames were found.
+
+        Returns:
+            object: Frame data.
+        '''
+        info = self._info
+        mask = info.frame == frame
+        filepaths = info.loc[mask, 'filepath'].tolist()
+        if len(filepaths) == 0:
+            raise IndexError(f'Missing frame {frame}.')
+        elif len(filepaths) > 1:
+            raise IndexError(f'Multiple frames found for {frame}.')
+        filepath = filepaths[0]
+        return self._read_file(filepath)
+
     def _read_file_as_array(self, filepath):
         # type: (str) -> np.ndarray
         '''
