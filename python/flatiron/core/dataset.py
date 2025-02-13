@@ -80,8 +80,9 @@ class Dataset:
 
         Args:
             info (pd.DataFrame): Info DataFrame.
-            extension (str): File extension. Default: npy.
-            calc_file_size (bool): Calculate file size in GB. Default: True.
+            extension (str, optional): File extension. Default: npy.
+            calc_file_size (bool, optional): Calculate file size in GB.
+                Default: True.
 
         Raises:
             EnforceError: If info is not an instance of DataFrame.
