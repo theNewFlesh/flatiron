@@ -8,6 +8,7 @@ import re
 
 from lunchbox.enforce import Enforce
 from tqdm.notebook import tqdm
+import cv_depot.api as cvd
 import humanfriendly as hf
 import numpy as np
 import pandas as pd
@@ -318,10 +319,22 @@ class Dataset:
         Args:
             filepath (str): Filepath.
 
+        Raises:
+            IOError: If extension is not supported.
+
         Returns:
             object: File content.
         '''
-        return self._read_file_as_array(filepath)
+        ext = Path(filepath).suffix[1:].lower()
+        if ext == 'npy':
+            return np.load(filepath)
+
+        formats = [x.lower() for x in cvd.ImageFormat.__members__.keys()]
+        formats += ['jpg']
+        if ext in formats:
+            return cvd.Image.read(filepath)
+
+        raise IOError(f'Unsupported extension: {ext}')
 
     def _read_file_as_array(self, filepath):
         # type: (str) -> np.ndarray
@@ -331,17 +344,15 @@ class Dataset:
         Args:
             filepath (str): Filepath.
 
-        Raises:
-            IOError: If extension is not supported.
-
         Returns:
             np.ndarray: Array.
         '''
-        if self._extension == 'npy':
-            return np.load(filepath)
-        raise IOError(f'Unsupported extension: {self._extension}')
-        # elif self._extension == 'exr':
-        #     return cvd.Image.read(filepath).data
+        item = self._read_file(filepath)
+
+        ext = Path(filepath).suffix[1:].lower()
+        if ext == 'npy':
+            return item
+        return item.data
 
     @staticmethod
     def _resolve_limit(limit):

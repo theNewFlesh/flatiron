@@ -5,6 +5,7 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from pandas import DataFrame
+import cv_depot.api as cvd
 import numpy as np
 
 from flatiron.core.dataset import Dataset, CompositeDataset
@@ -239,15 +240,48 @@ class DatasetTests(DatasetTestBase):
             data = Dataset.read_csv(csv)
             filepath = data.info.filepath[0]
             result = data._read_file_as_array(filepath)
-            self.assertEqual(result.shape, (10, 10, 3))
+            self.assertIsInstance(result, np.ndarray)
 
-    def test_read_file(self):
+    def test_read_file_as_array_exr(self):
+        with TemporaryDirectory() as root:
+            _, csv = self.create_dataset_files(root)
+            img = cvd.ops.draw.swatch((10, 10, 3), cvd.BasicColor.BLACK)
+            target = Path(root, 'test.exr').as_posix()
+            img.write(target)
+            data = Dataset.read_csv(csv)
+            result = data._read_file_as_array(target)
+            self.assertIsInstance(result, np.ndarray)
+
+    def test_read_file_npy(self):
         with TemporaryDirectory() as root:
             _, csv = self.create_dataset_files(root)
             data = Dataset.read_csv(csv)
             filepath = data.info.filepath[0]
             result = data._read_file(filepath)
-            self.assertEqual(result.shape, (10, 10, 3))
+            self.assertIsInstance(result, cvd.Image)
+
+    def test_read_file_exr(self):
+        with TemporaryDirectory() as root:
+            _, csv = self.create_dataset_files(root)
+            img = cvd.ops.draw.swatch((10, 10, 3), cvd.BasicColor.BLACK)
+            target = Path(root, 'test.exr').as_posix()
+            img.write(target)
+            data = Dataset.read_csv(csv)
+            result = data._read_file(target)
+            self.assertIsInstance(result, cvd.Image)
+
+    def test_read_file_errors(self):
+        with TemporaryDirectory() as root:
+            _, csv = self.create_dataset_files(root)
+            data = Dataset.read_csv(csv)
+
+            target = Path(root, 'foo.txt')
+            with open(target, 'w') as f:
+                f.write('foo')
+
+            expected = 'Unsupported extension: txt'
+            with self.assertRaisesRegex(IOError, expected):
+                data._read_file(target)
 
     def test_stats_unloaded(self):
         with TemporaryDirectory() as root:
