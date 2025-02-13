@@ -291,6 +291,12 @@ class DatasetTests(DatasetTestBase):
             expected = fict.unindent(expected, spaces=16)
             self.assertEqual(result, expected)
 
+    def test_len(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+            dset = Dataset.read_directory(root)
+            self.assertEqual(len(dset._info), len(dset))
+
     def test_resolve_limit(self):
         # sample
         result = Dataset._resolve_limit(10)

@@ -281,6 +281,14 @@ class Dataset:
         msg = msg + stats
         return msg
 
+    def __len__(self):
+        # tyope: () -> int
+        '''
+        Returns:
+            int: Number of frames.
+        '''
+        return len(self._info)
+
     def _read_file_as_array(self, filepath):
         # type: (str) -> np.ndarray
         '''
