@@ -73,13 +73,15 @@ class Dataset:
 
         return cls.read_csv(files[0])
 
-    def __init__(self, info):
-        # type: (pd.DataFrame) -> None
+    def __init__(self, info, extension='npy', calc_file_size=True):
+        # type: (pd.DataFrame, str, bool) -> None
         '''
         Construct a Dataset instance.
 
         Args:
             info (pd.DataFrame): Info DataFrame.
+            extension (str): File extension. Default: npy.
+            calc_file_size (bool): Calculate file size in GB. Default: True.
 
         Raises:
             EnforceError: If info is not an instance of DataFrame.
@@ -107,31 +109,35 @@ class Dataset:
             .apply(lambda x: Path(root, x).as_posix())
         mask = info.filepath.apply(lambda x: not Path(x).is_file())
         absent = info.loc[mask, 'filepath'].tolist()
-        msg = f'Chunk files do not exist: {absent}'
+        msg = f'Files do not exist: {absent}'
         Enforce(len(absent), '==', 0, message=msg)
 
-        # npy extension
+        # extension
         mask = info.filepath \
             .apply(lambda x: Path(x).suffix.lower()[1:]) \
-            .apply(lambda x: x != 'npy')
+            .apply(lambda x: x != extension)
         bad_ext = sorted(info.loc[mask, 'filepath'].tolist())
-        msg = f'Found chunk files missing npy extension: {bad_ext}'
+        msg = f'Found files missing {extension} extension: {bad_ext}'
         Enforce(len(bad_ext), '==', 0, message=msg)
 
-        # chunk indicators
-        chunk_regex = r'_(f|c)(\d+)\.npy$'
-        mask = info.filepath.apply(lambda x: re.search(chunk_regex, x) is None)
-        bad_chunk = info.loc[mask, 'filepath'].tolist()
-        msg = 'Found chunk files missing chunk indicators. '
-        msg += r"File names must match '_(f|c)\d+\.npy'. "
-        msg += f'Invalid chunks: {bad_chunk}'
-        Enforce(len(bad_chunk), '==', 0, message=msg)
+        # frame indicators
+        frame_regex = r'_(f|c)(\d+)\.' + f'{extension}$'
+        mask = info.filepath.apply(lambda x: re.search(frame_regex, x) is None)
+        bad_frames = info.loc[mask, 'filepath'].tolist()
+        msg = 'Found files missing frame indicators. '
+        msg += f"File names must match '{frame_regex}'. "
+        msg += f'Invalid frames: {bad_frames}'
+        Enforce(len(bad_frames), '==', 0, message=msg)
 
-        # chunk column
-        info['chunk'] = info.filepath \
-            .apply(lambda x: re.search(chunk_regex, x).group(2)).astype(int)  # type: ignore
-        info['GB'] = info.filepath \
-            .apply(lambda x: os.stat(x).st_size / 10**9)
+        # frame column
+        info['frame'] = info.filepath \
+            .apply(lambda x: re.search(frame_regex, x).group(2)).astype(int)  # type: ignore
+
+        # gb column
+        info['gb'] = np.nan
+        if calc_file_size:
+            info['gb'] = info.filepath \
+                .apply(lambda x: os.stat(x).st_size / 10**9)
 
         # loaded column
         info['loaded'] = False
@@ -139,7 +145,7 @@ class Dataset:
 
         # reorganize columns
         cols = [
-            'GB', 'chunk', 'asset_path', 'filepath_relative', 'filepath',
+            'gb', 'frame', 'asset_path', 'filepath_relative', 'filepath',
             'loaded'
         ]
         cols = cols + info.drop(cols, axis=1).columns.tolist()
@@ -148,6 +154,7 @@ class Dataset:
         self._info = info  # type: pd.DataFrame
         self.data = None  # type: OptArray
         self._sample_gb = np.nan  # type: Union[float, np.ndarray]
+        self._extension = extension  # type: str
 
     @property
     def info(self):
@@ -159,13 +166,13 @@ class Dataset:
         return self._info.copy()
 
     @property
-    def chunks(self):
+    def filepaths(self):
         # type: () -> list[str]
         '''
         Returns:
-            list[str]: Chunk filepaths.
+            list[str]: Filepaths sorted by frame.
         '''
-        return self._info.sort_values('chunk').filepath.tolist()
+        return self._info.sort_values('frame').filepath.tolist()
 
     @property
     def asset_path(self):
@@ -202,8 +209,8 @@ class Dataset:
 
         Units include:
 
-        * GB
-        * chunk
+        * gb
+        * frame
         * sample
 
         Returns:
@@ -218,10 +225,10 @@ class Dataset:
 
         if self.data is not None:
             loaded = round(self.data.nbytes / 10**9, 2)
-            stats.loc['loaded', 'GB'] = loaded
+            stats.loc['loaded', 'gb'] = loaded
 
             # sample stats
-            total = info['GB'].sum() / self._sample_gb
+            total = info['gb'].sum() / self._sample_gb
             stats.loc['loaded', 'sample'] = self.data.shape[0]
             stats.loc['total', 'sample'] = total
             stats.loc['mean', 'sample'] = total / info.shape[0]
@@ -247,9 +254,9 @@ class Dataset:
         rows = ['min', 'max', 'mean', 'std', 'count']
         stats = stats.loc[rows]
         stats.loc['total'] = info[stats.columns].sum()
-        stats.loc['total', 'chunk'] = stats.loc['count', 'chunk']
-        stats.loc['mean', 'chunk'] = np.nan
-        stats.loc['std', 'chunk'] = np.nan
+        stats.loc['total', 'frame'] = stats.loc['count', 'frame']
+        stats.loc['mean', 'frame'] = np.nan
+        stats.loc['std', 'frame'] = np.nan
         stats = stats.map(lambda x: round(x, 2))
         stats.drop('count', inplace=True)
         return stats
@@ -267,11 +274,31 @@ class Dataset:
             STATS:
                   '''[1:]
         msg = fict.unindent(msg, spaces=8)
-        cols = ['GB', 'chunk', 'sample']
+        cols = ['gb', 'frame', 'sample']
         stats = str(self.stats[cols])
         stats = '\n          '.join(stats.split('\n'))
         msg = msg + stats
         return msg
+
+    def _read_file_as_array(self, filepath):
+        # type: (str) -> np.ndarray
+        '''
+        Read file as numpy array.
+
+        Args:
+            filepath (str): Filepath.
+
+        Raises:
+            IOError: If extension is not supported.
+
+        Returns:
+            np.ndarray: Array.
+        '''
+        if self._extension == 'npy':
+            return np.load(filepath)
+        raise IOError(f'Unsupported extension: {self._extension}')
+        # elif self._extension == 'exr':
+        #     return cvd.Image.read(filepath).data
 
     @staticmethod
     def _resolve_limit(limit):
@@ -296,12 +323,12 @@ class Dataset:
     def load(self, limit=None, shuffle=False):
         # type: (Optional[Union[str, int]], bool) -> Dataset
         '''
-        Load data from chunk files.
+        Load data from files.
 
         Args:
             limit (str or int, optional): Limit data by number of samples or
                 memory size. Default: None.
-            shuffle (bool, optional): Shuffle chunks before loading.
+            shuffle (bool, optional): Shuffle frames before loading.
                 Default: False.
 
         Returns:
@@ -317,32 +344,32 @@ class Dataset:
         if shuffle:
             random.shuffle(rows)
 
-        # chunk vars
-        chunks = []
+        # frame vars
+        frames = []
         memory = 0
         samples = 0
 
         # tqdm message
-        desc = 'Loading Dataset Chunks'
+        desc = 'Loading Dataset Files'
         if limit_type != 'None':
             desc = f'May not total to 100% - {desc}'
 
-        # load chunks
+        # load frames
         for i, row in tqdm(rows, desc=desc):
             if limit_type == 'samples' and samples >= limit_:
                 break
             elif limit_type == 'memory' and memory >= limit_:
                 break
 
-            chunk = np.load(row.filepath)
-            chunks.append(chunk)
+            frame = self._read_file_as_array(row.filepath)
+            frames.append(frame)
 
             self._info.loc[i, 'loaded'] = True
-            memory += chunk.nbytes
-            samples += chunk.shape[0]
+            memory += frame.nbytes
+            samples += frame.shape[0]
 
         # concatenate data
-        data = np.concatenate(chunks, axis=0)
+        data = np.concatenate(frames, axis=0)
 
         # limit array size by samples
         if limit_type == 'samples':

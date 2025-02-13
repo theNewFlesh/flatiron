@@ -81,7 +81,7 @@ class DatasetTests(unittest.TestCase):
             info, _ = self.create_dataset_files(root)
             result = Dataset(info)._info
             cols = [
-                'GB', 'chunk', 'asset_path', 'filepath_relative',
+                'gb', 'frame', 'asset_path', 'filepath_relative',
                 'filepath', 'loaded'
             ]
             for col in cols:
@@ -90,8 +90,8 @@ class DatasetTests(unittest.TestCase):
             result = result.columns.tolist()[:6]
             self.assertEqual(result, cols)
 
-            # GB column
-            result = int(Dataset(info)._info.GB.sum() * 10**9)
+            # gb column
+            result = int(Dataset(info)._info.gb.sum() * 10**9)
             self.assertEqual(result, 4280)
 
             # loaded column
@@ -126,7 +126,7 @@ class DatasetTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
             info.loc[3, 'filepath_relative'] = '/foo/bar.npy'
-            expected = 'Chunk files do not exist:.*/foo/bar.npy'
+            expected = 'Files do not exist:.*/foo/bar.npy'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info)
 
@@ -138,11 +138,11 @@ class DatasetTests(unittest.TestCase):
             tgt = src.replace('npy', 'txt')
             os.rename(src, tgt)
             info.loc[3, 'filepath_relative'] = tgt
-            expected = 'Found chunk files missing npy extension:.*foo_f03.txt'
+            expected = 'Found files missing npy extension:.*foo_f03.txt'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info)
 
-    def test_init_chunk_indicator(self):
+    def test_init_frame_indicator(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root, indicator='f')
             Dataset(info)
@@ -151,10 +151,10 @@ class DatasetTests(unittest.TestCase):
             info, _ = self.create_dataset_files(root, indicator='c')
             Dataset(info)
 
-    def test_init_chunk_indicator_error(self):
+    def test_init_frame_indicator_error(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root, indicator='q')
-            expected = 'Found chunk files missing chunk indicators. '
+            expected = 'Found files missing frame indicators. '
             expected += r'File names must match.*f\|c'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info)
@@ -171,26 +171,26 @@ class DatasetTests(unittest.TestCase):
             result = Dataset.read_directory(root).asset_name
             self.assertEqual(result, Path(root).name)
 
-    def test_chunks(self):
+    def test_filepaths(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root)
             base = Path(root, 'data')
-            chunks = os.listdir(base)
-            expected = sorted([Path(base, x).as_posix() for x in chunks])
-            result = Dataset.read_directory(root).chunks
+            filepaths = os.listdir(base)
+            expected = sorted([Path(base, x).as_posix() for x in filepaths])
+            result = Dataset.read_directory(root).filepaths
             self.assertEqual(result, expected)
 
     def test_get_stats(self):
         info = DataFrame()
-        info['GB'] = [1.1, 1.0, 1.1, 0.5]
-        info['chunk'] = [0, 1, 2, 3]
+        info['gb'] = [1.1, 1.0, 1.1, 0.5]
+        info['frame'] = [0, 1, 2, 3]
         stats = Dataset._get_stats(info)
 
         exp = info.describe().map(lambda x: round(x, 2))
-        exp.loc['total', 'GB'] = info['GB'].sum()
-        exp.loc['total', 'chunk'] = info['chunk'].count()
-        exp.loc['mean', 'chunk'] = np.nan
-        exp.loc['std', 'chunk'] = np.nan
+        exp.loc['total', 'gb'] = info['gb'].sum()
+        exp.loc['total', 'frame'] = info['frame'].count()
+        exp.loc['mean', 'frame'] = np.nan
+        exp.loc['std', 'frame'] = np.nan
 
         # index
         index = ['min', 'max', 'mean', 'std', 'total']
@@ -199,7 +199,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(result, index)
 
         # values
-        cols = ['GB', 'chunk']
+        cols = ['gb', 'frame']
         for col in cols:
             for i in index:
                 result = stats.loc[i, col]
@@ -214,26 +214,26 @@ class DatasetTests(unittest.TestCase):
             self.create_dataset_files(root, shape=(200, 100, 100, 4))
             result = Dataset.read_directory(root).stats
 
-            # GB
-            self.assertEqual(result.loc['loaded', 'GB'], 0)
-            self.assertEqual(result.loc['total', 'GB'], 0.08)
+            # gb
+            self.assertEqual(result.loc['loaded', 'gb'], 0)
+            self.assertEqual(result.loc['total', 'gb'], 0.08)
 
-            # chunk
-            self.assertEqual(result.loc['loaded', 'chunk'], 0)
-            self.assertEqual(result.loc['total', 'chunk'], 10)
+            # frame
+            self.assertEqual(result.loc['loaded', 'frame'], 0)
+            self.assertEqual(result.loc['total', 'frame'], 10)
 
     def test_stats_loaded(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root, shape=(200, 100, 100, 4))
             result = Dataset.read_directory(root).load(limit=500).stats
 
-            # GB
-            self.assertEqual(result.loc['loaded', 'GB'], 0.02)
-            self.assertEqual(result.loc['total', 'GB'], 0.08)
+            # gb
+            self.assertEqual(result.loc['loaded', 'gb'], 0.02)
+            self.assertEqual(result.loc['total', 'gb'], 0.08)
 
-            # chunk
-            self.assertEqual(result.loc['loaded', 'chunk'], 3)
-            self.assertEqual(result.loc['total', 'chunk'], 10)
+            # frame
+            self.assertEqual(result.loc['loaded', 'frame'], 3)
+            self.assertEqual(result.loc['total', 'frame'], 10)
 
             # sample
             self.assertEqual(result.loc['loaded', 'sample'], 500)
@@ -249,7 +249,7 @@ class DatasetTests(unittest.TestCase):
                     ASSET_NAME: {name}
                     ASSET_PATH: {root}
                     STATS:
-                                   GB  chunk  sample
+                                   gb  frame  sample
                           min     0.0    0.0     NaN
                           max     0.0    9.0     NaN
                           mean    0.0    NaN     NaN
@@ -265,7 +265,7 @@ class DatasetTests(unittest.TestCase):
         self.assertEqual(result, (10, 'samples'))
 
         # memory
-        result = Dataset._resolve_limit('1 GB')
+        result = Dataset._resolve_limit('1 gb')
         self.assertEqual(result, (10**9, 'memory'))
 
         # none
@@ -311,7 +311,7 @@ class DatasetTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             shape = (1000, 100, 100, 3)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit='0.2 GB')
+            dset = Dataset.read_directory(root).load(limit='0.2 gb')
 
             # data shape
             self.assertEqual(dset.data.shape, (6667, 100, 100, 3))
