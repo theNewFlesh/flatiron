@@ -402,6 +402,13 @@ class Dataset:
         self._info['loaded'] = False
         return self
 
+
+class CompositeDataset(Dataset):
+    '''
+    This class is used for data in which the data and the labels are combined in
+    one file. For example, an RGBA image in which the data is RGB and the label
+    is A.
+    '''
     def xy_split(self, index, axis=-1):
         # type: (int, int) -> tuple[np.ndarray, np.ndarray]
         '''

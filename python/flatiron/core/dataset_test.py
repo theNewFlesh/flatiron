@@ -7,7 +7,7 @@ from lunchbox.enforce import EnforceError
 from pandas import DataFrame
 import numpy as np
 
-from flatiron.core.dataset import Dataset
+from flatiron.core.dataset import Dataset, CompositeDataset
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
@@ -19,10 +19,12 @@ class DatasetTests(unittest.TestCase):
         array = np.ones(shape, dtype=np.uint8)
         np.save(target, array)
 
-    def create_dataset_files(self, root, shape=(10, 10, 3), indicator='f'):
+    def create_dataset_files(
+        self, root, shape=(10, 10, 3), indicator='f', ext='npy'
+    ):
         os.makedirs(Path(root, 'data'))
         info = DataFrame()
-        info['filepath_relative'] = [f'data/foo_{indicator}{i:02d}.npy' for i in range(10)]
+        info['filepath_relative'] = [f'data/foo_{indicator}{i:02d}.{ext}' for i in range(10)]
         info['asset_path'] = root
         info.filepath_relative \
             .apply(lambda x: Path(root, x)) \
@@ -377,11 +379,13 @@ class DatasetTests(unittest.TestCase):
             result = dset._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
+
+class CompositeDatasetTests(DatasetTests):
     def test_xy_split(self):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=200)
+            dset = CompositeDataset.read_directory(root).load(limit=200)
 
             # index -1
             x, y = dset.xy_split(-1)
@@ -407,7 +411,7 @@ class DatasetTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root)
+            dset = CompositeDataset.read_directory(root)
             expected = 'Data not loaded. Please call load method.'
             with self.assertRaisesRegex(EnforceError, expected):
                 dset.xy_split(-1)
@@ -416,7 +420,7 @@ class DatasetTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             shape = (50, 10, 10, 5)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=100)
+            dset = CompositeDataset.read_directory(root).load(limit=100)
 
             # two classes
             x_train, x_test, y_train, y_test = dset \
