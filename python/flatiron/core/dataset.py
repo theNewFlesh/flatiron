@@ -156,7 +156,6 @@ class Dataset:
         self._info = info  # type: pd.DataFrame
         self.data = None  # type: OptArray
         self._sample_gb = np.nan  # type: Union[float, np.ndarray]
-        self._extension = extension  # type: str
 
     @property
     def info(self):
