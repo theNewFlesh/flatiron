@@ -1,8 +1,9 @@
-from typing import Callable  # noqa F401
+from typing import Any, Callable, Optional  # noqa F401
 from flatiron.core.types import Filepath  # noqa: F401
 import numpy as np  # noqa F401
 
 from torch.utils.tensorboard import SummaryWriter
+import pandas as pd
 import torch
 import tqdm.notebook as tqdm
 
@@ -36,38 +37,60 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     return callbacks
 
 
-def _train_step(
-    model,        # type: torch.nn.Module
-    data_loader,  # type: torch.utils.data.DataLoader
-    loss_fn,      # type: torch.nn.Module
-    optimizer,    # type: torch.optim.Optimizer
-    metrics,      # type: Callable
-    device,       # type: torch.device
+def _train_epoch(
+    epoch,              # type: int
+    model,              # type: torch.nn.Module
+    data_loader,        # type: torch.utils.data.DataLoader
+    optimizer,          # type: torch.optim.Optimizer
+    loss_func,          # type: torch.nn.Module
+    device,             # type: torch.device
+    metrics_func=None,  # type: Optional[Callable[Any, dict[str, float]]]
+    writer=None,        # type: Optional[SummaryWriter]
 ):
-    # type: (...) -> tuple[float, float]
-    loss = 0
-    score = 0
+    # type: (...) -> dict[str, float]
+    model.train()
+
+    metrics = []
+    epoch_size = len(data_loader)
+
     model.to(device)
-    for x, y in data_loader:
-        x = x.to(device)
-        y = y.to(device)
-        y_pred = model(x)
-        loss = loss_fn(y_pred, y)
-        loss += loss
-        score += metrics(
-            y_true=y,
-            y_pred=y_pred.argmax(dim=1)
-        )
+    for i, batch in enumerate(data_loader):
+        # get x and y
+        if len(batch) == 2:
+            x, y = batch
+            x = x.to(device)
+            y = y.to(device)
+        else:
+            x = batch
+            x = x.to(device)
+            y = x
+
+        # train model on batch
         optimizer.zero_grad()
+        y_pred = model(x)
+        loss = loss_func(y_pred, y)
         loss.backward()
         optimizer.step()
 
-    loss /= len(data_loader)
-    score /= len(data_loader)
-    return loss, score
+        # gather batch metrics
+        batch_metrics = {}
+        if metrics_func is not None:
+            batch_metrics = metrics_func(y_pred=y_pred, y_true=y)
+        batch_metrics['loss'] = loss
+        metrics.append(batch_metrics)
 
+        # write to tensorboard
+        if writer is not None:
+            batch_index = epoch * epoch_size + i
+            for key, val in batch_metrics.items():
+                writer.add_scalar(f'train_batch_{key}', val, batch_index)
 
-def _test_step(
+    # compute mean epoch metrics
+    output = pd.DataFrame(metrics) \
+        .rename(lambda x: f'train_epoch_{x}', axis=1) \
+        .mean() \
+        .to_dict()
+    return output
     data_loader,  # type: torch.utils.data.DataLoader
     model,        # type: torch.nn.Module
     loss_fn,      # type: torch.nn.Module
