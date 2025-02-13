@@ -5,6 +5,7 @@ import numpy as np  # noqa F401
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
 import torch
+import torch.utils.data as torchdata
 import tqdm.notebook as tqdm
 
 import flatiron.core.tools as fict
@@ -37,84 +38,74 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     return callbacks
 
 
-def _train_epoch(
+def _execute_epoch(
     epoch,              # type: int
     model,              # type: torch.nn.Module
     data_loader,        # type: torch.utils.data.DataLoader
     optimizer,          # type: torch.optim.Optimizer
     loss_func,          # type: torch.nn.Module
     device,             # type: torch.device
-    metrics_func=None,  # type: Optional[Callable[Any, dict[str, float]]]
+    metrics_func=None,  # type: Optional[Callable[..., dict[str, float]]]
     writer=None,        # type: Optional[SummaryWriter]
+    mode='train',       # type: str
 ):
-    # type: (...) -> dict[str, float]
-    model.train()
+    # type: (...) -> None
+    if mode == 'train':
+        context = torch.enable_grad  # type: Any
+        model.train()
+    elif mode == 'test':
+        context = torch.inference_mode
+        model.eval()
+    else:
+        raise ValueError(f'Invalid mode: {mode}')
 
     metrics = []
     epoch_size = len(data_loader)
+    with context():
+        for i, batch in enumerate(data_loader):
+            # get x and y
+            if len(batch) == 2:
+                x, y = batch
+                x = x.to(device)
+                y = y.to(device)
+            else:
+                x = batch
+                x = x.to(device)
+                y = x
 
-    model.to(device)
-    for i, batch in enumerate(data_loader):
-        # get x and y
-        if len(batch) == 2:
-            x, y = batch
-            x = x.to(device)
-            y = y.to(device)
-        else:
-            x = batch
-            x = x.to(device)
-            y = x
+            # train model on batch
+            if mode == 'train':
+                optimizer.zero_grad()
 
-        # train model on batch
-        optimizer.zero_grad()
-        y_pred = model(x)
-        loss = loss_func(y_pred, y)
-        loss.backward()
-        optimizer.step()
+            y_pred = model(x)
+            loss = loss_func(y_pred, y)
 
-        # gather batch metrics
-        batch_metrics = {}
-        if metrics_func is not None:
-            batch_metrics = metrics_func(y_pred=y_pred, y_true=y)
-        batch_metrics['loss'] = loss
-        metrics.append(batch_metrics)
+            if mode == 'train':
+                loss.backward()
+                optimizer.step()
 
-        # write to tensorboard
-        if writer is not None:
-            batch_index = epoch * epoch_size + i
-            for key, val in batch_metrics.items():
-                writer.add_scalar(f'train_batch_{key}', val, batch_index)
+            # gather batch metrics
+            batch_metrics = {}
+            if metrics_func is not None:
+                batch_metrics = metrics_func(y_pred=y_pred, y_true=y)
+            batch_metrics['loss'] = loss
+            metrics.append(batch_metrics)
 
-    # compute mean epoch metrics
-    output = pd.DataFrame(metrics) \
-        .rename(lambda x: f'train_epoch_{x}', axis=1) \
-        .mean() \
-        .to_dict()
-    return output
-    data_loader,  # type: torch.utils.data.DataLoader
-    model,        # type: torch.nn.Module
-    loss_fn,      # type: torch.nn.Module
-    metrics,      # type: Callable
-    device,       # type: torch.device
-):
-    # type: (...) -> tuple[float, float]
-    loss = 0
-    score = 0
-    model.to(device)
-    model.eval()
-    with torch.inference_mode():
-        for x, y in data_loader:
-            x = x.to(device)
-            y = y.to(device)
-            test_pred = model(x)
-            loss += loss_fn(test_pred, y)
-            score += metrics(
-                y_true=y,
-                y_pred=test_pred.argmax(dim=1)
-            )
-        loss /= len(data_loader)
-        score /= len(data_loader)
-    return loss, score
+            # write batch metrics
+            if writer is not None and mode == 'train':
+                batch_index = epoch * epoch_size + i
+                for key, val in batch_metrics.items():
+                    writer.add_scalar(f'{mode}_batch_{key}', val, batch_index)
+
+    # write mean epoch metrics
+    if writer is not None:
+        epoch_metrics = pd.DataFrame(metrics) \
+            .rename(lambda x: f'{mode}_epoch_{x}', axis=1) \
+            .mean() \
+            .to_dict()
+
+        for key, val in epoch_metrics.items():
+            writer.add_scalar(f'{mode}_epoch_{key}', val, epoch * epoch_size)
 
 
 def train(
@@ -125,6 +116,7 @@ def train(
     y_test=None,     # type: np.ndarray
     callbacks=None,  # type: list
     batch_size=32,   # type: int
+    epochs=50,       # type: int
     seed=42,         # type: int
     **kwargs,
 ):
@@ -144,22 +136,18 @@ def train(
         **kwargs: Other params to be passed to `model.fit`.
     '''
     torch.manual_seed(seed)
-    n = x_train.shape[0]
-    val = None
-    if x_test is not None and y_test is not None:
-        val = (x_test, y_test)
+    model = model.to(device)
 
-    for epoch in tqdm(range(epochs)):
-        _train_step(
-            data_loader=train_dataloader,
-            model=model,
-            loss_fn=loss_fn,
-            optimizer=optimizer,
-            metrics=metrics
-            )
-        _test_step(
-            data_loader=test_dataloader,
-            model=model,
-            loss_fn=loss_fn,
-            metrics=metrics
-        )
+    train_data = torchdata.DataLoader()
+    test_data = torchdata.DataLoader()
+    kwargs = dict(
+        model=model,
+        optimizer=optimizer,
+        loss_func=loss_func,
+        device=device,
+        metrics_func=metrics_func,
+        writer=writer,
+    )
+    for i in tqdm(range(epochs)):
+        _execute_epoch(epoch=i, mode='train', data_loader=train_data, **kwargs)
+        _execute_epoch(epoch=i, mode='test', data_loader=test_data, **kwargs)
