@@ -254,8 +254,11 @@ _x_build () {
     rolling-pin conform \
         $CONFIG_DIR/build.yaml \
         --groups base,$1;
+    exit_code=`_x_resolve_exit_code $exit_code $?`;
     _x_gen_pyproject $1 > $BUILD_DIR/repo/pyproject.toml;
+    exit_code=`_x_resolve_exit_code $exit_code $?`;
     touch $BUILD_DIR/repo/$REPO_SNAKE_CASE/py.typed;
+    return $exit_code;
 }
 
 _x_build_show_dir () {
