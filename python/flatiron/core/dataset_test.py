@@ -102,6 +102,12 @@ class DatasetTests(DatasetTestBase):
             result = Dataset(info)._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
+    def test_init_extension(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root)
+            with self.assertRaises(EnforceError):
+                Dataset(info, extension='foo')
+
     def test_init_calc_file_size(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
@@ -141,6 +147,12 @@ class DatasetTests(DatasetTestBase):
             expected = 'Files do not exist:.*/foo/bar.npy'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info)
+
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root)
+            expected = 'Found files missing taco extension'
+            with self.assertRaisesRegex(EnforceError, expected):
+                Dataset(info, extension='taco')
 
     def test_init_extension_error(self):
         with TemporaryDirectory() as root:
