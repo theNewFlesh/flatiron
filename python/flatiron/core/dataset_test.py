@@ -103,11 +103,11 @@ class DatasetTests(DatasetTestBase):
             result = Dataset(info)._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
-    def test_init_extension(self):
+    def test_init_ext_regex(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
             with self.assertRaises(EnforceError):
-                Dataset(info, extension='foo')
+                Dataset(info, ext_regex='foo')
 
     def test_init_calc_file_size(self):
         with TemporaryDirectory() as root:
@@ -151,11 +151,11 @@ class DatasetTests(DatasetTestBase):
 
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            expected = 'Found files missing taco extension'
+            expected = 'Found files extensions that do not match ext_regex'
             with self.assertRaisesRegex(EnforceError, expected):
-                Dataset(info, extension='taco')
+                Dataset(info, ext_regex='taco')
 
-    def test_init_extension_error(self):
+    def test_init_ext_regex_error(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
             src = info.loc[3, 'filepath_relative']
@@ -163,7 +163,7 @@ class DatasetTests(DatasetTestBase):
             tgt = src.replace('npy', 'txt')
             os.rename(src, tgt)
             info.loc[3, 'filepath_relative'] = tgt
-            expected = 'Found files missing npy extension:.*foo_f03.txt'
+            expected = 'Found files extensions that do not match ext_regex:.*foo_f03.txt'
             with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info)
 
@@ -258,7 +258,7 @@ class DatasetTests(DatasetTestBase):
             data = Dataset.read_csv(csv)
             filepath = data.info.filepath[0]
             result = data._read_file(filepath)
-            self.assertIsInstance(result, cvd.Image)
+            self.assertIsInstance(result, np.ndarray)
 
     def test_read_file_exr(self):
         with TemporaryDirectory() as root:

@@ -74,14 +74,17 @@ class Dataset:
 
         return cls.read_csv(files[0])
 
-    def __init__(self, info, extension='npy', calc_file_size=True):
+    def __init__(
+        self, info, ext_regex='npy|exr|png|jpeg|jpg|tiff', calc_file_size=True
+    ):
         # type: (pd.DataFrame, str, bool) -> None
         '''
         Construct a Dataset instance.
 
         Args:
             info (pd.DataFrame): Info DataFrame.
-            extension (str, optional): File extension. Default: npy.
+            ext_regex (str, optional): File extension pattern.
+                Default: 'npy|exr|png|jpeg|jpg|tiff'
             calc_file_size (bool, optional): Calculate file size in GB.
                 Default: True.
 
@@ -117,13 +120,13 @@ class Dataset:
         # extension
         mask = info.filepath \
             .apply(lambda x: Path(x).suffix.lower()[1:]) \
-            .apply(lambda x: x != extension)
+            .apply(lambda x: re.search(ext_regex, x, re.I) is None)
         bad_ext = sorted(info.loc[mask, 'filepath'].tolist())
-        msg = f'Found files missing {extension} extension: {bad_ext}'
+        msg = f'Found files extensions that do not match ext_regex: {bad_ext}'
         Enforce(len(bad_ext), '==', 0, message=msg)
 
         # frame indicators
-        frame_regex = r'_(f|c)(\d+)\.' + f'{extension}$'
+        frame_regex = r'_(f|c)(\d+)\.' + f'({ext_regex})$'
         mask = info.filepath.apply(lambda x: re.search(frame_regex, x) is None)
         bad_frames = info.loc[mask, 'filepath'].tolist()
         msg = 'Found files missing frame indicators. '
