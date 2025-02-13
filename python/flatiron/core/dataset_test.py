@@ -102,6 +102,14 @@ class DatasetTests(DatasetTestBase):
             result = Dataset(info)._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
+    def test_init_calc_file_size(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root)
+            result = Dataset(info, calc_file_size=False) \
+                ._info.gb.unique().tolist()
+            self.assertEqual(len(result), 1)
+            self.assertTrue(np.isnan(result[0]))
+
     def test_init_columns_error(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
