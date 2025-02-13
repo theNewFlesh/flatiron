@@ -12,7 +12,7 @@ import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
-class DatasetTests(unittest.TestCase):
+class DatasetTestBase(unittest.TestCase):
     def write_npy(self, target, shape=(10, 10, 3)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
@@ -33,6 +33,8 @@ class DatasetTests(unittest.TestCase):
         info.to_csv(info_path, index=None)
         return info, info_path
 
+
+class DatasetTests(DatasetTestBase):
     def test_read_csv(self):
         with TemporaryDirectory() as root:
             _, csv = self.create_dataset_files(root)
@@ -211,6 +213,14 @@ class DatasetTests(unittest.TestCase):
                 else:
                     self.assertEqual(result, expected)
 
+    def test_read_file_as_array(self):
+        with TemporaryDirectory() as root:
+            _, csv = self.create_dataset_files(root)
+            data = Dataset.read_csv(csv)
+            filepath = data.info.filepath[0]
+            result = data._read_file_as_array(filepath)
+            self.assertEqual(result.shape, (10, 10, 3))
+
     def test_stats_unloaded(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root, shape=(200, 100, 100, 4))
@@ -380,7 +390,7 @@ class DatasetTests(unittest.TestCase):
             self.assertEqual(result, [False])
 
 
-class CompositeDatasetTests(DatasetTests):
+class CompositeDatasetTests(DatasetTestBase):
     def test_xy_split(self):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)
