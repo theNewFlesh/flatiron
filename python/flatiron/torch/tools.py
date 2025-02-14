@@ -9,6 +9,7 @@ import torch
 import torch.utils.data as torchdata
 import tqdm.notebook as tqdm
 
+import flatiron
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
@@ -37,6 +38,22 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         # torch.save function
     ]
     return callbacks
+
+
+def compile(model, optimizer, loss, metrics, kwargs):
+    # type: (Any, str, str, list[str], dict[str, Any]) -> dict[str, Any]
+    '''
+    Call `torch.compile` on given model with compile params.
+
+    Returns:
+        dict: Dict with compiled model inside.
+    '''
+    return dict(
+        model=torch.compile(model, **kwargs),
+        optimizer=flatiron.torch.optimizer.get(optimizer),
+        loss=flatiron.torch.loss.get(loss),
+        metrics=[flatiron.torch.metric.get(m) for m in metrics],
+    )
 
 
 def _execute_epoch(
