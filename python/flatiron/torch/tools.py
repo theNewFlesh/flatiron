@@ -1,4 +1,5 @@
 from typing import Any, Callable, Optional  # noqa F401
+from flatiron.core.dataset import Dataset  # noqa: F401
 from flatiron.core.types import Filepath  # noqa: F401
 import numpy as np  # noqa F401
 
@@ -110,10 +111,7 @@ def _execute_epoch(
 
 def train(
     model,           # type: torch.nn.Module
-    x_train,         # type: np.ndarray
-    y_train,         # type: np.ndarray
-    x_test=None,     # type: np.ndarray
-    y_test=None,     # type: np.ndarray
+    dataset,         # type: Dataset
     callbacks=None,  # type: list
     batch_size=32,   # type: int
     epochs=50,       # type: int
