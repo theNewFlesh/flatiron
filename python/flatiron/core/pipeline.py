@@ -1,5 +1,5 @@
 from typing import Any, Type  # noqa F401
-from flatiron.core.types import AnyModel, Filepath, OptArray  # noqa F401
+from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -77,11 +77,7 @@ class PipelineBase(ABC):
         else:
             self.dataset = Dataset.read_directory(src)
 
-        self._compiled = {}
-        self.x_train = None  # type: OptArray
-        self.x_test = None  # type: OptArray
-        self.y_train = None  # type: OptArray
-        self.y_test = None  # type: OptArray
+        self._compiled = {}  # type: Compiled
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
@@ -258,12 +254,9 @@ class PipelineBase(ABC):
 
             # train model
             engine.tools.train(
-                model=self.model,
+                compiled=self._compiled,
+                dataset=self.dataset,
                 callbacks=callbacks,
-                x_train=self.x_train,
-                y_train=self.y_train,
-                x_test=self.x_test,
-                y_test=self.y_test,
                 **train,
             )
         return self
