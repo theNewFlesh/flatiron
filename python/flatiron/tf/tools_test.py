@@ -4,6 +4,7 @@ import unittest
 import numpy as np
 from keras import callbacks as tfcallbacks
 
+import flatiron
 import flatiron.core.tools as fict
 import flatiron.tf.tools as fi_tftools
 # ------------------------------------------------------------------------------
@@ -11,6 +12,10 @@ import flatiron.tf.tools as fi_tftools
 
 class MockModel:
     def fit(self, *args, **kwargs):
+        self.args = args
+        self.kwargs = kwargs
+
+    def compile(self, *args, **kwargs):
         self.args = args
         self.kwargs = kwargs
 
@@ -24,6 +29,24 @@ class TFToolsTests(unittest.TestCase):
             )
             self.assertIsInstance(result[0], tfcallbacks.TensorBoard)
             self.assertIsInstance(result[1], tfcallbacks.ModelCheckpoint)
+
+    def test_compile(self):
+        model = MockModel()
+        result = fi_tftools.compile(
+            model=model, optimizer='adam', loss='mse', metrics=['dice'],
+            kwargs=dict(jit_compile=True)
+        )
+        self.assertEqual(result, dict(model=model))
+        self.assertTrue(model.kwargs['jit_compile'])
+
+        expected = flatiron.tf.optimizer.get('adam').__class__
+        self.assertIsInstance(model.kwargs['optimizer'], expected)
+
+        expected = flatiron.tf.loss.get('mse').__class__
+        self.assertIsInstance(model.kwargs['loss'], expected)
+
+        expected = flatiron.tf.metric.get('dice').__class__
+        self.assertIsInstance(model.kwargs['metrics'][0], expected)
 
     def test_train(self):
         model = MockModel()
