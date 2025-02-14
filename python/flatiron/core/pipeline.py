@@ -196,8 +196,8 @@ class PipelineBase(ABC):
         engine = self.config['engine']
         if engine == 'tensorflow':
             import flatiron.tf as engine
-        # elif engine == 'torch':
-        #     import flatiron.torch as engine
+        elif engine == 'torch':
+            import flatiron.torch as engine
         return engine
 
     def compile(self):
@@ -236,24 +236,24 @@ class PipelineBase(ABC):
         '''
         engine = self._engine
 
-        cb = self.config['callbacks']
+        callbacks = self.config['callbacks']
         train = self.config['train']
         log = self.config['logger']
 
         with self._logger('train', 'TRAIN MODEL', self.config):
             # create tensorboard
             tb = fict.get_tensorboard_project(
-                cb['project'],
-                cb['root'],
+                callbacks['project'],
+                callbacks['root'],
                 log['timezone'],
             )
 
             # create checkpoint params and callbacks
-            cp = deepcopy(cb)
-            del cp['project']
-            del cp['root']
+            ckpt_params = deepcopy(callbacks)
+            del ckpt_params['project']
+            del ckpt_params['root']
             callbacks = engine.tools.get_callbacks(
-                tb['log_dir'], tb['checkpoint_pattern'], cp,
+                tb['log_dir'], tb['checkpoint_pattern'], ckpt_params,
             )
 
             # train model
