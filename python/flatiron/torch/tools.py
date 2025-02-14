@@ -43,10 +43,10 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 def compile(model, optimizer, loss, metrics, kwargs):
     # type: (Any, str, str, list[str], dict[str, Any]) -> dict[str, Any]
     '''
-    Call `torch.compile` on given model with compile params.
+    Call `torch.compile` on given model with kwargs.
 
     Returns:
-        dict: Dict with compiled model inside.
+        dict: Dict of compiled objects.
     '''
     return dict(
         model=torch.compile(model, **kwargs),
