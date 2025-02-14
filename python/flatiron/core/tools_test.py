@@ -167,6 +167,26 @@ b
         expected = fict.unindent(expected, 12)
         self.assertRegex(result, expected)
 
+    def test_resolve_kwargs(self):
+        kwargs = dict(
+            model=0, optimizer=0, loss=0,
+            tf_foo=0, tf_bar=0,
+            torch_taco=0, torch_pizza=0,
+        )
+        result = fict.resolve_kwargs('tensorflow', kwargs)
+        self.assertEqual(result, dict(foo=0, bar=0))
+
+        result = fict.resolve_kwargs('torch', kwargs)
+        self.assertEqual(result, dict(taco=0, pizza=0))
+
+    def test_get_module(self):
+        module = fict.get_module(__name__)
+        self.assertEqual(module.__name__, __name__)
+
+        expected = 'Module not found: foobar'
+        with self.assertRaisesRegex(NotImplementedError, expected):
+            fict.get_module('foobar')
+
     def test_get_module_function(self):
         func = fict.get_module_function('fake_func', __name__)
         self.assertIs(func, fake_func)
