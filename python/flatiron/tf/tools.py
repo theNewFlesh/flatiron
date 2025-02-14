@@ -30,14 +30,13 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         EnforeError: If checkpoint pattern does not contain '{epoch}'.
 
     Returns:
-        list: Tensorboard and ModelCheckpoint callbacks.
+        dict: dict with Tensorboard and ModelCheckpoint callbacks.
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
-    callbacks = [
-        tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
-        tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
-    ]
-    return callbacks
+    return dict(
+        tensorboard=tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        checkpoint=tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
+    )
 
 
 def compile(model, optimizer, loss, metrics, kwargs={}):
@@ -73,7 +72,7 @@ def train(
 
     Args:
         model (tfmodels.Model): TensorFlow model.
-        callbacks (list): List of callbacks.
+        callbacks (dict): List of callbacks.
         x_train (np.ndarray): Training data.
         y_train (np.ndarray): Training labels.
         x_test (np.ndarray, optional): Test data. Default: None.
@@ -88,7 +87,7 @@ def train(
     model.fit(
         x=x_train,
         y=y_train,
-        callbacks=callbacks,
+        callbacks=list(callbacks.values()),
         validation_data=val,
         steps_per_epoch=math.ceil(n / batch_size),
         **kwargs,

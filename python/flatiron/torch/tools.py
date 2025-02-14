@@ -15,7 +15,7 @@ import flatiron.core.tools as fict
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
-    # type: (Filepath, str, dict) -> list
+    # type: (Filepath, str, dict) -> Callbacks
     '''
     Create a list of callbacks for Tensoflow model.
 
@@ -33,11 +33,10 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         list: Tensorboard and ModelCheckpoint callbacks.
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
-    callbacks = [
-        SummaryWriter(log_directory=log_directory),
-        # torch.save function
-    ]
-    return callbacks
+    return dict(
+        tensorboard=SummaryWriter(log_directory=log_directory),
+        # checkpoint=torch.save
+    )
 
 
 def compile(model, optimizer, loss, metrics, kwargs):
