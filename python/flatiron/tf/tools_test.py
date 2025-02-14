@@ -27,8 +27,8 @@ class TFToolsTests(unittest.TestCase):
             result = fi_tftools.get_callbacks(
                 proj['log_dir'], proj['checkpoint_pattern']
             )
-            self.assertIsInstance(result[0], tfcallbacks.TensorBoard)
-            self.assertIsInstance(result[1], tfcallbacks.ModelCheckpoint)
+            self.assertIsInstance(result['tensorboard'], tfcallbacks.TensorBoard)
+            self.assertIsInstance(result['checkpoint'], tfcallbacks.ModelCheckpoint)
 
     def test_compile(self):
         model = MockModel()
