@@ -48,14 +48,13 @@ def compile(model, optimizer, loss, metrics, kwargs={}):
     Returns:
         dict: Dict with compiled model inside.
     '''
-    return dict(
-        model=model.compile(
-            optimizer=flatiron.tf.optimizer.get(optimizer),
-            loss=flatiron.tf.loss.get(loss),
-            metrics=[flatiron.tf.metric.get(m) for m in metrics],
-            **kwargs,
-        )
+    model.compile(
+        optimizer=flatiron.tf.optimizer.get(optimizer),
+        loss=flatiron.tf.loss.get(loss),
+        metrics=[flatiron.tf.metric.get(m) for m in metrics],
+        **kwargs,
     )
+    return dict(model=model)
 
 
 def train(

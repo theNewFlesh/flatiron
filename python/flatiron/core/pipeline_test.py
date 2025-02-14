@@ -213,14 +213,17 @@ class PipelineTests(unittest.TestCase):
             result = FakePipeline(config)._engine
             self.assertIs(result, fitf)
 
-    def test_compile(self):
+    def test_compile_tf(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             pipe = FakePipeline(config).build()
 
+            self.assertEqual(pipe._compiled, {})
+
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.compile()
             self.assertRegex(log.output[0], 'COMPILE MODEL')
+            self.assertEqual(pipe._compiled, dict(model=pipe.model))
 
     def test_compile_loss(self):
         with TemporaryDirectory() as root:
