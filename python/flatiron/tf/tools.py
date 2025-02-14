@@ -1,4 +1,6 @@
-from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa: F401
+from typing import Any  # noqa F401
+
+from flatiron.core.types import Callbacks, Filepath  # noqa: F401
 from tensorflow import keras  # noqa F401
 from keras import models as tfmodels  # noqa F401
 import numpy as np  # noqa F401
@@ -7,6 +9,7 @@ import math
 
 from keras import callbacks as tfcallbacks
 
+import flatiron
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
@@ -35,6 +38,24 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     ]
     return callbacks
+
+
+def compile(model, optimizer, loss, metrics, kwargs={}):
+    # type: (Any, str, str, list[str], dict[str, Any]) -> dict[str, Any]
+    '''
+    Call `modile.compile` on given model with compile params.
+
+    Returns:
+        dict: Dict with compiled model inside.
+    '''
+    return dict(
+        model=model.compile(
+            optimizer=flatiron.tf.optimizer.get(optimizer),
+            loss=flatiron.tf.loss.get(loss),
+            metrics=[flatiron.tf.metric.get(m) for m in metrics],
+            **kwargs,
+        )
+    )
 
 
 def train(
