@@ -77,6 +77,7 @@ class PipelineBase(ABC):
         else:
             self.dataset = Dataset.read_directory(src)
 
+        self._compiled = {}
         self.x_train = None  # type: OptArray
         self.x_test = None  # type: OptArray
         self.y_train = None  # type: OptArray
@@ -208,28 +209,20 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         engine = self._engine
-        compile_ = self.config['compile']
+        comp = self.config['compile']
 
-        cfg = dict(
+        msg = dict(
             model=self.config['model'],
             optimizer=self.config['optimizer'],
-            compile=compile_,
+            compile=comp,
         )
-        with self._logger('compile', 'COMPILE MODEL', cfg):
-            loss = engine.loss.get(compile_['loss'])
-            metrics = [engine.metric.get(m) for m in compile_['metrics']]
-            opt = engine.optimizer.get(self.config['optimizer'])
-
-            # compile
-            self.model.compile(
-                optimizer=opt,
-                loss=loss,
-                metrics=metrics,
-                loss_weights=compile_['loss_weights'],
-                weighted_metrics=compile_['weighted_metrics'],
-                run_eagerly=compile_['run_eagerly'],
-                steps_per_execution=compile_['steps_per_execution'],
-                jit_compile=compile_['jit_compile'],
+        with self._logger('compile', 'COMPILE MODEL', msg):
+            self._compiled = engine.tools.compile(
+                self.model,
+                optimizer=self.config['optimizer']['class_name'],
+                loss=comp['loss'],
+                metrics=comp['metrics'],
+                kwargs=fict.filter_kwargs(engine, comp),
             )
         return self
 
