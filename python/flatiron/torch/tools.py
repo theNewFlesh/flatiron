@@ -1,7 +1,6 @@
 from typing import Any, Callable, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa: F401
-from flatiron.core.types import Filepath  # noqa: F401
-import numpy as np  # noqa F401
+from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
@@ -34,7 +33,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
     return dict(
-        tensorboard=SummaryWriter(log_directory=log_directory),
+        tensorboard=SummaryWriter(log_dir=log_directory),
         # checkpoint=torch.save
     )
 
@@ -126,20 +125,23 @@ def _execute_epoch(
 
 
 class TorchDataset(Dataset, torchdata.Dataset):
-    def monkey_patch(self, info, data, sample_gb):
-        self._info = info
-        self.data = data
-        self._sample_gb = sample_gb
+    @staticmethod
+    def monkey_patch(dataset):
+        this = TorchDataset(dataset.info)
+        this._info = dataset._info
+        this.data = dataset.data
+        this._sample_gb = dataset._sample_gb
+        return this
 
 
 def train(
-    model,           # type: torch.nn.Module
-    dataset,         # type: Dataset
-    callbacks=None,  # type: list
-    batch_size=32,   # type: int
-    epochs=50,       # type: int
-    seed=42,         # type: int
-    device='cpu',    # type: str
+    compiled,       # type: Compiled
+    dataset,        # type: Dataset
+    callbacks,      # type: Callbacks
+    batch_size=32,  # type: int
+    epochs=50,      # type: int
+    seed=42,        # type: int
+    device='cpu',   # type: str
     **kwargs,
 ):
     # type: (...) -> None
@@ -149,33 +151,34 @@ def train(
     Args:
         model (tfmodels.Model): Torch model.
         dataset (Dataset): Data to feed to model.
-        callbacks (list, optional): List of callbacks. Default: None.
+        callbacks (dict): Dict of callbacks.
         batch_size (int, optional): Batch size. Default: 32.
         seed (int, optional): Random seed. Default: 42.
         device (str, optional): Torch device. Default: 'cpu'.
         **kwargs: Other params to be passed to `model.fit`.
     '''
-    writer, checkpoint = callbacks
+    model = compiled['model']
+    optimizer = compiled['optimizer']
+    loss = compiled['loss']
+    metrics = compiled['metrics']
+    # checkpoint = callbacks['checkpoint']
 
     dev = torch.device(device)
     torch.manual_seed(seed)
     model = model.to(dev)
 
-    tdata = TorchDataset(dataset.info)
-    tdata.monkey_patch(dataset.info, dataset.data, dataset._sample_gb)
-
     train_data = torchdata.DataLoader(
-        tdata, batch_size=batch_size
+        TorchDataset.monkey_patch(dataset), batch_size=batch_size
     )  # type: torchdata.DataLoader
     # test_data = torchdata.DataLoader()
 
     kwargs = dict(
         model=model,
         optimizer=optimizer,
-        loss_func=loss_func,
+        loss_func=loss,
         device=dev,
-        metrics_func=metrics_func,
-        writer=writer,
+        metrics_func=metrics,
+        writer=callbacks['tensorboard'],
     )
     for i in tqdm(range(epochs)):
         _execute_epoch(epoch=i, mode='train', data_loader=train_data, **kwargs)

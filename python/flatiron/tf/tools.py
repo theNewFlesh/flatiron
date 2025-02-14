@@ -1,9 +1,8 @@
 from typing import Any  # noqa F401
 
-from flatiron.core.types import Callbacks, Filepath  # noqa: F401
+from flatiron.core.dataset import Dataset  # noqa: F401
+from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 from tensorflow import keras  # noqa F401
-from keras import models as tfmodels  # noqa F401
-import numpy as np  # noqa F401
 
 import math
 
@@ -57,12 +56,9 @@ def compile(model, optimizer, loss, metrics, kwargs={}):
 
 
 def train(
-    model,          # type: tfmodels.Model
+    compiled,       # type: Compiled
+    dataset,        # type: Dataset
     callbacks,      # type: Callbacks
-    x_train,        # type: np.ndarray
-    y_train,        # type: np.ndarray
-    x_test=None,    # type: OptArray
-    y_test=None,    # type: OptArray
     batch_size=32,  # type: int
     **kwargs,
 ):
@@ -71,15 +67,16 @@ def train(
     Train TensorFlow model.
 
     Args:
-        model (tfmodels.Model): TensorFlow model.
-        callbacks (dict): List of callbacks.
-        x_train (np.ndarray): Training data.
-        y_train (np.ndarray): Training labels.
-        x_test (np.ndarray, optional): Test data. Default: None.
-        y_test (np.ndarray, optional): Test labels. Default: None.
+        compiled (dict): Compiled objects.
+        dataset (Dataset): Data to feed to model.
+        callbacks (dict): Dict of callbacks.
         batch_size (int, optional): Batch size. Default: 32.
         **kwargs: Other params to be passed to `model.fit`.
     '''
+    model = compiled['model']
+    x_train, x_test, y_train, y_test = dataset.load().train_test_split(-1)
+    dataset.unload()
+
     n = x_train.shape[0]
     val = None
     if x_test is not None and y_test is not None:
