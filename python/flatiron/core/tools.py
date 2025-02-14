@@ -173,6 +173,27 @@ def slack_it(
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
 
 
+def filter_kwargs(engine, kwargs):
+    # type: (str, dict) -> dict
+    '''
+    Filter keyword arguments base on engine.
+
+    Args:
+        engine (str): Engine name.
+        kwargs (dict): Kwargs dict.
+
+    Returns:
+        dict: Resolved kwargs.
+    '''
+    if engine == 'tensorflow':
+        prefix = 'tf_'
+    else:
+        prefix = 'torch_'
+
+    return dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
+
+
+# MODULE-FUNCS------------------------------------------------------------------
 def get_module(name):
     # type: (str) -> Any
     '''
