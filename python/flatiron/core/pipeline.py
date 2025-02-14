@@ -203,7 +203,7 @@ class PipelineBase(ABC):
     def compile(self):
         # type: () -> PipelineBase
         '''
-        Call `self.model.compile` with compile params.
+        Sets self._compiled to a dictionary of compiled objects.
 
         Returns:
             PipelineBase: Self.
