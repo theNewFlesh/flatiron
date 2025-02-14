@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.17.2
+                0.18.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -99,6 +99,7 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">lunchbox.enforce</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enforce</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm.notebook</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv_depot.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cvd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">humanfriendly</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">hf</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -174,13 +175,19 @@
 
 <div class="viewcode-block" id="Dataset.__init__">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
-        <span class="c1"># type: (pd.DataFrame) -&gt; None</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">ext_regex</span><span class="o">=</span><span class="s1">&#39;npy|exr|png|jpeg|jpg|tiff&#39;</span><span class="p">,</span> <span class="n">calc_file_size</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (pd.DataFrame, str, bool) -&gt; None</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct a Dataset instance.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            info (pd.DataFrame): Info DataFrame.</span>
+<span class="sd">            ext_regex (str, optional): File extension pattern.</span>
+<span class="sd">                Default: &#39;npy|exr|png|jpeg|jpg|tiff&#39;</span>
+<span class="sd">            calc_file_size (bool, optional): Calculate file size in GB.</span>
+<span class="sd">                Default: True.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            EnforceError: If info is not an instance of DataFrame.</span>
@@ -208,31 +215,35 @@
             <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">())</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">())</span>
         <span class="n">absent</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Chunk files do not exist: </span><span class="si">{</span><span class="n">absent</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Files do not exist: </span><span class="si">{</span><span class="n">absent</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">absent</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="c1"># npy extension</span>
+        <span class="c1"># extension</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
             <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">Path</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()[</span><span class="mi">1</span><span class="p">:])</span> \
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">!=</span> <span class="s1">&#39;npy&#39;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">ext_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">bad_ext</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Found chunk files missing npy extension: </span><span class="si">{</span><span class="n">bad_ext</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Found files extensions that do not match ext_regex: </span><span class="si">{</span><span class="n">bad_ext</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_ext</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="c1"># chunk indicators</span>
-        <span class="n">chunk_regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;_(f|c)(\d+)\.npy$&#39;</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">chunk_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">bad_chunk</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Found chunk files missing chunk indicators. &#39;</span>
-        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">r</span><span class="s2">&quot;File names must match &#39;_(f|c)\d+\.npy&#39;. &quot;</span>
-        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;Invalid chunks: </span><span class="si">{</span><span class="n">bad_chunk</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_chunk</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1"># frame indicators</span>
+        <span class="n">frame_regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;_(f|c)(\d+)\.&#39;</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;(</span><span class="si">{</span><span class="n">ext_regex</span><span class="si">}</span><span class="s1">)$&#39;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">frame_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">bad_frames</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Found files missing frame indicators. &#39;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;File names must match &#39;</span><span class="si">{</span><span class="n">frame_regex</span><span class="si">}</span><span class="s2">&#39;. &quot;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;Invalid frames: </span><span class="si">{</span><span class="n">bad_frames</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_frames</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
 
-        <span class="c1"># chunk column</span>
-        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;chunk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">chunk_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
-        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;GB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
-            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
+        <span class="c1"># frame column</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">frame_regex</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+        <span class="c1"># gb column</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;gb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">if</span> <span class="n">calc_file_size</span><span class="p">:</span>
+            <span class="n">info</span><span class="p">[</span><span class="s1">&#39;gb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">filepath</span> \
+                <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">)</span>
 
         <span class="c1"># loaded column</span>
         <span class="n">info</span><span class="p">[</span><span class="s1">&#39;loaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
@@ -240,7 +251,7 @@
 
         <span class="c1"># reorganize columns</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;GB&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="s1">&#39;asset_path&#39;</span><span class="p">,</span> <span class="s1">&#39;filepath_relative&#39;</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;gb&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">,</span> <span class="s1">&#39;asset_path&#39;</span><span class="p">,</span> <span class="s1">&#39;filepath_relative&#39;</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">,</span>
             <span class="s1">&#39;loaded&#39;</span>
         <span class="p">]</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span> <span class="o">+</span> <span class="n">info</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -261,13 +272,13 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">chunks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filepaths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; list[str]</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Returns:</span>
-<span class="sd">            list[str]: Chunk filepaths.</span>
+<span class="sd">            list[str]: Filepaths sorted by frame.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;chunk&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;frame&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">asset_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -304,8 +315,8 @@
 
 <span class="sd">        Units include:</span>
 
-<span class="sd">        * GB</span>
-<span class="sd">        * chunk</span>
+<span class="sd">        * gb</span>
+<span class="sd">        * frame</span>
 <span class="sd">        * sample</span>
 
 <span class="sd">        Returns:</span>
@@ -320,10 +331,10 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">loaded</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">nbytes</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;loaded&#39;</span><span class="p">,</span> <span class="s1">&#39;GB&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loaded</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;loaded&#39;</span><span class="p">,</span> <span class="s1">&#39;gb&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loaded</span>
 
             <span class="c1"># sample stats</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;GB&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;gb&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span>
             <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;loaded&#39;</span><span class="p">,</span> <span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span>
             <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total</span> <span class="o">/</span> <span class="n">info</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -351,9 +362,9 @@
         <span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;min&#39;</span><span class="p">,</span> <span class="s1">&#39;max&#39;</span><span class="p">,</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">]</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">rows</span><span class="p">]</span>
         <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="n">stats</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">]</span>
-        <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">]</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
         <span class="n">stats</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">stats</span></div>
@@ -372,11 +383,89 @@
 <span class="s1">            STATS:</span>
 <span class="s1">                  &#39;&#39;&#39;</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">unindent</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">spaces</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GB&#39;</span><span class="p">,</span> <span class="s1">&#39;chunk&#39;</span><span class="p">,</span> <span class="s1">&#39;sample&#39;</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;gb&#39;</span><span class="p">,</span> <span class="s1">&#39;frame&#39;</span><span class="p">,</span> <span class="s1">&#39;sample&#39;</span><span class="p">]</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats</span><span class="p">[</span><span class="n">cols</span><span class="p">])</span>
         <span class="n">stats</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">          &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">))</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span> <span class="o">+</span> <span class="n">stats</span>
         <span class="k">return</span> <span class="n">msg</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># tyope: () -&gt; int</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            int: Number of frames.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="c1"># type: (int) -&gt; Any</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get data by frame.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IndexError: If frame is missing or multiple frames were found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: Frame data.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">frame</span> <span class="o">==</span> <span class="n">frame</span>
+        <span class="n">filepaths</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="s1">&#39;filepath&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filepaths</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Missing frame </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">filepaths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Multiple frames found for </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepaths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Dataset._read_file">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset._read_file">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; Any</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Read given file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (str): Filepath.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IOError: If extension is not supported.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: File content.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;npy&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="n">formats</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">cvd</span><span class="o">.</span><span class="n">ImageFormat</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+        <span class="n">formats</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;jpg&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="ow">in</span> <span class="n">formats</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cvd</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="k">raise</span> <span class="ne">IOError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unsupported extension: </span><span class="si">{</span><span class="n">ext</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Dataset._read_file_as_array">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset._read_file_as_array">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_read_file_as_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
+        <span class="c1"># type: (str) -&gt; np.ndarray</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Read file as numpy array.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (str): Filepath.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: Array.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="n">ext</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">ext</span> <span class="o">==</span> <span class="s1">&#39;npy&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">item</span>
+        <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span></div>
+
 
 <div class="viewcode-block" id="Dataset._resolve_limit">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset._resolve_limit">[docs]</a>
@@ -406,12 +495,12 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="c1"># type: (Optional[Union[str, int]], bool) -&gt; Dataset</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Load data from chunk files.</span>
+<span class="sd">        Load data from files.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            limit (str or int, optional): Limit data by number of samples or</span>
 <span class="sd">                memory size. Default: None.</span>
-<span class="sd">            shuffle (bool, optional): Shuffle chunks before loading.</span>
+<span class="sd">            shuffle (bool, optional): Shuffle frames before loading.</span>
 <span class="sd">                Default: False.</span>
 
 <span class="sd">        Returns:</span>
@@ -427,32 +516,32 @@
         <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
             <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
 
-        <span class="c1"># chunk vars</span>
-        <span class="n">chunks</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># frame vars</span>
+        <span class="n">frames</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">memory</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">samples</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># tqdm message</span>
-        <span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;Loading Dataset Chunks&#39;</span>
+        <span class="n">desc</span> <span class="o">=</span> <span class="s1">&#39;Loading Dataset Files&#39;</span>
         <span class="k">if</span> <span class="n">limit_type</span> <span class="o">!=</span> <span class="s1">&#39;None&#39;</span><span class="p">:</span>
             <span class="n">desc</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;May not total to 100% - </span><span class="si">{</span><span class="n">desc</span><span class="si">}</span><span class="s1">&#39;</span>
 
-        <span class="c1"># load chunks</span>
+        <span class="c1"># load frames</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="n">desc</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">limit_type</span> <span class="o">==</span> <span class="s1">&#39;samples&#39;</span> <span class="ow">and</span> <span class="n">samples</span> <span class="o">&gt;=</span> <span class="n">limit_</span><span class="p">:</span>
                 <span class="k">break</span>
             <span class="k">elif</span> <span class="n">limit_type</span> <span class="o">==</span> <span class="s1">&#39;memory&#39;</span> <span class="ow">and</span> <span class="n">memory</span> <span class="o">&gt;=</span> <span class="n">limit_</span><span class="p">:</span>
                 <span class="k">break</span>
 
-            <span class="n">chunk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span>
-            <span class="n">chunks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+            <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file_as_array</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span>
+            <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;loaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="n">memory</span> <span class="o">+=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">nbytes</span>
-            <span class="n">samples</span> <span class="o">+=</span> <span class="n">chunk</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">memory</span> <span class="o">+=</span> <span class="n">frame</span><span class="o">.</span><span class="n">nbytes</span>
+            <span class="n">samples</span> <span class="o">+=</span> <span class="n">frame</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># concatenate data</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">chunks</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="c1"># limit array size by samples</span>
         <span class="k">if</span> <span class="n">limit_type</span> <span class="o">==</span> <span class="s1">&#39;samples&#39;</span><span class="p">:</span>

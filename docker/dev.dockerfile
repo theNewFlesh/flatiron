@@ -37,6 +37,7 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         bat \
         btop \
         ca-certificates \
+        cargo \
         curl \
         exa \
         git \
@@ -168,6 +169,15 @@ RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
         nvidia-container-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
+# install OpenEXR
+ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
+RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
+    apt update && \
+    apt install -y \
+        libopenexr-dev \
+        openexr && \
+    rm -rf /var/lib/apt/lists/*
+
 USER ubuntu
 WORKDIR /home/ubuntu
 
@@ -179,7 +189,7 @@ RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     pip3.10 install --upgrade --user \
         'pdm>=2.19.1' \
         'pdm-bump<0.7.0' \
-        'rolling-pin>=0.10.1' \
+        'rolling-pin>=0.11.1' \
         'uv' && \
     mkdir -p /home/ubuntu/.oh-my-zsh/custom/completions && \
     pdm self update --pip-args='--user' && \
