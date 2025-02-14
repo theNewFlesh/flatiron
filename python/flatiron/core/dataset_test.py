@@ -8,7 +8,7 @@ from pandas import DataFrame
 import cv_depot.api as cvd
 import numpy as np
 
-from flatiron.core.dataset import Dataset, CompositeDataset
+from flatiron.core.dataset import Dataset
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
@@ -483,13 +483,11 @@ class DatasetTests(DatasetTestBase):
             result = dset._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
-
-class CompositeDatasetTests(DatasetTestBase):
     def test_xy_split(self):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = CompositeDataset.read_directory(root).load(limit=200)
+            dset = Dataset.read_directory(root).load(limit=200)
 
             # index -1
             x, y = dset.xy_split(-1)
@@ -515,7 +513,7 @@ class CompositeDatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = CompositeDataset.read_directory(root)
+            dset = Dataset.read_directory(root)
             expected = 'Data not loaded. Please call load method.'
             with self.assertRaisesRegex(EnforceError, expected):
                 dset.xy_split(-1)
@@ -524,7 +522,7 @@ class CompositeDatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (50, 10, 10, 5)
             self.create_dataset_files(root, shape=shape)
-            dset = CompositeDataset.read_directory(root).load(limit=100)
+            dset = Dataset.read_directory(root).load(limit=100)
 
             # two classes
             x_train, x_test, y_train, y_test = dset \
