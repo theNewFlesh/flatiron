@@ -63,7 +63,7 @@ class ValidatorsTests(unittest.TestCase):
             vd.is_pipeline_method('foobar')
 
     def test_is_engine(self):
-        legal = ['tensorflow', 'pytorch']
+        legal = ['tensorflow', 'torch']
         for method in legal:
             self.assertEqual(vd.is_engine(method), method)
 
