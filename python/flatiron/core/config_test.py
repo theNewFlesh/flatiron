@@ -92,11 +92,11 @@ class CompileConfigTests(unittest.TestCase):
         return dict(
             loss='dice_loss',
             metrics=[],
-            loss_weights=None,
-            weighted_metrics=None,
-            run_eagerly=False,
-            steps_per_execution=1,
-            jit_compile=False,
+            tf_loss_weights=None,
+            tf_weighted_metrics=None,
+            tf_run_eagerly=False,
+            tf_steps_per_execution=1,
+            tf_jit_compile=False,
         )
 
     def test_validate(self):

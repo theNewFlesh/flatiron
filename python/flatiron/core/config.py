@@ -86,22 +86,22 @@ class CompileConfig(pyd.BaseModel):
     Attributes:
         loss (string): Loss metric name.
         metrics (list[str], optional): List of metrics. Default: [].
-        loss_weights (list[float], optional): List of loss weights.
+        tf_loss_weights (list[float], optional): List of loss weights.
             Default: None.
-        weighted_metrics (list[float], optional): List of metric weights.
+        tf_weighted_metrics (list[float], optional): List of metric weights.
             Default: None.
-        run_eagerly (boolean, optional): Leave as False. Default: False.
-        steps_per_execution (int, optional): Number of batches per function
+        tf_run_eagerly (boolean, optional): Leave as False. Default: False.
+        tf_steps_per_execution (int, optional): Number of batches per function
             call. Default: 1.
-        jit_compile (boolean, optional): Use XLA. Default: False.
+        tf_jit_compile (boolean, optional): Use XLA. Default: False.
     '''
     loss: str
     metrics: list[str] = []
-    loss_weights: Optional[list[float]] = None
-    weighted_metrics: Optional[list[float]] = None
-    run_eagerly: bool = False
-    steps_per_execution: int = 1
-    jit_compile: bool = False
+    tf_loss_weights: Optional[list[float]] = None
+    tf_weighted_metrics: Optional[list[float]] = None
+    tf_run_eagerly: bool = False
+    tf_steps_per_execution: int = 1
+    tf_jit_compile: bool = False
 
 
 class CallbacksConfig(pyd.BaseModel):
