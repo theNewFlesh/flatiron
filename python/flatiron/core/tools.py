@@ -173,6 +173,26 @@ def slack_it(
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
 
 
+def get_module(name):
+    # type: (str) -> Any
+    '''
+    Get a module from a given name.
+
+    Args:
+        name (str): Module name.
+
+    Raises:
+        NotImplementedError: If module is not found.
+
+    Returns:
+        object: Module.
+    '''
+    try:
+        return sys.modules[name]
+    except KeyError:
+        raise NotImplementedError(f'Module not found: {name}')
+
+
 def get_module_function(name, module):
     # type: (str, str) -> Callable[[Any], Any]
     '''
@@ -188,7 +208,7 @@ def get_module_function(name, module):
     Returns:
         function: Module function.
     '''
-    members = inspect.getmembers(sys.modules[module])
+    members = inspect.getmembers(get_module(module))
     funcs = dict(filter(lambda x: inspect.isfunction(x[1]), members))
     if name in funcs:
         return funcs[name]
@@ -210,7 +230,7 @@ def get_module_class(name, module):
     Returns:
         class: Module class.
     '''
-    members = inspect.getmembers(sys.modules[module])
+    members = inspect.getmembers(get_module(module))
     classes = dict(filter(lambda x: inspect.isclass(x[1]), members))
     if name in classes:
         return classes[name]

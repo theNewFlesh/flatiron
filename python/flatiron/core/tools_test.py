@@ -167,6 +167,14 @@ b
         expected = fict.unindent(expected, 12)
         self.assertRegex(result, expected)
 
+    def test_get_module(self):
+        module = fict.get_module(__name__)
+        self.assertEqual(module.__name__, __name__)
+
+        expected = 'Module not found: foobar'
+        with self.assertRaisesRegex(NotImplementedError, expected):
+            fict.get_module('foobar')
+
     def test_get_module_function(self):
         func = fict.get_module_function('fake_func', __name__)
         self.assertIs(func, fake_func)
