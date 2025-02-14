@@ -109,6 +109,13 @@ def _execute_epoch(
             writer.add_scalar(f'{mode}_epoch_{key}', val, epoch * epoch_size)
 
 
+class TorchDataset(Dataset, torchdata.Dataset):
+    def monkey_patch(self, info, data, sample_gb):
+        self._info = info
+        self.data = data
+        self._sample_gb = sample_gb
+
+
 def train(
     model,           # type: torch.nn.Module
     dataset,         # type: Dataset
@@ -116,6 +123,7 @@ def train(
     batch_size=32,   # type: int
     epochs=50,       # type: int
     seed=42,         # type: int
+    device='cpu',    # type: str
     **kwargs,
 ):
     # type: (...) -> None
@@ -124,28 +132,35 @@ def train(
 
     Args:
         model (tfmodels.Model): Torch model.
-        x_train (np.ndarray): Training data.
-        y_train (np.ndarray): Training labels.
-        x_test (np.ndarray, optional): Test data. Default: None.
-        y_test (np.ndarray, optional): Test labels. Default: None.
+        dataset (Dataset): Data to feed to model.
         callbacks (list, optional): List of callbacks. Default: None.
         batch_size (int, optional): Batch size. Default: 32.
         seed (int, optional): Random seed. Default: 42.
+        device (str, optional): Torch device. Default: 'cpu'.
         **kwargs: Other params to be passed to `model.fit`.
     '''
-    torch.manual_seed(seed)
-    model = model.to(device)
+    writer, checkpoint = callbacks
 
-    train_data = torchdata.DataLoader()
-    test_data = torchdata.DataLoader()
+    dev = torch.device(device)
+    torch.manual_seed(seed)
+    model = model.to(dev)
+
+    tdata = TorchDataset(dataset.info)
+    tdata.monkey_patch(dataset.info, dataset.data, dataset._sample_gb)
+
+    train_data = torchdata.DataLoader(
+        tdata, batch_size=batch_size
+    )  # type: torchdata.DataLoader
+    # test_data = torchdata.DataLoader()
+
     kwargs = dict(
         model=model,
         optimizer=optimizer,
         loss_func=loss_func,
-        device=device,
+        device=dev,
         metrics_func=metrics_func,
         writer=writer,
     )
     for i in tqdm(range(epochs)):
         _execute_epoch(epoch=i, mode='train', data_loader=train_data, **kwargs)
-        _execute_epoch(epoch=i, mode='test', data_loader=test_data, **kwargs)
+        # _execute_epoch(epoch=i, mode='test', data_loader=test_data, **kwargs)
