@@ -152,7 +152,7 @@ def is_engine(engine):
     Returns:
         str: Input engine.
     '''
-    legal = ['tensorflow', 'pytorch']
+    legal = ['tensorflow', 'torch']
     if engine not in legal:
         msg = f'{engine} is not a legal deep learning framework. Legal engines: {legal}.'
         raise ValueError(msg)
