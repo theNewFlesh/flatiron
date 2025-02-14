@@ -167,17 +167,17 @@ b
         expected = fict.unindent(expected, 12)
         self.assertRegex(result, expected)
 
-    def test_filter_kwargs(self):
+    def test_resolve_kwargs(self):
         kwargs = dict(
             model=0, optimizer=0, loss=0,
             tf_foo=0, tf_bar=0,
             torch_taco=0, torch_pizza=0,
         )
-        result = fict.filter_kwargs('tensorflow', kwargs)
-        self.assertEqual(result, dict(tf_foo=0, tf_bar=0))
+        result = fict.resolve_kwargs('tensorflow', kwargs)
+        self.assertEqual(result, dict(foo=0, bar=0))
 
-        result = fict.filter_kwargs('torch', kwargs)
-        self.assertEqual(result, dict(torch_taco=0, torch_pizza=0))
+        result = fict.resolve_kwargs('torch', kwargs)
+        self.assertEqual(result, dict(taco=0, pizza=0))
 
     def test_get_module(self):
         module = fict.get_module(__name__)

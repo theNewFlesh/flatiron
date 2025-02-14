@@ -173,10 +173,11 @@ def slack_it(
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
 
 
-def filter_kwargs(engine, kwargs):
+def resolve_kwargs(engine, kwargs):
     # type: (str, dict) -> dict
     '''
-    Filter keyword arguments base on engine.
+    Filter keyword arguments base on engine and return them minus the engine
+    prefix.
 
     Args:
         engine (str): Engine name.
@@ -190,7 +191,9 @@ def filter_kwargs(engine, kwargs):
     else:
         prefix = 'torch_'
 
-    return dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
+    output = dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
+    output = {re.sub(f'^{prefix}', '', k): v for k, v in output.items()}
+    return output
 
 
 # MODULE-FUNCS------------------------------------------------------------------
