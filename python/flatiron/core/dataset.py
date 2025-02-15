@@ -1,5 +1,5 @@
 from typing import Any, Optional, Union  # noqa F401
-from flatiron.core.types import Filepath, OptArray  # noqa: F401
+from flatiron.core.types import Filepath, OptArray, OptLabels  # noqa: F401
 
 from pathlib import Path
 import os
@@ -74,11 +74,14 @@ class Dataset:
         return cls.read_csv(files[0])
 
     def __init__(
-        self, info, ext_regex='npy|exr|png|jpeg|jpg|tiff', calc_file_size=True
+        self, info, ext_regex='npy|exr|png|jpeg|jpg|tiff', calc_file_size=True,
+        labels=None, label_axis=-1
     ):
-        # type: (pd.DataFrame, str, bool) -> None
+        # type: (pd.DataFrame, str, bool, OptLabels, int) -> None
         '''
         Construct a Dataset instance.
+        If labels is an integer it will assumed to be an axis which the
+        data will be split upon.
 
         Args:
             info (pd.DataFrame): Info DataFrame.
@@ -86,6 +89,8 @@ class Dataset:
                 Default: 'npy|exr|png|jpeg|jpg|tiff'
             calc_file_size (bool, optional): Calculate file size in GB.
                 Default: True.
+            labels (object, optional): Label channels. Default: None.
+            label_axis (int, optional): Label axis. Default: -1
 
         Raises:
             EnforceError: If info is not an instance of DataFrame.
@@ -158,6 +163,8 @@ class Dataset:
         self._info = info  # type: pd.DataFrame
         self.data = None  # type: OptArray
         self._sample_gb = np.nan  # type: Union[float, np.ndarray]
+        self.labels = labels
+        self.label_axis = label_axis
 
     @property
     def info(self):
@@ -295,12 +302,13 @@ class Dataset:
         # type: (int) -> Any
         '''
         Get data by frame.
+        If self.labels is not None, returns data and label pair.
 
         Raises:
             IndexError: If frame is missing or multiple frames were found.
 
         Returns:
-            object: Frame data.
+            object: Data, or data and label, from frame.
         '''
         info = self._info
         mask = info.frame == frame
@@ -310,7 +318,24 @@ class Dataset:
         elif len(filepaths) > 1:
             raise IndexError(f'Multiple frames found for {frame}.')
         filepath = filepaths[0]
-        return self._read_file(filepath)
+
+        data = self._read_file(filepath)
+
+        # return data if no labels
+        labels = self.labels  # type: Any
+        if labels is None:
+            return data
+
+        if not isinstance(labels, list):
+            labels = [labels]
+
+        # if data is numpy array return a np.split
+        if isinstance(data, np.ndarray):
+            return np.split(data, labels, axis=self.label_axis)
+
+        # otherwise data is an Image with channels
+        x = list(filter(lambda x: x not in labels, data.channels))
+        return data[:, :, x], data[:, :, labels]
 
     def _read_file(self, filepath):
         # type: (str) -> Any
@@ -481,7 +506,7 @@ class Dataset:
 
     def train_test_split(
         self,
-        test_size=0.2,  # type: Optional[float]
+        test_size=0.2,  # type: float
         shuffle=True,   # type: bool
         seed=None,      # type: Optional[int]
     ):
