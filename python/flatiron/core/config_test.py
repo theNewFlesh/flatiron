@@ -13,14 +13,14 @@ class DatasetConfigTests(unittest.TestCase):
     def get_config(self, root):
         return dict(
             source=Path(root).as_posix(),
+            ext_regex='npy|exr|png|jpeg|jpg|tiff',
             load_limit=None,
             load_shuffle=False,
-            split_index=-1,
-            split_axis=-1,
-            split_test_size=0.2,
-            split_train_size=None,
-            split_random_state=42,
-            split_shuffle=True,
+            labels=None,
+            label_axis=-1,
+            seed=None,
+            shuffle=True,
+            test_size=0.2,
         )
 
     def test_validate(self):
@@ -31,13 +31,14 @@ class DatasetConfigTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             keys = [
+                'ext_regex',
                 'load_limit',
                 'load_shuffle',
-                'split_axis',
-                'split_test_size',
-                'split_train_size',
-                'split_random_state',
-                'split_shuffle',
+                'labels',
+                'label_axis',
+                'seed',
+                'shuffle',
+                'test_size',
             ]
             for key in keys:
                 del config[key]
@@ -48,14 +49,7 @@ class DatasetConfigTests(unittest.TestCase):
     def test_split_test_size(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            config['split_test_size'] = -0.2
-            with self.assertRaises(ValueError):
-                ficc.DatasetConfig(**config)
-
-    def test_split_train_size(self):
-        with TemporaryDirectory() as root:
-            config = self.get_config(root)
-            config['split_train_size'] = -0.2
+            config['test_size'] = -0.2
             with self.assertRaises(ValueError):
                 ficc.DatasetConfig(**config)
 

@@ -35,7 +35,7 @@ class DatasetConfig(pyd.BaseModel):
     ext_regex: str = 'npy|exr|png|jpeg|jpg|tiff'
     load_limit: Optional[Union[int, str]] = None
     load_shuffle: bool = False
-    labels: OptLabels
+    labels: OptLabels = None
     label_axis: int = -1
     seed: Optional[float] = None
     shuffle: bool = True
