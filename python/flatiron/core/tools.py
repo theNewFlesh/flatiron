@@ -205,14 +205,26 @@ def train_test_split(data, test_size=0.1, shuffle=True, seed=None):
 
     Args:
         data (pd.DataFrame): DataFrame.
-        test_size (float, optional): Test set size. Default: 0.1.
+        test_size (float, optional): Test set size as a proportion. Default: 0.1.
         seed (float, optional): Seed number between 0 and 1. Default: None.
+
+    Raises:
+        EnforceError: If data is not a DataFrame.
+        EnforceError: If test_size is not between 0 and 1.
+        EnforceError: If seed is not between 0 and 1.
 
     Returns:
         tuple[pd.DataFrame, pd.DataFrame]: Train and test DataFrames.
     '''
+    Enforce(data, 'instance of', pd.DataFrame)
+    Enforce(test_size, '>=', 0)
+    Enforce(test_size, '<=', 1)
+    # --------------------------------------------------------------------------
+
     seed_func = None
     if seed is not None:
+        Enforce(seed, '>=', 0)
+        Enforce(seed, '<=', 1)
         seed_func = lambda: seed
 
     index = data.index.tolist()

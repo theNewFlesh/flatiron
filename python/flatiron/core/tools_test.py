@@ -211,6 +211,16 @@ b
         self.assertTrue(y0.equals(y1))
         self.assertTrue(y0.equals(y2))
 
+    def test_train_test_split_errors(self):
+        with self.assertRaises(EnforceError):
+            fict.train_test_split('foobar')
+
+        with self.assertRaises(EnforceError):
+            fict.train_test_split(pd.DataFrame(), test_size=1.1)
+
+        with self.assertRaises(EnforceError):
+            fict.train_test_split(pd.DataFrame(), seed=42)
+
     def test_get_module(self):
         module = fict.get_module(__name__)
         self.assertEqual(module.__name__, __name__)
