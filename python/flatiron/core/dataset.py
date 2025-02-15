@@ -19,8 +19,8 @@ import flatiron.core.tools as fict
 
 class Dataset:
     @classmethod
-    def read_csv(cls, filepath):
-        # type: (Filepath) -> Dataset
+    def read_csv(cls, filepath, **kwargs):
+        # type: (Filepath, Any) -> Dataset
         '''
         Construct Dataset instance from given csv filepath.
 
@@ -42,11 +42,11 @@ class Dataset:
         # ----------------------------------------------------------------------
 
         info = pd.read_csv(filepath)
-        return cls(info)
+        return cls(info, **kwargs)
 
     @classmethod
-    def read_directory(cls, directory):
-        # type: (Filepath) -> Dataset
+    def read_directory(cls, directory, **kwargs):
+        # type: (Filepath, Any) -> Dataset
         '''
         Construct dataset from directory.
 
@@ -71,7 +71,7 @@ class Dataset:
         Enforce(len(files), '==', 1, message=msg)
         # ----------------------------------------------------------------------
 
-        return cls.read_csv(files[0])
+        return cls.read_csv(files[0], **kwargs)
 
     def __init__(
         self, info, ext_regex='npy|exr|png|jpeg|jpg|tiff', calc_file_size=True,
@@ -86,11 +86,11 @@ class Dataset:
         Args:
             info (pd.DataFrame): Info DataFrame.
             ext_regex (str, optional): File extension pattern.
-                Default: 'npy|exr|png|jpeg|jpg|tiff'
+                Default: 'npy|exr|png|jpeg|jpg|tiff'.
             calc_file_size (bool, optional): Calculate file size in GB.
                 Default: True.
             labels (object, optional): Label channels. Default: None.
-            label_axis (int, optional): Label axis. Default: -1
+            label_axis (int, optional): Label axis. Default: -1.
 
         Raises:
             EnforceError: If info is not an instance of DataFrame.
