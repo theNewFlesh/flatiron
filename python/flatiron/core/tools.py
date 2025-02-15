@@ -205,7 +205,10 @@ def train_test_split(data, test_size=0.1, shuffle=True, seed=None):
 
     Args:
         data (pd.DataFrame): DataFrame.
-        test_size (float, optional): Test set size as a proportion. Default: 0.1.
+        test_size (float, optional): Test set size as a proportion.
+            Default: 0.1.
+        shuffle (bool, optional): Randomize data before splitting.
+            Default: True.
         seed (float, optional): Seed number between 0 and 1. Default: None.
 
     Raises:
