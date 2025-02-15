@@ -1,7 +1,7 @@
-from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa: F401
 from tensorflow import keras  # noqa F401
 from keras import models as tfmodels  # noqa F401
-import numpy as np  # noqa F401
+from flatiron.core.types import Callbacks, Filepath, OptDataset  # noqa: F401
+from flatiron.core.dataset import Dataset  # noqa F401
 
 import math
 
@@ -38,13 +38,11 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 
 
 def train(
-    model,          # type: tfmodels.Model
-    callbacks,      # type: Callbacks
-    x_train,        # type: np.ndarray
-    y_train,        # type: np.ndarray
-    x_test=None,    # type: OptArray
-    y_test=None,    # type: OptArray
-    batch_size=32,  # type: int
+    model,           # type: tfmodels.Model
+    callbacks,       # type: Callbacks
+    train_data,      # type: Dataset
+    test_data,       # type: OptDataset
+    batch_size=32,   # type: int
     **kwargs,
 ):
     # type: (...) -> None
@@ -54,22 +52,23 @@ def train(
     Args:
         model (tfmodels.Model): TensorFlow model.
         callbacks (list): List of callbacks.
-        x_train (np.ndarray): Training data.
-        y_train (np.ndarray): Training labels.
-        x_test (np.ndarray, optional): Test data. Default: None.
-        y_test (np.ndarray, optional): Test labels. Default: None.
+        train_data (Dataset): Training dataset.
+        test_data (Dataset): Test dataset.
         batch_size (int, optional): Batch size. Default: 32.
         **kwargs: Other params to be passed to `model.fit`.
     '''
-    n = x_train.shape[0]
+    x_train, y_train = train_data.load().xy_split()
+    steps = math.ceil(x_train.shape[0] / batch_size)
+
     val = None
-    if x_test is not None and y_test is not None:
-        val = (x_test, y_test)
+    if test_data is not None:
+        val = test_data.load().xy_split()
+
     model.fit(
         x=x_train,
         y=y_train,
         callbacks=callbacks,
         validation_data=val,
-        steps_per_epoch=math.ceil(n / batch_size),
+        steps_per_epoch=steps,
         **kwargs,
     )
