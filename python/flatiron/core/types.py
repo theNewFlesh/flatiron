@@ -9,6 +9,7 @@ import numpy as np
 
 AnyModel = Union[tfmodels.Model, Any]
 Callbacks = list[Union[Callable, tfcb.TensorBoard, tfcb.ModelCheckpoint]]
+Compiled = dict[str, Any]
 Filepath = Union[str, Path]
 OptArray = Optional[np.ndarray]
 OptFloat = Optional[int]
