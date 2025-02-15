@@ -198,21 +198,27 @@ def resolve_kwargs(engine, kwargs):
     return output
 
 
-def train_test_split(data, test_size=0.1, shuffle=True):
-    # type: (pd.DataFrame, float, bool) -> tuple[pd.DataFrame, pd.DataFrame]
+def train_test_split(data, test_size=0.1, shuffle=True, seed=None):
+    # type: (pd.DataFrame, float, bool, Optional[float]) -> tuple[pd.DataFrame, pd.DataFrame]
     '''
     Split DataFrame into train and test DataFrames.
 
     Args:
         data (pd.DataFrame): DataFrame.
         test_size (float, optional): Test set size. Default: 0.1.
+        seed (float, optional): Random seed. Default: None.
 
     Returns:
         tuple[pd.DataFrame, pd.DataFrame]: Train and test DataFrames.
     '''
+    seed_func = None
+    if seed is not None:
+        seed_func = lambda: seed
+
     index = data.index.tolist()
     if shuffle:
-        random.shuffle(index)
+        random.shuffle(index, random=seed_func)
+
     k = int(len(index) * (1 - test_size))
     return data.loc[index[:k]], data.loc[index[k:]]
 

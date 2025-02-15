@@ -7,6 +7,7 @@ from lunchbox.stopwatch import StopWatch
 import pandas as pd
 
 import flatiron.core.tools as fict
+from numpy import equal
 # ------------------------------------------------------------------------------
 
 
@@ -198,6 +199,17 @@ b
         result = fict.train_test_split(data, test_size=0.1, shuffle=False)
         self.assertEqual(result[0].index.tolist(), list(range(0, 90)))
         self.assertEqual(result[1].index.tolist(), list(range(90, 100)))
+
+        # seed
+        x0, y0 = fict.train_test_split(data, shuffle=True, seed=0.1)
+        x1, y1 = fict.train_test_split(data, shuffle=True, seed=0.1)
+        x2, y2 = fict.train_test_split(data, shuffle=True, seed=0.1)
+        self.assertTrue(x0.equals(x0))
+        self.assertTrue(x0.equals(x1))
+        self.assertTrue(x0.equals(x2))
+        self.assertTrue(y0.equals(y0))
+        self.assertTrue(y0.equals(y1))
+        self.assertTrue(y0.equals(y2))
 
     def test_get_module(self):
         module = fict.get_module(__name__)
