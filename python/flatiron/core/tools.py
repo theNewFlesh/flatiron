@@ -198,7 +198,7 @@ def resolve_kwargs(engine, kwargs):
     return output
 
 
-def train_test_split(data, test_size=0.1, shuffle=True, seed=None):
+def train_test_split(data, test_size=0.2, shuffle=True, seed=None):
     # type: (pd.DataFrame, float, bool, Optional[float]) -> tuple[pd.DataFrame, pd.DataFrame]
     '''
     Split DataFrame into train and test DataFrames.
@@ -206,7 +206,7 @@ def train_test_split(data, test_size=0.1, shuffle=True, seed=None):
     Args:
         data (pd.DataFrame): DataFrame.
         test_size (float, optional): Test set size as a proportion.
-            Default: 0.1.
+            Default: 0.2.
         shuffle (bool, optional): Randomize data before splitting.
             Default: True.
         seed (float, optional): Seed number between 0 and 1. Default: None.
