@@ -490,22 +490,28 @@ class DatasetTests(DatasetTestBase):
             dset = Dataset.read_directory(root).load(limit=200)
 
             # index -1
-            x, y = dset.xy_split(-1)
+            dset.labels = [-1]
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 10, 3))
             self.assertEqual(y.shape, (200, 10, 10, 1))
 
             # index -2
-            x, y = dset.xy_split(-2)
+            dset.labels = [-2]
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 10, 2))
             self.assertEqual(y.shape, (200, 10, 10, 2))
 
             # index -1 axis -2
-            x, y = dset.xy_split(-1, axis=-2)
+            dset.labels = [-1]
+            dset.label_axis = -2
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 9, 4))
             self.assertEqual(y.shape, (200, 10, 1, 4))
 
             # index 4 axis -2
-            x, y = dset.xy_split(4, axis=-2)
+            dset.labels = [4]
+            dset.label_axis = -2
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 4, 4))
             self.assertEqual(y.shape, (200, 10, 6, 4))
 
@@ -516,7 +522,13 @@ class DatasetTests(DatasetTestBase):
             dset = Dataset.read_directory(root)
             expected = 'Data not loaded. Please call load method.'
             with self.assertRaisesRegex(EnforceError, expected):
-                dset.xy_split(-1)
+                dset.xy_split()
+
+            dset.load()
+            expected = 'self.labels must be a list of a single integer. '
+            expected = 'Provided labels: None.'
+            with self.assertRaisesRegex(EnforceError, expected):
+                dset.xy_split()
 
     def test_train_test_split(self):
         with TemporaryDirectory() as root:

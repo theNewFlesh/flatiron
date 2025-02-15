@@ -490,12 +490,21 @@ class Dataset:
 
         Raises:
             EnforceError: If data has not been loaded.
+            EnforceError: If self.labels is not a list of a single integer.
 
         Returns:
-            tuple[np.ndarray]: X and y arrays.
+            tuple[np.ndarray]: x and y arrays.
         '''
         msg = 'Data not loaded. Please call load method.'
         Enforce(self.data, 'instance of', np.ndarray, message=msg)
+
+        msg = 'self.labels must be a list of a single integer. '
+        msg += f'Provided labels: {self.labels}.'
+
+        labels = self.labels  # type: Any
+        Enforce(labels, 'instance of', list, message=msg)
+        Enforce(len(labels), '==', 1, message=msg)
+        Enforce(labels[0], 'instance of', int, message=msg)
         # ----------------------------------------------------------------------
 
         return np.split(self.data, self.labels, axis=self.label_axis)  # type: ignore
