@@ -164,12 +164,58 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             pipe = FakePipeline(config)
-            self.assertIsNone(pipe.dataset.data)
+            self.assertIsNone(pipe._train_data)
+            self.assertIsNone(pipe._test_data)
+            pipe.train_test_split()
+            self.assertIsNotNone(pipe._train_data)
+            self.assertIsNotNone(pipe._test_data)
+            self.assertFalse(pipe._loaded)
 
             with self.assertLogs(level=logging.WARNING) as log:
-                result = pipe.load().dataset.data
+                result = pipe.load()
             self.assertRegex(log.output[0], 'LOAD DATASET')
-            self.assertIsInstance(result, np.ndarray)
+            self.assertIsInstance(result._train_data.data, np.ndarray)
+            self.assertIsInstance(result._test_data.data, np.ndarray)
+            self.assertTrue(pipe._loaded)
+
+    def test_load_errors(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = FakePipeline(config)
+            self.assertIsNone(pipe.dataset.data)
+
+            expected = 'Train and test data not loaded. '
+            expected += 'Please call train_test_split method first'
+            with self.assertRaisesRegex(RuntimeError, expected):
+                pipe.load()
+
+    def test_unload(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = FakePipeline(config).train_test_split().load()
+            self.assertTrue(pipe._loaded)
+
+            with self.assertLogs(level=logging.WARNING) as log:
+                result = pipe.unload()
+            self.assertRegex(log.output[0], 'UNLOAD DATASET')
+            self.assertIsNone(result._train_data.data)
+            self.assertIsNone(result._test_data.data)
+            self.assertFalse(pipe._loaded)
+
+    def test_unload_errors(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = FakePipeline(config)
+            self.assertIsNone(pipe.dataset.data)
+
+            expected = 'Train and test data not loaded. '
+            expected += 'Please call train_test_split, then load methods first.'
+            with self.assertRaisesRegex(RuntimeError, expected):
+                pipe.unload()
+
+            pipe.train_test_split()
+            with self.assertRaisesRegex(RuntimeError, expected):
+                pipe.unload()
 
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
@@ -183,16 +229,6 @@ class PipelineTests(unittest.TestCase):
             self.assertRegex(log.output[0], 'TRAIN TEST SPLIT')
             self.assertIsInstance(result._train_data, ficd.Dataset)
             self.assertIsInstance(result._test_data, ficd.Dataset)
-
-    def test_unload(self):
-        with TemporaryDirectory() as root:
-            config = self.get_config(root)
-            pipe = FakePipeline(config).load()
-
-            with self.assertLogs(level=logging.WARNING) as log:
-                result = pipe.unload().dataset.data
-            self.assertRegex(log.output[0], 'UNLOAD DATASET')
-            self.assertIsNone(result)
 
     def test_build(self):
         with TemporaryDirectory() as root:

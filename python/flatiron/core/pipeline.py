@@ -86,6 +86,7 @@ class PipelineBase(ABC):
 
         self._train_data = None  # type: Optional[Dataset]
         self._test_data = None  # type: Optional[Dataset]
+        self._loaded = False
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
@@ -112,18 +113,51 @@ class PipelineBase(ABC):
     def load(self):
         # type: () -> PipelineBase
         '''
-        Load dataset into memory.
-        Calls `self.dataset.load` with dataset params.
+        Loads train and test datasets into memory.
+        Calls `load` on self._train_data and self._test_data.
+
+        Raises:
+            RuntimeError: If train and test data are not datasets.
 
         Returns:
             PipelineBase: Self.
         '''
+        if self._train_data is None or self._test_data is None:
+            msg = 'Train and test data not loaded. '
+            msg += 'Please call train_test_split method first.'
+            raise RuntimeError(msg)
+
         config = self.config['dataset']
-        with self._logger('load', 'LOAD DATASET', dict(dataset=config)):
-            self.dataset.load(
-                limit=config['load_limit'],
-                shuffle=config['load_shuffle'],
-            )
+        with self._logger('load', 'LOAD DATASETS', dict(dataset=config)):
+            self._train_data.load()
+            self._test_data.load()
+
+        self._loaded = True
+        return self
+
+    def unload(self):
+        # type: () -> PipelineBase
+        '''
+        Unload train and test datasets from memory.
+        Calls `unload` on self._train_data and self._test_data.
+
+        Raises:
+            RuntimeError: If train and test data are not datasets.
+            RuntimeError: If train and test data are not loaded.
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        if self._train_data is None or self._test_data is None or not self._loaded:
+            msg = 'Train and test data not loaded. '
+            msg += 'Please call train_test_split, then load methods first.'
+            raise RuntimeError(msg)
+
+        config = self.config['dataset']
+        with self._logger('unload', 'UNLOAD DATASETS', dict(dataset=config)):
+            self._train_data.unload()
+            self._test_data.unload()
+        self._loaded = False
         return self
 
     def train_test_split(self):
@@ -145,23 +179,10 @@ class PipelineBase(ABC):
         ):
             self._train_data, self._test_data = self.dataset.train_test_split(
                 test_size=config['test_size'],
+                limit=config['limit'],
                 shuffle=config['shuffle'],
                 seed=config['seed'],
             )
-        return self
-
-    def unload(self):
-        # type: () -> PipelineBase
-        '''
-        Unload dataset into memory. Train and test sets will be kept.
-        Calls `self.dataset.unload`.
-
-        Returns:
-            PipelineBase: Self.
-        '''
-        config = self.config['dataset']
-        with self._logger('unload', 'UNLOAD DATASET', dict(dataset=config)):
-            self.dataset.unload()
         return self
 
     def build(self):
@@ -273,23 +294,28 @@ class PipelineBase(ABC):
         '''
         Run the following pipeline operations:
 
-        * load
-        * train_test_split
-        * unload
         * build
         * compile
+        * train_test_split
+        * load (for tensorflow only)
         * train
 
         Returns:
             PipelineBase: Self.
         '''
-        self.load() \
-            .train_test_split() \
-            .unload() \
+        if self._engine == 'tensorflow':
+            return self \
+                .build() \
+                .compile() \
+                .train_test_split() \
+                .load() \
+                .train()
+
+        return self \
             .build() \
             .compile() \
+            .train_test_split() \
             .train()
-        return self
 
     @abstractmethod
     def model_config(self):
