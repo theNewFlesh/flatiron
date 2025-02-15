@@ -106,7 +106,8 @@ class DatasetTests(DatasetTestBase):
     def test_init_ext_regex(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            with self.assertRaises(EnforceError):
+            expected = 'Found files extensions that do not match ext_regex'
+            with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info, ext_regex='foo')
 
     def test_init_calc_file_size(self):
