@@ -7,7 +7,6 @@ from lunchbox.stopwatch import StopWatch
 import pandas as pd
 
 import flatiron.core.tools as fict
-from numpy import equal
 # ------------------------------------------------------------------------------
 
 
