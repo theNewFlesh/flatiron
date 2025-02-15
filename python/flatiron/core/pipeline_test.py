@@ -174,18 +174,14 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             pipe = FakePipeline(config).load()
-            self.assertIsNone(pipe.x_train)
-            self.assertIsNone(pipe.x_test)
-            self.assertIsNone(pipe.y_train)
-            self.assertIsNone(pipe.y_test)
+            self.assertIsNone(pipe._train_data)
+            self.assertIsNone(pipe._test_data)
 
             with self.assertLogs(level=logging.WARNING) as log:
                 result = pipe.train_test_split()
             self.assertRegex(log.output[0], 'TRAIN TEST SPLIT')
-            self.assertIsInstance(result.x_train, np.ndarray)
-            self.assertIsInstance(result.x_test, np.ndarray)
-            self.assertIsInstance(result.y_train, np.ndarray)
-            self.assertIsInstance(result.y_test, np.ndarray)
+            self.assertIsInstance(result._train_data, ficd.Dataset)
+            self.assertIsInstance(result._test_data, ficd.Dataset)
 
     def test_unload(self):
         with TemporaryDirectory() as root:
