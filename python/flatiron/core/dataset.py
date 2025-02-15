@@ -1,5 +1,5 @@
 from typing import Any, Optional, Union  # noqa F401
-from flatiron.core.types import Filepath, OptArray, OptLabels  # noqa F401
+from flatiron.core.types import Filepath, OptArray, OptInt, OptLabels  # noqa F401
 
 from pathlib import Path
 import os
@@ -514,8 +514,9 @@ class Dataset:
     def train_test_split(
         self,
         test_size=0.2,  # type: float
+        limit=None,     # type: OptInt
         shuffle=True,   # type: bool
-        seed=None,      # type: Optional[int]
+        seed=None,      # type: OptInt
     ):
         # type: (...) -> tuple[Dataset, Dataset]
         '''
@@ -524,6 +525,8 @@ class Dataset:
         Args:
             test_size (float, optional): Test set size as a proportion.
                 Default: 0.2.
+            limit (int, optional): Limit the total length of train and test.
+                Default: None.
             shuffle (bool, optional): Randomize data before splitting.
                 Default: True.
             seed (float, optional): Seed number between 0 and 1. Default: None.
@@ -532,7 +535,8 @@ class Dataset:
             tuple[Dataset]: Train Dataset, Test Dataset.
         '''
         train, test = fict.train_test_split(
-            self.info, test_size=test_size, shuffle=shuffle, seed=seed
+            self.info,
+            test_size=test_size, limit=limit, shuffle=shuffle, seed=seed
         )
         train.reset_index(drop=True, inplace=True)
         test.reset_index(drop=True, inplace=True)
