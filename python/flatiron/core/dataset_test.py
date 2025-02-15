@@ -548,13 +548,16 @@ class DatasetTests(DatasetTestBase):
                 .read_directory(root, labels=[3], label_axis=-2) \
                 .load(limit=10)
 
-            # two classes
             train, test = dset.train_test_split(test_size=0.4)
+
+            # length
             self.assertEqual(len(train), 6)
             self.assertEqual(len(test), 4)
 
+            # labels
             self.assertEqual(train.labels, [3])
             self.assertEqual(test.labels, [3])
 
+            # label_axis
             self.assertEqual(train.label_axis, -2)
             self.assertEqual(train.label_axis, -2)
