@@ -534,4 +534,5 @@ class Dataset:
         )
         train.reset_index(drop=True, inplace=True)
         test.reset_index(drop=True, inplace=True)
-        return Dataset(train), Dataset(test)
+        kwargs = dict(labels=self.labels, label_axis=self.label_axis)
+        return Dataset(train, **kwargs), Dataset(test, **kwargs)

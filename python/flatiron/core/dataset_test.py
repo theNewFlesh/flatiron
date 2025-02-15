@@ -1,3 +1,4 @@
+from cProfile import label
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import os
@@ -84,7 +85,7 @@ class DatasetTests(DatasetTestBase):
     def test_init(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            result = Dataset(info)._info
+            result = Dataset(info, labels=['a', 'b'], label_axis=2)._info
             cols = [
                 'gb', 'frame', 'asset_path', 'filepath_relative',
                 'filepath', 'loaded'
@@ -102,6 +103,14 @@ class DatasetTests(DatasetTestBase):
             # loaded column
             result = Dataset(info)._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
+
+    def test_init_labels(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root)
+            result = Dataset(info, labels=['a', 'b'], label_axis=2)
+
+            self.assertEqual(result.labels, ['a', 'b'])
+            self.assertEqual(result.label_axis, 2)
 
     def test_init_ext_regex(self):
         with TemporaryDirectory() as root:
@@ -535,9 +544,17 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (50, 10, 10, 5)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=10)
+            dset = Dataset \
+                .read_directory(root, labels=[3], label_axis=-2) \
+                .load(limit=10)
 
             # two classes
             train, test = dset.train_test_split(test_size=0.4)
             self.assertEqual(len(train), 6)
             self.assertEqual(len(test), 4)
+
+            self.assertEqual(train.labels, [3])
+            self.assertEqual(test.labels, [3])
+
+            self.assertEqual(train.label_axis, -2)
+            self.assertEqual(train.label_axis, -2)
