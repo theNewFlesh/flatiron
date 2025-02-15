@@ -12,7 +12,6 @@ import cv_depot.api as cvd
 import humanfriendly as hf
 import numpy as np
 import pandas as pd
-import sklearn.model_selection as skm
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -482,57 +481,27 @@ class Dataset:
 
     def train_test_split(
         self,
-        index,  # type: int
-        axis=-1,  # type: int
-        test_size=0.2,  # type: Optional[Union[float, int]]
-        train_size=None,  # type: Optional[Union[float, int]]
-        random_state=42,  # type: Optional[int]
-        shuffle=True,  # type: bool
-        stratify=None,  # type: OptArray
+        test_size=0.2,  # type: Optional[float]
+        shuffle=True,   # type: bool
+        seed=None,      # type: Optional[int]
     ):
-        # type: (...) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
+        # type: (...) -> tuple[Dataset, Dataset]
         '''
-        Split data into x_train, x_test, y_train, y_test arrays.
+        Split into train and test Datasets.
 
         Args:
-            index (int): Index of axis to split on.
-
-            axis (int, optional): Axis to split data on. Default: -1.
-
-            test_size (float or int, optional): If float, should be between 0.0
-                and 1.0 and represent the proportion of the dataset to include
-                in the test split. If int, represents the absolute number of
-                test samples. If None, the value is set to the complement of the
-                train size. If ``train_size`` is also None, it will be set to
-                0.25. Default: 0.2
-
-            train_size (float or int, optional): If float, should be between 0.0
-                and 1.0 and represent the proportion of the dataset to include
-                in the train split. If int, represents the absolute number of
-                train samples. If None, the value is automatically set to the
-                complement of the test size. Default: None.
-
-            random_state (int, optional): Controls the shuffling applied to the
-                data before applying the split. Pass an int for reproducible
-                output across multiple function calls. Default: 42.
-
-            shuffle (bool, optional): Whether or not to shuffle the data before
-                splitting. If False then stratify must be None. Default: True.
-
-            stratify (np.ndarr, optional): If not None, data is split in a
-                stratified fashion, using this as the class labels.
-                Default: None.
+            test_size (float, optional): Test set size as a proportion.
+                Default: 0.2.
+            shuffle (bool, optional): Randomize data before splitting.
+                Default: True.
+            seed (float, optional): Seed number between 0 and 1. Default: None.
 
         Returns:
-            tuple[np.ndarray]: x_train, x_test, y_train, y_test
+            tuple[Dataset]: Train Dataset, Test Dataset.
         '''
-        x, y = self.xy_split(index, axis=axis)
-        x_train, x_test, y_train, y_test = skm.train_test_split(
-            x, y,
-            test_size=test_size,
-            train_size=train_size,
-            random_state=random_state,
-            shuffle=shuffle,
-            stratify=stratify,
+        train, test = fict.train_test_split(
+            self.info, test_size=test_size, shuffle=shuffle, seed=seed
         )
-        return x_train, x_test, y_train, y_test
+        train.reset_index(drop=True, inplace=True)
+        test.reset_index(drop=True, inplace=True)
+        return Dataset(train), Dataset(test)
