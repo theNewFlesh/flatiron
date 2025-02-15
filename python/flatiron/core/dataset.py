@@ -162,9 +162,11 @@ class Dataset:
 
         self._info = info  # type: pd.DataFrame
         self.data = None  # type: OptArray
-        self._sample_gb = np.nan  # type: Union[float, np.ndarray]
         self.labels = labels
         self.label_axis = label_axis
+        self._ext_regex = ext_regex
+        self._calc_file_size = calc_file_size
+        self._sample_gb = np.nan  # type: Union[float, np.ndarray]
 
     @property
     def info(self):
@@ -534,5 +536,10 @@ class Dataset:
         )
         train.reset_index(drop=True, inplace=True)
         test.reset_index(drop=True, inplace=True)
-        kwargs = dict(labels=self.labels, label_axis=self.label_axis)
-        return Dataset(train, **kwargs), Dataset(test, **kwargs)
+        kwargs = dict(
+            ext_regex=self._ext_regex,
+            calc_file_size=self._calc_file_size,
+            labels=self.labels,
+            label_axis=self.label_axis
+        )
+        return Dataset(train, **kwargs), Dataset(test, **kwargs)  # type: ignore
