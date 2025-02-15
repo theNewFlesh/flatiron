@@ -220,7 +220,7 @@ class PipelineTests(unittest.TestCase):
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config).load()
+            pipe = FakePipeline(config)
             self.assertIsNone(pipe._train_data)
             self.assertIsNone(pipe._test_data)
 
@@ -266,9 +266,8 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory(prefix='test-train-') as root:
             config = self.get_config(root)
             pipe = FakePipeline(config) \
-                .load() \
                 .train_test_split() \
-                .unload() \
+                .load() \
                 .build() \
                 .compile()
 
