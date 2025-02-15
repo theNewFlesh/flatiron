@@ -14,13 +14,12 @@ class DatasetConfigTests(unittest.TestCase):
         return dict(
             source=Path(root).as_posix(),
             ext_regex='npy|exr|png|jpeg|jpg|tiff',
-            load_limit=None,
-            load_shuffle=False,
             labels=None,
             label_axis=-1,
-            seed=None,
-            shuffle=True,
             test_size=0.2,
+            limit=None,
+            shuffle=True,
+            seed=None,
         )
 
     def test_validate(self):
@@ -32,13 +31,12 @@ class DatasetConfigTests(unittest.TestCase):
             config = self.get_config(root)
             keys = [
                 'ext_regex',
-                'load_limit',
-                'load_shuffle',
                 'labels',
                 'label_axis',
+                'test_size',
+                'limit',
                 'seed',
                 'shuffle',
-                'test_size',
             ]
             for key in keys:
                 del config[key]
@@ -50,6 +48,13 @@ class DatasetConfigTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['test_size'] = -0.2
+            with self.assertRaises(ValueError):
+                ficc.DatasetConfig(**config)
+
+    def test_split_test_limit(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config['limit'] = -10
             with self.assertRaises(ValueError):
                 ficc.DatasetConfig(**config)
 

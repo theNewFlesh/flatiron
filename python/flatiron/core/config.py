@@ -18,14 +18,12 @@ class DatasetConfig(pyd.BaseModel):
         source (str): Dataset directory or CSV filepath.
         ext_regex (str, optional): File extension pattern.
                 Default: 'npy|exr|png|jpeg|jpg|tiff'.
-        load_limit (str or int): Limit data by number of samples or memory size.
-            Default: None.
-        load_shuffle (bool, optional): Shuffle chunks before loading.
-            Default: False.
         labels (object, optional): Label channels. Default: None.
         label_axis (int, optional): Label axis. Default: -1.
         test_size (float, optional): Test set size as a proportion.
             Default: 0.2.
+        limit (str or int): Limit data by number of samples.
+            Default: None.
         shuffle (bool, optional): Randomize data before splitting.
             Default: True.
         seed (float, optional): Split seed number between 0 and 1.
@@ -33,13 +31,12 @@ class DatasetConfig(pyd.BaseModel):
     '''
     source: str
     ext_regex: str = 'npy|exr|png|jpeg|jpg|tiff'
-    load_limit: Optional[Union[int, str]] = None
-    load_shuffle: bool = False
     labels: OptLabels = None
     label_axis: int = -1
+    test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
+    limit: Optional[Annotated[int, pyd.Field(ge=0)]] = None
     seed: Optional[float] = None
     shuffle: bool = True
-    test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
 
 
 class OptimizerConfig(pyd.BaseModel):
