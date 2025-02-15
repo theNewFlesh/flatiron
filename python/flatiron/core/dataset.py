@@ -482,15 +482,11 @@ class Dataset:
         self._info['loaded'] = False
         return self
 
-    def xy_split(self, index, axis=-1):
-        # type: (int, int) -> tuple[np.ndarray, np.ndarray]
+    def xy_split(self):
+        # type: () -> tuple[np.ndarray, np.ndarray]
         '''
-        Split data into x and y arrays.
-        Index and axis support negative ingegers.
-
-        Args:
-            index (int): Index of axis to split on.
-            axis (int, optional): Axis to split data on. Default: -1.
+        Split data into x and y arrays, according to self.labels as the split
+        index and self.label_axis as the split axis.
 
         Raises:
             EnforceError: If data has not been loaded.
@@ -502,7 +498,7 @@ class Dataset:
         Enforce(self.data, 'instance of', np.ndarray, message=msg)
         # ----------------------------------------------------------------------
 
-        return np.split(self.data, [index], axis=axis)  # type: ignore
+        return np.split(self.data, self.labels, axis=self.label_axis)  # type: ignore
 
     def train_test_split(
         self,
