@@ -2,7 +2,7 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
-from tensorflow import keras  # noqa: F401
+from tensorflow import keras  # noqa F401
 from keras import optimizers as tfoptim
 
 import flatiron.core.config as ficc

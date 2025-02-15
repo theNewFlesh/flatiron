@@ -1,7 +1,7 @@
 from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
-from flatiron.core.types import Filepath  # noqa: F401
+from flatiron.core.types import Filepath  # noqa F401
 import pandas as pd  # noqa F401
 
 from datetime import datetime

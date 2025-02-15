@@ -1,6 +1,8 @@
+from typing import Optional  # noqa F401
+
 from tensorflow import keras  # noqa F401
 from keras import models as tfmodels  # noqa F401
-from flatiron.core.types import Callbacks, Filepath, OptDataset  # noqa: F401
+from flatiron.core.types import Callbacks, Filepath  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
 
 import math
@@ -41,7 +43,7 @@ def train(
     model,           # type: tfmodels.Model
     callbacks,       # type: Callbacks
     train_data,      # type: Dataset
-    test_data,       # type: OptDataset
+    test_data,       # type: Optional[Dataset]
     batch_size=32,   # type: int
     **kwargs,
 ):

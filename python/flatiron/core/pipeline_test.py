@@ -5,7 +5,7 @@ import os
 import unittest
 
 from pydantic import BaseModel
-from tensorflow import keras  # noqa: F401
+from tensorflow import keras  # noqa F401
 from keras import layers as tfl
 from keras import models as tfmodels
 import numpy as np
