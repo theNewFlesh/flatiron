@@ -296,7 +296,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        if self._engine == 'tensorflow':
+        if self.config['engine'] == 'tensorflow':
             return self \
                 .build() \
                 .compile() \
