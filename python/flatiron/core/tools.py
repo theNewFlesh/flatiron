@@ -2,11 +2,13 @@ from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
 from flatiron.core.types import Filepath  # noqa: F401
+import pandas as pd  # noqa F401
 
 from datetime import datetime
 from pathlib import Path
 import inspect
 import os
+import random
 import re
 import sys
 
@@ -194,6 +196,25 @@ def resolve_kwargs(engine, kwargs):
     output = dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
     output = {re.sub(f'^{prefix}', '', k): v for k, v in output.items()}
     return output
+
+
+def train_test_split(data, test_size=0.1, shuffle=True):
+    # type: (pd.DataFrame, float, bool) -> tuple[pd.DataFrame, pd.DataFrame]
+    '''
+    Split DataFrame into train and test DataFrames.
+
+    Args:
+        data (pd.DataFrame): DataFrame.
+        test_size (float, optional): Test set size. Default: 0.1.
+
+    Returns:
+        tuple[pd.DataFrame, pd.DataFrame]: Train and test DataFrames.
+    '''
+    index = data.index.tolist()
+    if shuffle:
+        random.shuffle(index)
+    k = int(len(index) * (1 - test_size))
+    return data.loc[index[:k]], data.loc[index[k:]]
 
 
 # MODULE-FUNCS------------------------------------------------------------------
