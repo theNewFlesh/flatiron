@@ -1,4 +1,4 @@
-from typing import Any, Type  # noqa F401
+from typing import Any, Optional, Type  # noqa F401
 from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
@@ -71,13 +71,23 @@ class PipelineBase(ABC):
         self.config = config
 
         # create Dataset instance
-        src = config['dataset']['source']
+        dconf = config['dataset']
+        src = dconf['source']
+        kwargs = dict(
+            ext_regex=dconf['ext_regex'],
+            labels=dconf['labels'],
+            label_axis=dconf['label_axis'],
+            calc_file_size=False,
+        )
         if Path(src).is_file():
-            self.dataset = Dataset.read_csv(src)
+            self.dataset = Dataset.read_csv(src, **kwargs)
         else:
-            self.dataset = Dataset.read_directory(src)
+            self.dataset = Dataset.read_directory(src, **kwargs)
 
         self._compiled = {}  # type: Compiled
+        self._train_data = None  # type: Optional[Dataset]
+        self._test_data = None  # type: Optional[Dataset]
+        self._loaded = False
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
@@ -104,18 +114,51 @@ class PipelineBase(ABC):
     def load(self):
         # type: () -> PipelineBase
         '''
-        Load dataset into memory.
-        Calls `self.dataset.load` with dataset params.
+        Loads train and test datasets into memory.
+        Calls `load` on self._train_data and self._test_data.
+
+        Raises:
+            RuntimeError: If train and test data are not datasets.
 
         Returns:
             PipelineBase: Self.
         '''
+        if self._train_data is None or self._test_data is None:
+            msg = 'Train and test data not loaded. '
+            msg += 'Please call train_test_split method first.'
+            raise RuntimeError(msg)
+
         config = self.config['dataset']
-        with self._logger('load', 'LOAD DATASET', dict(dataset=config)):
-            self.dataset.load(
-                limit=config['load_limit'],
-                shuffle=config['load_shuffle'],
-            )
+        with self._logger('load', 'LOAD DATASETS', dict(dataset=config)):
+            self._train_data.load()
+            self._test_data.load()
+
+        self._loaded = True
+        return self
+
+    def unload(self):
+        # type: () -> PipelineBase
+        '''
+        Unload train and test datasets from memory.
+        Calls `unload` on self._train_data and self._test_data.
+
+        Raises:
+            RuntimeError: If train and test data are not datasets.
+            RuntimeError: If train and test data are not loaded.
+
+        Returns:
+            PipelineBase: Self.
+        '''
+        if self._train_data is None or self._test_data is None or not self._loaded:
+            msg = 'Train and test data not loaded. '
+            msg += 'Please call train_test_split, then load methods first.'
+            raise RuntimeError(msg)
+
+        config = self.config['dataset']
+        with self._logger('unload', 'UNLOAD DATASETS', dict(dataset=config)):
+            self._train_data.unload()
+            self._test_data.unload()
+        self._loaded = False
         return self
 
     def train_test_split(self):
@@ -125,45 +168,22 @@ class PipelineBase(ABC):
 
         Assigns the following instance members:
 
-            * x_train
-            * x_test
-            * y_train
-            * y_test
+            * _train_data
+            * _test_data
 
         Returns:
             PipelineBase: Self.
         '''
         config = self.config['dataset']
-
         with self._logger(
             'train_test_split', 'TRAIN TEST SPLIT', dict(dataset=config)
         ):
-            x_train, x_test, y_train, y_test = self.dataset.train_test_split(
-                index=config['split_index'],
-                axis=config['split_axis'],
-                test_size=config['split_test_size'],
-                train_size=config['split_train_size'],
-                random_state=config['split_random_state'],
-                shuffle=config['split_shuffle'],
+            self._train_data, self._test_data = self.dataset.train_test_split(
+                test_size=config['test_size'],
+                limit=config['limit'],
+                shuffle=config['shuffle'],
+                seed=config['seed'],
             )
-            self.x_train = x_train
-            self.x_test = x_test
-            self.y_train = y_train
-            self.y_test = y_test
-        return self
-
-    def unload(self):
-        # type: () -> PipelineBase
-        '''
-        Unload dataset into memory. Train and test sets will be kept.
-        Calls `self.dataset.unload`.
-
-        Returns:
-            PipelineBase: Self.
-        '''
-        config = self.config['dataset']
-        with self._logger('unload', 'UNLOAD DATASET', dict(dataset=config)):
-            self.dataset.unload()
         return self
 
     def build(self):
@@ -255,8 +275,9 @@ class PipelineBase(ABC):
             # train model
             engine.tools.train(
                 compiled=self._compiled,
-                dataset=self.dataset,
                 callbacks=callbacks,
+                train_data=self._train_data,
+                test_data=self._test_data,
                 **train,
             )
         return self
@@ -266,23 +287,28 @@ class PipelineBase(ABC):
         '''
         Run the following pipeline operations:
 
-        * load
-        * train_test_split
-        * unload
         * build
         * compile
+        * train_test_split
+        * load (for tensorflow only)
         * train
 
         Returns:
             PipelineBase: Self.
         '''
-        self.load() \
-            .train_test_split() \
-            .unload() \
+        if self._engine == 'tensorflow':
+            return self \
+                .build() \
+                .compile() \
+                .train_test_split() \
+                .load() \
+                .train()
+
+        return self \
             .build() \
             .compile() \
+            .train_test_split() \
             .train()
-        return self
 
     @abstractmethod
     def model_config(self):

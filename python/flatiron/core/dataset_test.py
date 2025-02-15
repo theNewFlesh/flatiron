@@ -1,3 +1,4 @@
+from cProfile import label
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import os
@@ -84,7 +85,7 @@ class DatasetTests(DatasetTestBase):
     def test_init(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            result = Dataset(info)._info
+            result = Dataset(info, labels=['a', 'b'], label_axis=2)._info
             cols = [
                 'gb', 'frame', 'asset_path', 'filepath_relative',
                 'filepath', 'loaded'
@@ -103,10 +104,19 @@ class DatasetTests(DatasetTestBase):
             result = Dataset(info)._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
+    def test_init_labels(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root)
+            result = Dataset(info, labels=['a', 'b'], label_axis=2)
+
+            self.assertEqual(result.labels, ['a', 'b'])
+            self.assertEqual(result.label_axis, 2)
+
     def test_init_ext_regex(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            with self.assertRaises(EnforceError):
+            expected = 'Found files extensions that do not match ext_regex'
+            with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info, ext_regex='foo')
 
     def test_init_calc_file_size(self):
@@ -490,22 +500,28 @@ class DatasetTests(DatasetTestBase):
             dset = Dataset.read_directory(root).load(limit=200)
 
             # index -1
-            x, y = dset.xy_split(-1)
+            dset.labels = [-1]
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 10, 3))
             self.assertEqual(y.shape, (200, 10, 10, 1))
 
             # index -2
-            x, y = dset.xy_split(-2)
+            dset.labels = [-2]
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 10, 2))
             self.assertEqual(y.shape, (200, 10, 10, 2))
 
             # index -1 axis -2
-            x, y = dset.xy_split(-1, axis=-2)
+            dset.labels = [-1]
+            dset.label_axis = -2
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 9, 4))
             self.assertEqual(y.shape, (200, 10, 1, 4))
 
             # index 4 axis -2
-            x, y = dset.xy_split(4, axis=-2)
+            dset.labels = [4]
+            dset.label_axis = -2
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 4, 4))
             self.assertEqual(y.shape, (200, 10, 6, 4))
 
@@ -516,18 +532,32 @@ class DatasetTests(DatasetTestBase):
             dset = Dataset.read_directory(root)
             expected = 'Data not loaded. Please call load method.'
             with self.assertRaisesRegex(EnforceError, expected):
-                dset.xy_split(-1)
+                dset.xy_split()
+
+            dset.load()
+            expected = 'self.labels must be a list of a single integer. '
+            expected = 'Provided labels: None.'
+            with self.assertRaisesRegex(EnforceError, expected):
+                dset.xy_split()
 
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             shape = (50, 10, 10, 5)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=100)
+            dset = Dataset \
+                .read_directory(root, labels=[3], label_axis=-2) \
+                .load(limit=10)
 
-            # two classes
-            x_train, x_test, y_train, y_test = dset \
-                .train_test_split(-2, test_size=0.4)
-            self.assertEqual(x_train.shape, (60, 10, 10, 3))
-            self.assertEqual(x_test.shape, (40, 10, 10, 3))
-            self.assertEqual(y_train.shape, (60, 10, 10, 2))
-            self.assertEqual(y_test.shape, (40, 10, 10, 2))
+            train, test = dset.train_test_split(test_size=0.4)
+
+            # length
+            self.assertEqual(len(train), 6)
+            self.assertEqual(len(test), 4)
+
+            # labels
+            self.assertEqual(train.labels, [3])
+            self.assertEqual(test.labels, [3])
+
+            # label_axis
+            self.assertEqual(train.label_axis, -2)
+            self.assertEqual(train.label_axis, -2)

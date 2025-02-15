@@ -4,6 +4,7 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
+import pandas as pd
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -178,6 +179,51 @@ b
 
         result = fict.resolve_kwargs('torch', kwargs)
         self.assertEqual(result, dict(taco=0, pizza=0))
+
+    def test_train_test_split(self):
+        data = pd.DataFrame()
+        data['x'] = list(range(100))
+        data['y'] = list(range(100))
+
+        # regular use
+        result = fict.train_test_split(data, test_size=0.2, shuffle=True)
+        self.assertIsInstance(result[0], pd.DataFrame)
+        self.assertIsInstance(result[1], pd.DataFrame)
+        self.assertEqual(result[0].columns.tolist(), list('xy'))
+        self.assertEqual(result[1].columns.tolist(), list('xy'))
+        self.assertEqual(len(result[0]), 80)
+        self.assertEqual(len(result[1]), 20)
+
+        # shuffle
+        result = fict.train_test_split(data, test_size=0.1, shuffle=False)
+        self.assertEqual(result[0].index.tolist(), list(range(0, 90)))
+        self.assertEqual(result[1].index.tolist(), list(range(90, 100)))
+
+        # seed
+        x0, y0 = fict.train_test_split(data, shuffle=True, seed=0.1)
+        x1, y1 = fict.train_test_split(data, shuffle=True, seed=0.1)
+        x2, y2 = fict.train_test_split(data, shuffle=True, seed=0.1)
+        self.assertTrue(x0.equals(x0))
+        self.assertTrue(x0.equals(x1))
+        self.assertTrue(x0.equals(x2))
+        self.assertTrue(y0.equals(y0))
+        self.assertTrue(y0.equals(y1))
+        self.assertTrue(y0.equals(y2))
+
+        # limit
+        x, y = fict.train_test_split(data, limit=10, test_size=0.2)
+        self.assertEqual(len(x), 8)
+        self.assertEqual(len(y), 2)
+
+    def test_train_test_split_errors(self):
+        with self.assertRaises(EnforceError):
+            fict.train_test_split('foobar')
+
+        with self.assertRaises(EnforceError):
+            fict.train_test_split(pd.DataFrame(), test_size=1.1)
+
+        with self.assertRaises(EnforceError):
+            fict.train_test_split(pd.DataFrame(), seed=42)
 
     def test_get_module(self):
         module = fict.get_module(__name__)

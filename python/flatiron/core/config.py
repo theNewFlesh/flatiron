@@ -1,5 +1,6 @@
 from typing import Optional, Union
 from typing_extensions import Annotated
+from flatiron.core.types import OptLabels
 
 import pydantic as pyd
 
@@ -15,27 +16,27 @@ class DatasetConfig(pyd.BaseModel):
 
     Attributes:
         source (str): Dataset directory or CSV filepath.
-        load_limit (str or int): Limit data by number of samples or memory size.
+        ext_regex (str, optional): File extension pattern.
+                Default: 'npy|exr|png|jpeg|jpg|tiff'.
+        labels (object, optional): Label channels. Default: None.
+        label_axis (int, optional): Label axis. Default: -1.
+        test_size (float, optional): Test set size as a proportion.
+            Default: 0.2.
+        limit (str or int): Limit data by number of samples.
             Default: None.
-        load_shuffle (bool, optional): Shuffle chunks before loading.
-            Default: False.
-        split_index (int, optional): Index of axis to split on.
-        split_axis (int): Axis to split data on. Default: -1.
-        split_test_size (float, optional): Test size. Default: 0.2
-        split_train_size (float, optional): Train size. Default: None
-        split_random_state (int, optional): Seed for shuffling randomness.
-            Default: 42.
-        split_shuffle (bool, optional): Shuffle data rows. Default: True.
+        shuffle (bool, optional): Randomize data before splitting.
+            Default: True.
+        seed (float, optional): Split seed number between 0 and 1.
+            Default: None.
     '''
     source: str
-    load_limit: Optional[Union[int, str]] = None
-    load_shuffle: bool = False
-    split_index: int
-    split_axis: int = -1
-    split_test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
-    split_train_size: Optional[Annotated[float, pyd.Field(ge=0)]] = None
-    split_random_state: Optional[int] = 42
-    split_shuffle: bool = True
+    ext_regex: str = 'npy|exr|png|jpeg|jpg|tiff'
+    labels: OptLabels = None
+    label_axis: int = -1
+    test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
+    limit: Optional[Annotated[int, pyd.Field(ge=0)]] = None
+    seed: Optional[float] = None
+    shuffle: bool = True
 
 
 class OptimizerConfig(pyd.BaseModel):

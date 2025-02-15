@@ -1,8 +1,8 @@
-from typing import Any  # noqa F401
-
-from flatiron.core.dataset import Dataset  # noqa: F401
-from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
+from typing import Any, Optional  # noqa F401
 from tensorflow import keras  # noqa F401
+from keras import models as tfmodels  # noqa F401
+from flatiron.core.dataset import Dataset  # noqa F401
+from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 
 import math
 
@@ -57,9 +57,10 @@ def compile(model, optimizer, loss, metrics, kwargs={}):
 
 def train(
     compiled,       # type: Compiled
-    dataset,        # type: Dataset
-    callbacks,      # type: Callbacks
-    batch_size=32,  # type: int
+    callbacks,       # type: Callbacks
+    train_data,      # type: Dataset
+    test_data,       # type: Optional[Dataset]
+    batch_size=32,   # type: int
     **kwargs,
 ):
     # type: (...) -> None
@@ -68,24 +69,25 @@ def train(
 
     Args:
         compiled (dict): Compiled objects.
-        dataset (Dataset): Data to feed to model.
         callbacks (dict): Dict of callbacks.
+        train_data (Dataset): Training dataset.
+        test_data (Dataset): Test dataset.
         batch_size (int, optional): Batch size. Default: 32.
         **kwargs: Other params to be passed to `model.fit`.
     '''
     model = compiled['model']
-    x_train, x_test, y_train, y_test = dataset.load().train_test_split(-1)
-    dataset.unload()
+    x_train, y_train = train_data.xy_split()
+    steps = math.ceil(x_train.shape[0] / batch_size)
 
-    n = x_train.shape[0]
     val = None
-    if x_test is not None and y_test is not None:
-        val = (x_test, y_test)
+    if test_data is not None:
+        val = test_data.xy_split()
+
     model.fit(
         x=x_train,
         y=y_train,
         callbacks=list(callbacks.values()),
         validation_data=val,
-        steps_per_epoch=math.ceil(n / batch_size),
+        steps_per_epoch=steps,
         **kwargs,
     )
