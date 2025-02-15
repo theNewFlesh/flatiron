@@ -1,5 +1,5 @@
 from typing import Any, Type  # noqa F401
-from flatiron.core.types import AnyModel, Filepath, OptArray  # noqa F401
+from flatiron.core.types import AnyModel, Filepath, OptDataset  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -71,16 +71,21 @@ class PipelineBase(ABC):
         self.config = config
 
         # create Dataset instance
-        src = config['dataset']['source']
+        dconf = config['dataset']
+        src = dconf['source']
+        kwargs = dict(
+            ext_regex=dconf['ext_regex'],
+            labels=dconf['labels'],
+            label_axis=dconf['label_axis'],
+            calc_file_size=False,
+        )
         if Path(src).is_file():
-            self.dataset = Dataset.read_csv(src)
+            self.dataset = Dataset.read_csv(src, **kwargs)
         else:
-            self.dataset = Dataset.read_directory(src)
+            self.dataset = Dataset.read_directory(src, **kwargs)
 
-        self.x_train = None  # type: OptArray
-        self.x_test = None  # type: OptArray
-        self.y_train = None  # type: OptArray
-        self.y_test = None  # type: OptArray
+        self._train_data = None  # type: OptDataset
+        self._test_data = None  # type: OptDataset
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
@@ -128,31 +133,21 @@ class PipelineBase(ABC):
 
         Assigns the following instance members:
 
-            * x_train
-            * x_test
-            * y_train
-            * y_test
+            * _train_data
+            * _test_data
 
         Returns:
             PipelineBase: Self.
         '''
         config = self.config['dataset']
-
         with self._logger(
             'train_test_split', 'TRAIN TEST SPLIT', dict(dataset=config)
         ):
-            x_train, x_test, y_train, y_test = self.dataset.train_test_split(
-                index=config['split_index'],
-                axis=config['split_axis'],
-                test_size=config['split_test_size'],
-                train_size=config['split_train_size'],
-                random_state=config['split_random_state'],
-                shuffle=config['split_shuffle'],
+            self._train_data, self._test_data = self.dataset.train_test_split(
+                test_size=config['test_size'],
+                shuffle=config['shuffle'],
+                seed=config['seed'],
             )
-            self.x_train = x_train
-            self.x_test = x_test
-            self.y_train = y_train
-            self.y_test = y_test
         return self
 
     def unload(self):
