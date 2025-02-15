@@ -72,7 +72,8 @@ class PipelineTests(unittest.TestCase):
             ),
             dataset=dict(
                 source=info_path,
-                split_index=-1,
+                labels=[2],
+                label_axis=-1,
             ),
             callbacks=dict(
                 project='proj',
