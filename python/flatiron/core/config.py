@@ -8,7 +8,11 @@ import flatiron.core.validators as vd
 # ------------------------------------------------------------------------------
 
 
-class DatasetConfig(pyd.BaseModel):
+class BaseConfig(pyd.BaseModel):
+    model_config = pyd.ConfigDict(extra='forbid')
+
+
+class DatasetConfig(BaseConfig):
     '''
     Configuration for Dataset.
 
@@ -42,7 +46,7 @@ class DatasetConfig(pyd.BaseModel):
     seed: Optional[int] = None
 
 
-class OptimizerConfig(pyd.BaseModel):
+class OptimizerConfig(BaseConfig):
     '''
     Configuration for keras optimizer.
 
@@ -81,7 +85,7 @@ class OptimizerConfig(pyd.BaseModel):
     jit_compile: bool = True
 
 
-class CompileConfig(pyd.BaseModel):
+class CompileConfig(BaseConfig):
     '''
     Configuration for calls to model.compile.
 
@@ -108,7 +112,7 @@ class CompileConfig(pyd.BaseModel):
     tf_jit_compile: bool = False
 
 
-class CallbacksConfig(pyd.BaseModel):
+class CallbacksConfig(BaseConfig):
     '''
     Configuration for tensorflow callbacks.
 
@@ -142,7 +146,7 @@ class CallbacksConfig(pyd.BaseModel):
     initial_value_threshold: Optional[float] = None
 
 
-class TrainConfig(pyd.BaseModel):
+class TrainConfig(BaseConfig):
     '''
     Configuration for calls to model train function.
 
@@ -181,7 +185,7 @@ class TrainConfig(pyd.BaseModel):
     # validation_steps
 
 
-class LoggerConfig(pyd.BaseModel):
+class LoggerConfig(BaseConfig):
     '''
     Configuration for logger.
 
@@ -208,7 +212,7 @@ class LoggerConfig(pyd.BaseModel):
         return value
 
 
-class PipelineConfig(pyd.BaseModel):
+class PipelineConfig(BaseConfig):
     '''
     Configuration for PipelineBase classes.
 
