@@ -402,8 +402,8 @@ class Dataset:
 
         return -1, 'None'
 
-    def load(self, limit=None, shuffle=False):
-        # type: (Optional[Union[str, int]], bool) -> Dataset
+    def load(self, limit=None, shuffle=False, reshape=True):
+        # type: (Optional[Union[str, int]], bool, bool) -> Dataset
         '''
         Load data from files.
 
@@ -412,6 +412,9 @@ class Dataset:
                 memory size. Default: None.
             shuffle (bool, optional): Shuffle frames before loading.
                 Default: False.
+            reshape (bool, optional): Reshape concatenated data to incorpate
+                frames as the first dimension: (FRAME, ...). Analogous to the
+                first dimension being batch. Default: True.
 
         Returns:
             Dataset: self.
@@ -444,6 +447,8 @@ class Dataset:
                 break
 
             frame = self._read_file_as_array(row.filepath)
+            if reshape:
+                frame = frame[np.newaxis, ...]
             frames.append(frame)
 
             self._info.loc[i, 'loaded'] = True
