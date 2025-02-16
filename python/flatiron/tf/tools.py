@@ -1,4 +1,4 @@
-from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa: F401
+from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa F401
 from tensorflow import keras  # noqa F401
 from keras import models as tfmodels  # noqa F401
 import numpy as np  # noqa F401

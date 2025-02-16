@@ -2,7 +2,7 @@ from typing import Any, Callable, Union  # noqa F401
 import numpy
 
 import tensorflow as tf
-from tensorflow import keras  # noqa: F401
+from tensorflow import keras  # noqa F401
 from keras import backend as tfb
 from keras import losses as tfloss
 

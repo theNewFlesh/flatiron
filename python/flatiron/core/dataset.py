@@ -1,5 +1,5 @@
 from typing import Any, Optional, Union  # noqa F401
-from flatiron.core.types import Filepath, OptArray  # noqa: F401
+from flatiron.core.types import Filepath, OptArray  # noqa F401
 
 from pathlib import Path
 import os

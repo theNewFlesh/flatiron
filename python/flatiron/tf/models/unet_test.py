@@ -2,7 +2,7 @@ import os
 import unittest
 
 from lunchbox.enforce import EnforceError
-from tensorflow import keras  # noqa: F401
+from tensorflow import keras  # noqa F401
 from keras import models as tfmodels
 
 import flatiron.tf.models.unet as fi_tfunet
