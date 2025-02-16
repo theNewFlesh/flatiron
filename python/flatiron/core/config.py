@@ -53,7 +53,7 @@ class OptimizerConfig(BaseConfig):
     See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer
 
     Attributes:
-        class_name: (string, optional): Name of optimizer. Default='sgd'.
+        name: (string, optional): Name of optimizer. Default='sgd'.
         learning_rate: (float, optional): Learning rate. Default=0.001.
         momentum: (float, optional): Momentum. Default=0.
         nesterov: (boolean, optional): User Nesterov updates. Default=False.
@@ -71,7 +71,7 @@ class OptimizerConfig(BaseConfig):
             Default: None.
         jit_compile: (boolean, optional): Use XLA. Default=True.
     '''
-    class_name: str = 'sgd'
+    name: str = 'sgd'
     learning_rate: float = 0.001
     momentum: float = 0
     nesterov: bool = False

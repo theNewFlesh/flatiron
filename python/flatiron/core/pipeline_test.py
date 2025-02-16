@@ -97,7 +97,7 @@ class PipelineTests(unittest.TestCase):
     def test_init(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            result = FakePipeline(config).config['optimizer']['class_name']
+            result = FakePipeline(config).config['optimizer']['name']
             self.assertEqual(result, 'sgd')
 
     def test_init_model(self):
