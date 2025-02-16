@@ -18,6 +18,7 @@ class DatasetConfigTests(unittest.TestCase):
             label_axis=-1,
             test_size=0.2,
             limit=None,
+            reshape=True,
             shuffle=True,
             seed=None,
         )
@@ -35,6 +36,7 @@ class DatasetConfigTests(unittest.TestCase):
                 'label_axis',
                 'test_size',
                 'limit',
+                'reshape',
                 'seed',
                 'shuffle',
             ]
