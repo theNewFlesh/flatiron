@@ -26,7 +26,7 @@ class DatasetConfigTests(unittest.TestCase):
 
     def test_base_config(self):
         class Foo(ficc.BaseConfig):
-            bar: str
+            bar: str  # type: ignore
 
         Foo.model_validate(dict(bar='taco'))
 
@@ -74,7 +74,7 @@ class DatasetConfigTests(unittest.TestCase):
 class OptimizerConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            class_name='sgd',
+            name='sgd',
             learning_rate=0.001,
             momentum=0,
             nesterov=False,
@@ -93,9 +93,9 @@ class OptimizerConfigTests(unittest.TestCase):
 
     def test_defaults(self):
         expected = self.get_config()
-        result = ficc.OptimizerConfig(class_name='sgd').model_dump()
+        result = ficc.OptimizerConfig().model_dump()
         self.assertEqual(result, expected)
-        tfoptim.get(result)
+        tfoptim.get(result['name'])
 
 
 class CompileConfigTests(unittest.TestCase):
@@ -202,9 +202,11 @@ class PipelineConfigTests(unittest.TestCase):
             engine='tensorflow',
             dataset=dict(
                 source='/tmp/foobar/info.csv',
-                split_index=-1,
+                label_axis=-1,
             ),
-            optimizer=dict(),
+            optimizer=dict(
+                name='adam',
+            ),
             compile=dict(
                 loss='jaccard_loss',
             ),

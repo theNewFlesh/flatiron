@@ -241,7 +241,7 @@ class PipelineBase(ABC):
         with self._logger('compile', 'COMPILE MODEL', msg):
             self._compiled = engine.tools.compile(
                 self.model,
-                optimizer=self.config['optimizer']['class_name'],
+                optimizer=self.config['optimizer']['name'],
                 loss=comp['loss'],
                 metrics=comp['metrics'],
                 kwargs=fict.resolve_kwargs(engine, comp),
