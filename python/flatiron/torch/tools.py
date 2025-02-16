@@ -136,8 +136,9 @@ class TorchDataset(Dataset, torchdata.Dataset):
 
 def train(
     compiled,       # type: Compiled
-    dataset,        # type: Dataset
     callbacks,      # type: Callbacks
+    train_data,     # type: Dataset
+    test_data,      # type: Optional[Dataset]
     batch_size=32,  # type: int
     epochs=50,      # type: int
     seed=42,        # type: int
@@ -155,7 +156,7 @@ def train(
         batch_size (int, optional): Batch size. Default: 32.
         seed (int, optional): Random seed. Default: 42.
         device (str, optional): Torch device. Default: 'cpu'.
-        **kwargs: Other params to be passed to `model.fit`.
+        **kwargs: Other params to be passed to _execute_epoch.
     '''
     model = compiled['model']
     optimizer = compiled['optimizer']
@@ -167,10 +168,12 @@ def train(
     torch.manual_seed(seed)
     model = model.to(dev)
 
-    train_data = torchdata.DataLoader(
-        TorchDataset.monkey_patch(dataset), batch_size=batch_size
+    train_ldr = torchdata.DataLoader(
+        TorchDataset.monkey_patch(train_data), batch_size=batch_size
     )  # type: torchdata.DataLoader
-    # test_data = torchdata.DataLoader()
+    test_ldr = torchdata.DataLoader(
+        TorchDataset.monkey_patch(test_data), batch_size=batch_size
+    )  # type: torchdata.DataLoader
 
     kwargs = dict(
         model=model,
@@ -181,5 +184,5 @@ def train(
         writer=callbacks['tensorboard'],
     )
     for i in tqdm(range(epochs)):
-        _execute_epoch(epoch=i, mode='train', data_loader=train_data, **kwargs)
-        # _execute_epoch(epoch=i, mode='test', data_loader=test_data, **kwargs)
+        _execute_epoch(epoch=i, mode='train', data_loader=train_ldr, **kwargs)
+        _execute_epoch(epoch=i, mode='test', data_loader=test_ldr, **kwargs)
