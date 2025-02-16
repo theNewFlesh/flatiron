@@ -72,7 +72,8 @@ class PipelineTests(unittest.TestCase):
             ),
             dataset=dict(
                 source=info_path,
-                split_index=-1,
+                labels=[2],
+                label_axis=-1,
             ),
             callbacks=dict(
                 project='proj',
@@ -163,39 +164,71 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             pipe = FakePipeline(config)
-            self.assertIsNone(pipe.dataset.data)
+            self.assertIsNone(pipe._train_data)
+            self.assertIsNone(pipe._test_data)
+            pipe.train_test_split()
+            self.assertIsNotNone(pipe._train_data)
+            self.assertIsNotNone(pipe._test_data)
+            self.assertFalse(pipe._loaded)
 
             with self.assertLogs(level=logging.WARNING) as log:
-                result = pipe.load().dataset.data
+                result = pipe.load()
             self.assertRegex(log.output[0], 'LOAD DATASET')
-            self.assertIsInstance(result, np.ndarray)
+            self.assertIsInstance(result._train_data.data, np.ndarray)
+            self.assertIsInstance(result._test_data.data, np.ndarray)
+            self.assertTrue(pipe._loaded)
 
-    def test_train_test_split(self):
+    def test_load_errors(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config).load()
-            self.assertIsNone(pipe.x_train)
-            self.assertIsNone(pipe.x_test)
-            self.assertIsNone(pipe.y_train)
-            self.assertIsNone(pipe.y_test)
+            pipe = FakePipeline(config)
+            self.assertIsNone(pipe.dataset.data)
 
-            with self.assertLogs(level=logging.WARNING) as log:
-                result = pipe.train_test_split()
-            self.assertRegex(log.output[0], 'TRAIN TEST SPLIT')
-            self.assertIsInstance(result.x_train, np.ndarray)
-            self.assertIsInstance(result.x_test, np.ndarray)
-            self.assertIsInstance(result.y_train, np.ndarray)
-            self.assertIsInstance(result.y_test, np.ndarray)
+            expected = 'Train and test data not loaded. '
+            expected += 'Please call train_test_split method first'
+            with self.assertRaisesRegex(RuntimeError, expected):
+                pipe.load()
 
     def test_unload(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config).load()
+            pipe = FakePipeline(config).train_test_split().load()
+            self.assertTrue(pipe._loaded)
 
             with self.assertLogs(level=logging.WARNING) as log:
-                result = pipe.unload().dataset.data
+                result = pipe.unload()
             self.assertRegex(log.output[0], 'UNLOAD DATASET')
-            self.assertIsNone(result)
+            self.assertIsNone(result._train_data.data)
+            self.assertIsNone(result._test_data.data)
+            self.assertFalse(pipe._loaded)
+
+    def test_unload_errors(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = FakePipeline(config)
+            self.assertIsNone(pipe.dataset.data)
+
+            expected = 'Train and test data not loaded. '
+            expected += 'Please call train_test_split, then load methods first.'
+            with self.assertRaisesRegex(RuntimeError, expected):
+                pipe.unload()
+
+            pipe.train_test_split()
+            with self.assertRaisesRegex(RuntimeError, expected):
+                pipe.unload()
+
+    def test_train_test_split(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = FakePipeline(config)
+            self.assertIsNone(pipe._train_data)
+            self.assertIsNone(pipe._test_data)
+
+            with self.assertLogs(level=logging.WARNING) as log:
+                result = pipe.train_test_split()
+            self.assertRegex(log.output[0], 'TRAIN TEST SPLIT')
+            self.assertIsInstance(result._train_data, ficd.Dataset)
+            self.assertIsInstance(result._test_data, ficd.Dataset)
 
     def test_build(self):
         with TemporaryDirectory() as root:
@@ -213,14 +246,17 @@ class PipelineTests(unittest.TestCase):
             result = FakePipeline(config)._engine
             self.assertIs(result, fitf)
 
-    def test_compile(self):
+    def test_compile_tf(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             pipe = FakePipeline(config).build()
 
+            self.assertEqual(pipe._compiled, {})
+
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.compile()
             self.assertRegex(log.output[0], 'COMPILE MODEL')
+            self.assertEqual(pipe._compiled, dict(model=pipe.model))
 
     def test_compile_loss(self):
         with TemporaryDirectory() as root:
@@ -233,9 +269,8 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory(prefix='test-train-') as root:
             config = self.get_config(root)
             pipe = FakePipeline(config) \
-                .load() \
                 .train_test_split() \
-                .unload() \
+                .load() \
                 .build() \
                 .compile()
 

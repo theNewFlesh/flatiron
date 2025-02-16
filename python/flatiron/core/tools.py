@@ -1,7 +1,7 @@
 from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
-from flatiron.core.types import Filepath  # noqa F401
+from flatiron.core.types import Filepath, OptInt, OptFloat  # noqa F401
 import pandas as pd  # noqa F401
 
 from datetime import datetime
@@ -198,8 +198,8 @@ def resolve_kwargs(engine, kwargs):
     return output
 
 
-def train_test_split(data, test_size=0.2, shuffle=True, seed=None):
-    # type: (pd.DataFrame, float, bool, Optional[float]) -> tuple[pd.DataFrame, pd.DataFrame]
+def train_test_split(data, test_size=0.2, shuffle=True, seed=None, limit=None):
+    # type: (pd.DataFrame, float, bool, OptFloat, OptInt) -> tuple[pd.DataFrame, pd.DataFrame]
     '''
     Split DataFrame into train and test DataFrames.
 
@@ -209,12 +209,13 @@ def train_test_split(data, test_size=0.2, shuffle=True, seed=None):
             Default: 0.2.
         shuffle (bool, optional): Randomize data before splitting.
             Default: True.
-        seed (float, optional): Seed number between 0 and 1. Default: None.
+        seed (int, optional): Seed number. Default: None.
+        limit (int, optional): Limit the total length of train and test.
+            Default: None.
 
     Raises:
         EnforceError: If data is not a DataFrame.
         EnforceError: If test_size is not between 0 and 1.
-        EnforceError: If seed is not between 0 and 1.
 
     Returns:
         tuple[pd.DataFrame, pd.DataFrame]: Train and test DataFrames.
@@ -224,18 +225,20 @@ def train_test_split(data, test_size=0.2, shuffle=True, seed=None):
     Enforce(test_size, '<=', 1)
     # --------------------------------------------------------------------------
 
-    seed_func = None
-    if seed is not None:
-        Enforce(seed, '>=', 0)
-        Enforce(seed, '<=', 1)
-        seed_func = lambda: seed
-
     index = data.index.tolist()
     if shuffle:
-        random.shuffle(index, random=seed_func)
+        if seed is not None:
+            rand = random.Random()
+            rand.seed(seed)
+            rand.shuffle(index)
+        else:
+            random.shuffle(index)
+
+    if limit is not None:
+        index = index[:limit]
 
     k = int(len(index) * (1 - test_size))
-    return data.loc[index[:k]], data.loc[index[k:]]
+    return data.loc[index[:k]].copy(), data.loc[index[k:]].copy()
 
 
 # MODULE-FUNCS------------------------------------------------------------------

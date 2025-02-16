@@ -1,12 +1,14 @@
-from flatiron.core.types import Callbacks, Filepath, OptArray  # noqa F401
+from typing import Any, Optional  # noqa F401
 from tensorflow import keras  # noqa F401
 from keras import models as tfmodels  # noqa F401
-import numpy as np  # noqa F401
+from flatiron.core.dataset import Dataset  # noqa F401
+from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 
 import math
 
 from keras import callbacks as tfcallbacks
 
+import flatiron
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
@@ -27,24 +29,38 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         EnforeError: If checkpoint pattern does not contain '{epoch}'.
 
     Returns:
-        list: Tensorboard and ModelCheckpoint callbacks.
+        dict: dict with Tensorboard and ModelCheckpoint callbacks.
     '''
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
-    callbacks = [
-        tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
-        tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
-    ]
-    return callbacks
+    return dict(
+        tensorboard=tfcallbacks.TensorBoard(log_dir=log_directory, histogram_freq=1),
+        checkpoint=tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
+    )
+
+
+def compile(model, optimizer, loss, metrics, kwargs={}):
+    # type: (Any, str, str, list[str], dict[str, Any]) -> dict[str, Any]
+    '''
+    Call `modile.compile` on given model with kwargs.
+
+    Returns:
+        dict: Dict of compiled objects.
+    '''
+    model.compile(
+        optimizer=flatiron.tf.optimizer.get(optimizer),
+        loss=flatiron.tf.loss.get(loss),
+        metrics=[flatiron.tf.metric.get(m) for m in metrics],
+        **kwargs,
+    )
+    return dict(model=model)
 
 
 def train(
-    model,          # type: tfmodels.Model
-    callbacks,      # type: Callbacks
-    x_train,        # type: np.ndarray
-    y_train,        # type: np.ndarray
-    x_test=None,    # type: OptArray
-    y_test=None,    # type: OptArray
-    batch_size=32,  # type: int
+    compiled,       # type: Compiled
+    callbacks,       # type: Callbacks
+    train_data,      # type: Dataset
+    test_data,       # type: Optional[Dataset]
+    batch_size=32,   # type: int
     **kwargs,
 ):
     # type: (...) -> None
@@ -52,24 +68,26 @@ def train(
     Train TensorFlow model.
 
     Args:
-        model (tfmodels.Model): TensorFlow model.
-        callbacks (list): List of callbacks.
-        x_train (np.ndarray): Training data.
-        y_train (np.ndarray): Training labels.
-        x_test (np.ndarray, optional): Test data. Default: None.
-        y_test (np.ndarray, optional): Test labels. Default: None.
+        compiled (dict): Compiled objects.
+        callbacks (dict): Dict of callbacks.
+        train_data (Dataset): Training dataset.
+        test_data (Dataset): Test dataset.
         batch_size (int, optional): Batch size. Default: 32.
         **kwargs: Other params to be passed to `model.fit`.
     '''
-    n = x_train.shape[0]
+    model = compiled['model']
+    x_train, y_train = train_data.xy_split()
+    steps = math.ceil(x_train.shape[0] / batch_size)
+
     val = None
-    if x_test is not None and y_test is not None:
-        val = (x_test, y_test)
+    if test_data is not None:
+        val = test_data.xy_split()
+
     model.fit(
         x=x_train,
         y=y_train,
-        callbacks=callbacks,
+        callbacks=list(callbacks.values()),
         validation_data=val,
-        steps_per_epoch=math.ceil(n / batch_size),
+        steps_per_epoch=steps,
         **kwargs,
     )

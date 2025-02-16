@@ -20,6 +20,12 @@ class DatasetTestBase(unittest.TestCase):
         array = np.ones(shape, dtype=np.uint8)
         np.save(target, array)
 
+    def write_png(self, target, shape=(10, 10, 4)):
+        target = Path(target)
+        os.makedirs(target.parent, exist_ok=True)
+        array = np.ones(shape, dtype=np.uint8)
+        cvd.Image.from_array(array).write(target)
+
     def create_dataset_files(
         self, root, shape=(10, 10, 3), indicator='f', ext='npy'
     ):
@@ -30,6 +36,18 @@ class DatasetTestBase(unittest.TestCase):
         info.filepath_relative \
             .apply(lambda x: Path(root, x)) \
             .apply(lambda x: self.write_npy(x, shape))
+        info_path = Path(root, 'info.csv').as_posix()
+        info.to_csv(info_path, index=None)
+        return info, info_path
+
+    def create_png_dataset_files(self, root, shape=(10, 10, 3), indicator='f'):
+        os.makedirs(Path(root, 'data'))
+        info = DataFrame()
+        info['filepath_relative'] = [f'data/foo_{indicator}{i:02d}.png' for i in range(10)]
+        info['asset_path'] = root
+        info.filepath_relative \
+            .apply(lambda x: Path(root, x)) \
+            .apply(lambda x: self.write_png(x, shape))
         info_path = Path(root, 'info.csv').as_posix()
         info.to_csv(info_path, index=None)
         return info, info_path
@@ -59,6 +77,12 @@ class DatasetTests(DatasetTestBase):
             self.create_dataset_files(root)
             Dataset.read_directory(root)
 
+    def test_read_directory_png(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root)
+            result = Dataset.read_directory(root).load(reshape=True)
+            self.assertEqual(result.data.shape, (10, 10, 10, 3))
+
     def test_read_directory_errors(self):
         # no directory
         expected = 'Directory does not exist: /tmp/foo'
@@ -84,7 +108,7 @@ class DatasetTests(DatasetTestBase):
     def test_init(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            result = Dataset(info)._info
+            result = Dataset(info, labels=['a', 'b'], label_axis=2)._info
             cols = [
                 'gb', 'frame', 'asset_path', 'filepath_relative',
                 'filepath', 'loaded'
@@ -103,10 +127,19 @@ class DatasetTests(DatasetTestBase):
             result = Dataset(info)._info.loaded.unique().tolist()
             self.assertEqual(result, [False])
 
+    def test_init_labels(self):
+        with TemporaryDirectory() as root:
+            info, _ = self.create_dataset_files(root)
+            result = Dataset(info, labels=['a', 'b'], label_axis=2)
+
+            self.assertEqual(result.labels, ['a', 'b'])
+            self.assertEqual(result.label_axis, 2)
+
     def test_init_ext_regex(self):
         with TemporaryDirectory() as root:
             info, _ = self.create_dataset_files(root)
-            with self.assertRaises(EnforceError):
+            expected = 'Found files extensions that do not match ext_regex'
+            with self.assertRaisesRegex(EnforceError, expected):
                 Dataset(info, ext_regex='foo')
 
     def test_init_calc_file_size(self):
@@ -299,7 +332,10 @@ class DatasetTests(DatasetTestBase):
     def test_stats_loaded(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root, shape=(200, 100, 100, 4))
-            result = Dataset.read_directory(root).load(limit=500).stats
+            result = Dataset \
+                .read_directory(root) \
+                .load(limit=500, reshape=False) \
+                .stats
 
             # gb
             self.assertEqual(result.loc['loaded', 'gb'], 0.02)
@@ -382,7 +418,7 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (99, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load()
+            dset = Dataset.read_directory(root).load(reshape=False)
 
             # data shape
             self.assertEqual(dset.data.shape, (990, 10, 10, 4))
@@ -399,7 +435,7 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (99, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=200)
+            dset = Dataset.read_directory(root).load(limit=200, reshape=False)
 
             # data shape
             self.assertEqual(dset.data.shape, (200, 10, 10, 4))
@@ -417,7 +453,9 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (1000, 100, 100, 3)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit='0.2 gb')
+            dset = Dataset \
+                .read_directory(root) \
+                .load(limit='0.2 gb', reshape=False)
 
             # data shape
             self.assertEqual(dset.data.shape, (6667, 100, 100, 3))
@@ -435,7 +473,7 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 1)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load()
+            dset = Dataset.read_directory(root).load(reshape=False)
 
             # data shape
             self.assertEqual(dset.data.shape, (1000, 10, 10, 1))
@@ -445,7 +483,7 @@ class DatasetTests(DatasetTestBase):
             self.assertEqual(result, [True])
 
             # reload
-            dset.load(limit=200)
+            dset.load(limit=200, reshape=False)
 
             # data shape
             self.assertEqual(dset.data.shape, (200, 10, 10, 1))
@@ -464,8 +502,12 @@ class DatasetTests(DatasetTestBase):
             a = 99
             b = 99
             for i in range(10):
-                a = dset.load(limit=200, shuffle=True).info.loaded.tolist()
-                b = dset.load(limit=200, shuffle=True).info.loaded.tolist()
+                a = dset \
+                    .load(limit=200, shuffle=True, reshape=False) \
+                    .info.loaded.tolist()
+                b = dset \
+                    .load(limit=200, shuffle=True, reshape=False) \
+                    .info.loaded.tolist()
                 if a != b:
                     break
             self.assertNotEqual(a, b)
@@ -474,7 +516,7 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (99, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load().unload()
+            dset = Dataset.read_directory(root).load(reshape=False).unload()
 
             # data
             self.assertIs(dset.data, None)
@@ -487,25 +529,31 @@ class DatasetTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             shape = (100, 10, 10, 4)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=200)
+            dset = Dataset.read_directory(root).load(limit=200, reshape=False)
 
             # index -1
-            x, y = dset.xy_split(-1)
+            dset.labels = [-1]
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 10, 3))
             self.assertEqual(y.shape, (200, 10, 10, 1))
 
             # index -2
-            x, y = dset.xy_split(-2)
+            dset.labels = [-2]
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 10, 2))
             self.assertEqual(y.shape, (200, 10, 10, 2))
 
             # index -1 axis -2
-            x, y = dset.xy_split(-1, axis=-2)
+            dset.labels = [-1]
+            dset.label_axis = -2
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 9, 4))
             self.assertEqual(y.shape, (200, 10, 1, 4))
 
             # index 4 axis -2
-            x, y = dset.xy_split(4, axis=-2)
+            dset.labels = [4]
+            dset.label_axis = -2
+            x, y = dset.xy_split()
             self.assertEqual(x.shape, (200, 10, 4, 4))
             self.assertEqual(y.shape, (200, 10, 6, 4))
 
@@ -516,18 +564,32 @@ class DatasetTests(DatasetTestBase):
             dset = Dataset.read_directory(root)
             expected = 'Data not loaded. Please call load method.'
             with self.assertRaisesRegex(EnforceError, expected):
-                dset.xy_split(-1)
+                dset.xy_split()
+
+            dset.load(reshape=False)
+            expected = 'self.labels must be a list of a single integer. '
+            expected = 'Provided labels: None.'
+            with self.assertRaisesRegex(EnforceError, expected):
+                dset.xy_split()
 
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             shape = (50, 10, 10, 5)
             self.create_dataset_files(root, shape=shape)
-            dset = Dataset.read_directory(root).load(limit=100)
+            dset = Dataset \
+                .read_directory(root, labels=[3], label_axis=-2) \
+                .load(limit=10, reshape=False)
 
-            # two classes
-            x_train, x_test, y_train, y_test = dset \
-                .train_test_split(-2, test_size=0.4)
-            self.assertEqual(x_train.shape, (60, 10, 10, 3))
-            self.assertEqual(x_test.shape, (40, 10, 10, 3))
-            self.assertEqual(y_train.shape, (60, 10, 10, 2))
-            self.assertEqual(y_test.shape, (40, 10, 10, 2))
+            train, test = dset.train_test_split(test_size=0.4)
+
+            # length
+            self.assertEqual(len(train), 6)
+            self.assertEqual(len(test), 4)
+
+            # labels
+            self.assertEqual(train.labels, [3])
+            self.assertEqual(test.labels, [3])
+
+            # label_axis
+            self.assertEqual(train.label_axis, -2)
+            self.assertEqual(train.label_axis, -2)

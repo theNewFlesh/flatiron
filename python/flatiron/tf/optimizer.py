@@ -1,24 +1,24 @@
 from typing import Any, Callable  # noqa F401
 
-from tensorflow import keras  # noqa F401
+from tensorflow import keras  # noqa: F401
 from keras import optimizers as tfoptim
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
 
 
-def get(params):
-    # type: (dict) -> Callable[[Any], Any]
+def get(name):
+    # type: (str) -> Callable[[Any], Any]
     '''
     Get function from this module.
 
     Args:
-        params (dict): Optimizer params.
+        name (str): Optimizer name.
 
     Returns:
         function: Module function.
     '''
     try:
-        return fict.get_module_function(params['class_name'], __name__)
+        return fict.get_module_function(name, __name__)
     except NotImplementedError:
-        return tfoptim.get(params)
+        return tfoptim.get(dict(class_name=name))
