@@ -1,7 +1,6 @@
 import os
 from tempfile import TemporaryDirectory
 
-import numpy as np
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
 from keras import layers as tfl
