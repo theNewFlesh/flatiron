@@ -26,8 +26,7 @@ class DatasetConfig(pyd.BaseModel):
             Default: None.
         shuffle (bool, optional): Randomize data before splitting.
             Default: True.
-        seed (float, optional): Split seed number between 0 and 1.
-            Default: None.
+        seed (int, optional): Shuffle seed number. Default: None.
     '''
     source: str
     ext_regex: str = 'npy|exr|png|jpeg|jpg|tiff'
@@ -35,8 +34,8 @@ class DatasetConfig(pyd.BaseModel):
     label_axis: int = -1
     test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
     limit: Optional[Annotated[int, pyd.Field(ge=0)]] = None
-    seed: Optional[float] = None
     shuffle: bool = True
+    seed: Optional[int] = None
 
 
 class OptimizerConfig(pyd.BaseModel):

@@ -209,14 +209,13 @@ def train_test_split(data, test_size=0.2, shuffle=True, seed=None, limit=None):
             Default: 0.2.
         shuffle (bool, optional): Randomize data before splitting.
             Default: True.
-        seed (float, optional): Seed number between 0 and 1. Default: None.
+        seed (int, optional): Seed number. Default: None.
         limit (int, optional): Limit the total length of train and test.
             Default: None.
 
     Raises:
         EnforceError: If data is not a DataFrame.
         EnforceError: If test_size is not between 0 and 1.
-        EnforceError: If seed is not between 0 and 1.
 
     Returns:
         tuple[pd.DataFrame, pd.DataFrame]: Train and test DataFrames.
@@ -226,15 +225,14 @@ def train_test_split(data, test_size=0.2, shuffle=True, seed=None, limit=None):
     Enforce(test_size, '<=', 1)
     # --------------------------------------------------------------------------
 
-    seed_func = None
-    if seed is not None:
-        Enforce(seed, '>=', 0)
-        Enforce(seed, '<=', 1)
-        seed_func = lambda: seed
-
     index = data.index.tolist()
     if shuffle:
-        random.shuffle(index, random=seed_func)
+        if seed is not None:
+            rand = random.Random()
+            rand.seed(seed)
+            rand.shuffle(index)
+        else:
+            random.shuffle(index)
 
     if limit is not None:
         index = index[:limit]

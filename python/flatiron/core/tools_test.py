@@ -222,9 +222,6 @@ b
         with self.assertRaises(EnforceError):
             fict.train_test_split(pd.DataFrame(), test_size=1.1)
 
-        with self.assertRaises(EnforceError):
-            fict.train_test_split(pd.DataFrame(), seed=42)
-
     def test_get_module(self):
         module = fict.get_module(__name__)
         self.assertEqual(module.__name__, __name__)
