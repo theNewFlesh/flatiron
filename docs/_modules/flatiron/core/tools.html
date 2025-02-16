@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.18.0
+                0.19.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -92,12 +92,14 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">http.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPResponse</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">lunchbox.stopwatch</span><span class="w"> </span><span class="kn">import</span> <span class="n">StopWatch</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filepath</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptFloat</span>  <span class="c1"># noqa F401</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>  <span class="c1"># noqa F401</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
@@ -279,6 +281,102 @@
 
 
 
+<div class="viewcode-block" id="resolve_kwargs">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.tools.resolve_kwargs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_kwargs</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># type: (str, dict) -&gt; dict</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Filter keyword arguments base on engine and return them minus the engine</span>
+<span class="sd">    prefix.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        engine (str): Engine name.</span>
+<span class="sd">        kwargs (dict): Kwargs dict.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Resolved kwargs.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;tensorflow&#39;</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;tf_&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;torch_&#39;</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;^</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+
+<div class="viewcode-block" id="train_test_split">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.tools.train_test_split">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">train_test_split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># type: (pd.DataFrame, float, bool, OptFloat, OptInt) -&gt; tuple[pd.DataFrame, pd.DataFrame]</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Split DataFrame into train and test DataFrames.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (pd.DataFrame): DataFrame.</span>
+<span class="sd">        test_size (float, optional): Test set size as a proportion.</span>
+<span class="sd">            Default: 0.2.</span>
+<span class="sd">        shuffle (bool, optional): Randomize data before splitting.</span>
+<span class="sd">            Default: True.</span>
+<span class="sd">        seed (int, optional): Seed number. Default: None.</span>
+<span class="sd">        limit (int, optional): Limit the total length of train and test.</span>
+<span class="sd">            Default: None.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        EnforceError: If data is not a DataFrame.</span>
+<span class="sd">        EnforceError: If test_size is not between 0 and 1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        tuple[pd.DataFrame, pd.DataFrame]: Train and test DataFrames.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">Enforce</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;instance of&#39;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span>
+    <span class="n">Enforce</span><span class="p">(</span><span class="n">test_size</span><span class="p">,</span> <span class="s1">&#39;&gt;=&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">Enforce</span><span class="p">(</span><span class="n">test_size</span><span class="p">,</span> <span class="s1">&#39;&lt;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+    <span class="n">index</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">seed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">rand</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span>
+            <span class="n">rand</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+            <span class="n">rand</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="n">index</span><span class="p">[:</span><span class="n">limit</span><span class="p">]</span>
+
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">test_size</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">[:</span><span class="n">k</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="n">k</span><span class="p">:]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+
+
+<span class="c1"># MODULE-FUNCS------------------------------------------------------------------</span>
+<div class="viewcode-block" id="get_module">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_module">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_module</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; Any</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get a module from a given name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name (str): Module name.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        NotImplementedError: If module is not found.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Module.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Module not found: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="get_module_function">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.tools.get_module_function">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_module_function</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">):</span>
@@ -296,7 +394,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        function: Module function.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">members</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module</span><span class="p">])</span>
+    <span class="n">members</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">get_module</span><span class="p">(</span><span class="n">module</span><span class="p">))</span>
     <span class="n">funcs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isfunction</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">members</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">funcs</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">funcs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
@@ -321,7 +419,7 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        class: Module class.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">members</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">module</span><span class="p">])</span>
+    <span class="n">members</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getmembers</span><span class="p">(</span><span class="n">get_module</span><span class="p">(</span><span class="n">module</span><span class="p">))</span>
     <span class="n">classes</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">inspect</span><span class="o">.</span><span class="n">isclass</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">members</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">classes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>

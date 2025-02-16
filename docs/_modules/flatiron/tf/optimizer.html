@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.18.0
+                0.19.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -100,21 +100,21 @@
 
 <div class="viewcode-block" id="get">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.optimizer.get">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
-    <span class="c1"># type: (dict) -&gt; Callable[[Any], Any]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; Callable[[Any], Any]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Get function from this module.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        params (dict): Optimizer params.</span>
+<span class="sd">        name (str): Optimizer name.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        function: Module function.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module_function</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;class_name&#39;</span><span class="p">],</span> <span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module_function</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="vm">__name__</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">tfoptim</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">params</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">tfoptim</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">class_name</span><span class="o">=</span><span class="n">name</span><span class="p">))</span></div>
 
 </pre></div>
 
