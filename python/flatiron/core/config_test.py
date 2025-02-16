@@ -4,6 +4,7 @@ import unittest
 
 from tensorflow import keras  # noqa F401
 from keras import optimizers as tfoptim
+import pydantic_core._pydantic_core as pydc
 
 import flatiron.core.config as ficc
 # ------------------------------------------------------------------------------
@@ -22,6 +23,15 @@ class DatasetConfigTests(unittest.TestCase):
             shuffle=True,
             seed=None,
         )
+
+    def test_base_config(self):
+        class Foo(ficc.BaseConfig):
+            bar: str
+
+        Foo.model_validate(dict(bar='taco'))
+
+        with self.assertRaises(pydc.ValidationError):
+            Foo.model_validate(dict(bar='taco', pizza='kiwi'))
 
     def test_validate(self):
         with TemporaryDirectory() as root:
