@@ -1,4 +1,5 @@
 from typing import Any, Optional, Type  # noqa F401
+
 from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
@@ -129,9 +130,14 @@ class PipelineBase(ABC):
             raise RuntimeError(msg)
 
         config = self.config['dataset']
+        kwargs = dict(
+            reshape=config['reshape'],
+            limit=config['limit'],
+            shuffle=config['shuffle'],
+        )
         with self._logger('load', 'LOAD DATASETS', dict(dataset=config)):
-            self._train_data.load()
-            self._test_data.load()
+            self._train_data.load(**kwargs)
+            self._test_data.load(**kwargs)
 
         self._loaded = True
         return self

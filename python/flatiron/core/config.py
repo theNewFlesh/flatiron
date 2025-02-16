@@ -24,6 +24,9 @@ class DatasetConfig(pyd.BaseModel):
             Default: 0.2.
         limit (str or int): Limit data by number of samples.
             Default: None.
+        reshape (bool, optional): Reshape concatenated data to incorpate frames
+            as the first dimension: (FRAME, ...). Analogous to the first
+            dimension being batch. Default: True.
         shuffle (bool, optional): Randomize data before splitting.
             Default: True.
         seed (int, optional): Shuffle seed number. Default: None.
@@ -34,6 +37,7 @@ class DatasetConfig(pyd.BaseModel):
     label_axis: int = -1
     test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
     limit: Optional[Annotated[int, pyd.Field(ge=0)]] = None
+    reshape: bool = True
     shuffle: bool = True
     seed: Optional[int] = None
 
