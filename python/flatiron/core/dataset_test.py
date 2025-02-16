@@ -1,4 +1,3 @@
-from cProfile import label
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import os
@@ -21,7 +20,7 @@ class DatasetTestBase(unittest.TestCase):
         array = np.ones(shape, dtype=np.uint8)
         np.save(target, array)
 
-    def write_png(self, target, shape=(10, 10, 3)):
+    def write_png(self, target, shape=(10, 10, 4)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
         array = np.ones(shape, dtype=np.uint8)
