@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.18.0
+                0.19.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -91,6 +91,7 @@
   <h1>Source code for flatiron.core.config</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptLabels</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyd</span>
 
@@ -108,27 +109,26 @@
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        source (str): Dataset directory or CSV filepath.</span>
-<span class="sd">        load_limit (str or int): Limit data by number of samples or memory size.</span>
+<span class="sd">        ext_regex (str, optional): File extension pattern.</span>
+<span class="sd">                Default: &#39;npy|exr|png|jpeg|jpg|tiff&#39;.</span>
+<span class="sd">        labels (object, optional): Label channels. Default: None.</span>
+<span class="sd">        label_axis (int, optional): Label axis. Default: -1.</span>
+<span class="sd">        test_size (float, optional): Test set size as a proportion.</span>
+<span class="sd">            Default: 0.2.</span>
+<span class="sd">        limit (str or int): Limit data by number of samples.</span>
 <span class="sd">            Default: None.</span>
-<span class="sd">        load_shuffle (bool, optional): Shuffle chunks before loading.</span>
-<span class="sd">            Default: False.</span>
-<span class="sd">        split_index (int, optional): Index of axis to split on.</span>
-<span class="sd">        split_axis (int): Axis to split data on. Default: -1.</span>
-<span class="sd">        split_test_size (float, optional): Test size. Default: 0.2</span>
-<span class="sd">        split_train_size (float, optional): Train size. Default: None</span>
-<span class="sd">        split_random_state (int, optional): Seed for shuffling randomness.</span>
-<span class="sd">            Default: 42.</span>
-<span class="sd">        split_shuffle (bool, optional): Shuffle data rows. Default: True.</span>
+<span class="sd">        shuffle (bool, optional): Randomize data before splitting.</span>
+<span class="sd">            Default: True.</span>
+<span class="sd">        seed (int, optional): Shuffle seed number. Default: None.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">source</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">load_limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">load_shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">split_index</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">split_axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">split_test_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="mf">0.2</span>
-    <span class="n">split_train_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">split_random_state</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-    <span class="n">split_shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="n">ext_regex</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;npy|exr|png|jpeg|jpg|tiff&#39;</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="n">OptLabels</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">label_axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">test_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
@@ -185,22 +185,22 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        loss (string): Loss metric name.</span>
 <span class="sd">        metrics (list[str], optional): List of metrics. Default: [].</span>
-<span class="sd">        loss_weights (list[float], optional): List of loss weights.</span>
+<span class="sd">        tf_loss_weights (list[float], optional): List of loss weights.</span>
 <span class="sd">            Default: None.</span>
-<span class="sd">        weighted_metrics (list[float], optional): List of metric weights.</span>
+<span class="sd">        tf_weighted_metrics (list[float], optional): List of metric weights.</span>
 <span class="sd">            Default: None.</span>
-<span class="sd">        run_eagerly (boolean, optional): Leave as False. Default: False.</span>
-<span class="sd">        steps_per_execution (int, optional): Number of batches per function</span>
+<span class="sd">        tf_run_eagerly (boolean, optional): Leave as False. Default: False.</span>
+<span class="sd">        tf_steps_per_execution (int, optional): Number of batches per function</span>
 <span class="sd">            call. Default: 1.</span>
-<span class="sd">        jit_compile (boolean, optional): Use XLA. Default: False.</span>
+<span class="sd">        tf_jit_compile (boolean, optional): Use XLA. Default: False.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">loss</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">metrics</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">loss_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">weighted_metrics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">run_eagerly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">steps_per_execution</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">jit_compile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+    <span class="n">tf_loss_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tf_weighted_metrics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">tf_run_eagerly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tf_steps_per_execution</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">tf_jit_compile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
 

@@ -39,7 +39,7 @@
             flatiron
           </a>
               <div class="version">
-                0.18.0
+                0.19.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -81,6 +81,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.tf.tools">tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.tools.compile"><code class="docutils literal notranslate"><span class="pre">compile()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.tools.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.tools.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
 </ul>
@@ -436,11 +437,11 @@ gradients.</p>
 <span id="optimizer"></span><h2>optimizer<a class="headerlink" href="#module-flatiron.tf.optimizer" title="Link to this heading"></a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="flatiron.tf.optimizer.get">
-<span class="sig-prename descclassname"><span class="pre">flatiron.tf.optimizer.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/optimizer.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.optimizer.get" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.optimizer.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/optimizer.html#get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.optimizer.get" title="Link to this definition"></a></dt>
 <dd><p>Get function from this module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – Optimizer params.</p>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Optimizer name.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>Module function.</p>
@@ -454,6 +455,20 @@ gradients.</p>
 </section>
 <section id="module-flatiron.tf.tools">
 <span id="tools"></span><h2>tools<a class="headerlink" href="#module-flatiron.tf.tools" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.tools.compile">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.tools.</span></span><span class="sig-name descname"><span class="pre">compile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/tools.html#compile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.tools.compile" title="Link to this definition"></a></dt>
+<dd><p>Call <cite>modile.compile</cite> on given model with kwargs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict of compiled objects.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="flatiron.tf.tools.get_callbacks">
 <span class="sig-prename descclassname"><span class="pre">flatiron.tf.tools.</span></span><span class="sig-name descname"><span class="pre">get_callbacks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_directory</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/tools.html#get_callbacks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.tools.get_callbacks" title="Link to this definition"></a></dt>
@@ -474,27 +489,25 @@ callback. Default: {}.</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tensorboard and ModelCheckpoint callbacks.</p>
+<dd class="field-odd"><p>dict with Tensorboard and ModelCheckpoint callbacks.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>list</p>
+<dd class="field-even"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="flatiron.tf.tools.train">
-<span class="sig-prename descclassname"><span class="pre">flatiron.tf.tools.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/tools.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.tools.train" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.tools.</span></span><span class="sig-name descname"><span class="pre">train</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compiled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callbacks</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/tools.html#train"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.tools.train" title="Link to this definition"></a></dt>
 <dd><p>Train TensorFlow model.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>model</strong> (<em>tfmodels.Model</em>) – TensorFlow model.</p></li>
-<li><p><strong>callbacks</strong> (<em>list</em>) – List of callbacks.</p></li>
-<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – Training data.</p></li>
-<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – Training labels.</p></li>
-<li><p><strong>x_test</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Test data. Default: None.</p></li>
-<li><p><strong>y_test</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – Test labels. Default: None.</p></li>
+<li><p><strong>compiled</strong> (<em>dict</em>) – Compiled objects.</p></li>
+<li><p><strong>callbacks</strong> (<em>dict</em>) – Dict of callbacks.</p></li>
+<li><p><strong>train_data</strong> (<a class="reference internal" href="core.html#flatiron.core.dataset.Dataset" title="flatiron.core.dataset.Dataset"><em>Dataset</em></a>) – Training dataset.</p></li>
+<li><p><strong>test_data</strong> (<a class="reference internal" href="core.html#flatiron.core.dataset.Dataset" title="flatiron.core.dataset.Dataset"><em>Dataset</em></a>) – Test dataset.</p></li>
 <li><p><strong>batch_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Batch size. Default: 32.</p></li>
 <li><p><strong>**kwargs</strong> – Other params to be passed to <cite>model.fit</cite>.</p></li>
 </ul>

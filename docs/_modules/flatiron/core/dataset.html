@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.18.0
+                0.19.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -90,7 +90,7 @@
              
   <h1>Source code for flatiron.core.dataset</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">OptArray</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">OptArray</span><span class="p">,</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptLabels</span>  <span class="c1"># noqa F401</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -103,7 +103,6 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">humanfriendly</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">hf</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">skm</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
@@ -115,8 +114,8 @@
 <div class="viewcode-block" id="Dataset.read_csv">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.read_csv">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
-        <span class="c1"># type: (Filepath) -&gt; Dataset</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># type: (Filepath, Any) -&gt; Dataset</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct Dataset instance from given csv filepath.</span>
 
@@ -138,14 +137,14 @@
         <span class="c1"># ----------------------------------------------------------------------</span>
 
         <span class="n">info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">info</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Dataset.read_directory">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.read_directory">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_directory</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">directory</span><span class="p">):</span>
-        <span class="c1"># type: (Filepath) -&gt; Dataset</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_directory</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">directory</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># type: (Filepath, Any) -&gt; Dataset</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct dataset from directory.</span>
 
@@ -170,24 +169,29 @@
         <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
         <span class="c1"># ----------------------------------------------------------------------</span>
 
-        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Dataset.__init__">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">ext_regex</span><span class="o">=</span><span class="s1">&#39;npy|exr|png|jpeg|jpg|tiff&#39;</span><span class="p">,</span> <span class="n">calc_file_size</span><span class="o">=</span><span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">ext_regex</span><span class="o">=</span><span class="s1">&#39;npy|exr|png|jpeg|jpg|tiff&#39;</span><span class="p">,</span> <span class="n">calc_file_size</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">label_axis</span><span class="o">=-</span><span class="mi">1</span>
     <span class="p">):</span>
-        <span class="c1"># type: (pd.DataFrame, str, bool) -&gt; None</span>
+        <span class="c1"># type: (pd.DataFrame, str, bool, OptLabels, int) -&gt; None</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Construct a Dataset instance.</span>
+<span class="sd">        If labels is an integer it will assumed to be an axis which the</span>
+<span class="sd">        data will be split upon.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            info (pd.DataFrame): Info DataFrame.</span>
 <span class="sd">            ext_regex (str, optional): File extension pattern.</span>
-<span class="sd">                Default: &#39;npy|exr|png|jpeg|jpg|tiff&#39;</span>
+<span class="sd">                Default: &#39;npy|exr|png|jpeg|jpg|tiff&#39;.</span>
 <span class="sd">            calc_file_size (bool, optional): Calculate file size in GB.</span>
 <span class="sd">                Default: True.</span>
+<span class="sd">            labels (object, optional): Label channels. Default: None.</span>
+<span class="sd">            label_axis (int, optional): Label axis. Default: -1.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            EnforceError: If info is not an instance of DataFrame.</span>
@@ -259,6 +263,10 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_info</span> <span class="o">=</span> <span class="n">info</span>  <span class="c1"># type: pd.DataFrame</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: OptArray</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label_axis</span> <span class="o">=</span> <span class="n">label_axis</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ext_regex</span> <span class="o">=</span> <span class="n">ext_regex</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_file_size</span> <span class="o">=</span> <span class="n">calc_file_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sample_gb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># type: Union[float, np.ndarray]</span></div>
 
 
@@ -401,12 +409,13 @@
         <span class="c1"># type: (int) -&gt; Any</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get data by frame.</span>
+<span class="sd">        If self.labels is not None, returns data and label pair.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            IndexError: If frame is missing or multiple frames were found.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            object: Frame data.</span>
+<span class="sd">            object: Data, or data and label, from frame.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">frame</span> <span class="o">==</span> <span class="n">frame</span>
@@ -416,7 +425,24 @@
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">filepaths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Multiple frames found for </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepaths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+
+        <span class="c1"># return data if no labels</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span>  <span class="c1"># type: Any</span>
+        <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">]</span>
+
+        <span class="c1"># if data is numpy array return a np.split</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_axis</span><span class="p">)</span>
+
+        <span class="c1"># otherwise data is an Image with channels</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">x</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">labels</span><span class="p">]</span>
 
 <div class="viewcode-block" id="Dataset._read_file">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset._read_file">[docs]</a>
@@ -492,8 +518,8 @@
 
 <div class="viewcode-block" id="Dataset.load">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.load">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="c1"># type: (Optional[Union[str, int]], bool) -&gt; Dataset</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">reshape</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># type: (Optional[Union[str, int]], bool, bool) -&gt; Dataset</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Load data from files.</span>
 
@@ -502,6 +528,9 @@
 <span class="sd">                memory size. Default: None.</span>
 <span class="sd">            shuffle (bool, optional): Shuffle frames before loading.</span>
 <span class="sd">                Default: False.</span>
+<span class="sd">            reshape (bool, optional): Reshape concatenated data to incorpate</span>
+<span class="sd">                frames as the first dimension: (FRAME, ...). Analogous to the</span>
+<span class="sd">                first dimension being batch. Default: True.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dataset: self.</span>
@@ -534,6 +563,8 @@
                 <span class="k">break</span>
 
             <span class="n">frame</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file_as_array</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">filepath</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">reshape</span><span class="p">:</span>
+                <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
             <span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="s1">&#39;loaded&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
@@ -580,87 +611,72 @@
 
 <div class="viewcode-block" id="Dataset.xy_split">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.xy_split">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">xy_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="c1"># type: (int, int) -&gt; tuple[np.ndarray, np.ndarray]</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">xy_split</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># type: () -&gt; tuple[np.ndarray, np.ndarray]</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Split data into x and y arrays.</span>
-<span class="sd">        Index and axis support negative ingegers.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            index (int): Index of axis to split on.</span>
-<span class="sd">            axis (int, optional): Axis to split data on. Default: -1.</span>
+<span class="sd">        Split data into x and y arrays, according to self.labels as the split</span>
+<span class="sd">        index and self.label_axis as the split axis.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            EnforceError: If data has not been loaded.</span>
+<span class="sd">            EnforceError: If self.labels is not a list of a single integer.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple[np.ndarray]: X and y arrays.</span>
+<span class="sd">            tuple[np.ndarray]: x and y arrays.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Data not loaded. Please call load method.&#39;</span>
         <span class="n">Enforce</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;instance of&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;self.labels must be a list of a single integer. &#39;</span>
+        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;Provided labels: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="si">}</span><span class="s1">.&#39;</span>
+
+        <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span>  <span class="c1"># type: Any</span>
+        <span class="n">Enforce</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="s1">&#39;instance of&#39;</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">Enforce</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">),</span> <span class="s1">&#39;==&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+        <span class="n">Enforce</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;instance of&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
         <span class="c1"># ----------------------------------------------------------------------</span>
 
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_axis</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
 
 
 <div class="viewcode-block" id="Dataset.train_test_split">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.train_test_split">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_test_split</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">index</span><span class="p">,</span>  <span class="c1"># type: int</span>
-        <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># type: int</span>
-        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># type: Optional[Union[float, int]]</span>
-        <span class="n">train_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: Optional[Union[float, int]]</span>
-        <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>  <span class="c1"># type: Optional[int]</span>
-        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># type: bool</span>
-        <span class="n">stratify</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># type: OptArray</span>
+        <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>  <span class="c1"># type: float</span>
+        <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>     <span class="c1"># type: OptInt</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># type: bool</span>
+        <span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>      <span class="c1"># type: OptInt</span>
     <span class="p">):</span>
-        <span class="c1"># type: (...) -&gt; tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]</span>
+        <span class="c1"># type: (...) -&gt; tuple[Dataset, Dataset]</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Split data into x_train, x_test, y_train, y_test arrays.</span>
+<span class="sd">        Split into train and test Datasets.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            index (int): Index of axis to split on.</span>
-
-<span class="sd">            axis (int, optional): Axis to split data on. Default: -1.</span>
-
-<span class="sd">            test_size (float or int, optional): If float, should be between 0.0</span>
-<span class="sd">                and 1.0 and represent the proportion of the dataset to include</span>
-<span class="sd">                in the test split. If int, represents the absolute number of</span>
-<span class="sd">                test samples. If None, the value is set to the complement of the</span>
-<span class="sd">                train size. If ``train_size`` is also None, it will be set to</span>
-<span class="sd">                0.25. Default: 0.2</span>
-
-<span class="sd">            train_size (float or int, optional): If float, should be between 0.0</span>
-<span class="sd">                and 1.0 and represent the proportion of the dataset to include</span>
-<span class="sd">                in the train split. If int, represents the absolute number of</span>
-<span class="sd">                train samples. If None, the value is automatically set to the</span>
-<span class="sd">                complement of the test size. Default: None.</span>
-
-<span class="sd">            random_state (int, optional): Controls the shuffling applied to the</span>
-<span class="sd">                data before applying the split. Pass an int for reproducible</span>
-<span class="sd">                output across multiple function calls. Default: 42.</span>
-
-<span class="sd">            shuffle (bool, optional): Whether or not to shuffle the data before</span>
-<span class="sd">                splitting. If False then stratify must be None. Default: True.</span>
-
-<span class="sd">            stratify (np.ndarr, optional): If not None, data is split in a</span>
-<span class="sd">                stratified fashion, using this as the class labels.</span>
+<span class="sd">            test_size (float, optional): Test set size as a proportion.</span>
+<span class="sd">                Default: 0.2.</span>
+<span class="sd">            limit (int, optional): Limit the total length of train and test.</span>
 <span class="sd">                Default: None.</span>
+<span class="sd">            shuffle (bool, optional): Randomize data before splitting.</span>
+<span class="sd">                Default: True.</span>
+<span class="sd">            seed (float, optional): Seed number between 0 and 1. Default: None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            tuple[np.ndarray]: x_train, x_test, y_train, y_test</span>
+<span class="sd">            tuple[Dataset]: Train Dataset, Test Dataset.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">xy_split</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-        <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">skm</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span>
-            <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-            <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span>
-            <span class="n">train_size</span><span class="o">=</span><span class="n">train_size</span><span class="p">,</span>
-            <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
-            <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
-            <span class="n">stratify</span><span class="o">=</span><span class="n">stratify</span><span class="p">,</span>
+        <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">,</span>
+            <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">limit</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span></div>
+        <span class="n">train</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">test</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">ext_regex</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_ext_regex</span><span class="p">,</span>
+            <span class="n">calc_file_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_calc_file_size</span><span class="p">,</span>
+            <span class="n">labels</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">labels</span><span class="p">,</span>
+            <span class="n">label_axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_axis</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># type: ignore</span></div>
 </div>
 
 </pre></div>
