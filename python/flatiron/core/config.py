@@ -1,5 +1,6 @@
 from typing import Optional, Union
 from typing_extensions import Annotated
+from flatiron.core.types import OptLabels
 
 import pydantic as pyd
 
@@ -15,27 +16,26 @@ class DatasetConfig(pyd.BaseModel):
 
     Attributes:
         source (str): Dataset directory or CSV filepath.
-        load_limit (str or int): Limit data by number of samples or memory size.
+        ext_regex (str, optional): File extension pattern.
+                Default: 'npy|exr|png|jpeg|jpg|tiff'.
+        labels (object, optional): Label channels. Default: None.
+        label_axis (int, optional): Label axis. Default: -1.
+        test_size (float, optional): Test set size as a proportion.
+            Default: 0.2.
+        limit (str or int): Limit data by number of samples.
             Default: None.
-        load_shuffle (bool, optional): Shuffle chunks before loading.
-            Default: False.
-        split_index (int, optional): Index of axis to split on.
-        split_axis (int): Axis to split data on. Default: -1.
-        split_test_size (float, optional): Test size. Default: 0.2
-        split_train_size (float, optional): Train size. Default: None
-        split_random_state (int, optional): Seed for shuffling randomness.
-            Default: 42.
-        split_shuffle (bool, optional): Shuffle data rows. Default: True.
+        shuffle (bool, optional): Randomize data before splitting.
+            Default: True.
+        seed (int, optional): Shuffle seed number. Default: None.
     '''
     source: str
-    load_limit: Optional[Union[int, str]] = None
-    load_shuffle: bool = False
-    split_index: int
-    split_axis: int = -1
-    split_test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
-    split_train_size: Optional[Annotated[float, pyd.Field(ge=0)]] = None
-    split_random_state: Optional[int] = 42
-    split_shuffle: bool = True
+    ext_regex: str = 'npy|exr|png|jpeg|jpg|tiff'
+    labels: OptLabels = None
+    label_axis: int = -1
+    test_size: Optional[Annotated[float, pyd.Field(ge=0)]] = 0.2
+    limit: Optional[Annotated[int, pyd.Field(ge=0)]] = None
+    shuffle: bool = True
+    seed: Optional[int] = None
 
 
 class OptimizerConfig(pyd.BaseModel):
@@ -86,22 +86,22 @@ class CompileConfig(pyd.BaseModel):
     Attributes:
         loss (string): Loss metric name.
         metrics (list[str], optional): List of metrics. Default: [].
-        loss_weights (list[float], optional): List of loss weights.
+        tf_loss_weights (list[float], optional): List of loss weights.
             Default: None.
-        weighted_metrics (list[float], optional): List of metric weights.
+        tf_weighted_metrics (list[float], optional): List of metric weights.
             Default: None.
-        run_eagerly (boolean, optional): Leave as False. Default: False.
-        steps_per_execution (int, optional): Number of batches per function
+        tf_run_eagerly (boolean, optional): Leave as False. Default: False.
+        tf_steps_per_execution (int, optional): Number of batches per function
             call. Default: 1.
-        jit_compile (boolean, optional): Use XLA. Default: False.
+        tf_jit_compile (boolean, optional): Use XLA. Default: False.
     '''
     loss: str
     metrics: list[str] = []
-    loss_weights: Optional[list[float]] = None
-    weighted_metrics: Optional[list[float]] = None
-    run_eagerly: bool = False
-    steps_per_execution: int = 1
-    jit_compile: bool = False
+    tf_loss_weights: Optional[list[float]] = None
+    tf_weighted_metrics: Optional[list[float]] = None
+    tf_run_eagerly: bool = False
+    tf_steps_per_execution: int = 1
+    tf_jit_compile: bool = False
 
 
 class CallbacksConfig(pyd.BaseModel):

@@ -1,5 +1,5 @@
 from typing import Any, Optional, Union  # noqa F401
-from flatiron.core.types import Filepath, OptArray  # noqa F401
+from flatiron.core.types import Filepath, OptArray, OptInt, OptLabels  # noqa F401
 
 from pathlib import Path
 import os
@@ -12,7 +12,6 @@ import cv_depot.api as cvd
 import humanfriendly as hf
 import numpy as np
 import pandas as pd
-import sklearn.model_selection as skm
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -20,8 +19,8 @@ import flatiron.core.tools as fict
 
 class Dataset:
     @classmethod
-    def read_csv(cls, filepath):
-        # type: (Filepath) -> Dataset
+    def read_csv(cls, filepath, **kwargs):
+        # type: (Filepath, Any) -> Dataset
         '''
         Construct Dataset instance from given csv filepath.
 
@@ -43,11 +42,11 @@ class Dataset:
         # ----------------------------------------------------------------------
 
         info = pd.read_csv(filepath)
-        return cls(info)
+        return cls(info, **kwargs)
 
     @classmethod
-    def read_directory(cls, directory):
-        # type: (Filepath) -> Dataset
+    def read_directory(cls, directory, **kwargs):
+        # type: (Filepath, Any) -> Dataset
         '''
         Construct dataset from directory.
 
@@ -72,21 +71,26 @@ class Dataset:
         Enforce(len(files), '==', 1, message=msg)
         # ----------------------------------------------------------------------
 
-        return cls.read_csv(files[0])
+        return cls.read_csv(files[0], **kwargs)
 
     def __init__(
-        self, info, ext_regex='npy|exr|png|jpeg|jpg|tiff', calc_file_size=True
+        self, info, ext_regex='npy|exr|png|jpeg|jpg|tiff', calc_file_size=True,
+        labels=None, label_axis=-1
     ):
-        # type: (pd.DataFrame, str, bool) -> None
+        # type: (pd.DataFrame, str, bool, OptLabels, int) -> None
         '''
         Construct a Dataset instance.
+        If labels is an integer it will assumed to be an axis which the
+        data will be split upon.
 
         Args:
             info (pd.DataFrame): Info DataFrame.
             ext_regex (str, optional): File extension pattern.
-                Default: 'npy|exr|png|jpeg|jpg|tiff'
+                Default: 'npy|exr|png|jpeg|jpg|tiff'.
             calc_file_size (bool, optional): Calculate file size in GB.
                 Default: True.
+            labels (object, optional): Label channels. Default: None.
+            label_axis (int, optional): Label axis. Default: -1.
 
         Raises:
             EnforceError: If info is not an instance of DataFrame.
@@ -158,6 +162,10 @@ class Dataset:
 
         self._info = info  # type: pd.DataFrame
         self.data = None  # type: OptArray
+        self.labels = labels
+        self.label_axis = label_axis
+        self._ext_regex = ext_regex
+        self._calc_file_size = calc_file_size
         self._sample_gb = np.nan  # type: Union[float, np.ndarray]
 
     @property
@@ -296,12 +304,13 @@ class Dataset:
         # type: (int) -> Any
         '''
         Get data by frame.
+        If self.labels is not None, returns data and label pair.
 
         Raises:
             IndexError: If frame is missing or multiple frames were found.
 
         Returns:
-            object: Frame data.
+            object: Data, or data and label, from frame.
         '''
         info = self._info
         mask = info.frame == frame
@@ -311,7 +320,24 @@ class Dataset:
         elif len(filepaths) > 1:
             raise IndexError(f'Multiple frames found for {frame}.')
         filepath = filepaths[0]
-        return self._read_file(filepath)
+
+        data = self._read_file(filepath)
+
+        # return data if no labels
+        labels = self.labels  # type: Any
+        if labels is None:
+            return data
+
+        if not isinstance(labels, list):
+            labels = [labels]
+
+        # if data is numpy array return a np.split
+        if isinstance(data, np.ndarray):
+            return np.split(data, labels, axis=self.label_axis)
+
+        # otherwise data is an Image with channels
+        x = list(filter(lambda x: x not in labels, data.channels))
+        return data[:, :, x], data[:, :, labels]
 
     def _read_file(self, filepath):
         # type: (str) -> Any
@@ -376,8 +402,8 @@ class Dataset:
 
         return -1, 'None'
 
-    def load(self, limit=None, shuffle=False):
-        # type: (Optional[Union[str, int]], bool) -> Dataset
+    def load(self, limit=None, shuffle=False, reshape=True):
+        # type: (Optional[Union[str, int]], bool, bool) -> Dataset
         '''
         Load data from files.
 
@@ -386,6 +412,9 @@ class Dataset:
                 memory size. Default: None.
             shuffle (bool, optional): Shuffle frames before loading.
                 Default: False.
+            reshape (bool, optional): Reshape concatenated data to incorpate
+                frames as the first dimension: (FRAME, ...). Analogous to the
+                first dimension being batch. Default: True.
 
         Returns:
             Dataset: self.
@@ -418,6 +447,8 @@ class Dataset:
                 break
 
             frame = self._read_file_as_array(row.filepath)
+            if reshape:
+                frame = frame[np.newaxis, ...]
             frames.append(frame)
 
             self._info.loc[i, 'loaded'] = True
@@ -458,81 +489,66 @@ class Dataset:
         self._info['loaded'] = False
         return self
 
-    def xy_split(self, index, axis=-1):
-        # type: (int, int) -> tuple[np.ndarray, np.ndarray]
+    def xy_split(self):
+        # type: () -> tuple[np.ndarray, np.ndarray]
         '''
-        Split data into x and y arrays.
-        Index and axis support negative ingegers.
-
-        Args:
-            index (int): Index of axis to split on.
-            axis (int, optional): Axis to split data on. Default: -1.
+        Split data into x and y arrays, according to self.labels as the split
+        index and self.label_axis as the split axis.
 
         Raises:
             EnforceError: If data has not been loaded.
+            EnforceError: If self.labels is not a list of a single integer.
 
         Returns:
-            tuple[np.ndarray]: X and y arrays.
+            tuple[np.ndarray]: x and y arrays.
         '''
         msg = 'Data not loaded. Please call load method.'
         Enforce(self.data, 'instance of', np.ndarray, message=msg)
+
+        msg = 'self.labels must be a list of a single integer. '
+        msg += f'Provided labels: {self.labels}.'
+
+        labels = self.labels  # type: Any
+        Enforce(labels, 'instance of', list, message=msg)
+        Enforce(len(labels), '==', 1, message=msg)
+        Enforce(labels[0], 'instance of', int, message=msg)
         # ----------------------------------------------------------------------
 
-        return np.split(self.data, [index], axis=axis)  # type: ignore
+        return np.split(self.data, self.labels, axis=self.label_axis)  # type: ignore
 
     def train_test_split(
         self,
-        index,  # type: int
-        axis=-1,  # type: int
-        test_size=0.2,  # type: Optional[Union[float, int]]
-        train_size=None,  # type: Optional[Union[float, int]]
-        random_state=42,  # type: Optional[int]
-        shuffle=True,  # type: bool
-        stratify=None,  # type: OptArray
+        test_size=0.2,  # type: float
+        limit=None,     # type: OptInt
+        shuffle=True,   # type: bool
+        seed=None,      # type: OptInt
     ):
-        # type: (...) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
+        # type: (...) -> tuple[Dataset, Dataset]
         '''
-        Split data into x_train, x_test, y_train, y_test arrays.
+        Split into train and test Datasets.
 
         Args:
-            index (int): Index of axis to split on.
-
-            axis (int, optional): Axis to split data on. Default: -1.
-
-            test_size (float or int, optional): If float, should be between 0.0
-                and 1.0 and represent the proportion of the dataset to include
-                in the test split. If int, represents the absolute number of
-                test samples. If None, the value is set to the complement of the
-                train size. If ``train_size`` is also None, it will be set to
-                0.25. Default: 0.2
-
-            train_size (float or int, optional): If float, should be between 0.0
-                and 1.0 and represent the proportion of the dataset to include
-                in the train split. If int, represents the absolute number of
-                train samples. If None, the value is automatically set to the
-                complement of the test size. Default: None.
-
-            random_state (int, optional): Controls the shuffling applied to the
-                data before applying the split. Pass an int for reproducible
-                output across multiple function calls. Default: 42.
-
-            shuffle (bool, optional): Whether or not to shuffle the data before
-                splitting. If False then stratify must be None. Default: True.
-
-            stratify (np.ndarr, optional): If not None, data is split in a
-                stratified fashion, using this as the class labels.
+            test_size (float, optional): Test set size as a proportion.
+                Default: 0.2.
+            limit (int, optional): Limit the total length of train and test.
                 Default: None.
+            shuffle (bool, optional): Randomize data before splitting.
+                Default: True.
+            seed (float, optional): Seed number between 0 and 1. Default: None.
 
         Returns:
-            tuple[np.ndarray]: x_train, x_test, y_train, y_test
+            tuple[Dataset]: Train Dataset, Test Dataset.
         '''
-        x, y = self.xy_split(index, axis=axis)
-        x_train, x_test, y_train, y_test = skm.train_test_split(
-            x, y,
-            test_size=test_size,
-            train_size=train_size,
-            random_state=random_state,
-            shuffle=shuffle,
-            stratify=stratify,
+        train, test = fict.train_test_split(
+            self.info,
+            test_size=test_size, limit=limit, shuffle=shuffle, seed=seed
         )
-        return x_train, x_test, y_train, y_test
+        train.reset_index(drop=True, inplace=True)
+        test.reset_index(drop=True, inplace=True)
+        kwargs = dict(
+            ext_regex=self._ext_regex,
+            calc_file_size=self._calc_file_size,
+            labels=self.labels,
+            label_axis=self.label_axis
+        )
+        return Dataset(train, **kwargs), Dataset(test, **kwargs)  # type: ignore
