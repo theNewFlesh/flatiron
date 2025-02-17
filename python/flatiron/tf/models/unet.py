@@ -86,6 +86,7 @@ def conv_2d_block(
         kernel_initializer=kernel_initializer,
         padding='same',
         use_bias=not batch_norm,
+        data_format='channels_last',
         dtype='float16',
     )
 
@@ -142,6 +143,7 @@ def attention_gate_2d(
         strides=strides,
         padding=padding,
         kernel_initializer=kernel_initializer,
+        data_format='channels_last',
         dtype=dtype,
     )
     conv_0 = tfl.Conv2D(
@@ -268,7 +270,9 @@ def get_unet_model(
 
         # downsample
         name = fict.pad_layer_name(f'downsample_{i:02d}', length=PAD)
-        x = tfl.MaxPooling2D((2, 2), name=name, dtype=dtype)(x)
+        x = tfl.MaxPooling2D(
+            (2, 2), name=name, dtype=dtype, data_format='channels_last'
+        )(x)
         filters *= 2
 
     # middle layer
@@ -296,6 +300,7 @@ def get_unet_model(
             strides=(2, 2),
             padding='same',
             name=name,
+            data_format='channels_last',
             dtype=dtype,
         )(x)
 
@@ -331,7 +336,7 @@ def get_unet_model(
 
     output = tfl.Conv2D(
         classes, (1, 1), activation=output_activation, name='output',
-        dtype=dtype
+        data_format='channels_last', dtype=dtype
     )(x)
     model = tfmodels.Model(inputs=[input_], outputs=[output])
     return model

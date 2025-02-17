@@ -147,10 +147,12 @@ def jaccard(y_true, y_pred):
     Returns:
         tf.Tensor: Jaccard metric.
     '''
+    y_true = tf.cast(y_true, dtype='float16')
+    y_pred = tf.cast(y_pred, dtype='float16')
     i = tf.reduce_sum(y_true * y_pred)
     u = tf.reduce_sum(y_true + y_pred) - i
     jacc = (i + 1.0) / (u + 1.0)
-    jacc = tf.mean(jacc)
+    jacc = tf.reduce_mean(jacc)
     return jacc
 
 
