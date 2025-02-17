@@ -34,7 +34,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
     return dict(
         tensorboard=tfcallbacks.TensorBoard(
-            log_dir=log_directory, histogram_freq=1, update_freq='batch'
+            log_dir=log_directory, histogram_freq=1, update_freq=1
         ),
         checkpoint=tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     )
