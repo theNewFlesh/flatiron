@@ -181,7 +181,7 @@ RUN echo "\n${CYAN}INSTALL CUDA LIBRARIES${CLEAR}"; \
     curl -fsSL \
         $CUDA_URL/$CUDA_VERSION/local_installers/cudnn-local-repo-$CUDA_DESC.deb \
         -o cudnn.deb && \
-    dpkg -i cudnn.deb && \
+    dpkg --install cudnn.deb && \
     rm -f cudnn.deb && \
     cp \
         /var/cudnn-local-repo-$CUDA_HEAD/cudnn-local-D9334AA3-keyring.gpg \
