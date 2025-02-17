@@ -3,7 +3,6 @@ import numpy
 
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
-from keras import layers as tfl
 from keras import metrics as tfmetric
 
 import flatiron.core.tools as fict
@@ -85,8 +84,10 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
     Returns:
         tf.Tensor: IOU metric.
     '''
-    yt = tfl.Flatten(y_true)
-    yp = tfl.Flatten(y_pred)
+    y_true = tf.cast(y_true, dtype='float16')
+    y_pred = tf.cast(y_pred, dtype='float16')
+    yt = tf.reshape(y_true, [-1])
+    yp = tf.reshape(y_pred, [-1])
     i = tf.reduce_sum(yt * yp)
     u = tf.reduce_sum(yt) + tf.reduce_sum(yp) - i
     iou = (i + smooth) / (u + smooth)
@@ -211,8 +212,10 @@ def dice(y_true, y_pred, smooth=1.0):
     Returns:
         tf.Tensor: Dice metric.
     '''
-    yt = tfl.Flatten(y_true)
-    yp = tfl.Flatten(y_pred)
+    y_true = tf.cast(y_true, dtype='float16')
+    y_pred = tf.cast(y_pred, dtype='float16')
+    yt = tf.reshape(y_true, [-1])
+    yp = tf.reshape(y_pred, [-1])
     i = tf.reduce_sum(yt * yp)
     u = tf.reduce_sum(yt) + tf.reduce_sum(yp)
     dice = (2.0 * i + smooth) / (u + smooth)
