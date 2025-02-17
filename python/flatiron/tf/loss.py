@@ -3,7 +3,6 @@ import numpy
 
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
-from keras import backend as tfb
 from keras import losses as tfloss
 
 import flatiron.core.tools as fict
@@ -90,8 +89,8 @@ def jaccard_loss(y_true, y_pred, smooth=100):
     Returns:
         tf.Tensor: Loss function.
     '''
-    i = tfb.sum(tfb.abs(y_true * y_pred), axis=-1)
-    u = tfb.sum(tfb.abs(y_true) + tfb.abs(y_pred), axis=-1)
+    i = tf.reduce_sum(tf.abs(y_true * y_pred), axis=-1)
+    u = tf.reduce_sum(tf.abs(y_true) + tf.abs(y_pred), axis=-1)
     jacc = (i + smooth) / (u - i + smooth)
     loss = (1 - jacc) * smooth
     return loss
@@ -155,8 +154,8 @@ def dice_loss(y_true, y_pred, smooth=1):
     Returns:
         tf.Tensor: Loss function.
     '''
-    intersection = tfb.sum(tfb.abs(y_true * y_pred), axis=-1)
-    union = tfb.sum(tfb.abs(y_true) + tfb.abs(y_pred), axis=-1)
+    intersection = tf.reduce_sum(tf.abs(y_true * y_pred), axis=-1)
+    union = tf.reduce_sum(tf.abs(y_true) + tf.abs(y_pred), axis=-1)
     dice = (2.0 * intersection + smooth) / (union + smooth)
     loss = 1.0 - dice
     return loss

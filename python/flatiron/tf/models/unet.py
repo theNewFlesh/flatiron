@@ -316,7 +316,7 @@ def get_unet_model(
             )
         else:
             name = fict.pad_layer_name(f'concat_{i:02d}', length=PAD)
-            x = tfl.concatenate([layer, x], name=name)
+            x = tfl.concatenate([layer, x], name=name, dtype=dtype)
 
         # conv backend of layer
         x = conv_2d_block(
