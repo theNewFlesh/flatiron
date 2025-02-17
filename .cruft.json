@@ -28,7 +28,7 @@
       "include_prod_cli": "yes",
       "include_prod_envs": "yes",
       "include_rsync": "no",
-      "include_secret_env": "no",
+      "include_secret_env": "yes",
       "include_tensorflow": "yes",
       "include_vscode_server": "no",
       "port_prefix": "91",

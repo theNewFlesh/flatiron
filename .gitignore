@@ -24,6 +24,7 @@ flask_monitoringdashboard*
 # misc
 .DS_Store
 .Trash*
+secret-env
 
 # packaging
 docker/dist/*
