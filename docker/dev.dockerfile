@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.2.2-base-ubuntu22.04 AS base
+FROM nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04 AS base
 
 USER root
 
@@ -173,21 +173,21 @@ RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
 ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
 ENV XLA_FLAGS='--xla_gpu_cuda_data_dir=/usr/local/cuda/nvvm/libdevice'
-ARG CUDA_URL="https://developer.download.nvidia.com/compute/cudnn"
-ARG CUDA_VERSION="9.3.0"
-ARG CUDA_HEAD="ubuntu2204-$CUDA_VERSION"
-ARG CUDA_DESC="$CUDA_HEAD_1.0-1_amd64"
-RUN echo "\n${CYAN}INSTALL CUDA LIBRARIES${CLEAR}"; \
-    curl -fsSL \
-        $CUDA_URL/$CUDA_VERSION/local_installers/cudnn-local-repo-$CUDA_DESC.deb \
-        -o cudnn.deb && \
-    dpkg -i cudnn.deb && \
-    cp \
-        /var/cudnn-local-repo-$CUDA_HEAD/cudnn-local-D9334AA3-keyring.gpg \
-        /usr/share/keyrings/ && \
-    apt update && \
-    apt install -y cudnn9-cuda-12 && \
-    rm -rf /var/lib/apt/lists/*
+# ARG CUDA_URL="https://developer.download.nvidia.com/compute/cudnn"
+# ARG CUDA_VERSION="9.3.0"
+# ARG CUDA_HEAD="ubuntu2204-$CUDA_VERSION"
+# ARG CUDA_DESC="$CUDA_HEAD_1.0-1_amd64"
+# RUN echo "\n${CYAN}INSTALL CUDA LIBRARIES${CLEAR}"; \
+#     curl -fsSL \
+#         $CUDA_URL/$CUDA_VERSION/local_installers/cudnn-local-repo-$CUDA_DESC.deb \
+#         -o cudnn.deb && \
+#     dpkg -i cudnn.deb && \
+#     cp \
+#         /var/cudnn-local-repo-$CUDA_HEAD/cudnn-local-D9334AA3-keyring.gpg \
+#         /usr/share/keyrings/ && \
+#     apt update && \
+#     apt install -y cudnn9-cuda-12 && \
+#     rm -rf /var/lib/apt/lists/*
 
 # install OpenEXR
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/include/python3.10m/dist-packages"
