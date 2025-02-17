@@ -158,7 +158,7 @@ RUN echo "\n${CYAN}INSTALL GCC${CLEAR}"; \
 # install nvidia container toolkit
 ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"
 ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
-ENV XLA_FLAGS='--xla_gpu_cuda_data_dir=/home/ubuntu/pdm/envs/*-dev-3.10/lib/python3.10/site-packages/triton/backends/nvidia/lib'
+ENV XLA_FLAGS='--xla_gpu_cuda_data_dir=/usr/local/cuda/nvvm/libdevice'
 RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
     curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
     | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
@@ -221,11 +221,11 @@ RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
     ln -s `_x_env_get_path dev 3.10`/lib/python3.10/site-packages .dev-packages
 
 # create prod envs
-RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
-    . /home/ubuntu/scripts/x_tools.sh && \
-    export CONFIG_DIR=/home/ubuntu/config && \
-    export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init prod 3.10
+# RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
+#     . /home/ubuntu/scripts/x_tools.sh && \
+#     export CONFIG_DIR=/home/ubuntu/config && \
+#     export SCRIPT_DIR=/home/ubuntu/scripts && \
+#     x_env_init prod 3.10
 
 # install prod cli
 RUN echo "\n${CYAN}INSTALL PROD CLI${CLEAR}"; \
