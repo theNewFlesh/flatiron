@@ -343,6 +343,7 @@ def build_dev_command(use_cache=True):
         docker build
             --file dev.dockerfile
             --build-arg BUILDKIT_INLINE_CACHE=1
+            --secret id=secret-env,src=config/secret-env
             --label "repository={repo}"
             --label "docker-registry={registry}"
             --label "git-user={git_user}"
@@ -375,11 +376,13 @@ def build_prod_command(use_cache=False):
         str: Command to build prod image.
     '''
     cmd = line('''
+        export DOCKER_BUILDKIT=1;
         cd docker;
         docker build
             --force-rm
             --file prod.dockerfile
             --build-arg VERSION="$VERSION"
+            --secret id=secret-env,src=config/secret-env
             --label "repository={repo}"
             --label "docker-registry={registry}"
             --label "git-user={git_user}"

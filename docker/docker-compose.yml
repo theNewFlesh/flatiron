@@ -6,14 +6,16 @@ services:
     build:
       context: .
       dockerfile: dev.dockerfile
+      secrets:
+        - secret-env
     ports:
       - "9100:9000"
       - "9180:8080"
-      - "9106:9006"
     userns_mode: "host"
     user: ubuntu
     env_file:
       - config/dev-env
+      - config/secret-env
     volumes:
       - ../:/home/ubuntu/flatiron
       - ~/.ssh:/home/ubuntu/.ssh:ro
@@ -28,3 +30,6 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+secrets:
+  secret-env:
+    file: config/secret-env
