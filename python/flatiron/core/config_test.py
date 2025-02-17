@@ -2,6 +2,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
 
+from torch import device
+
 from tensorflow import keras  # noqa F401
 from keras import optimizers as tfoptim
 import pydantic_core._pydantic_core as pydc
@@ -103,6 +105,7 @@ class CompileConfigTests(unittest.TestCase):
         return dict(
             loss='dice_loss',
             metrics=[],
+            device='gpu',
             tf_loss_weights=None,
             tf_weighted_metrics=None,
             tf_run_eagerly=False,
