@@ -156,6 +156,9 @@ RUN echo "\n${CYAN}INSTALL GCC${CLEAR}"; \
     rm -rf /var/lib/apt/lists/*
 
 # install nvidia container toolkit
+ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"
+ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
+ENV XLA_FLAGS='--xla_gpu_cuda_data_dir=/home/ubuntu/pdm/envs/*-dev-3.10/lib/python3.10/site-packages/triton/backends/nvidia/lib'
 RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
     curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
     | gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg && \
@@ -170,7 +173,7 @@ RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
     rm -rf /var/lib/apt/lists/*
 
 # install OpenEXR
-ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
+ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/include/python3.10m/dist-packages"
 RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
     apt update && \
     apt install -y \
