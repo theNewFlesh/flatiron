@@ -4,6 +4,7 @@ from keras import models as tfmodels  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
 from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 
+import os
 import math
 
 from keras import callbacks as tfcallbacks
@@ -40,20 +41,32 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     )
 
 
-def compile(model, optimizer, loss, metrics, kwargs={}):
-    # type: (Any, str, str, list[str], dict[str, Any]) -> dict[str, Any]
+def compile(model, optimizer, loss, metrics, device, kwargs={}):
+    # type: (Any, str, str, list[str], str, dict[str, Any]) -> dict[str, Any]
     '''
     Call `modile.compile` on given model with kwargs.
+
+    Args:
+        model (Any): Model to be compiled.
+        optimizer (str): Optimizer to be compiled.
+        loss (str): Loss to be compiled.
+        metrics (list[str]): Metrics function to be compiled.
+        device (str): Hardware device to compile to.
+        kwargs: Other params to be passed to `model.compile`.
 
     Returns:
         dict: Dict of compiled objects.
     '''
+    devices = os.environ.get('CUDA_VISIBLE_DEVICES', '8')
+    if device == 'cpu':
+        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
     model.compile(
         optimizer=flatiron.tf.optimizer.get(optimizer),
         loss=flatiron.tf.loss.get(loss),
         metrics=[flatiron.tf.metric.get(m) for m in metrics],
         **kwargs,
     )
+    os.environ['CUDA_VISIBLE_DEVICES'] = devices
     return dict(model=model)
 
 

@@ -38,10 +38,18 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     )
 
 
-def compile(model, optimizer, loss, metrics, kwargs):
-    # type: (Any, str, str, list[str], dict[str, Any]) -> dict[str, Any]
+def compile(model, optimizer, loss, metrics, device, kwargs):
+    # type: (Any, str, str, list[str], str, dict[str, Any]) -> dict[str, Any]
     '''
     Call `torch.compile` on given model with kwargs.
+
+    Args:
+        model (Any): Model to be compiled.
+        optimizer (str): Optimizer to be compiled.
+        loss (str): Loss to be compiled.
+        metrics (list[str]): Metrics function to be compiled.
+        device (str): Hardware device to compile to.
+        kwargs: Other params to be passed to `model.compile`.
 
     Returns:
         dict: Dict of compiled objects.
@@ -51,6 +59,7 @@ def compile(model, optimizer, loss, metrics, kwargs):
         optimizer=flatiron.torch.optimizer.get(optimizer),
         loss=flatiron.torch.loss.get(loss),
         metrics=[flatiron.torch.metric.get(m) for m in metrics],
+        device=device,
     )
 
 
@@ -142,7 +151,6 @@ def train(
     batch_size=32,  # type: int
     epochs=50,      # type: int
     seed=42,        # type: int
-    device='cpu',   # type: str
     **kwargs,
 ):
     # type: (...) -> None
@@ -162,6 +170,7 @@ def train(
     optimizer = compiled['optimizer']
     loss = compiled['loss']
     metrics = compiled['metrics']
+    device = compiled['device']
     # checkpoint = callbacks['checkpoint']
 
     dev = torch.device(device)

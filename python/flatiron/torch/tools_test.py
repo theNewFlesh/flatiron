@@ -25,7 +25,7 @@ class TorchToolsTests(unittest.TestCase):
         model = SimpleModel(2, 1, 2)
         result = fi_torchtools.compile(
             model=model, optimizer='Adam', loss='CrossEntropyLoss',
-            metrics=['Accuracy'], kwargs=dict(mode='reduce-overhead')
+            metrics=['Accuracy'], device='gpu', kwargs=dict(mode='reduce-overhead')
         )
 
         self.assertEqual(result['model'].__class__.__name__, 'OptimizedModule')
