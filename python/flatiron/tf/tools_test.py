@@ -48,10 +48,11 @@ class TFToolsTests(DatasetTestBase):
         model = MockModel()
         result = fi_tftools.compile(
             model=model, optimizer='adam', loss='mse', metrics=['dice'],
-            kwargs=dict(jit_compile=True)
+            device='cpu', kwargs=dict(jit_compile=True)
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])
+        self.assertEqual(os.environ.get('CUDA_VISIBLE_DEVICES', 'xxx'), '-1')
 
         expected = flatiron.tf.optimizer.get('adam').__class__
         self.assertIsInstance(model.kwargs['optimizer'], expected)
@@ -61,6 +62,16 @@ class TFToolsTests(DatasetTestBase):
 
         expected = flatiron.tf.metric.get('dice').__class__
         self.assertIsInstance(model.kwargs['metrics'][0], expected)
+
+    def test_compile_device(self):
+        model = MockModel()
+        result = fi_tftools.compile(
+            model=model, optimizer='adam', loss='mse', metrics=['dice'],
+            device='1', kwargs=dict(jit_compile=True)
+        )
+        self.assertEqual(result, dict(model=model))
+        self.assertTrue(model.kwargs['jit_compile'])
+        self.assertEqual(os.environ.get('CUDA_VISIBLE_DEVICES', 'xxx'), '-1')
 
     def test_train(self):
         model = get_fake_model((10, 10, 3))

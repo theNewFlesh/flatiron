@@ -244,6 +244,7 @@ class PipelineBase(ABC):
                 optimizer=self.config['optimizer']['name'],
                 loss=comp['loss'],
                 metrics=comp['metrics'],
+                device=comp['device'],
                 kwargs=fict.resolve_kwargs(engine, comp),
             )
         return self

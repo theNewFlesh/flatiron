@@ -103,6 +103,7 @@ class CompileConfigTests(unittest.TestCase):
         return dict(
             loss='dice_loss',
             metrics=[],
+            device='gpu',
             tf_loss_weights=None,
             tf_weighted_metrics=None,
             tf_run_eagerly=False,
