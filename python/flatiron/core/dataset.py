@@ -304,13 +304,12 @@ class Dataset:
         # type: (int) -> Any
         '''
         Get data by frame.
-        If self.labels is not None, returns data and label pair.
 
         Raises:
             IndexError: If frame is missing or multiple frames were found.
 
         Returns:
-            object: Data, or data and label, from frame.
+            object: Data of given frame.
         '''
         info = self._info
         mask = info.frame == frame
