@@ -411,6 +411,57 @@ class DatasetTests(DatasetTestBase):
             with self.assertRaisesRegex(IndexError, expected):
                 dset.get_filepath(3)
 
+    def test_get_arrays(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root)
+            dset = Dataset.read_directory(root)
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 1)
+            result = result[0]
+            self.assertIsInstance(result, np.ndarray)
+            self.assertEqual(result.shape, (10, 10, 3))
+
+    def test_get_arrays_labels(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            dset = Dataset.read_directory(root, labels=['a'])
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 2)
+            self.assertIsInstance(result[0], np.ndarray)
+            self.assertIsInstance(result[1], np.ndarray)
+            self.assertEqual(result[0].shape, (10, 10, 3))
+            self.assertEqual(result[1].shape, (10, 10, 1))
+
+    def test_get_arrays_labels_bg(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            dset = Dataset.read_directory(root, labels=['b', 'a'])
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 2)
+            self.assertIsInstance(result[0], np.ndarray)
+            self.assertIsInstance(result[1], np.ndarray)
+            self.assertEqual(result[0].shape, (10, 10, 2))
+            self.assertEqual(result[1].shape, (10, 10, 2))
+
+    def test_get_arrays_labels_numpy(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root, shape=(10, 10, 4))
+            dset = Dataset.read_directory(root, labels=[3])
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 2)
+            self.assertIsInstance(result[0], np.ndarray)
+            self.assertIsInstance(result[1], np.ndarray)
+            self.assertEqual(result[0].shape, (10, 10, 3))
+            self.assertEqual(result[1].shape, (10, 10, 1))
+
     def test_resolve_limit(self):
         # sample
         result = Dataset._resolve_limit(10)

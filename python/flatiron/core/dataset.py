@@ -333,6 +333,50 @@ class Dataset:
             raise IndexError(f'Multiple frames found for {frame}.')
         return filepaths[0]
 
+    def get_arrays(self, frame):
+        # type: (int) -> list[np.ndarray]
+        '''
+        Get data and convert into numpy arrays according to labels.
+
+        Args:
+            frame (int): Frame.
+
+        Raises:
+            IndexError: If frame is missing or multiple frames were found.
+
+        Returns:
+            list[np.ndarray]: List of arrays from the given frame.
+        '''
+        labels = self.labels  # type: Any
+        if labels is None:
+            return [self._read_file_as_array(self.get_filepath(frame))]
+
+        item = self.__getitem__(frame)
+
+        # get labels
+        if not isinstance(labels, list):
+            labels = [labels]
+
+        # if item is numpy array return a np.split
+        if isinstance(item, np.ndarray):
+            arrays = list(np.split(item, labels, axis=self.label_axis))
+
+        # otherwise item is an Image with channels
+        else:
+            chan = list(filter(lambda x: x not in labels, item.channels))
+            img = item.to_bit_depth(cvd.BitDepth.FLOAT16)
+            arrays = [img[:, :, chan].data, img[:, :, labels].data]
+
+        # enforce shape equivalence
+        max_dim = max(*[x.ndim for x in arrays])
+        output = []
+        for array in arrays:
+            if array.ndim != max_dim:
+                ndim = list(range(max_dim - array.ndim + 1, max_dim))
+                array = np.expand_dims(array, axis=ndim)
+            output.append(array)
+        return output
+
     def _read_file(self, filepath):
         # type: (str) -> Any
         '''
