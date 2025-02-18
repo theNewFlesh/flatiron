@@ -319,25 +319,7 @@ class Dataset:
             raise IndexError(f'Missing frame {frame}.')
         elif len(filepaths) > 1:
             raise IndexError(f'Multiple frames found for {frame}.')
-        filepath = filepaths[0]
-
-        data = self._read_file(filepath)
-
-        # return data if no labels
-        labels = self.labels  # type: Any
-        if labels is None:
-            return data
-
-        if not isinstance(labels, list):
-            labels = [labels]
-
-        # if data is numpy array return a np.split
-        if isinstance(data, np.ndarray):
-            return np.split(data, labels, axis=self.label_axis)
-
-        # otherwise data is an Image with channels
-        x = list(filter(lambda x: x not in labels, data.channels))
-        return data[:, :, x], data[:, :, labels]
+        return self._read_file(filepaths[0])
 
     def _read_file(self, filepath):
         # type: (str) -> Any
