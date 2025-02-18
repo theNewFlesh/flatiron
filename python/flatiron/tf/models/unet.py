@@ -46,6 +46,7 @@ def conv_2d_block(
     kernel_initializer='he_normal',  # type: str
     name='conv-2d-block',  # type: str
     dtype='float16',  # type: str
+    data_format='channels_last',  # type: str
 ):
     # type: (...) -> KerasTensor
     r'''
@@ -73,6 +74,7 @@ def conv_2d_block(
         kernel_initializer (str, optional): Default: he_normal.
         name (str, optional): Layer name. Default: conv-2d-block
         dtype (str, optional): Model dtype. Default: float16.
+        data_format (str, optional): Model data format. Default: channels_last.
 
     Returns:
         KerasTensor: Conv2D Block
@@ -86,8 +88,8 @@ def conv_2d_block(
         kernel_initializer=kernel_initializer,
         padding='same',
         use_bias=not batch_norm,
-        data_format='channels_last',
-        dtype='float16',
+        dtype=dtype,
+        data_format=data_format,
     )
 
     name2 = f'{name}-1'
@@ -114,6 +116,7 @@ def attention_gate_2d(
     kernel_initializer='he_normal',  # type: str
     name='attention-gate',  # type: str
     dtype='float16',  # type: str
+    data_format='channels_last',  # type: str
 ):
     # type: (...) -> KerasTensor
     '''
@@ -132,6 +135,7 @@ def attention_gate_2d(
             Default: 'he_normal'
         name (str, optional): Layer name. Default: attention-gate
         dtype (str, optional): Model dtype. Default: float16.
+        data_format (str, optional): Model data format. Default: channels_last.
 
     Returns:
         KerasTensor: 2D Attention Gate.
@@ -143,8 +147,8 @@ def attention_gate_2d(
         strides=strides,
         padding=padding,
         kernel_initializer=kernel_initializer,
-        data_format='channels_last',
         dtype=dtype,
+        data_format=data_format,
     )
     conv_0 = tfl.Conv2D(
         filters=filters, **kwargs, name=f'{name}-0'
@@ -178,6 +182,7 @@ def get_unet_model(
     attention_padding='same',  # type: str
     attention_kernel_initializer='he_normal',  # type: str
     dtype='float16',  # type: str
+    data_format='channels_last',  # type: str
 ):
     # type: (...) -> tfmodels.Model
     '''
@@ -214,6 +219,7 @@ def get_unet_model(
         attention_kernel_initializer (str, optional): Kernel initializer.
             Default: 'he_normal'
         dtype (str, optional): Model dtype. Default: float16.
+        data_format (str, optional): Model data format. Default: channels_last.
 
     Raises:
         EnforceError: If input_width is not even.
@@ -265,13 +271,14 @@ def get_unet_model(
             kernel_initializer=kernel_initializer,
             name=f'encode-block_{i:02d}',
             dtype=dtype,
+            data_format=data_format,
         )
         encode_layers.append(x)
 
         # downsample
         name = fict.pad_layer_name(f'downsample_{i:02d}', length=PAD)
         x = tfl.MaxPooling2D(
-            (2, 2), name=name, dtype=dtype, data_format='channels_last'
+            (2, 2), name=name, dtype=dtype, data_format=data_format,
         )(x)
         filters *= 2
 
@@ -300,8 +307,8 @@ def get_unet_model(
             strides=(2, 2),
             padding='same',
             name=name,
-            data_format='channels_last',
             dtype=dtype,
+            data_format=data_format,
         )(x)
 
         # attention gate
@@ -318,6 +325,7 @@ def get_unet_model(
                 kernel_initializer=attention_kernel_initializer,
                 name=name,
                 dtype=dtype,
+                data_format=data_format,
             )
         else:
             name = fict.pad_layer_name(f'concat_{i:02d}', length=PAD)
@@ -332,11 +340,12 @@ def get_unet_model(
             kernel_initializer=kernel_initializer,
             name=f'decode-block_{i:02d}',
             dtype=dtype,
+            data_format=data_format,
         )
 
     output = tfl.Conv2D(
         classes, (1, 1), activation=output_activation, name='output',
-        data_format='channels_last', dtype=dtype
+        dtype=dtype, data_format=data_format,
     )(x)
     model = tfmodels.Model(inputs=[input_], outputs=[output])
     return model
@@ -391,6 +400,8 @@ class UNetConfig(pyd.BaseModel):
     attention_strides: Annotated[int, pyd.Field(ge=1)] = 1
     attention_padding: Annotated[str, pyd.AfterValidator(vd.is_padding)] = 'same'
     attention_kernel_initializer: str = 'he_normal'
+    dtype: str = 'float16'
+    data_format: str = 'channels_last'
 
 
 # PIPELINE----------------------------------------------------------------------
