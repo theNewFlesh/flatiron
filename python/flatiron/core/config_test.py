@@ -76,16 +76,14 @@ class OptimizerConfigTests(unittest.TestCase):
         return dict(
             name='sgd',
             learning_rate=0.001,
-            momentum=0,
+            momentum=0.0,
             nesterov=False,
-            weight_decay=0.0,
             clipnorm=None,
             clipvalue=None,
             global_clipnorm=None,
             use_ema=False,
             ema_momentum=0.99,
             ema_overwrite_frequency=None,
-            jit_compile=True,
         )
 
     def test_validate(self):
