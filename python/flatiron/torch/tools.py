@@ -4,9 +4,9 @@ from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
+import tqdm.notebook as tqdm
 import torch
 import torch.utils.data as torchdata
-import tqdm.notebook as tqdm
 
 import flatiron
 import flatiron.core.tools as fict
@@ -139,8 +139,19 @@ class TorchDataset(Dataset, torchdata.Dataset):
         this = TorchDataset(dataset.info)
         this._info = dataset._info
         this.data = dataset.data
+        this.labels = dataset.labels
+        this.label_axis = dataset.label_axis
+        this._ext_regex = dataset._ext_regex
+        this._calc_file_size = dataset._calc_file_size
         this._sample_gb = dataset._sample_gb
         return this
+
+    def __getitem__(self, frame):
+        items = self.get_arrays(frame)
+        output = list(map(torch.from_numpy, items))
+        if len(output) == 1:
+            return output[0]
+        return output
 
 
 def train(
@@ -192,6 +203,6 @@ def train(
         metrics_func=metrics,
         writer=callbacks['tensorboard'],
     )
-    for i in tqdm(range(epochs)):
+    for i in tqdm.trange(epochs):
         _execute_epoch(epoch=i, mode='train', data_loader=train_ldr, **kwargs)
         _execute_epoch(epoch=i, mode='test', data_loader=test_ldr, **kwargs)
