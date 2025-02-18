@@ -387,7 +387,17 @@ class DatasetTests(DatasetTestBase):
             result = dset[3]
             self.assertEqual(result.shape, expected.shape)
 
-    def test_getitem_errors(self):
+    def test_get_filepath(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+            dset = Dataset.read_directory(root)
+            info = dset.info
+
+            expected = info.loc[info.frame == 3, 'filepath'].tolist()[0]
+            result = dset.get_filepath(3)
+            self.assertEqual(result, expected)
+
+    def test_get_filepath_errors(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root)
             dset = Dataset.read_directory(root)
@@ -395,11 +405,11 @@ class DatasetTests(DatasetTestBase):
 
             expected = 'Missing frame 9000.'
             with self.assertRaisesRegex(IndexError, expected):
-                dset[9000]
+                dset.get_filepath(9000)
 
             expected = 'Multiple frames found for 3.'
             with self.assertRaisesRegex(IndexError, expected):
-                dset[3]
+                dset.get_filepath(3)
 
     def test_resolve_limit(self):
         # sample

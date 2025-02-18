@@ -311,6 +311,19 @@ class Dataset:
         Returns:
             object: Data of given frame.
         '''
+        return self._read_file(self.get_filepath(frame))
+
+    def get_filepath(self, frame):
+        # type: (int) -> Any
+        '''
+        Get filepath of given frame.
+
+        Raises:
+            IndexError: If frame is missing or multiple frames were found.
+
+        Returns:
+            str: Filepath of given frame.
+        '''
         info = self._info
         mask = info.frame == frame
         filepaths = info.loc[mask, 'filepath'].tolist()
@@ -318,7 +331,7 @@ class Dataset:
             raise IndexError(f'Missing frame {frame}.')
         elif len(filepaths) > 1:
             raise IndexError(f'Multiple frames found for {frame}.')
-        return self._read_file(filepaths[0])
+        return filepaths[0]
 
     def _read_file(self, filepath):
         # type: (str) -> Any
