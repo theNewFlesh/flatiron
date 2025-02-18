@@ -304,13 +304,25 @@ class Dataset:
         # type: (int) -> Any
         '''
         Get data by frame.
-        If self.labels is not None, returns data and label pair.
 
         Raises:
             IndexError: If frame is missing or multiple frames were found.
 
         Returns:
-            object: Data, or data and label, from frame.
+            object: Data of given frame.
+        '''
+        return self._read_file(self.get_filepath(frame))
+
+    def get_filepath(self, frame):
+        # type: (int) -> Any
+        '''
+        Get filepath of given frame.
+
+        Raises:
+            IndexError: If frame is missing or multiple frames were found.
+
+        Returns:
+            str: Filepath of given frame.
         '''
         info = self._info
         mask = info.frame == frame
@@ -319,25 +331,51 @@ class Dataset:
             raise IndexError(f'Missing frame {frame}.')
         elif len(filepaths) > 1:
             raise IndexError(f'Multiple frames found for {frame}.')
-        filepath = filepaths[0]
+        return filepaths[0]
 
-        data = self._read_file(filepath)
+    def get_arrays(self, frame):
+        # type: (int) -> list[np.ndarray]
+        '''
+        Get data and convert into numpy arrays according to labels.
 
-        # return data if no labels
+        Args:
+            frame (int): Frame.
+
+        Raises:
+            IndexError: If frame is missing or multiple frames were found.
+
+        Returns:
+            list[np.ndarray]: List of arrays from the given frame.
+        '''
         labels = self.labels  # type: Any
         if labels is None:
-            return data
+            return [self._read_file_as_array(self.get_filepath(frame))]
 
+        item = self.__getitem__(frame)
+
+        # get labels
         if not isinstance(labels, list):
             labels = [labels]
 
-        # if data is numpy array return a np.split
-        if isinstance(data, np.ndarray):
-            return np.split(data, labels, axis=self.label_axis)
+        # if item is numpy array return a np.split
+        if isinstance(item, np.ndarray):
+            arrays = list(np.split(item, labels, axis=self.label_axis))
 
-        # otherwise data is an Image with channels
-        x = list(filter(lambda x: x not in labels, data.channels))
-        return data[:, :, x], data[:, :, labels]
+        # otherwise item is an Image with channels
+        else:
+            chan = list(filter(lambda x: x not in labels, item.channels))
+            img = item.to_bit_depth(cvd.BitDepth.FLOAT16)
+            arrays = [img[:, :, chan].data, img[:, :, labels].data]
+
+        # enforce shape equivalence
+        max_dim = max(*[x.ndim for x in arrays])
+        output = []
+        for array in arrays:
+            if array.ndim != max_dim:
+                ndim = list(range(max_dim - array.ndim + 1, max_dim))
+                array = np.expand_dims(array, axis=ndim)
+            output.append(array)
+        return output
 
     def _read_file(self, filepath):
         # type: (str) -> Any

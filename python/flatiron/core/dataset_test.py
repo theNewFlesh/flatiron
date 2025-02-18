@@ -387,7 +387,17 @@ class DatasetTests(DatasetTestBase):
             result = dset[3]
             self.assertEqual(result.shape, expected.shape)
 
-    def test_getitem_errors(self):
+    def test_get_filepath(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root)
+            dset = Dataset.read_directory(root)
+            info = dset.info
+
+            expected = info.loc[info.frame == 3, 'filepath'].tolist()[0]
+            result = dset.get_filepath(3)
+            self.assertEqual(result, expected)
+
+    def test_get_filepath_errors(self):
         with TemporaryDirectory() as root:
             self.create_dataset_files(root)
             dset = Dataset.read_directory(root)
@@ -395,11 +405,62 @@ class DatasetTests(DatasetTestBase):
 
             expected = 'Missing frame 9000.'
             with self.assertRaisesRegex(IndexError, expected):
-                dset[9000]
+                dset.get_filepath(9000)
 
             expected = 'Multiple frames found for 3.'
             with self.assertRaisesRegex(IndexError, expected):
-                dset[3]
+                dset.get_filepath(3)
+
+    def test_get_arrays(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root)
+            dset = Dataset.read_directory(root)
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 1)
+            result = result[0]
+            self.assertIsInstance(result, np.ndarray)
+            self.assertEqual(result.shape, (10, 10, 3))
+
+    def test_get_arrays_labels(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            dset = Dataset.read_directory(root, labels=['a'])
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 2)
+            self.assertIsInstance(result[0], np.ndarray)
+            self.assertIsInstance(result[1], np.ndarray)
+            self.assertEqual(result[0].shape, (10, 10, 3))
+            self.assertEqual(result[1].shape, (10, 10, 1))
+
+    def test_get_arrays_labels_bg(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            dset = Dataset.read_directory(root, labels=['b', 'a'])
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 2)
+            self.assertIsInstance(result[0], np.ndarray)
+            self.assertIsInstance(result[1], np.ndarray)
+            self.assertEqual(result[0].shape, (10, 10, 2))
+            self.assertEqual(result[1].shape, (10, 10, 2))
+
+    def test_get_arrays_labels_numpy(self):
+        with TemporaryDirectory() as root:
+            self.create_dataset_files(root, shape=(10, 10, 4))
+            dset = Dataset.read_directory(root, labels=[3])
+
+            result = dset.get_arrays(3)
+            self.assertIsInstance(result, list)
+            self.assertEqual(len(result), 2)
+            self.assertIsInstance(result[0], np.ndarray)
+            self.assertIsInstance(result[1], np.ndarray)
+            self.assertEqual(result[0].shape, (10, 10, 3))
+            self.assertEqual(result[1].shape, (10, 10, 1))
 
     def test_resolve_limit(self):
         # sample
