@@ -232,16 +232,17 @@ class PipelineBase(ABC):
         '''
         engine = self._engine
         comp = self.config['compile']
+        opt = self.config['optimizer']
 
         msg = dict(
             model=self.config['model'],
-            optimizer=self.config['optimizer'],
+            optimizer=opt,
             compile=comp,
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
             self._compiled = engine.tools.compile(
                 self.model,
-                optimizer=self.config['optimizer']['name'],
+                optimizer=opt,
                 loss=comp['loss'],
                 metrics=comp['metrics'],
                 device=comp['device'],

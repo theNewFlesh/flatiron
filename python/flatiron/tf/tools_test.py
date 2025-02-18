@@ -47,14 +47,19 @@ class TFToolsTests(DatasetTestBase):
     def test_compile(self):
         model = MockModel()
         result = fi_tftools.compile(
-            model=model, optimizer='adam', loss='mse', metrics=['dice'],
-            device='cpu', kwargs=dict(jit_compile=True)
+            model=model,
+            optimizer=dict(name='adam', learning_rate=0.01),
+            loss='mse',
+            metrics=['dice'],
+            device='cpu',
+            kwargs=dict(jit_compile=True),
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])
         self.assertEqual(os.environ.get('CUDA_VISIBLE_DEVICES', 'xxx'), '-1')
 
-        expected = flatiron.tf.optimizer.get('adam').__class__
+        expected = dict(name='adam', learning_rate=0.01)
+        expected = flatiron.tf.optimizer.get(expected).__class__
         self.assertIsInstance(model.kwargs['optimizer'], expected)
 
         expected = flatiron.tf.loss.get('mse').__class__
@@ -66,8 +71,12 @@ class TFToolsTests(DatasetTestBase):
     def test_compile_device(self):
         model = MockModel()
         result = fi_tftools.compile(
-            model=model, optimizer='adam', loss='mse', metrics=['dice'],
-            device='1', kwargs=dict(jit_compile=True)
+            model=model,
+            optimizer=dict(name='adam', learning_rate=0.01),
+            loss='mse',
+            metrics=['dice'],
+            device='1',
+            kwargs=dict(jit_compile=True),
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])

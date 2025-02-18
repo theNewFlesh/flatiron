@@ -48,7 +48,7 @@ def compile(model, optimizer, loss, metrics, device, kwargs={}):
 
     Args:
         model (Any): Model to be compiled.
-        optimizer (str): Optimizer to be compiled.
+        optimizer (dict): Optimizer settings.
         loss (str): Loss to be compiled.
         metrics (list[str]): Metrics function to be compiled.
         device (str): Hardware device to compile to.
@@ -60,6 +60,7 @@ def compile(model, optimizer, loss, metrics, device, kwargs={}):
     devices = os.environ.get('CUDA_VISIBLE_DEVICES', '8')
     if device == 'cpu':
         os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+
     model.compile(
         optimizer=flatiron.tf.optimizer.get(optimizer),
         loss=flatiron.tf.loss.get(loss),

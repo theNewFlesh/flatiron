@@ -57,7 +57,6 @@ class OptimizerConfig(BaseConfig):
         learning_rate: (float, optional): Learning rate. Default=0.001.
         momentum: (float, optional): Momentum. Default=0.
         nesterov: (boolean, optional): User Nesterov updates. Default=False.
-        weight_decay: (string, optional): Decay weights. Default: None.
         clipnorm: (float, optional): Clip individual weights so norm is not
             higher than this. Default: None.
         clipvalue: (float, optional): Clip weights at this max value.
@@ -73,16 +72,14 @@ class OptimizerConfig(BaseConfig):
     '''
     name: str = 'sgd'
     learning_rate: float = 0.001
-    momentum: float = 0
+    momentum: float = 0.0
     nesterov: bool = False
-    weight_decay: float = 0
     clipnorm: Optional[float] = None
     clipvalue: Optional[float] = None
     global_clipnorm: Optional[float] = None
     use_ema: bool = False
     ema_momentum: float = 0.99
     ema_overwrite_frequency: Optional[int] = None
-    jit_compile: bool = True
 
 
 class CompileConfig(BaseConfig):
