@@ -42,7 +42,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
 
 
 def compile(model, optimizer, loss, metrics, device, kwargs={}):
-    # type: (Any, str, str, list[str], str, dict[str, Any]) -> dict[str, Any]
+    # type: (Any, dict[str, Any], str, list[str], str, dict[str, Any]) -> dict[str, Any]
     '''
     Call `modile.compile` on given model with kwargs.
 
