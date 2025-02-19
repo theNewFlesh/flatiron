@@ -53,22 +53,33 @@ class OptimizerConfig(BaseConfig):
     See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer
 
     Attributes:
-        name: (string, optional): Name of optimizer. Default='sgd'.
-        learning_rate: (float, optional): Learning rate. Default=0.001.
-        momentum: (float, optional): Momentum. Default=0.
-        nesterov: (boolean, optional): User Nesterov updates. Default=False.
-        clipnorm: (float, optional): Clip individual weights so norm is not
+        name (string, optional): Name of optimizer. Default='sgd'.
+        learning_rate (float, optional): Learning rate. Default=0.001.
+        momentum (float, optional): Momentum. Default=0.
+        nesterov (bool, optional): User Nesterov updates. Default=False.
+        epsilon (float, optional): A small constant for numerical stability.
+            Default: 1e-07
+        loss_scale_factor (OptFloat, optional): Will be multiply the loss before
+            computing gradients. Default: None.
+        gradient_accumulation_steps (OptInt, optional): Update model and
+            optimizer at this frequency. Default: None.
+        global_clipnorm (float, optional): Clip all weights so norm is not
             higher than this. Default: None.
-        clipvalue: (float, optional): Clip weights at this max value.
+        clipnorm (float, optional): Clip individual weights so norm is not
+            higher than this. Default: None.
+        clipvalue (float, optional): Clip weights at this max value.
             Default: None
-        global_clipnorm: (float, optional): Clip all weights so norm is not
-            higher than this. Default: None.
-        use_ema: (boolean, optional): Exponential moving average. Default=False.
-        ema_momentum: (float, optional): Exponential moving average momentum.
+        amsgrad (bool, optional): Whether to apply AMSGrad variant.
+            Default: False.
+        beta_1 (float, optional): The exponential decay rate for the 1st moment
+            estimates. Default: 0.9
+        beta_2 (float, optional): The exponential decay rate for the 2nd moment
+            estimates. Default: 0.999
+        use_ema (bool, optional): Exponential moving average. Default=False.
+        ema_momentum (float, optional): Exponential moving average momentum.
             Default=0.99.
-        ema_overwrite_frequency: (int, optional): Frequency of EMA overwrites.
+        ema_overwrite_frequency (int, optional): Frequency of EMA overwrites.
             Default: None.
-        jit_compile: (boolean, optional): Use XLA. Default=True.
     '''
     name: str = 'sgd'
     learning_rate: float = 0.001
@@ -80,6 +91,12 @@ class OptimizerConfig(BaseConfig):
     use_ema: bool = False
     ema_momentum: float = 0.99
     ema_overwrite_frequency: OptInt = None
+    sgd_momentum: float = 0.0
+    sgd_nesterov: bool = False
+    adam_epsilon: float = 1e-07
+    adam_amsgrad: bool = False
+    adam_beta_1: float = 0.9
+    adam_beta_2: float = 0.999
 
 
 class CompileConfig(BaseConfig):
@@ -96,10 +113,12 @@ class CompileConfig(BaseConfig):
             Default: None.
         tf_weighted_metrics (list[float], optional): List of metric weights.
             Default: None.
-        tf_run_eagerly (boolean, optional): Leave as False. Default: False.
+        tf_run_eagerly (bool, optional): Leave as False. Default: False.
         tf_steps_per_execution (int, optional): Number of batches per function
             call. Default: 1.
-        tf_jit_compile (boolean, optional): Use XLA. Default: False.
+        tf_jit_compile (bool, optional): Use XLA. Default: False.
+        tf_auto_scale_loss (bool, optional): Model dtype is mixed_float16 when
+            True. Default: True.
     '''
     loss: str
     metrics: list[str] = []
@@ -109,6 +128,7 @@ class CompileConfig(BaseConfig):
     tf_run_eagerly: bool = False
     tf_steps_per_execution: int = 1
     tf_jit_compile: bool = False
+    tf_auto_scale_loss: bool = True
 
 
 class CallbacksConfig(BaseConfig):
