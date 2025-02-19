@@ -48,7 +48,7 @@ class DatasetConfig(BaseConfig):
 
 class OptimizerConfig(BaseConfig):
     '''
-    Configuration for keras optimizer.
+    Configuration for optimizer.
 
     See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer
 
@@ -136,7 +136,7 @@ class CompileConfig(BaseConfig):
 
 class CallbacksConfig(BaseConfig):
     '''
-    Configuration for tensorflow callbacks.
+    Configuration for callbacks.
 
     See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.tools
     See: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
