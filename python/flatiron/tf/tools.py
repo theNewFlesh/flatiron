@@ -1,6 +1,6 @@
 from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
-from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
+from flatiron.core.types import Compiled, Filepath  # noqa: F401
 
 import math
 
@@ -12,6 +12,8 @@ import flatiron.core.tools as fict
 import flatiron.tf.loss as fi_tfloss
 import flatiron.tf.metric as fi_tfmetric
 import flatiron.tf.optimizer as fi_tfoptim
+
+Callbacks = dict[str, tfcallbacks.TensorBoard | tfcallbacks.ModelCheckpoint]
 # ------------------------------------------------------------------------------
 
 
