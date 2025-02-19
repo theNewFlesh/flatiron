@@ -123,14 +123,21 @@ def pre_build(device):
     pass
 
 
-def compile(model, optimizer, loss, metrics, device, kwargs):
-    # type: (Any, str, str, list[str], str, dict[str, Any]) -> dict[str, Any]
+def compile(
+    model,      # type: Any
+    optimizer,  # type: dict[str, Any]
+    loss,       # type: str
+    metrics,    # type: list[str]
+    device,     # type: str
+    kwargs,     # type: dict[str, Any]
+):
+    # type: (...) -> dict[str, Any]
     '''
     Call `torch.compile` on given model with kwargs.
 
     Args:
         model (Any): Model to be compiled.
-        optimizer (str): Optimizer to be compiled.
+        optimizer (dict): Optimizer config for compilation.
         loss (str): Loss to be compiled.
         metrics (list[str]): Metrics function to be compiled.
         device (str): Hardware device to compile to.
@@ -141,7 +148,7 @@ def compile(model, optimizer, loss, metrics, device, kwargs):
     '''
     return dict(
         model=torch.compile(model, **kwargs),
-        optimizer=fi_torchoptim.get(optimizer),
+        optimizer=fi_torchoptim.get(optimizer, model),
         loss=fi_torchloss.get(loss),
         metrics=[fi_torchmetric.get(m) for m in metrics],
         device=device,
