@@ -1,4 +1,4 @@
-from typing import Optional  # noqa F401
+from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
 from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
 
@@ -38,7 +38,8 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         checkpoint=tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     )
 
-s, metrics, device, kwargs={}):
+
+def compile(model, optimizer, loss, metrics, device, kwargs={}):
     # type: (Any, dict[str, Any], str, list[str], str, dict[str, Any]) -> dict[str, Any]
     '''
     Call `modile.compile` on given model with kwargs.
@@ -46,7 +47,7 @@ s, metrics, device, kwargs={}):
     Args:
         model (Any): Model to be compiled.
         optimizer (dict): Optimizer settings.
-    s (str): Loss to be compiled.
+        loss (str): Loss to be compiled.
         metrics (list[str]): Metrics function to be compiled.
         device (str): Hardware device to compile to.
         kwargs: Other params to be passed to `model.compile`.
