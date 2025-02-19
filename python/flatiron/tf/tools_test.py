@@ -1,6 +1,7 @@
 import os
 from tempfile import TemporaryDirectory
 
+import tensorflow as tf
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
 from keras import layers as tfl
@@ -43,6 +44,11 @@ class TFToolsTests(DatasetTestBase):
             )
             self.assertIsInstance(result['tensorboard'], tfcallbacks.TensorBoard)
             self.assertIsInstance(result['checkpoint'], tfcallbacks.ModelCheckpoint)
+
+    def test_pre_build(self):
+        fi_tftools.pre_build('cpu')
+        result = tf.config.get_visible_devices('GPU')
+        self.assertEqual(result, [])
 
     def test_compile(self):
         model = MockModel()
