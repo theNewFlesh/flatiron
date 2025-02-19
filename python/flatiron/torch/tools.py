@@ -84,16 +84,16 @@ def compile(model, optimizer, loss, metrics, device, kwargs):
 
 
 def _execute_epoch(
-    epoch,              # type: int
-    model,              # type: torch.nn.Module
-    data_loader,        # type: torch.utils.data.DataLoader
-    optimizer,          # type: torch.optim.Optimizer
-    loss_func,          # type: torch.nn.Module
-    device,             # type: torch.device
-    metrics_func=None,  # type: Optional[Callable[..., dict[str, float]]]
-    writer=None,        # type: Optional[SummaryWriter]
-    checkpoint=None,    # type: Optional[ModelCheckpoint]
-    mode='train',       # type: str
+    epoch,               # type: int
+    model,               # type: torch.nn.Module
+    data_loader,         # type: torch.utils.data.DataLoader
+    optimizer,           # type: torch.optim.Optimizer
+    loss_func,           # type: torch.nn.Module
+    device,              # type: torch.device
+    metrics_funcs=None,  # type: Optional[Callable[..., dict[str, float]]]
+    writer=None,         # type: Optional[SummaryWriter]
+    checkpoint=None,     # type: Optional[ModelCheckpoint]
+    mode='train',        # type: str
 ):
     # type: (...) -> None
     if mode == 'train':
@@ -132,8 +132,8 @@ def _execute_epoch(
 
             # gather batch metrics
             batch_metrics = {}
-            if metrics_func is not None:
-                batch_metrics = metrics_func(y_pred=y_pred, y_true=y)
+            if metrics_funcs is not None:
+                batch_metrics = metrics_funcs(y_pred=y_pred, y_true=y)
             batch_metrics['loss'] = loss
             metrics.append(batch_metrics)
 
@@ -225,7 +225,7 @@ def train(
         optimizer=optimizer,
         loss_func=loss,
         device=dev,
-        metrics_func=metrics,
+        metrics_funcs=metrics,
         writer=callbacks['tensorboard'],
     )
     for i in tqdm.trange(epochs):
