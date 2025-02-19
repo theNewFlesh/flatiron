@@ -50,6 +50,7 @@ dependencies = [
     "torch",
     "torchmetrics>=1.6.1",
     "torchvision",
+    "safetensors>=0.5.2",
 ]
 
 [project.urls]
