@@ -13,9 +13,9 @@ import flatiron.core.tools as fict
 import flatiron.torch.loss as fi_torchloss
 import flatiron.torch.metric as fi_torchmetric
 import flatiron.torch.optimizer as fi_torchoptim
-# ------------------------------------------------------------------------------
 
 
+# CALLBACKS---------------------------------------------------------------------
 class ModelCheckpoint:
     '''
     Class for saving PyTorch models.
@@ -73,6 +73,50 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     )
 
 
+# DATASET-----------------------------------------------------------------------
+class TorchDataset(Dataset, torchdata.Dataset):
+    '''
+    Class for inheriting torch Dataset into flatiron Dataset.
+    '''
+    @staticmethod
+    def monkey_patch(dataset):
+        # type: (Dataset) -> TorchDataset
+        '''
+        Construct and monkey patch a new TorchDataset instance from a given
+        Dataset.
+
+        Args:
+            dataset (Dataset): Dataset.
+
+        Returns:
+            TorchDataset: TorchDataset instance.
+        '''
+        this = TorchDataset(dataset.info)
+        this._info = dataset._info
+        this.data = dataset.data
+        this.labels = dataset.labels
+        this.label_axis = dataset.label_axis
+        this._ext_regex = dataset._ext_regex
+        this._calc_file_size = dataset._calc_file_size
+        this._sample_gb = dataset._sample_gb
+        return this
+
+    def __getitem__(self, frame):
+        # type: (int) -> torch.Tensor | list[torch.Tensor]
+        '''
+        Get tensor data by frame.
+
+        Returns:
+            torch.Tensor: Tensor or list of Tensors.
+        '''
+        items = self.get_arrays(frame)
+        output = list(map(torch.from_numpy, items))
+        if len(output) == 1:
+            return output[0]
+        return output
+
+
+# COMPILE-----------------------------------------------------------------------
 def pre_build(device):
     pass
 
@@ -102,6 +146,7 @@ def compile(model, optimizer, loss, metrics, device, kwargs):
     )
 
 
+# TRAIN-------------------------------------------------------------------------
 def _execute_epoch(
     epoch,               # type: int
     model,               # type: torch.nn.Module
@@ -192,48 +237,6 @@ def _execute_epoch(
 
         for key, val in epoch_metrics.items():
             writer.add_scalar(f'{mode}_epoch_{key}', val, epoch * epoch_size)
-
-
-class TorchDataset(Dataset, torchdata.Dataset):
-    '''
-    Class for inheriting torch Dataset into flatiron Dataset.
-    '''
-    @staticmethod
-    def monkey_patch(dataset):
-        # type: (Dataset) -> TorchDataset
-        '''
-        Construct and monkey patch a new TorchDataset instance from a given
-        Dataset.
-
-        Args:
-            dataset (Dataset): Dataset.
-
-        Returns:
-            TorchDataset: TorchDataset instance.
-        '''
-        this = TorchDataset(dataset.info)
-        this._info = dataset._info
-        this.data = dataset.data
-        this.labels = dataset.labels
-        this.label_axis = dataset.label_axis
-        this._ext_regex = dataset._ext_regex
-        this._calc_file_size = dataset._calc_file_size
-        this._sample_gb = dataset._sample_gb
-        return this
-
-    def __getitem__(self, frame):
-        # type: (int) -> torch.Tensor | list[torch.Tensor]
-        '''
-        Get tensor data by frame.
-
-        Returns:
-            torch.Tensor: Tensor or list of Tensors.
-        '''
-        items = self.get_arrays(frame)
-        output = list(map(torch.from_numpy, items))
-        if len(output) == 1:
-            return output[0]
-        return output
 
 
 def train(
