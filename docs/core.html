@@ -38,7 +38,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -61,6 +61,11 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">core</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.config">config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.BaseConfig"><code class="docutils literal notranslate"><span class="pre">BaseConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.BaseConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">BaseConfig._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.BaseConfig.model_config"><code class="docutils literal notranslate"><span class="pre">BaseConfig.model_config</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.CallbacksConfig"><code class="docutils literal notranslate"><span class="pre">CallbacksConfig</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CallbacksConfig.project"><code class="docutils literal notranslate"><span class="pre">CallbacksConfig.project</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CallbacksConfig.root"><code class="docutils literal notranslate"><span class="pre">CallbacksConfig.root</span></code></a></li>
@@ -87,20 +92,24 @@
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.CompileConfig"><code class="docutils literal notranslate"><span class="pre">CompileConfig</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.loss"><code class="docutils literal notranslate"><span class="pre">CompileConfig.loss</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.metrics"><code class="docutils literal notranslate"><span class="pre">CompileConfig.metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.device"><code class="docutils literal notranslate"><span class="pre">CompileConfig.device</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.tf_loss_weights"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_loss_weights</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.tf_weighted_metrics"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_weighted_metrics</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.tf_run_eagerly"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_run_eagerly</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.tf_steps_per_execution"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_steps_per_execution</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.tf_jit_compile"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_jit_compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.tf_auto_scale_loss"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_auto_scale_loss</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">CompileConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">CompileConfig.loss</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">CompileConfig.metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9"><code class="docutils literal notranslate"><span class="pre">CompileConfig.device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10"><code class="docutils literal notranslate"><span class="pre">CompileConfig.loss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">CompileConfig.metrics</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.CompileConfig.model_config"><code class="docutils literal notranslate"><span class="pre">CompileConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id11"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_jit_compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_loss_weights</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_run_eagerly</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_steps_per_execution</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_weighted_metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id12"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_auto_scale_loss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id13"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_jit_compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_loss_weights</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id15"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_run_eagerly</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_steps_per_execution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_weighted_metrics</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul>
@@ -110,18 +119,20 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.label_axis"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.label_axis</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.test_size"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.limit"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.reshape"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.reshape</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.shuffle"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.seed"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.seed</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">DatasetConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id16"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.ext_regex</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id17"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.label_axis</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.labels</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id18"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.ext_regex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id19"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.label_axis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.labels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.DatasetConfig.model_config"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id20"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.seed</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id21"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.source</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id22"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.reshape</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.seed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.LoggerConfig"><code class="docutils literal notranslate"><span class="pre">LoggerConfig</span></code></a><ul>
@@ -132,41 +143,49 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.level"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">LoggerConfig._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig._validate_slack_methods"><code class="docutils literal notranslate"><span class="pre">LoggerConfig._validate_slack_methods()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id24"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.LoggerConfig.model_config"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id25"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_channel</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id26"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_methods</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id27"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id28"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_channel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id29"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id30"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id31"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.class_name"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.class_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.name"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.learning_rate"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.momentum"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.momentum</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.nesterov"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.nesterov</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.weight_decay"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.weight_decay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.epsilon"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.epsilon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.loss_scale_factor"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.loss_scale_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.gradient_accumulation_steps"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.gradient_accumulation_steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.global_clipnorm"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.clipnorm"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.clipvalue"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.global_clipnorm"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.amsgrad"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.amsgrad</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.beta_1"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.beta_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.beta_2"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.beta_2</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.use_ema"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.ema_momentum"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.ema_overwrite_frequency"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.jit_compile"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id29"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.class_name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id30"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id31"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id32"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id33"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id34"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id35"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id36"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.adam_amsgrad"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_amsgrad</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.adam_beta_1"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_beta_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.adam_beta_2"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_beta_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.adam_epsilon"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_epsilon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id32"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id33"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id34"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id35"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id36"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id37"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.gradient_accumulation_steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id38"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id39"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.loss_scale_factor</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.model_config"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id37"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.momentum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id38"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.nesterov</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id39"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.weight_decay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id40"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.sgd_momentum"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.sgd_momentum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.OptimizerConfig.sgd_nesterov"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.sgd_nesterov</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id41"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.PipelineConfig"><code class="docutils literal notranslate"><span class="pre">PipelineConfig</span></code></a><ul>
@@ -178,14 +197,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig.logger"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig.train"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.train</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">PipelineConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id41"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id42"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id43"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id44"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.engine</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id45"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id42"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id43"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id44"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id45"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.engine</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id46"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.PipelineConfig.model_config"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id46"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id47"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.train</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id47"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id48"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.train</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.config.TrainConfig"><code class="docutils literal notranslate"><span class="pre">TrainConfig</span></code></a><ul>
@@ -197,14 +216,14 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.TrainConfig.initial_epoch"><code class="docutils literal notranslate"><span class="pre">TrainConfig.initial_epoch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.TrainConfig.validation_freq"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_freq</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.TrainConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">TrainConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id48"><code class="docutils literal notranslate"><span class="pre">TrainConfig.batch_size</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id49"><code class="docutils literal notranslate"><span class="pre">TrainConfig.epochs</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id50"><code class="docutils literal notranslate"><span class="pre">TrainConfig.initial_epoch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id49"><code class="docutils literal notranslate"><span class="pre">TrainConfig.batch_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id50"><code class="docutils literal notranslate"><span class="pre">TrainConfig.epochs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id51"><code class="docutils literal notranslate"><span class="pre">TrainConfig.initial_epoch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.config.TrainConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TrainConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id51"><code class="docutils literal notranslate"><span class="pre">TrainConfig.shuffle</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_freq</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id53"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_split</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id54"><code class="docutils literal notranslate"><span class="pre">TrainConfig.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id52"><code class="docutils literal notranslate"><span class="pre">TrainConfig.shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id53"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_freq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id54"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_split</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id55"><code class="docutils literal notranslate"><span class="pre">TrainConfig.verbose</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -219,6 +238,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.asset_name"><code class="docutils literal notranslate"><span class="pre">Dataset.asset_name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.asset_path"><code class="docutils literal notranslate"><span class="pre">Dataset.asset_path</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.filepaths"><code class="docutils literal notranslate"><span class="pre">Dataset.filepaths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.get_arrays"><code class="docutils literal notranslate"><span class="pre">Dataset.get_arrays()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.get_filepath"><code class="docutils literal notranslate"><span class="pre">Dataset.get_filepath()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.info"><code class="docutils literal notranslate"><span class="pre">Dataset.info</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.load"><code class="docutils literal notranslate"><span class="pre">Dataset.load()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.dataset.Dataset.read_csv"><code class="docutils literal notranslate"><span class="pre">Dataset.read_csv()</span></code></a></li>
@@ -321,9 +342,26 @@
 <section id="module-flatiron.core.config">
 <span id="config"></span><h2>config<a class="headerlink" href="#module-flatiron.core.config" title="Link to this heading"></a></h2>
 <dl class="py class">
+<dt class="sig sig-object py" id="flatiron.core.config.BaseConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">BaseConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#BaseConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.BaseConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.BaseConfig._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.core.config.BaseConfig._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.BaseConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.BaseConfig.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.CallbacksConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">CallbacksConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#CallbacksConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.CallbacksConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for tensorflow callbacks.</p>
 <p>See: <a class="reference external" href="https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.tools">https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.tools</a>
 See: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint">https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint</a></p>
@@ -438,7 +476,7 @@ Default: None.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">initial_value_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">initial_value_threshold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -448,7 +486,7 @@ Default: None.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.CallbacksConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.CallbacksConfig.model_config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.CallbacksConfig.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
@@ -492,7 +530,7 @@ Default: None.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.CompileConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">CompileConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#CompileConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.CompileConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for calls to model.compile.</p>
 <p>See: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile">https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile</a></p>
 <dl class="py attribute">
@@ -513,6 +551,17 @@ Default: None.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>list[str], optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.CompileConfig.device">
+<span class="sig-name descname"><span class="pre">device</span></span><a class="headerlink" href="#flatiron.core.config.CompileConfig.device" title="Link to this definition"></a></dt>
+<dd><p>Hardware device. Default: ‘gpu’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str, optional</p>
 </dd>
 </dl>
 </dd></dl>
@@ -547,7 +596,7 @@ Default: None.</p>
 <dd><p>Leave as False. Default: False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>boolean, optional</p>
+<dd class="field-odd"><p>bool, optional</p>
 </dd>
 </dl>
 </dd></dl>
@@ -570,7 +619,19 @@ call. Default: 1.</p>
 <dd><p>Use XLA. Default: False.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>boolean, optional</p>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.CompileConfig.tf_auto_scale_loss">
+<span class="sig-name descname"><span class="pre">tf_auto_scale_loss</span></span><a class="headerlink" href="#flatiron.core.config.CompileConfig.tf_auto_scale_loss" title="Link to this definition"></a></dt>
+<dd><p>Model dtype is mixed_float16 when
+True. Default: True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
 </dd>
 </dl>
 </dd></dl>
@@ -582,43 +643,53 @@ call. Default: 1.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">loss</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">loss</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.CompileConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.CompileConfig.model_config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.CompileConfig.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">tf_jit_compile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">tf_loss_weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tf_auto_scale_loss</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id12" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">tf_run_eagerly</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tf_jit_compile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id13" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">tf_steps_per_execution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tf_loss_weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id14" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">tf_weighted_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tf_run_eagerly</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id15" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">tf_steps_per_execution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">tf_weighted_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -626,7 +697,7 @@ call. Default: 1.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.DatasetConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">DatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#DatasetConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.DatasetConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for Dataset.</p>
 <p>See: <a class="reference external" href="https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.dataset">https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.dataset</a></p>
 <dl class="py attribute">
@@ -699,6 +770,19 @@ Default: None.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.DatasetConfig.reshape">
+<span class="sig-name descname"><span class="pre">reshape</span></span><a class="headerlink" href="#flatiron.core.config.DatasetConfig.reshape" title="Link to this definition"></a></dt>
+<dd><p>Reshape concatenated data to incorpate frames
+as the first dimension: (FRAME, …). Analogous to the first
+dimension being batch. Default: True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.DatasetConfig.shuffle">
 <span class="sig-name descname"><span class="pre">shuffle</span></span><a class="headerlink" href="#flatiron.core.config.DatasetConfig.shuffle" title="Link to this definition"></a></dt>
 <dd><p>Randomize data before splitting.
@@ -727,49 +811,54 @@ Default: True.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">ext_regex</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id16" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id17">
-<span class="sig-name descname"><span class="pre">label_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id17" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id18">
-<span class="sig-name descname"><span class="pre">labels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">],</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">],</span> <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code><span class="pre">]</span></em><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ext_regex</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id18" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id19">
-<span class="sig-name descname"><span class="pre">limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">label_axis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id19" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.DatasetConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.DatasetConfig.model_config" title="Link to this definition"></a></dt>
-<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id20">
-<span class="sig-name descname"><span class="pre">seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">labels</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">],</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">],</span> <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code><span class="pre">]</span></em><a class="headerlink" href="#id20" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id21">
-<span class="sig-name descname"><span class="pre">shuffle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">limit</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id21" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.DatasetConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.DatasetConfig.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id22">
-<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reshape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id22" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id23">
-<span class="sig-name descname"><span class="pre">test_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id23" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">shuffle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">test_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -777,7 +866,7 @@ Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.LoggerConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">LoggerConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#LoggerConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.LoggerConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for logger.</p>
 <p>See: <a class="reference external" href="https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.logging">https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.logging</a></p>
 <dl class="py attribute">
@@ -847,34 +936,34 @@ Slack. Default: [load, compile, train].</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id24">
-<span class="sig-name descname"><span class="pre">level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id24" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">level</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.LoggerConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.LoggerConfig.model_config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.LoggerConfig.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id25">
-<span class="sig-name descname"><span class="pre">slack_channel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id25" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id26">
-<span class="sig-name descname"><span class="pre">slack_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id26" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="id27">
-<span class="sig-name descname"><span class="pre">slack_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id27" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id28">
-<span class="sig-name descname"><span class="pre">timezone</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">slack_channel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id28" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">slack_methods</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">slack_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">timezone</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -882,84 +971,194 @@ Slack. Default: [load, compile, train].</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">OptimizerConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#OptimizerConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.OptimizerConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for keras optimizer.</p>
 <p>See: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer">https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer</a></p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.class_name">
-<span class="sig-name descname"><span class="pre">class_name</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.class_name" title="Link to this definition"></a></dt>
-<dd><p>(string, optional): Name of optimizer. Default=’sgd’.</p>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.name" title="Link to this definition"></a></dt>
+<dd><p>Name of optimizer. Default=’sgd’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>string, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.learning_rate">
 <span class="sig-name descname"><span class="pre">learning_rate</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.learning_rate" title="Link to this definition"></a></dt>
-<dd><p>(float, optional): Learning rate. Default=0.001.</p>
+<dd><p>Learning rate. Default=0.001.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.momentum">
 <span class="sig-name descname"><span class="pre">momentum</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.momentum" title="Link to this definition"></a></dt>
-<dd><p>(float, optional): Momentum. Default=0.</p>
+<dd><p>Momentum. Default=0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.nesterov">
 <span class="sig-name descname"><span class="pre">nesterov</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.nesterov" title="Link to this definition"></a></dt>
-<dd><p>(boolean, optional): User Nesterov updates. Default=False.</p>
+<dd><p>User Nesterov updates. Default=False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.weight_decay">
-<span class="sig-name descname"><span class="pre">weight_decay</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.weight_decay" title="Link to this definition"></a></dt>
-<dd><p>(string, optional): Decay weights. Default: None.</p>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.epsilon">
+<span class="sig-name descname"><span class="pre">epsilon</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.epsilon" title="Link to this definition"></a></dt>
+<dd><p>A small constant for numerical stability.
+Default: 1e-07</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.clipnorm">
-<span class="sig-name descname"><span class="pre">clipnorm</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.clipnorm" title="Link to this definition"></a></dt>
-<dd><p>(float, optional): Clip individual weights so norm is not
-higher than this. Default: None.</p>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.loss_scale_factor">
+<span class="sig-name descname"><span class="pre">loss_scale_factor</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.loss_scale_factor" title="Link to this definition"></a></dt>
+<dd><p>Will be multiply the loss before
+computing gradients. Default: None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>OptFloat, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.clipvalue">
-<span class="sig-name descname"><span class="pre">clipvalue</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.clipvalue" title="Link to this definition"></a></dt>
-<dd><p>(float, optional): Clip weights at this max value.
-Default: None</p>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.gradient_accumulation_steps">
+<span class="sig-name descname"><span class="pre">gradient_accumulation_steps</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.gradient_accumulation_steps" title="Link to this definition"></a></dt>
+<dd><p>Update model and
+optimizer at this frequency. Default: None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>OptInt, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.global_clipnorm">
 <span class="sig-name descname"><span class="pre">global_clipnorm</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.global_clipnorm" title="Link to this definition"></a></dt>
-<dd><p>(float, optional): Clip all weights so norm is not
+<dd><p>Clip all weights so norm is not
 higher than this. Default: None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.clipnorm">
+<span class="sig-name descname"><span class="pre">clipnorm</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.clipnorm" title="Link to this definition"></a></dt>
+<dd><p>Clip individual weights so norm is not
+higher than this. Default: None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.clipvalue">
+<span class="sig-name descname"><span class="pre">clipvalue</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.clipvalue" title="Link to this definition"></a></dt>
+<dd><p>Clip weights at this max value.
+Default: None</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.amsgrad">
+<span class="sig-name descname"><span class="pre">amsgrad</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.amsgrad" title="Link to this definition"></a></dt>
+<dd><p>Whether to apply AMSGrad variant.
+Default: False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.beta_1">
+<span class="sig-name descname"><span class="pre">beta_1</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.beta_1" title="Link to this definition"></a></dt>
+<dd><p>The exponential decay rate for the 1st moment
+estimates. Default: 0.9</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.beta_2">
+<span class="sig-name descname"><span class="pre">beta_2</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.beta_2" title="Link to this definition"></a></dt>
+<dd><p>The exponential decay rate for the 2nd moment
+estimates. Default: 0.999</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.use_ema">
 <span class="sig-name descname"><span class="pre">use_ema</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.use_ema" title="Link to this definition"></a></dt>
-<dd><p>(boolean, optional): Exponential moving average. Default=False.</p>
+<dd><p>Exponential moving average. Default=False.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.ema_momentum">
 <span class="sig-name descname"><span class="pre">ema_momentum</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.ema_momentum" title="Link to this definition"></a></dt>
-<dd><p>(float, optional): Exponential moving average momentum.
+<dd><p>Exponential moving average momentum.
 Default=0.99.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.ema_overwrite_frequency">
 <span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.ema_overwrite_frequency" title="Link to this definition"></a></dt>
-<dd><p>(int, optional): Frequency of EMA overwrites.
+<dd><p>Frequency of EMA overwrites.
 Default: None.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.jit_compile">
-<span class="sig-name descname"><span class="pre">jit_compile</span></span><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.jit_compile" title="Link to this definition"></a></dt>
-<dd><p>(boolean, optional): Use XLA. Default=True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int, optional</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -968,69 +1167,89 @@ Default: None.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id29">
-<span class="sig-name descname"><span class="pre">class_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id29" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.adam_amsgrad">
+<span class="sig-name descname"><span class="pre">adam_amsgrad</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.adam_amsgrad" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id30">
-<span class="sig-name descname"><span class="pre">clipnorm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#id30" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.adam_beta_1">
+<span class="sig-name descname"><span class="pre">adam_beta_1</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.adam_beta_1" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id31">
-<span class="sig-name descname"><span class="pre">clipvalue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#id31" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.adam_beta_2">
+<span class="sig-name descname"><span class="pre">adam_beta_2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.adam_beta_2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.adam_epsilon">
+<span class="sig-name descname"><span class="pre">adam_epsilon</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.adam_epsilon" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id32">
-<span class="sig-name descname"><span class="pre">ema_momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">clipnorm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id32" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id33">
-<span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">clipvalue</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id33" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id34">
-<span class="sig-name descname"><span class="pre">global_clipnorm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ema_momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id34" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id35">
-<span class="sig-name descname"><span class="pre">jit_compile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id35" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id36">
-<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">global_clipnorm</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id36" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.model_config" title="Link to this definition"></a></dt>
-<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
-</dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id37">
-<span class="sig-name descname"><span class="pre">momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gradient_accumulation_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id37" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id38">
-<span class="sig-name descname"><span class="pre">nesterov</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id38" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id39">
-<span class="sig-name descname"><span class="pre">use_ema</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">loss_scale_factor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id39" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="id40">
-<span class="sig-name descname"><span class="pre">weight_decay</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id40" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.sgd_momentum">
+<span class="sig-name descname"><span class="pre">sgd_momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.sgd_momentum" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.core.config.OptimizerConfig.sgd_nesterov">
+<span class="sig-name descname"><span class="pre">sgd_nesterov</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#flatiron.core.config.OptimizerConfig.sgd_nesterov" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id41">
+<span class="sig-name descname"><span class="pre">use_ema</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1038,7 +1257,7 @@ Default: None.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.PipelineConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">PipelineConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#PipelineConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.PipelineConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for PipelineBase classes.</p>
 <p>See: <a class="reference external" href="https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.pipeline">https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.pipeline</a></p>
 <dl class="py attribute">
@@ -1124,44 +1343,44 @@ Default: None.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id41">
-<span class="sig-name descname"><span class="pre">callbacks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.CallbacksConfig" title="flatiron.core.config.CallbacksConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CallbacksConfig</span></code></a></em><a class="headerlink" href="#id41" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id42">
-<span class="sig-name descname"><span class="pre">compile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.CompileConfig" title="flatiron.core.config.CompileConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompileConfig</span></code></a></em><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">callbacks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.CallbacksConfig" title="flatiron.core.config.CallbacksConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CallbacksConfig</span></code></a></em><a class="headerlink" href="#id42" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id43">
-<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.DatasetConfig" title="flatiron.core.config.DatasetConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a></em><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">compile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.CompileConfig" title="flatiron.core.config.CompileConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">CompileConfig</span></code></a></em><a class="headerlink" href="#id43" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id44">
-<span class="sig-name descname"><span class="pre">engine</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.DatasetConfig" title="flatiron.core.config.DatasetConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a></em><a class="headerlink" href="#id44" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id45">
-<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.LoggerConfig" title="flatiron.core.config.LoggerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoggerConfig</span></code></a></em><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">engine</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id45" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id46">
+<span class="sig-name descname"><span class="pre">logger</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.LoggerConfig" title="flatiron.core.config.LoggerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoggerConfig</span></code></a></em><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.PipelineConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.PipelineConfig.model_config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.PipelineConfig.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id46">
-<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.OptimizerConfig" title="flatiron.core.config.OptimizerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizerConfig</span></code></a></em><a class="headerlink" href="#id46" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id47">
+<span class="sig-name descname"><span class="pre">optimizer</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.OptimizerConfig" title="flatiron.core.config.OptimizerConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">OptimizerConfig</span></code></a></em><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id47">
-<span class="sig-name descname"><span class="pre">train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.TrainConfig" title="flatiron.core.config.TrainConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainConfig</span></code></a></em><a class="headerlink" href="#id47" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="id48">
+<span class="sig-name descname"><span class="pre">train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#flatiron.core.config.TrainConfig" title="flatiron.core.config.TrainConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TrainConfig</span></code></a></em><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1169,7 +1388,7 @@ Default: None.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.core.config.TrainConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.config.</span></span><span class="sig-name descname"><span class="pre">TrainConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/config.html#TrainConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.config.TrainConfig" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.core.config.BaseConfig" title="flatiron.core.config.BaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseConfig</span></code></a></p>
 <p>Configuration for calls to model train function.</p>
 <p>See: <a class="reference external" href="https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit">https://www.tensorflow.org/api_docs/python/tf/keras/Model#fit</a></p>
 <dl class="py attribute">
@@ -1262,44 +1481,44 @@ validation. Default: 1.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id48">
-<span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id48" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id49">
-<span class="sig-name descname"><span class="pre">epochs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">batch_size</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id49" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id50">
-<span class="sig-name descname"><span class="pre">initial_epoch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">epochs</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id50" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id51">
+<span class="sig-name descname"><span class="pre">initial_epoch</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.core.config.TrainConfig.model_config">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.core.config.TrainConfig.model_config" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#flatiron.core.config.TrainConfig.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="id51">
-<span class="sig-name descname"><span class="pre">shuffle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id51" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt class="sig sig-object py" id="id52">
-<span class="sig-name descname"><span class="pre">validation_freq</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">shuffle</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#id52" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id53">
-<span class="sig-name descname"><span class="pre">validation_split</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">validation_freq</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id53" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id54">
-<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">validation_split</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#id54" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id55">
+<span class="sig-name descname"><span class="pre">verbose</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id55" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1428,6 +1647,43 @@ str: Asset path of Dataset.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">filepaths</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#flatiron.core.dataset.Dataset.filepaths" title="Link to this definition"></a></dt>
 <dd><p>Returns:
 list[str]: Filepaths sorted by frame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.dataset.Dataset.get_arrays">
+<span class="sig-name descname"><span class="pre">get_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/dataset.html#Dataset.get_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.dataset.Dataset.get_arrays" title="Link to this definition"></a></dt>
+<dd><p>Get data and convert into numpy arrays according to labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> (<em>int</em>) – Frame.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IndexError</strong> – If frame is missing or multiple frames were found.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of arrays from the given frame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[np.ndarray]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.dataset.Dataset.get_filepath">
+<span class="sig-name descname"><span class="pre">get_filepath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/dataset.html#Dataset.get_filepath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.dataset.Dataset.get_filepath" title="Link to this definition"></a></dt>
+<dd><p>Get filepath of given frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>IndexError</strong> – If frame is missing or multiple frames were found.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filepath of given frame.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -2011,14 +2267,15 @@ length.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="flatiron.core.tools.resolve_kwargs">
-<span class="sig-prename descclassname"><span class="pre">flatiron.core.tools.</span></span><span class="sig-name descname"><span class="pre">resolve_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">engine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/tools.html#resolve_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.tools.resolve_kwargs" title="Link to this definition"></a></dt>
-<dd><p>Filter keyword arguments base on engine and return them minus the engine
-prefix.</p>
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.tools.</span></span><span class="sig-name descname"><span class="pre">resolve_kwargs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'both'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/tools.html#resolve_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.tools.resolve_kwargs" title="Link to this definition"></a></dt>
+<dd><p>Filter keyword arguments base on prefix and return them minus the prefix.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>engine</strong> (<em>str</em>) – Engine name.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em>) – Prefix name.</p></li>
 <li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs dict.</p></li>
+<li><p><strong>return_keys</strong> (<em>str</em><em>, </em><em>optional</em>) – Which kind of keys to return.
+Options: [prefix, non-prefix, both]. Default: both.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>

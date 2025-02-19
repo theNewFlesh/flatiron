@@ -39,7 +39,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -96,6 +96,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="core.html">core</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="core.html#module-flatiron.core.config">config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.BaseConfig"><code class="docutils literal notranslate"><span class="pre">BaseConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.BaseConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">BaseConfig._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.BaseConfig.model_config"><code class="docutils literal notranslate"><span class="pre">BaseConfig.model_config</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.CallbacksConfig"><code class="docutils literal notranslate"><span class="pre">CallbacksConfig</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CallbacksConfig.project"><code class="docutils literal notranslate"><span class="pre">CallbacksConfig.project</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CallbacksConfig.root"><code class="docutils literal notranslate"><span class="pre">CallbacksConfig.root</span></code></a></li>
@@ -122,20 +127,24 @@
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig"><code class="docutils literal notranslate"><span class="pre">CompileConfig</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.loss"><code class="docutils literal notranslate"><span class="pre">CompileConfig.loss</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.metrics"><code class="docutils literal notranslate"><span class="pre">CompileConfig.metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.device"><code class="docutils literal notranslate"><span class="pre">CompileConfig.device</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.tf_loss_weights"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_loss_weights</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.tf_weighted_metrics"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_weighted_metrics</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.tf_run_eagerly"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_run_eagerly</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.tf_steps_per_execution"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_steps_per_execution</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.tf_jit_compile"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_jit_compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.tf_auto_scale_loss"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_auto_scale_loss</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">CompileConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id9"><code class="docutils literal notranslate"><span class="pre">CompileConfig.loss</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id10"><code class="docutils literal notranslate"><span class="pre">CompileConfig.metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id9"><code class="docutils literal notranslate"><span class="pre">CompileConfig.device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id10"><code class="docutils literal notranslate"><span class="pre">CompileConfig.loss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id11"><code class="docutils literal notranslate"><span class="pre">CompileConfig.metrics</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.CompileConfig.model_config"><code class="docutils literal notranslate"><span class="pre">CompileConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id11"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_jit_compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id12"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_loss_weights</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id13"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_run_eagerly</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id14"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_steps_per_execution</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id15"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_weighted_metrics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id12"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_auto_scale_loss</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id13"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_jit_compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id14"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_loss_weights</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id15"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_run_eagerly</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id16"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_steps_per_execution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id17"><code class="docutils literal notranslate"><span class="pre">CompileConfig.tf_weighted_metrics</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul>
@@ -145,18 +154,20 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.label_axis"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.label_axis</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.test_size"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.limit"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.reshape"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.reshape</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.shuffle"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.seed"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.seed</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">DatasetConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id16"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.ext_regex</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id17"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.label_axis</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id18"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.labels</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id19"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id18"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.ext_regex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id19"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.label_axis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id20"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.labels</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id21"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.limit</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.DatasetConfig.model_config"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id20"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.seed</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id21"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id22"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.source</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id23"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id22"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.reshape</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id23"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.seed</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id24"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id25"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.source</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id26"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.test_size</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.LoggerConfig"><code class="docutils literal notranslate"><span class="pre">LoggerConfig</span></code></a><ul>
@@ -167,41 +178,49 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.LoggerConfig.level"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.LoggerConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">LoggerConfig._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.LoggerConfig._validate_slack_methods"><code class="docutils literal notranslate"><span class="pre">LoggerConfig._validate_slack_methods()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id24"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id27"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.level</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.LoggerConfig.model_config"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id25"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_channel</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id26"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_methods</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id27"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id28"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id28"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_channel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id29"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_methods</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id30"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.slack_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id31"><code class="docutils literal notranslate"><span class="pre">LoggerConfig.timezone</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.class_name"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.class_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.name"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.learning_rate"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.momentum"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.momentum</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.nesterov"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.nesterov</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.weight_decay"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.weight_decay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.epsilon"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.epsilon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.loss_scale_factor"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.loss_scale_factor</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.gradient_accumulation_steps"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.gradient_accumulation_steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.global_clipnorm"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.clipnorm"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.clipvalue"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.global_clipnorm"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.amsgrad"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.amsgrad</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.beta_1"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.beta_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.beta_2"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.beta_2</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.use_ema"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.ema_momentum"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.ema_overwrite_frequency"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.jit_compile"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id29"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.class_name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id30"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id31"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id32"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id33"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id34"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id35"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.jit_compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id36"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.adam_amsgrad"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_amsgrad</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.adam_beta_1"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_beta_1</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.adam_beta_2"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_beta_2</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.adam_epsilon"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.adam_epsilon</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id32"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id33"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.clipvalue</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id34"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_momentum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id35"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.ema_overwrite_frequency</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id36"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.global_clipnorm</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id37"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.gradient_accumulation_steps</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id38"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.learning_rate</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id39"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.loss_scale_factor</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.model_config"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id37"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.momentum</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id38"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.nesterov</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id39"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id40"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.weight_decay</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id40"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.sgd_momentum"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.sgd_momentum</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.OptimizerConfig.sgd_nesterov"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.sgd_nesterov</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id41"><code class="docutils literal notranslate"><span class="pre">OptimizerConfig.use_ema</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig"><code class="docutils literal notranslate"><span class="pre">PipelineConfig</span></code></a><ul>
@@ -213,14 +232,14 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.logger"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.train"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.train</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">PipelineConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id41"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id42"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id43"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id44"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.engine</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id45"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id42"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.callbacks</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id43"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.compile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id44"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dataset</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id45"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.engine</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id46"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.logger</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.PipelineConfig.model_config"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id46"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id47"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.train</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id47"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.optimizer</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id48"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.train</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="core.html#flatiron.core.config.TrainConfig"><code class="docutils literal notranslate"><span class="pre">TrainConfig</span></code></a><ul>
@@ -232,14 +251,14 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.TrainConfig.initial_epoch"><code class="docutils literal notranslate"><span class="pre">TrainConfig.initial_epoch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.TrainConfig.validation_freq"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_freq</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.TrainConfig._abc_impl"><code class="docutils literal notranslate"><span class="pre">TrainConfig._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id48"><code class="docutils literal notranslate"><span class="pre">TrainConfig.batch_size</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id49"><code class="docutils literal notranslate"><span class="pre">TrainConfig.epochs</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id50"><code class="docutils literal notranslate"><span class="pre">TrainConfig.initial_epoch</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id49"><code class="docutils literal notranslate"><span class="pre">TrainConfig.batch_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id50"><code class="docutils literal notranslate"><span class="pre">TrainConfig.epochs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id51"><code class="docutils literal notranslate"><span class="pre">TrainConfig.initial_epoch</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.config.TrainConfig.model_config"><code class="docutils literal notranslate"><span class="pre">TrainConfig.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id51"><code class="docutils literal notranslate"><span class="pre">TrainConfig.shuffle</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id52"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_freq</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id53"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_split</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="core.html#id54"><code class="docutils literal notranslate"><span class="pre">TrainConfig.verbose</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id52"><code class="docutils literal notranslate"><span class="pre">TrainConfig.shuffle</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id53"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_freq</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id54"><code class="docutils literal notranslate"><span class="pre">TrainConfig.validation_split</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#id55"><code class="docutils literal notranslate"><span class="pre">TrainConfig.verbose</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -254,6 +273,8 @@
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.asset_name"><code class="docutils literal notranslate"><span class="pre">Dataset.asset_name</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.asset_path"><code class="docutils literal notranslate"><span class="pre">Dataset.asset_path</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.filepaths"><code class="docutils literal notranslate"><span class="pre">Dataset.filepaths</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.get_arrays"><code class="docutils literal notranslate"><span class="pre">Dataset.get_arrays()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.get_filepath"><code class="docutils literal notranslate"><span class="pre">Dataset.get_filepath()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.info"><code class="docutils literal notranslate"><span class="pre">Dataset.info</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.load"><code class="docutils literal notranslate"><span class="pre">Dataset.load()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="core.html#flatiron.core.dataset.Dataset.read_csv"><code class="docutils literal notranslate"><span class="pre">Dataset.read_csv()</span></code></a></li>
@@ -352,6 +373,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.tools">tools</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.tools.compile"><code class="docutils literal notranslate"><span class="pre">compile()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.tools.get_callbacks"><code class="docutils literal notranslate"><span class="pre">get_callbacks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.tools.pre_build"><code class="docutils literal notranslate"><span class="pre">pre_build()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="tf.html#flatiron.tf.tools.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
 </ul>
 </li>

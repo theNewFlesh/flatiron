@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -94,7 +94,6 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">tfb</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span> <span class="k">as</span> <span class="n">tfmetric</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
@@ -181,10 +180,12 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        tf.Tensor: IOU metric.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">yt</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
-    <span class="n">yp</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yt</span> <span class="o">*</span> <span class="n">yp</span><span class="p">)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">+</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
+    <span class="n">yt</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">yp</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">yt</span> <span class="o">*</span> <span class="n">yp</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
     <span class="n">iou</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">iou</span></div>
 
@@ -246,10 +247,12 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        tf.Tensor: Jaccard metric.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">+</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">y_true</span> <span class="o">+</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">-</span> <span class="n">i</span>
     <span class="n">jacc</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="mf">1.0</span><span class="p">)</span>
-    <span class="n">jacc</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">jacc</span><span class="p">)</span>
+    <span class="n">jacc</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">jacc</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">jacc</span></div>
 
 
@@ -311,10 +314,12 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        tf.Tensor: Dice metric.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">yt</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">y_true</span><span class="p">)</span>
-    <span class="n">yp</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yt</span> <span class="o">*</span> <span class="n">yp</span><span class="p">)</span>
-    <span class="n">u</span> <span class="o">=</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">+</span> <span class="n">tfb</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float16&#39;</span><span class="p">)</span>
+    <span class="n">yt</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">yp</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">yt</span> <span class="o">*</span> <span class="n">yp</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">yt</span><span class="p">)</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">yp</span><span class="p">)</span>
     <span class="n">dice</span> <span class="o">=</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">i</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">u</span> <span class="o">+</span> <span class="n">smooth</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dice</span></div>
 

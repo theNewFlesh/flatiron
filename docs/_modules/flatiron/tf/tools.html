@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -90,14 +90,14 @@
              
   <h1>Source code for flatiron.tf.tools</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">models</span> <span class="k">as</span> <span class="n">tfmodels</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callbacks</span><span class="p">,</span> <span class="n">Compiled</span><span class="p">,</span> <span class="n">Filepath</span>  <span class="c1"># noqa: F401</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="kn">import</span> <span class="n">keras</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">keras</span><span class="w"> </span><span class="kn">import</span> <span class="n">callbacks</span> <span class="k">as</span> <span class="n">tfcallbacks</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
@@ -126,18 +126,43 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">fict</span><span class="o">.</span><span class="n">enforce_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
-        <span class="n">tensorboard</span><span class="o">=</span><span class="n">tfcallbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">histogram_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+        <span class="n">tensorboard</span><span class="o">=</span><span class="n">tfcallbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span>
+            <span class="n">log_dir</span><span class="o">=</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">histogram_freq</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">update_freq</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">),</span>
         <span class="n">checkpoint</span><span class="o">=</span><span class="n">tfcallbacks</span><span class="o">.</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="o">**</span><span class="n">checkpoint_params</span><span class="p">),</span>
     <span class="p">)</span></div>
 
 
 
+<div class="viewcode-block" id="pre_build">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.tools.pre_build">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pre_build</span><span class="p">(</span><span class="n">device</span><span class="p">):</span>
+    <span class="c1"># type: (str) -&gt; None</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets hardware device.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        device (str): Hardware device.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;cpu&#39;</span><span class="p">:</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set_visible_devices</span><span class="p">([],</span> <span class="s1">&#39;GPU&#39;</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="compile">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.tools.compile">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">compile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="c1"># type: (Any, str, str, list[str], dict[str, Any]) -&gt; dict[str, Any]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">compile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="c1"># type: (Any, dict[str, Any], str, list[str], str, dict[str, Any]) -&gt; dict[str, Any]</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Call `modile.compile` on given model with kwargs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model (Any): Model to be compiled.</span>
+<span class="sd">        optimizer (dict): Optimizer settings.</span>
+<span class="sd">        loss (str): Loss to be compiled.</span>
+<span class="sd">        metrics (list[str]): Metrics function to be compiled.</span>
+<span class="sd">        device (str): Hardware device to compile to.</span>
+<span class="sd">        kwargs: Other params to be passed to `model.compile`.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Dict of compiled objects.</span>

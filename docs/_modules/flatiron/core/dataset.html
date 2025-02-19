@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -409,13 +409,27 @@
         <span class="c1"># type: (int) -&gt; Any</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Get data by frame.</span>
-<span class="sd">        If self.labels is not None, returns data and label pair.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            IndexError: If frame is missing or multiple frames were found.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            object: Data, or data and label, from frame.</span>
+<span class="sd">            object: Data of given frame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">frame</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Dataset.get_filepath">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.get_filepath">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_filepath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="c1"># type: (int) -&gt; Any</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get filepath of given frame.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IndexError: If frame is missing or multiple frames were found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: Filepath of given frame.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">frame</span> <span class="o">==</span> <span class="n">frame</span>
@@ -424,25 +438,55 @@
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Missing frame </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">filepaths</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Multiple frames found for </span><span class="si">{</span><span class="n">frame</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
-        <span class="n">filepath</span> <span class="o">=</span> <span class="n">filepaths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">filepaths</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_read_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
 
-        <span class="c1"># return data if no labels</span>
+<div class="viewcode-block" id="Dataset.get_arrays">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset.get_arrays">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_arrays</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="c1"># type: (int) -&gt; list[np.ndarray]</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get data and convert into numpy arrays according to labels.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            frame (int): Frame.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            IndexError: If frame is missing or multiple frames were found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[np.ndarray]: List of arrays from the given frame.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">labels</span>  <span class="c1"># type: Any</span>
         <span class="k">if</span> <span class="n">labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">data</span>
+            <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_read_file_as_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_filepath</span><span class="p">(</span><span class="n">frame</span><span class="p">))]</span>
 
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+        <span class="c1"># get labels</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">labels</span><span class="p">]</span>
 
-        <span class="c1"># if data is numpy array return a np.split</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_axis</span><span class="p">)</span>
+        <span class="c1"># if item is numpy array return a np.split</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">arrays</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">label_axis</span><span class="p">))</span>
 
-        <span class="c1"># otherwise data is an Image with channels</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">x</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">labels</span><span class="p">]</span>
+        <span class="c1"># otherwise item is an Image with channels</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chan</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">channels</span><span class="p">))</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">to_bit_depth</span><span class="p">(</span><span class="n">cvd</span><span class="o">.</span><span class="n">BitDepth</span><span class="o">.</span><span class="n">FLOAT16</span><span class="p">)</span>
+            <span class="n">arrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">chan</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">img</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">labels</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">]</span>
+
+        <span class="c1"># enforce shape equivalence</span>
+        <span class="n">max_dim</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="o">*</span><span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">])</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="n">max_dim</span><span class="p">:</span>
+                <span class="n">ndim</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">max_dim</span> <span class="o">-</span> <span class="n">array</span><span class="o">.</span><span class="n">ndim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">max_dim</span><span class="p">))</span>
+                <span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">ndim</span><span class="p">)</span>
+            <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
 
 <div class="viewcode-block" id="Dataset._read_file">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.dataset.Dataset._read_file">[docs]</a>
