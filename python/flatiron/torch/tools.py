@@ -17,11 +17,30 @@ import flatiron.torch.optimizer as fi_torchoptim
 
 
 class ModelCheckpoint:
+    '''
+    Class for saving PyTorch models.
+    '''
     def __init__(self, filepath, save_freq='epoch', **kwargs):
+        # type: (str, str, Any) -> None
+        '''
+        Constructs ModelCheckpoint instance.
+
+        Args:
+            filepath (str): Filepath pattern.
+            save_freq (str, optional): Save frequency. Default: epoch.
+        '''
         self._filepath = filepath
         self.save_freq = save_freq
 
     def save(self, model, epoch):
+        # type: (torch.nn.Module, int) -> None
+        '''
+        Save PyTorch model.
+
+        Args:
+            model (torch.nn.Module): Model to be saved.
+            epoch (int): Current epoch.
+        '''
         filepath = self._filepath.format(epoch=epoch)
         safetensors.save_model(model, filepath)
 
@@ -96,6 +115,23 @@ def _execute_epoch(
     mode='train',        # type: str
 ):
     # type: (...) -> None
+    '''
+    Execute train or test epoch on given torch model.
+
+    Args:
+        epoch (int): Current epoch.
+        model (torch.nn.Module): Torch model.
+        data_loader (torch.utils.data.DataLoader): Torch data loader.
+        optimizer (torch.optim.Optimizer): Torch optimizer.
+        loss_func (torch.nn.Module): Torch loss function.
+        device (torch.device): Torch device.
+        metrics_funcs (Callable[..., dict[str, float]], optional): Torch metrics
+            function. Default: None.
+        writer (SummaryWriter, optional): Tensorboard writer. Default: None.
+        checkpoint (ModelCheckpoint, optional): Model saver. Default: None.
+        mode (str, optional): Mode to execute. Options: [train, test].
+            Default: train.
+    '''
     if mode == 'train':
         context = torch.enable_grad  # type: Any
         model.train()
@@ -159,8 +195,22 @@ def _execute_epoch(
 
 
 class TorchDataset(Dataset, torchdata.Dataset):
+    '''
+    Class for inheriting torch Dataset into flatiron Dataset.
+    '''
     @staticmethod
     def monkey_patch(dataset):
+        # type: (Dataset) -> TorchDataset
+        '''
+        Construct and monkey patch a new TorchDataset instance from a given
+        Dataset.
+
+        Args:
+            dataset (Dataset): Dataset.
+
+        Returns:
+            TorchDataset: TorchDataset instance.
+        '''
         this = TorchDataset(dataset.info)
         this._info = dataset._info
         this.data = dataset.data
@@ -172,6 +222,13 @@ class TorchDataset(Dataset, torchdata.Dataset):
         return this
 
     def __getitem__(self, frame):
+        # type: (int) -> torch.Tensor | list[torch.Tensor]
+        '''
+        Get tensor data by frame.
+
+        Returns:
+            torch.Tensor: Tensor or list of Tensors.
+        '''
         items = self.get_arrays(frame)
         output = list(map(torch.from_numpy, items))
         if len(output) == 1:
@@ -183,7 +240,7 @@ def train(
     compiled,       # type: Compiled
     callbacks,      # type: Callbacks
     train_data,     # type: Dataset
-    test_data,      # type: Optional[Dataset]
+    test_data,      # type: Dataset
     batch_size=32,  # type: int
     epochs=50,      # type: int
     seed=42,        # type: int
@@ -194,12 +251,13 @@ def train(
     Train Torch model.
 
     Args:
-        model (tfmodels.Model): Torch model.
-        dataset (Dataset): Data to feed to model.
+        compiled (dict): Compiled objects.
         callbacks (dict): Dict of callbacks.
+        train_data (Dataset): Training dataset.
+        test_data (Dataset): Test dataset.
         batch_size (int, optional): Batch size. Default: 32.
+        epochs (int, optional): Number of epochs. Default: 32.
         seed (int, optional): Random seed. Default: 42.
-        device (str, optional): Torch device. Default: 'cpu'.
         **kwargs: Other params to be passed to _execute_epoch.
     '''
     model = compiled['model']
