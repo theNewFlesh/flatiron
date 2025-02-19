@@ -8,8 +8,10 @@ from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
 import tensorflow as tf
 
-import flatiron
 import flatiron.core.tools as fict
+import flatiron.tf.loss as fi_tfloss
+import flatiron.tf.metric as fi_tfmetric
+import flatiron.tf.optimizer as fi_tfoptim
 # ------------------------------------------------------------------------------
 
 
@@ -69,9 +71,9 @@ def compile(model, optimizer, loss, metrics, device, kwargs={}):
         dict: Dict of compiled objects.
     '''
     model.compile(
-        optimizer=flatiron.tf.optimizer.get(optimizer),
-        loss=flatiron.tf.loss.get(loss),
-        metrics=[flatiron.tf.metric.get(m) for m in metrics],
+        optimizer=fi_tfoptim.get(optimizer),
+        loss=fi_tfloss.get(loss),
+        metrics=[fi_tfmetric.get(m) for m in metrics],
         **kwargs,
     )
     return dict(model=model)

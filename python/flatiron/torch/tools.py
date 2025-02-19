@@ -8,8 +8,10 @@ import tqdm.notebook as tqdm
 import torch
 import torch.utils.data as torchdata
 
-import flatiron
 import flatiron.core.tools as fict
+import flatiron.torch.loss as fi_torchloss
+import flatiron.torch.metric as fi_torchmetric
+import flatiron.torch.optimizer as fi_torchoptim
 # ------------------------------------------------------------------------------
 
 
@@ -56,9 +58,9 @@ def compile(model, optimizer, loss, metrics, device, kwargs):
     '''
     return dict(
         model=torch.compile(model, **kwargs),
-        optimizer=flatiron.torch.optimizer.get(optimizer),
-        loss=flatiron.torch.loss.get(loss),
-        metrics=[flatiron.torch.metric.get(m) for m in metrics],
+        optimizer=fi_torchoptim.get(optimizer),
+        loss=fi_torchloss.get(loss),
+        metrics=[fi_torchmetric.get(m) for m in metrics],
         device=device,
     )
 
