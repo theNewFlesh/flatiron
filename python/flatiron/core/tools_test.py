@@ -173,6 +173,8 @@ b
             model=0, optimizer=0, loss=0,
             tf_foo=0, tf_bar=0,
             torch_taco=0, torch_pizza=0,
+            adam_kiwi=10,
+            sgd_egg=20,
         )
 
         # prefix
@@ -181,6 +183,12 @@ b
 
         result = fict.resolve_kwargs('torch', kwargs, return_keys='prefix')
         self.assertEqual(result, dict(taco=0, pizza=0))
+
+        result = fict.resolve_kwargs('adam', kwargs, return_keys='prefix')
+        self.assertEqual(result, dict(kiwi=10))
+
+        result = fict.resolve_kwargs('sgd', kwargs, return_keys='prefix')
+        self.assertEqual(result, dict(egg=20))
 
         # non-prefix
         expected = dict(model=0, optimizer=0, loss=0)
