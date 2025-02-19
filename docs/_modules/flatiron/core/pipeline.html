@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -236,9 +236,14 @@
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+            <span class="n">reshape</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;reshape&#39;</span><span class="p">],</span>
+            <span class="n">limit</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;limit&#39;</span><span class="p">],</span>
+            <span class="n">shuffle</span><span class="o">=</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;shuffle&#39;</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="s1">&#39;LOAD DATASETS&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">config</span><span class="p">)):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_train_data</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_train_data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="bp">self</span></div>
@@ -311,6 +316,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            PipelineBase: Self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">pre_build</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;compile&#39;</span><span class="p">][</span><span class="s1">&#39;device&#39;</span><span class="p">])</span>
         <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="s1">&#39;BUILD MODEL&#39;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">config</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_func</span><span class="p">()(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
@@ -328,10 +334,10 @@
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;engine&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;tensorflow&#39;</span><span class="p">:</span>
-            <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.tf</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">engine</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.tf</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">__engine</span>
         <span class="c1"># elif engine == &#39;torch&#39;:</span>
-        <span class="c1">#     import flatiron.torch as engine</span>
-        <span class="k">return</span> <span class="n">engine</span>
+        <span class="c1">#     import flatiron.torch as __engine</span>
+        <span class="k">return</span> <span class="n">__engine</span>
 
 <div class="viewcode-block" id="PipelineBase.compile">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.compile">[docs]</a>
@@ -343,21 +349,32 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            PipelineBase: Self.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span>
-        <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;compile&#39;</span><span class="p">]</span>
+        <span class="c1"># resolve</span>
+        <span class="n">engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;engine&#39;</span><span class="p">]</span>
 
+        <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;compile&#39;</span><span class="p">]</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">resolve_kwargs</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">return_keys</span><span class="o">=</span><span class="s1">&#39;non-prefix&#39;</span><span class="p">)</span>
+        <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">]</span>
+
+        <span class="n">opt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span>
+        <span class="n">opt</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">resolve_kwargs</span><span class="p">(</span><span class="n">opt</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">opt</span><span class="p">)</span>
+
+        <span class="c1"># compile</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span>
-            <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">],</span>
+            <span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span>
             <span class="nb">compile</span><span class="o">=</span><span class="n">comp</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="p">(</span><span class="s1">&#39;compile&#39;</span><span class="p">,</span> <span class="s1">&#39;COMPILE MODEL&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_compiled</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_compiled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
-                <span class="n">optimizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">][</span><span class="s1">&#39;class_name&#39;</span><span class="p">],</span>
+                <span class="n">optimizer</span><span class="o">=</span><span class="n">opt</span><span class="p">,</span>
                 <span class="n">loss</span><span class="o">=</span><span class="n">comp</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">],</span>
                 <span class="n">metrics</span><span class="o">=</span><span class="n">comp</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">],</span>
-                <span class="n">kwargs</span><span class="o">=</span><span class="n">fict</span><span class="o">.</span><span class="n">resolve_kwargs</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">comp</span><span class="p">),</span>
+                <span class="n">device</span><span class="o">=</span><span class="n">comp</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">],</span>
+                <span class="n">kwargs</span><span class="o">=</span><span class="n">kwargs</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span></div>
 

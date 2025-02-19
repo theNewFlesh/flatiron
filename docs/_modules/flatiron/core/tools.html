@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -95,6 +95,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptFloat</span>  <span class="c1"># noqa F401</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>  <span class="c1"># noqa F401</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
@@ -283,26 +284,42 @@
 
 <div class="viewcode-block" id="resolve_kwargs">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.tools.resolve_kwargs">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">resolve_kwargs</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># type: (str, dict) -&gt; dict</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_kwargs</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">return_keys</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">):</span>
+    <span class="c1"># type: (str, dict, str) -&gt; dict</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Filter keyword arguments base on engine and return them minus the engine</span>
-<span class="sd">    prefix.</span>
+<span class="sd">    Filter keyword arguments base on prefix and return them minus the prefix.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        engine (str): Engine name.</span>
+<span class="sd">        prefix (str): Prefix name.</span>
 <span class="sd">        kwargs (dict): Kwargs dict.</span>
+<span class="sd">        return_keys (str, optional): Which kind of keys to return.</span>
+<span class="sd">            Options: [prefix, non-prefix, both]. Default: both.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Resolved kwargs.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">engine</span> <span class="o">==</span> <span class="s1">&#39;tensorflow&#39;</span><span class="p">:</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;tf_&#39;</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;torch_&#39;</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="p">{</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;^</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">output</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">&#39;tensorflow&#39;</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;tf&#39;</span>
+
+    <span class="n">legal</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tf&#39;</span><span class="p">,</span> <span class="s1">&#39;torch&#39;</span><span class="p">,</span> <span class="s1">&#39;sgd&#39;</span><span class="p">,</span> <span class="s1">&#39;adam&#39;</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">legal</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;Illegal prefix: </span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">. Legal prefixes: </span><span class="si">{</span><span class="n">legal</span><span class="si">}</span><span class="s1">.&#39;</span>
+
+    <span class="c1"># non prefix</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">legal</span><span class="p">)</span>
+    <span class="n">regex</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;^(</span><span class="si">{</span><span class="n">regex</span><span class="si">}</span><span class="s1">)_&#39;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="k">if</span> <span class="n">return_keys</span> <span class="o">==</span> <span class="s1">&#39;non-prefix&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">output</span>
+
+    <span class="c1"># prefix</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+    <span class="n">extra</span> <span class="o">=</span> <span class="p">{</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">extra</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="k">if</span> <span class="n">return_keys</span> <span class="o">==</span> <span class="s1">&#39;prefix&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">extra</span>
+
+    <span class="n">output</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 

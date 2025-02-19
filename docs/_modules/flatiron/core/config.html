@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.19.0
+                0.20.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -91,7 +91,7 @@
   <h1>Source code for flatiron.core.config</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptLabels</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptLabels</span><span class="p">,</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptFloat</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyd</span>
 
@@ -99,9 +99,16 @@
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
 
+<div class="viewcode-block" id="BaseConfig">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.config.BaseConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">pyd</span><span class="o">.</span><span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s1">&#39;forbid&#39;</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="DatasetConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.DatasetConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DatasetConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DatasetConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for Dataset.</span>
 
@@ -117,6 +124,9 @@
 <span class="sd">            Default: 0.2.</span>
 <span class="sd">        limit (str or int): Limit data by number of samples.</span>
 <span class="sd">            Default: None.</span>
+<span class="sd">        reshape (bool, optional): Reshape concatenated data to incorpate frames</span>
+<span class="sd">            as the first dimension: (FRAME, ...). Analogous to the first</span>
+<span class="sd">            dimension being batch. Default: True.</span>
 <span class="sd">        shuffle (bool, optional): Randomize data before splitting.</span>
 <span class="sd">            Default: True.</span>
 <span class="sd">        seed (int, optional): Shuffle seed number. Default: None.</span>
@@ -127,6 +137,7 @@
     <span class="n">label_axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="n">test_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="mf">0.2</span>
     <span class="n">limit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">reshape</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
 
@@ -134,49 +145,63 @@
 
 <div class="viewcode-block" id="OptimizerConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.OptimizerConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">OptimizerConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OptimizerConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for keras optimizer.</span>
 
 <span class="sd">    See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        class_name: (string, optional): Name of optimizer. Default=&#39;sgd&#39;.</span>
-<span class="sd">        learning_rate: (float, optional): Learning rate. Default=0.001.</span>
-<span class="sd">        momentum: (float, optional): Momentum. Default=0.</span>
-<span class="sd">        nesterov: (boolean, optional): User Nesterov updates. Default=False.</span>
-<span class="sd">        weight_decay: (string, optional): Decay weights. Default: None.</span>
-<span class="sd">        clipnorm: (float, optional): Clip individual weights so norm is not</span>
+<span class="sd">        name (string, optional): Name of optimizer. Default=&#39;sgd&#39;.</span>
+<span class="sd">        learning_rate (float, optional): Learning rate. Default=0.001.</span>
+<span class="sd">        momentum (float, optional): Momentum. Default=0.</span>
+<span class="sd">        nesterov (bool, optional): User Nesterov updates. Default=False.</span>
+<span class="sd">        epsilon (float, optional): A small constant for numerical stability.</span>
+<span class="sd">            Default: 1e-07</span>
+<span class="sd">        loss_scale_factor (OptFloat, optional): Will be multiply the loss before</span>
+<span class="sd">            computing gradients. Default: None.</span>
+<span class="sd">        gradient_accumulation_steps (OptInt, optional): Update model and</span>
+<span class="sd">            optimizer at this frequency. Default: None.</span>
+<span class="sd">        global_clipnorm (float, optional): Clip all weights so norm is not</span>
 <span class="sd">            higher than this. Default: None.</span>
-<span class="sd">        clipvalue: (float, optional): Clip weights at this max value.</span>
+<span class="sd">        clipnorm (float, optional): Clip individual weights so norm is not</span>
+<span class="sd">            higher than this. Default: None.</span>
+<span class="sd">        clipvalue (float, optional): Clip weights at this max value.</span>
 <span class="sd">            Default: None</span>
-<span class="sd">        global_clipnorm: (float, optional): Clip all weights so norm is not</span>
-<span class="sd">            higher than this. Default: None.</span>
-<span class="sd">        use_ema: (boolean, optional): Exponential moving average. Default=False.</span>
-<span class="sd">        ema_momentum: (float, optional): Exponential moving average momentum.</span>
+<span class="sd">        amsgrad (bool, optional): Whether to apply AMSGrad variant.</span>
+<span class="sd">            Default: False.</span>
+<span class="sd">        beta_1 (float, optional): The exponential decay rate for the 1st moment</span>
+<span class="sd">            estimates. Default: 0.9</span>
+<span class="sd">        beta_2 (float, optional): The exponential decay rate for the 2nd moment</span>
+<span class="sd">            estimates. Default: 0.999</span>
+<span class="sd">        use_ema (bool, optional): Exponential moving average. Default=False.</span>
+<span class="sd">        ema_momentum (float, optional): Exponential moving average momentum.</span>
 <span class="sd">            Default=0.99.</span>
-<span class="sd">        ema_overwrite_frequency: (int, optional): Frequency of EMA overwrites.</span>
+<span class="sd">        ema_overwrite_frequency (int, optional): Frequency of EMA overwrites.</span>
 <span class="sd">            Default: None.</span>
-<span class="sd">        jit_compile: (boolean, optional): Use XLA. Default=True.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">class_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sgd&#39;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sgd&#39;</span>
     <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>
-    <span class="n">momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">nesterov</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">weight_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">clipnorm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">clipvalue</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">global_clipnorm</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">loss_scale_factor</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">gradient_accumulation_steps</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">global_clipnorm</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">clipnorm</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">clipvalue</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">use_ema</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">ema_momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span>
-    <span class="n">ema_overwrite_frequency</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">jit_compile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
+    <span class="n">ema_overwrite_frequency</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">sgd_momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">sgd_nesterov</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">adam_epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-07</span>
+    <span class="n">adam_amsgrad</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">adam_beta_1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">adam_beta_2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.999</span></div>
 
 
 
 <div class="viewcode-block" id="CompileConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.CompileConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">CompileConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompileConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for calls to model.compile.</span>
 
@@ -185,28 +210,33 @@
 <span class="sd">    Attributes:</span>
 <span class="sd">        loss (string): Loss metric name.</span>
 <span class="sd">        metrics (list[str], optional): List of metrics. Default: [].</span>
+<span class="sd">        device (str, optional): Hardware device. Default: &#39;gpu&#39;.</span>
 <span class="sd">        tf_loss_weights (list[float], optional): List of loss weights.</span>
 <span class="sd">            Default: None.</span>
 <span class="sd">        tf_weighted_metrics (list[float], optional): List of metric weights.</span>
 <span class="sd">            Default: None.</span>
-<span class="sd">        tf_run_eagerly (boolean, optional): Leave as False. Default: False.</span>
+<span class="sd">        tf_run_eagerly (bool, optional): Leave as False. Default: False.</span>
 <span class="sd">        tf_steps_per_execution (int, optional): Number of batches per function</span>
 <span class="sd">            call. Default: 1.</span>
-<span class="sd">        tf_jit_compile (boolean, optional): Use XLA. Default: False.</span>
+<span class="sd">        tf_jit_compile (bool, optional): Use XLA. Default: False.</span>
+<span class="sd">        tf_auto_scale_loss (bool, optional): Model dtype is mixed_float16 when</span>
+<span class="sd">            True. Default: True.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">loss</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">metrics</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gpu&#39;</span>
     <span class="n">tf_loss_weights</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">tf_weighted_metrics</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">tf_run_eagerly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">tf_steps_per_execution</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">tf_jit_compile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+    <span class="n">tf_jit_compile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tf_auto_scale_loss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
 
 <div class="viewcode-block" id="CallbacksConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.CallbacksConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">CallbacksConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CallbacksConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for tensorflow callbacks.</span>
 
@@ -237,13 +267,13 @@
     <span class="n">save_weights_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">mode</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">AfterValidator</span><span class="p">(</span><span class="n">vd</span><span class="o">.</span><span class="n">is_callback_mode</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;auto&#39;</span>
     <span class="n">save_freq</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;epoch&#39;</span>
-    <span class="n">initial_value_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">initial_value_threshold</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
 <div class="viewcode-block" id="TrainConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.TrainConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TrainConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TrainConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for calls to model train function.</span>
 
@@ -285,7 +315,7 @@
 
 <div class="viewcode-block" id="LoggerConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.LoggerConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">LoggerConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LoggerConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for logger.</span>
 
@@ -318,7 +348,7 @@
 
 <div class="viewcode-block" id="PipelineConfig">
 <a class="viewcode-back" href="../../../core.html#flatiron.core.config.PipelineConfig">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">PipelineConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">PipelineConfig</span><span class="p">(</span><span class="n">BaseConfig</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for PipelineBase classes.</span>
 
