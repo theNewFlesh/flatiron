@@ -4,6 +4,7 @@ from flatiron.core.types import Compiled, Filepath  # noqa: F401
 
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
+import safetensors.torch as safetensors
 import tqdm.notebook as tqdm
 import torch
 import torch.utils.data as torchdata
@@ -20,8 +21,9 @@ class ModelCheckpoint:
         self._filepath = filepath
         self.save_freq = save_freq
 
-    def save(self, model):
-        torch.save(model, self._filepath)
+    def save(self, model, epoch):
+        filepath = self._filepath.format(epoch=epoch)
+        safetensors.save_model(model, filepath)
 
 
 Callbacks = dict[str, SummaryWriter | ModelCheckpoint]
@@ -90,6 +92,7 @@ def _execute_epoch(
     device,             # type: torch.device
     metrics_func=None,  # type: Optional[Callable[..., dict[str, float]]]
     writer=None,        # type: Optional[SummaryWriter]
+    checkpoint=None,    # type: Optional[ModelCheckpoint]
     mode='train',       # type: str
 ):
     # type: (...) -> None
@@ -139,6 +142,10 @@ def _execute_epoch(
                 batch_index = epoch * epoch_size + i
                 for key, val in batch_metrics.items():
                     writer.add_scalar(f'{mode}_batch_{key}', val, batch_index)
+
+            # save model
+            if checkpoint is not None and checkpoint.save_freq == 'batch':
+                checkpoint.save(model, epoch)
 
     # write mean epoch metrics
     if writer is not None:
@@ -200,7 +207,7 @@ def train(
     loss = compiled['loss']
     metrics = compiled['metrics']
     device = compiled['device']
-    checkpoint = callbacks['checkpoint']
+    checkpoint = callbacks['checkpoint']  # type: Any
 
     dev = torch.device(device)
     torch.manual_seed(seed)
@@ -222,7 +229,10 @@ def train(
         writer=callbacks['tensorboard'],
     )
     for i in tqdm.trange(epochs):
-        _execute_epoch(epoch=i, mode='train', data_loader=train_ldr, **kwargs)
+        _execute_epoch(
+            epoch=i, mode='train', data_loader=train_ldr, checkpoint=checkpoint,
+            **kwargs
+        )
         _execute_epoch(epoch=i, mode='test', data_loader=test_ldr, **kwargs)
-        if checkpoint.save_freq == 'epoch':  # type: ignore
-            checkpoint.save(model)  # type: ignore
+        if checkpoint.save_freq == 'epoch':
+            checkpoint.save(model, i)
