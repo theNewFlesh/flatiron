@@ -1,9 +1,10 @@
 from tempfile import TemporaryDirectory
 from pathlib import Path
 
+from torch.utils.tensorboard import SummaryWriter
 import torch
 import torch.nn as nn
-from torch.utils.tensorboard import SummaryWriter
+import torch.utils.data as torchdata
 
 import flatiron
 import flatiron.core.tools as fict
@@ -101,3 +102,30 @@ class TorchToolsTests(DatasetTestBase):
 
         expected = flatiron.torch.metric.get('Accuracy').__class__
         self.assertIsInstance(result['metrics'][0], expected)
+
+    def test_execute_epoch(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            data = Dataset.read_directory(root, labels='a')
+            data = fi_torchtools.TorchDataset.monkey_patch(data)
+
+            model = SimpleModel(2, 1, 2)
+            loader = torchdata.DataLoader(
+                fi_torchtools.TorchDataset.monkey_patch(data),
+                batch_size=32,
+            )
+            opt = flatiron.torch.optimizer.get('Adam')
+            loss = flatiron.torch.loss.get('CrossEntropyLoss')
+            device = torch.device('cuda')
+            torch.manual_seed(42)
+            model = model.to(device)
+
+            fi_torchtools._execute_epoch(
+                epoch=1,
+                model=model,
+                data_loader=loader,
+                optimizer=opt,
+                loss_func=loss,
+                device=device,
+                mode='train',
+            )
