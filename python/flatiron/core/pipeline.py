@@ -1,5 +1,4 @@
 from typing import Any, Optional, Type  # noqa F401
-
 from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
@@ -201,6 +200,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
+        self._engine.tools.pre_build(self.config['compile']['device'])
         config = self.config['model']
         with self._logger('build', 'BUILD MODEL', dict(model=config)):
             self.model = self.model_func()(**config)
@@ -217,10 +217,10 @@ class PipelineBase(ABC):
         '''
         engine = self.config['engine']
         if engine == 'tensorflow':
-            import flatiron.tf as engine
+            import flatiron.tf as __engine
         # elif engine == 'torch':
-        #     import flatiron.torch as engine
-        return engine
+        #     import flatiron.torch as __engine
+        return __engine
 
     def compile(self):
         # type: () -> PipelineBase
@@ -230,21 +230,32 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        engine = self._engine
-        comp = self.config['compile']
+        # resolve
+        engine = self.config['engine']
 
+        comp = self.config['compile']
+        kwargs = fict.resolve_kwargs(engine, comp, return_keys='non-prefix')
+        del kwargs['loss']
+        del kwargs['metrics']
+        del kwargs['device']
+
+        opt = self.config['optimizer']
+        opt = fict.resolve_kwargs(opt['name'].lower(), opt)
+
+        # compile
         msg = dict(
             model=self.config['model'],
-            optimizer=self.config['optimizer'],
+            optimizer=opt,
             compile=comp,
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
-            self._compiled = engine.tools.compile(
+            self._compiled = self._engine.tools.compile(
                 self.model,
-                optimizer=self.config['optimizer']['name'],
+                optimizer=opt,
                 loss=comp['loss'],
                 metrics=comp['metrics'],
-                kwargs=fict.resolve_kwargs(engine, comp),
+                device=comp['device'],
+                kwargs=kwargs,
             )
         return self
 

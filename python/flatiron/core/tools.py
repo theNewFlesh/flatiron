@@ -4,6 +4,7 @@ from lunchbox.stopwatch import StopWatch  # noqa F401
 from flatiron.core.types import Filepath, OptInt, OptFloat  # noqa F401
 import pandas as pd  # noqa F401
 
+from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 import inspect
@@ -175,26 +176,42 @@ def slack_it(
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
 
 
-def resolve_kwargs(engine, kwargs):
-    # type: (str, dict) -> dict
+def resolve_kwargs(prefix, kwargs, return_keys='both'):
+    # type: (str, dict, str) -> dict
     '''
-    Filter keyword arguments base on engine and return them minus the engine
-    prefix.
+    Filter keyword arguments base on prefix and return them minus the prefix.
 
     Args:
-        engine (str): Engine name.
+        prefix (str): Prefix name.
         kwargs (dict): Kwargs dict.
+        return_keys (str, optional): Which kind of keys to return.
+            Options: [prefix, non-prefix, both]. Default: both.
 
     Returns:
         dict: Resolved kwargs.
     '''
-    if engine == 'tensorflow':
-        prefix = 'tf_'
-    else:
-        prefix = 'torch_'
+    kwargs = deepcopy(kwargs)
 
-    output = dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
-    output = {re.sub(f'^{prefix}', '', k): v for k, v in output.items()}
+    if prefix == 'tensorflow':
+        prefix = 'tf'
+
+    legal = ['tf', 'torch', 'sgd', 'adam']
+    assert prefix in legal, f'Illegal prefix: {prefix}. Legal prefixes: {legal}.'
+
+    # non prefix
+    regex = '|'.join(legal)
+    regex = f'^({regex})_'
+    output = dict(filter(lambda x: not re.search(regex, x[0]), kwargs.items()))
+    if return_keys == 'non-prefix':
+        return output
+
+    # prefix
+    extra = dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
+    extra = {re.sub(regex, '', k): v for k, v in extra.items()}
+    if return_keys == 'prefix':
+        return extra
+
+    output.update(extra)
     return output
 
 

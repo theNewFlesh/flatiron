@@ -76,16 +76,20 @@ class OptimizerConfigTests(unittest.TestCase):
         return dict(
             name='sgd',
             learning_rate=0.001,
-            momentum=0,
-            nesterov=False,
-            weight_decay=0.0,
+            loss_scale_factor=None,
+            gradient_accumulation_steps=None,
+            global_clipnorm=None,
             clipnorm=None,
             clipvalue=None,
-            global_clipnorm=None,
+            sgd_momentum=0.0,
+            sgd_nesterov=False,
+            adam_epsilon=1e-07,
+            adam_amsgrad=False,
+            adam_beta_2=0.999,
+            adam_beta_1=0.9,
             use_ema=False,
             ema_momentum=0.99,
             ema_overwrite_frequency=None,
-            jit_compile=True,
         )
 
     def test_validate(self):
@@ -103,11 +107,13 @@ class CompileConfigTests(unittest.TestCase):
         return dict(
             loss='dice_loss',
             metrics=[],
+            device='gpu',
             tf_loss_weights=None,
             tf_weighted_metrics=None,
             tf_run_eagerly=False,
             tf_steps_per_execution=1,
             tf_jit_compile=False,
+            tf_auto_scale_loss=True,
         )
 
     def test_validate(self):

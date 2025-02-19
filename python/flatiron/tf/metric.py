@@ -3,7 +3,6 @@ import numpy
 
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
-from keras import backend as tfb
 from keras import metrics as tfmetric
 
 import flatiron.core.tools as fict
@@ -85,10 +84,12 @@ def intersection_over_union(y_true, y_pred, smooth=1.0):
     Returns:
         tf.Tensor: IOU metric.
     '''
-    yt = tfb.flatten(y_true)
-    yp = tfb.flatten(y_pred)
-    i = tfb.sum(yt * yp)
-    u = tfb.sum(yt) + tfb.sum(yp) - i
+    y_true = tf.cast(y_true, dtype='float16')
+    y_pred = tf.cast(y_pred, dtype='float16')
+    yt = tf.reshape(y_true, [-1])
+    yp = tf.reshape(y_pred, [-1])
+    i = tf.reduce_sum(yt * yp)
+    u = tf.reduce_sum(yt) + tf.reduce_sum(yp) - i
     iou = (i + smooth) / (u + smooth)
     return iou
 
@@ -147,10 +148,12 @@ def jaccard(y_true, y_pred):
     Returns:
         tf.Tensor: Jaccard metric.
     '''
-    i = tfb.sum(y_true * y_pred)
-    u = tfb.sum(y_true + y_pred) - i
+    y_true = tf.cast(y_true, dtype='float16')
+    y_pred = tf.cast(y_pred, dtype='float16')
+    i = tf.reduce_sum(y_true * y_pred)
+    u = tf.reduce_sum(y_true + y_pred) - i
     jacc = (i + 1.0) / (u + 1.0)
-    jacc = tfb.mean(jacc)
+    jacc = tf.reduce_mean(jacc)
     return jacc
 
 
@@ -209,9 +212,11 @@ def dice(y_true, y_pred, smooth=1.0):
     Returns:
         tf.Tensor: Dice metric.
     '''
-    yt = tfb.flatten(y_true)
-    yp = tfb.flatten(y_pred)
-    i = tfb.sum(yt * yp)
-    u = tfb.sum(yt) + tfb.sum(yp)
+    y_true = tf.cast(y_true, dtype='float16')
+    y_pred = tf.cast(y_pred, dtype='float16')
+    yt = tf.reshape(y_true, [-1])
+    yp = tf.reshape(y_pred, [-1])
+    i = tf.reduce_sum(yt * yp)
+    u = tf.reduce_sum(yt) + tf.reduce_sum(yp)
     dice = (2.0 * i + smooth) / (u + smooth)
     return dice
