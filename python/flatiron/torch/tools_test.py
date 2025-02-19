@@ -3,8 +3,10 @@ from pathlib import Path
 import unittest
 
 import torch.nn as nn
+from torch.utils.tensorboard import SummaryWriter
 
 import flatiron
+import flatiron.core.tools as fict
 import flatiron.torch.tools as fi_torchtools
 # ------------------------------------------------------------------------------
 
@@ -37,6 +39,18 @@ class TorchToolsTests(unittest.TestCase):
 
             expected = Path(check._filepath.format(epoch=1))
             self.assertTrue(expected.is_file())
+
+    def test_get_callbacks(self):
+        with TemporaryDirectory() as root:
+            proj = fict.get_tensorboard_project('proj', root)
+            result = fi_torchtools.get_callbacks(
+                proj['log_dir'], proj['checkpoint_pattern']
+            )
+            self.assertIsInstance(result['tensorboard'], SummaryWriter)
+            self.assertIsInstance(result['checkpoint'], fi_torchtools.ModelCheckpoint)
+
+    def test_pre_build(self):
+        fi_torchtools.pre_build()
 
     def test_compile(self):
         model = SimpleModel(2, 1, 2)
