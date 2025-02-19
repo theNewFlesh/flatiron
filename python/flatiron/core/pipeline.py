@@ -217,10 +217,10 @@ class PipelineBase(ABC):
         '''
         engine = self.config['engine']
         if engine == 'tensorflow':
-            import flatiron.tf as engine
+            import flatiron.tf as __engine
         # elif engine == 'torch':
-        #     import flatiron.torch as engine
-        return engine
+        #     import flatiron.torch as __engine
+        return __engine
 
     def compile(self):
         # type: () -> PipelineBase
@@ -230,23 +230,32 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        engine = self._engine
-        comp = self.config['compile']
-        opt = self.config['optimizer']
+        # resolve
+        engine = self.config['engine']
 
+        comp = self.config['compile']
+        kwargs = fict.resolve_kwargs(engine, comp, return_keys='non-prefix')
+        del kwargs['loss']
+        del kwargs['metrics']
+        del kwargs['device']
+
+        opt = self.config['optimizer']
+        opt = fict.resolve_kwargs(opt['name'].lower(), opt)
+
+        # compile
         msg = dict(
             model=self.config['model'],
             optimizer=opt,
             compile=comp,
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
-            self._compiled = engine.tools.compile(
+            self._compiled = self._engine.tools.compile(
                 self.model,
                 optimizer=opt,
                 loss=comp['loss'],
                 metrics=comp['metrics'],
                 device=comp['device'],
-                kwargs=fict.resolve_kwargs(engine, comp),
+                kwargs=kwargs,
             )
         return self
 
