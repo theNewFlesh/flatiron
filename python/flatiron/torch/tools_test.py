@@ -52,7 +52,7 @@ class TorchToolsTests(DatasetTestBase):
             self.assertIsInstance(result['checkpoint'], fi_torchtools.ModelCheckpoint)
 
     def test_pre_build(self):
-        fi_torchtools.pre_build()
+        fi_torchtools.pre_build('cpu')
 
     def test_torchdataset_monkey_patch(self):
         with TemporaryDirectory() as root:
@@ -76,6 +76,13 @@ class TorchToolsTests(DatasetTestBase):
             self.assertIsInstance(result, list)
             for item in result:
                 self.assertIsInstance(item, torch.Tensor)
+
+    def test_torchdataset_getitem_no_labels(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            data = Dataset.read_directory(root, labels=[])
+            tdata = fi_torchtools.TorchDataset.monkey_patch(data)
+            self.assertIsInstance(tdata[3], torch.Tensor)
 
     def test_compile(self):
         model = SimpleModel(2, 1, 2)

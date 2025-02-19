@@ -362,7 +362,7 @@ class Dataset:
             list[np.ndarray]: List of arrays from the given frame.
         '''
         labels = self.labels  # type: Any
-        if labels is None:
+        if labels is None or labels == []:
             return [self._read_file_as_array(self.get_filepath(frame))]
 
         item = self.__getitem(frame)
