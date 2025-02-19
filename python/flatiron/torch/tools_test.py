@@ -1,13 +1,15 @@
 from tempfile import TemporaryDirectory
 from pathlib import Path
-import unittest
 
+import torch
 import torch.nn as nn
 from torch.utils.tensorboard import SummaryWriter
 
 import flatiron
 import flatiron.core.tools as fict
 import flatiron.torch.tools as fi_torchtools
+from flatiron.core.dataset import Dataset
+from flatiron.core.dataset_test import DatasetTestBase
 # ------------------------------------------------------------------------------
 
 
@@ -24,7 +26,7 @@ class SimpleModel(nn.Module):
         return self.layer_stack(x)
 
 
-class TorchToolsTests(unittest.TestCase):
+class TorchToolsTests(DatasetTestBase):
     def test_modelcheckpoint_init(self):
         result = fi_torchtools.ModelCheckpoint('/foo/bar', 'batch')
         self.assertEqual(result._filepath, '/foo/bar')
@@ -51,6 +53,29 @@ class TorchToolsTests(unittest.TestCase):
 
     def test_pre_build(self):
         fi_torchtools.pre_build()
+
+    def test_torchdataset_monkey_patch(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            expected = Dataset.read_directory(root, labels='a')
+            result = fi_torchtools.TorchDataset.monkey_patch(expected)
+            self.assertIs(result._info, expected._info)
+            self.assertEqual(result.data, expected.data)
+            self.assertEqual(result.labels, expected.labels)
+            self.assertEqual(result.label_axis, expected.label_axis)
+            self.assertEqual(result._ext_regex, expected._ext_regex)
+            self.assertEqual(result._calc_file_size, expected._calc_file_size)
+            self.assertIs(result._sample_gb, expected._sample_gb)
+
+    def test_torchdataset_getitem(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            data = Dataset.read_directory(root, labels='a')
+            tdata = fi_torchtools.TorchDataset.monkey_patch(data)
+            result = tdata[3]
+            self.assertIsInstance(result, list)
+            for item in result:
+                self.assertIsInstance(item, torch.Tensor)
 
     def test_compile(self):
         model = SimpleModel(2, 1, 2)
