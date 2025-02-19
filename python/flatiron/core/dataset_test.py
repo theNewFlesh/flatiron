@@ -426,7 +426,7 @@ class DatasetTests(DatasetTestBase):
     def test_get_arrays_labels(self):
         with TemporaryDirectory() as root:
             self.create_png_dataset_files(root, shape=(10, 10, 4))
-            dset = Dataset.read_directory(root, labels=['a'])
+            dset = Dataset.read_directory(root, labels='a')
 
             result = dset.get_arrays(3)
             self.assertIsInstance(result, list)
