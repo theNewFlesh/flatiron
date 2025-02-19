@@ -79,7 +79,7 @@ class PipelineTests(unittest.TestCase):
                 project='proj',
                 root=root,
             ),
-            optimizer=dict(),
+            optimizer=dict(name='sgd'),
             compile=dict(
                 loss='dice_loss',
                 metrics=['jaccard', 'dice'],
