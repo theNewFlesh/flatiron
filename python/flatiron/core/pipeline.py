@@ -217,10 +217,8 @@ class PipelineBase(ABC):
         '''
         engine = self.config['engine']
         if engine == 'tensorflow':
-            import flatiron.tf as __engine
-        elif engine == 'torch':
-            import flatiron.torch as __engine  # type: ignore
-        return __engine
+            return fict.get_module('flatiron.tf')
+        return fict.get_module('flatiron.torch')
 
     def compile(self):
         # type: () -> PipelineBase
