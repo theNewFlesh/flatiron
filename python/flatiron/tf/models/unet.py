@@ -147,7 +147,6 @@ def attention_gate_2d(
         strides=strides,
         padding=padding,
         kernel_initializer=kernel_initializer,
-        data_format='channels_last',
         dtype=dtype,
         data_format=data_format,
     )
@@ -308,7 +307,6 @@ def get_unet_model(
             strides=(2, 2),
             padding='same',
             name=name,
-            data_format='channels_last',
             dtype=dtype,
             data_format=data_format,
         )(x)
