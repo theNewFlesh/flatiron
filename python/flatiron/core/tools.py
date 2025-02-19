@@ -20,8 +20,10 @@ import yaml
 # ------------------------------------------------------------------------------
 
 
-def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
-    # type: (Filepath, Filepath, str) -> dict[str, str]
+def get_tensorboard_project(
+    project, root='/mnt/storage', timezone='UTC', extension='keras'
+):
+    # type: (Filepath, Filepath, str, str) -> dict[str, str]
     '''
     Creates directory structure for Tensorboard project.
 
@@ -29,10 +31,19 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
         project (str): Name of project.
         root (str or Path): Tensorboard parent directory. Default: /mnt/storage
         timezone (str, optional): Timezone. Default: UTC.
+        extension (str, optional): File extension.
+            Options: [keras, safetensors]. Default: keras.
+
+    Raises:
+        EnforceError: If extension is not keras or safetensors.
 
     Returns:
         dict: Project details.
     '''
+    msg = 'Extension must be keras or safetensors. Given value: {a}.'
+    Enforce(extension, 'in', ['keras', 'safetensors'], message=msg)
+    # --------------------------------------------------------------------------
+
     # create timestamp
     timestamp = datetime \
         .now(tz=pytz.timezone(timezone)) \
@@ -46,7 +57,8 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
     os.makedirs(model_dir, exist_ok=True)
 
     # checkpoint pattern
-    target = f'p-{project}_{timestamp}' + '_e-{epoch:03d}.keras'
+    epoch = '{epoch:03d}'
+    target = f'p-{project}_{timestamp}_e-{epoch}.{extension}'
     target = Path(model_dir, target).as_posix()
 
     output = dict(
