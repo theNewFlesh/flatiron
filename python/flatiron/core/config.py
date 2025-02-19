@@ -55,10 +55,6 @@ class OptimizerConfig(BaseConfig):
     Attributes:
         name (string, optional): Name of optimizer. Default='sgd'.
         learning_rate (float, optional): Learning rate. Default=0.001.
-        momentum (float, optional): Momentum. Default=0.
-        nesterov (bool, optional): User Nesterov updates. Default=False.
-        epsilon (float, optional): A small constant for numerical stability.
-            Default: 1e-07
         loss_scale_factor (OptFloat, optional): Will be multiply the loss before
             computing gradients. Default: None.
         gradient_accumulation_steps (OptInt, optional): Update model and
@@ -69,17 +65,21 @@ class OptimizerConfig(BaseConfig):
             higher than this. Default: None.
         clipvalue (float, optional): Clip weights at this max value.
             Default: None
-        amsgrad (bool, optional): Whether to apply AMSGrad variant.
-            Default: False.
-        beta_1 (float, optional): The exponential decay rate for the 1st moment
-            estimates. Default: 0.9
-        beta_2 (float, optional): The exponential decay rate for the 2nd moment
-            estimates. Default: 0.999
         use_ema (bool, optional): Exponential moving average. Default=False.
         ema_momentum (float, optional): Exponential moving average momentum.
             Default=0.99.
         ema_overwrite_frequency (int, optional): Frequency of EMA overwrites.
             Default: None.
+        sgd_momentum (float, optional): Momentum. Default=0.
+        sgd_nesterov (bool, optional): User Nesterov updates. Default=False.
+        adam_epsilon (float, optional): A small constant for numerical stability.
+            Default: 1e-07
+        adam_amsgrad (bool, optional): Whether to apply AMSGrad variant.
+            Default: False.
+        adam_beta_1 (float, optional): The exponential decay rate for the 1st moment
+            estimates. Default: 0.9
+        adam_beta_2 (float, optional): The exponential decay rate for the 2nd moment
+            estimates. Default: 0.999
     '''
     name: str = 'sgd'
     learning_rate: float = 0.001
