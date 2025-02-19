@@ -1,3 +1,5 @@
+from tempfile import TemporaryDirectory
+from pathlib import Path
 import unittest
 
 import torch.nn as nn
@@ -21,6 +23,21 @@ class SimpleModel(nn.Module):
 
 
 class TorchToolsTests(unittest.TestCase):
+    def test_modelcheckpoint_init(self):
+        result = fi_torchtools.ModelCheckpoint('/foo/bar', 'batch')
+        self.assertEqual(result._filepath, '/foo/bar')
+        self.assertEqual(result.save_freq, 'batch')
+
+    def test_modelcheckpoint_save(self):
+        with TemporaryDirectory() as root:
+            target = Path(root, 'foo_{epoch:02d}.safetensors')
+            check = fi_torchtools.ModelCheckpoint(target, 'batch')
+            model = SimpleModel(2, 1, 2)
+            check.save(model, 1)
+
+            expected = Path(check._filepath.format(epoch=1))
+            self.assertTrue(expected.is_file())
+
     def test_compile(self):
         model = SimpleModel(2, 1, 2)
         result = fi_torchtools.compile(

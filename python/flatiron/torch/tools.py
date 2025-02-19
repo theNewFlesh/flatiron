@@ -2,6 +2,8 @@ from typing import Any, Callable, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa: F401
 from flatiron.core.types import Compiled, Filepath  # noqa: F401
 
+from pathlib import Path
+
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
 import safetensors.torch as safetensors
@@ -21,15 +23,15 @@ class ModelCheckpoint:
     Class for saving PyTorch models.
     '''
     def __init__(self, filepath, save_freq='epoch', **kwargs):
-        # type: (str, str, Any) -> None
+        # type: (Filepath, str, Any) -> None
         '''
         Constructs ModelCheckpoint instance.
 
         Args:
-            filepath (str): Filepath pattern.
+            filepath (str or Path): Filepath pattern.
             save_freq (str, optional): Save frequency. Default: epoch.
         '''
-        self._filepath = filepath
+        self._filepath = Path(filepath).as_posix()
         self.save_freq = save_freq
 
     def save(self, model, epoch):
