@@ -80,7 +80,6 @@ class TFToolsTests(DatasetTestBase):
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])
-        self.assertEqual(os.environ.get('CUDA_VISIBLE_DEVICES', 'xxx'), '-1')
 
     def test_train(self):
         model = get_fake_model((10, 10, 3))

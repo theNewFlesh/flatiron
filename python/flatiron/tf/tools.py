@@ -57,17 +57,12 @@ def compile(model, optimizer, loss, metrics, device, kwargs={}):
     Returns:
         dict: Dict of compiled objects.
     '''
-    devices = os.environ.get('CUDA_VISIBLE_DEVICES', '8')
-    if device == 'cpu':
-        os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
     model.compile(
         optimizer=flatiron.tf.optimizer.get(optimizer),
         loss=flatiron.tf.loss.get(loss),
         metrics=[flatiron.tf.metric.get(m) for m in metrics],
         **kwargs,
     )
-    os.environ['CUDA_VISIBLE_DEVICES'] = devices
     return dict(model=model)
 
 
