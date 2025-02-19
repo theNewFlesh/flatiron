@@ -14,7 +14,7 @@ def get(config):
     Get function from this module.
 
     Args:
-        name (dict): Optimizer config.
+        config (dict): Optimizer config.
 
     Returns:
         function: Module function.
