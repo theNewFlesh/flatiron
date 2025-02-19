@@ -200,6 +200,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
+        self._engine.tools.pre_build(self.config['compile']['device'])
         config = self.config['model']
         with self._logger('build', 'BUILD MODEL', dict(model=config)):
             self.model = self.model_func()(**config)

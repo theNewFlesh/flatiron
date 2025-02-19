@@ -6,6 +6,7 @@ import math
 
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
+import tensorflow as tf
 
 import flatiron
 import flatiron.core.tools as fict
@@ -37,6 +38,18 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
         ),
         checkpoint=tfcallbacks.ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     )
+
+
+def pre_build(device):
+    # type: (str) -> None
+    '''
+    Sets hardware device.
+
+    Args:
+        device (str): Hardware device.
+    '''
+    if device == 'cpu':
+        tf.config.set_visible_devices([], 'GPU')
 
 
 def compile(model, optimizer, loss, metrics, device, kwargs={}):
