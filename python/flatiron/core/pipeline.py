@@ -270,13 +270,17 @@ class PipelineBase(ABC):
         callbacks = self.config['callbacks']
         train = self.config['train']
         log = self.config['logger']
+        ext = 'safetensors'
+        if self.config['engine'] == 'tensorflow':
+            ext = 'keras'
 
         with self._logger('train', 'TRAIN MODEL', self.config):
             # create tensorboard
             tb = fict.get_tensorboard_project(
-                callbacks['project'],
-                callbacks['root'],
-                log['timezone'],
+                project=callbacks['project'],
+                root=callbacks['root'],
+                timezone=log['timezone'],
+                extension=ext,
             )
 
             # create checkpoint params and callbacks
