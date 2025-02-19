@@ -255,7 +255,7 @@ class PipelineBase(ABC):
                 loss=comp['loss'],
                 metrics=comp['metrics'],
                 device=comp['device'],
-                kwargs=fict.resolve_kwargs(engine, comp),
+                kwargs=kwargs,
             )
         return self
 
