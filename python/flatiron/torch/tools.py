@@ -1,6 +1,6 @@
 from typing import Any, Callable, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa: F401
-from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
+from flatiron.core.types import Compiled, Filepath  # noqa: F401
 
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
@@ -13,6 +13,18 @@ import flatiron.torch.loss as fi_torchloss
 import flatiron.torch.metric as fi_torchmetric
 import flatiron.torch.optimizer as fi_torchoptim
 # ------------------------------------------------------------------------------
+
+
+class ModelCheckpoint:
+    def __init__(self, filepath, save_freq='epoch', **kwargs):
+        self._filepath = filepath
+        self.save_freq = save_freq
+
+    def save(self, model):
+        torch.save(model, self._filepath)
+
+
+Callbacks = dict[str, SummaryWriter | ModelCheckpoint]
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
@@ -36,7 +48,7 @@ def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
     fict.enforce_callbacks(log_directory, checkpoint_pattern)
     return dict(
         tensorboard=SummaryWriter(log_dir=log_directory),
-        # checkpoint=torch.save
+        checkpoint=ModelCheckpoint(checkpoint_pattern, **checkpoint_params),
     )
 
 
@@ -188,7 +200,7 @@ def train(
     loss = compiled['loss']
     metrics = compiled['metrics']
     device = compiled['device']
-    # checkpoint = callbacks['checkpoint']
+    checkpoint = callbacks['checkpoint']
 
     dev = torch.device(device)
     torch.manual_seed(seed)
@@ -212,3 +224,5 @@ def train(
     for i in tqdm.trange(epochs):
         _execute_epoch(epoch=i, mode='train', data_loader=train_ldr, **kwargs)
         _execute_epoch(epoch=i, mode='test', data_loader=test_ldr, **kwargs)
+        if checkpoint.save_freq == 'epoch':  # type: ignore
+            checkpoint.save(model)  # type: ignore
