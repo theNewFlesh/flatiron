@@ -1,6 +1,6 @@
 from typing import Optional, Union
 from typing_extensions import Annotated
-from flatiron.core.types import OptLabels
+from flatiron.core.types import OptLabels, OptInt, OptFloat
 
 import pydantic as pyd
 
@@ -72,14 +72,14 @@ class OptimizerConfig(BaseConfig):
     '''
     name: str = 'sgd'
     learning_rate: float = 0.001
-    momentum: float = 0.0
-    nesterov: bool = False
-    clipnorm: Optional[float] = None
-    clipvalue: Optional[float] = None
-    global_clipnorm: Optional[float] = None
+    loss_scale_factor: OptFloat = None
+    gradient_accumulation_steps: OptInt = None
+    global_clipnorm: OptFloat = None
+    clipnorm: OptFloat = None
+    clipvalue: OptFloat = None
     use_ema: bool = False
     ema_momentum: float = 0.99
-    ema_overwrite_frequency: Optional[int] = None
+    ema_overwrite_frequency: OptInt = None
 
 
 class CompileConfig(BaseConfig):
@@ -142,7 +142,7 @@ class CallbacksConfig(BaseConfig):
     save_weights_only: bool = False
     mode: Annotated[str, pyd.AfterValidator(vd.is_callback_mode)] = 'auto'
     save_freq: Union[str, int] = 'epoch'
-    initial_value_threshold: Optional[float] = None
+    initial_value_threshold: OptFloat = None
 
 
 class TrainConfig(BaseConfig):
