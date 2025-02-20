@@ -87,7 +87,13 @@ class TorchToolsTests(DatasetTestBase):
             self.create_png_dataset_files(root, shape=(10, 10, 4))
             data = Dataset.read_directory(root, labels=[])
             tdata = fi_torchtools.TorchDataset.monkey_patch(data)
-            self.assertIsInstance(tdata[3], torch.Tensor)
+
+            result = tdata[3]
+            self.assertIsInstance(result, list)
+
+            result = result[0]
+            self.assertIsInstance(result, torch.Tensor)
+            self.assertEqual(result.shape, (4, 10, 10))
 
     def test_compile(self):
         model = SimpleModel(2, 2)
