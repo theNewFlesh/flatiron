@@ -17,12 +17,17 @@ from flatiron.core.dataset_test import DatasetTestBase
 
 
 class SimpleModel(nn.Module):
-    def __init__(self, input_shape: int, hidden_units: int, output_shape: int):
+    def __init__(self, input_channels, hidden_units, output_channels):
         super().__init__()
         self.layer_stack = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(in_features=input_shape, out_features=hidden_units),
-            nn.Linear(in_features=hidden_units, out_features=output_shape),
+            nn.Conv2d(
+                in_channels=input_channels, out_channels=hidden_units,
+                kernel_size=(3, 3), dtype=torch.float16, padding=1
+            ),
+            nn.Conv2d(
+                in_channels=hidden_units, out_channels=output_channels,
+                kernel_size=(3, 3), dtype=torch.float16
+            ),
         )
 
     def forward(self, x):
@@ -113,14 +118,14 @@ class TorchToolsTests(DatasetTestBase):
             data = Dataset.read_directory(root, labels='a')
             data = fi_torchtools.TorchDataset.monkey_patch(data)
 
-            model = SimpleModel(2, 1, 2)
+            model = SimpleModel(3, 3, 1)
             loader = torchdata.DataLoader(
                 fi_torchtools.TorchDataset.monkey_patch(data),
-                batch_size=32,
+                batch_size=1,
             )
             opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
             loss = flatiron.torch.loss.get('CrossEntropyLoss')
-            device = torch.device('cuda')
+            device = torch.device('cpu')
             torch.manual_seed(42)
             model = model.to(device)
 

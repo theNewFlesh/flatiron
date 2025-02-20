@@ -202,21 +202,19 @@ def _execute_epoch(
             # get x and y
             if len(batch) == 2:
                 x, y = batch
-                x = x.to(device)
-                y = y.to(device)
+                x = x.to(device, memory_format=torch.channels_last)
+                y = y.to(device, memory_format=torch.channels_last)
             else:
                 x = batch
-                x = x.to(device)
+                x = x.to(device, memory_format=torch.channels_last)
                 y = x
-
-            # train model on batch
-            if mode == 'train':
-                optimizer.zero_grad()
 
             y_pred = model(x)
             loss = loss_func(y_pred, y)
 
+            # train model on batch
             if mode == 'train':
+                optimizer.zero_grad()
                 loss.backward()
                 optimizer.step()
 
