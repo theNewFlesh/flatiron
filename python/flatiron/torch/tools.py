@@ -82,14 +82,17 @@ class TorchDataset(Dataset, torchdata.Dataset):
     Class for inheriting torch Dataset into flatiron Dataset.
     '''
     @staticmethod
-    def monkey_patch(dataset):
-        # type: (Dataset) -> TorchDataset
+    def monkey_patch(dataset, channels_first=True):
+        # type: (Dataset, bool) -> TorchDataset
         '''
         Construct and monkey patch a new TorchDataset instance from a given
         Dataset.
+        Pytorch expects images in with the shape (C, H , W) per default.
 
         Args:
             dataset (Dataset): Dataset.
+            channels_first (bool, optional): Will convert any matrix of shape
+                (H, W, C)  into (C, H, W). Default: True.
 
         Returns:
             TorchDataset: TorchDataset instance.
@@ -102,6 +105,7 @@ class TorchDataset(Dataset, torchdata.Dataset):
         this._ext_regex = dataset._ext_regex
         this._calc_file_size = dataset._calc_file_size
         this._sample_gb = dataset._sample_gb
+        this._channels_first = channels_first  # type: ignore
         return this
 
     def __getitem__(self, frame):
@@ -114,8 +118,14 @@ class TorchDataset(Dataset, torchdata.Dataset):
         '''
         items = self.get_arrays(frame)
 
-        # make arrays (C, H, W) instead of (H, W, C) because pytorch sucks
-        items = [np.transpose(x, (2, 0, 1)) for x in items]
+        # pytorch expects (C, H, W) because it sucks
+        if self._channels_first:  # type: ignore
+            arrays = items
+            items = []
+            for item in arrays:
+                if item.ndim == 3:
+                    item = np.transpose(item, (2, 0, 1))
+                items.append(item)
 
         output = list(map(torch.from_numpy, items))
         return output

@@ -63,7 +63,9 @@ class TorchToolsTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             self.create_png_dataset_files(root, shape=(10, 10, 4))
             expected = Dataset.read_directory(root, labels='a')
-            result = fi_torchtools.TorchDataset.monkey_patch(expected)
+            result = fi_torchtools.TorchDataset \
+                .monkey_patch(expected, channels_first=False)
+
             self.assertIs(result._info, expected._info)
             self.assertEqual(result.data, expected.data)
             self.assertEqual(result.labels, expected.labels)
@@ -71,6 +73,7 @@ class TorchToolsTests(DatasetTestBase):
             self.assertEqual(result._ext_regex, expected._ext_regex)
             self.assertEqual(result._calc_file_size, expected._calc_file_size)
             self.assertIs(result._sample_gb, expected._sample_gb)
+            self.assertFalse(result._channels_first)
 
     def test_torchdataset_getitem(self):
         with TemporaryDirectory() as root:
@@ -94,6 +97,16 @@ class TorchToolsTests(DatasetTestBase):
             result = result[0]
             self.assertIsInstance(result, torch.Tensor)
             self.assertEqual(result.shape, (4, 10, 10))
+
+    def test_torchdataset_getitem_no_channels_first(self):
+        with TemporaryDirectory() as root:
+            self.create_png_dataset_files(root, shape=(10, 10, 3))
+            data = Dataset.read_directory(root, labels=[])
+            tdata = fi_torchtools.TorchDataset \
+                .monkey_patch(data, channels_first=False)
+
+            result = tdata[3][0]
+            self.assertEqual(result.shape, (10, 10, 3))
 
     def test_compile(self):
         model = SimpleModel(2, 2)
