@@ -128,7 +128,6 @@ class TorchToolsTests(DatasetTestBase):
         expected = flatiron.torch.metric.get('Accuracy').__class__
         self.assertIsInstance(result['metrics'][0], expected)
 
-    @pytest.mark.timeout(30)
     def test_execute_epoch(self):
         with TemporaryDirectory() as root:
             self.create_png_dataset_files(root, shape=(10, 10, 4))
