@@ -118,6 +118,9 @@ class TorchDataset(Dataset, torchdata.Dataset):
         '''
         items = self.get_arrays(frame)
 
+        # pytorch warns about arrays not being writable, this fixes that
+        items = [x.copy() for x in items]
+
         # pytorch expects (C, H, W) because it sucks
         if self._channels_first:  # type: ignore
             arrays = items
