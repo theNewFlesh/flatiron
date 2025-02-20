@@ -4,7 +4,6 @@ from lunchbox.stopwatch import StopWatch  # noqa F401
 from flatiron.core.types import Filepath, OptInt, OptFloat  # noqa F401
 import pandas as pd  # noqa F401
 
-from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 import inspect
