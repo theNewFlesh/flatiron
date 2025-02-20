@@ -188,43 +188,46 @@ def slack_it(
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
 
 
-def resolve_kwargs(prefix, kwargs, return_keys='both'):
-    # type: (str, dict, str) -> dict
+def resolve_kwargs(kwargs, engine, optimizer, return_type='both'):
+    # type: (dict, str, str, str) -> dict
     '''
     Filter keyword arguments base on prefix and return them minus the prefix.
 
     Args:
-        prefix (str): Prefix name.
         kwargs (dict): Kwargs dict.
-        return_keys (str, optional): Which kind of keys to return.
-            Options: [prefix, non-prefix, both]. Default: both.
+        engine (str): Deep learning framework.
+        optimizer (str): Optimizer name.
+        return_type (str, optional): Which kind of keys to return.
+            Options: [prefixed, unprefixed, both]. Default: both.
 
     Returns:
         dict: Resolved kwargs.
     '''
-    kwargs = deepcopy(kwargs)
+    prefixed = {}
+    unprefixed = {}
+    for key, val in kwargs.items():
+        if not re.search('__', key):
+            unprefixed[key] = val
+            continue
 
-    if prefix == 'tensorflow':
-        prefix = 'tf'
+        head, tail = re.split('__', key, maxsplit=1)
+        if not re.search(f'{engine}|{optimizer}', head):
+            continue
 
-    legal = ['tf', 'torch', 'sgd', 'adam']
-    assert prefix in legal, f'Illegal prefix: {prefix}. Legal prefixes: {legal}.'
+        cond = [
+            head.startswith(optimizer),
+            head == engine,
+            f'{engine}_{optimizer}' == head,
+        ]
+        if any(cond):
+            prefixed[tail] = val
 
-    # non prefix
-    regex = '|'.join(legal)
-    regex = f'^({regex})_'
-    output = dict(filter(lambda x: not re.search(regex, x[0]), kwargs.items()))
-    if return_keys == 'non-prefix':
-        return output
-
-    # prefix
-    extra = dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
-    extra = {re.sub(regex, '', k): v for k, v in extra.items()}
-    if return_keys == 'prefix':
-        return extra
-
-    output.update(extra)
-    return output
+    if return_type == 'prefixed':
+        return prefixed
+    elif return_type == 'unprefixed':
+        return unprefixed
+    prefixed.update(unprefixed)
+    return prefixed
 
 
 def train_test_split(data, test_size=0.2, shuffle=True, seed=None, limit=None):
