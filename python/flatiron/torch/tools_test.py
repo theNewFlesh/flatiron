@@ -88,13 +88,13 @@ class TorchToolsTests(DatasetTestBase):
     def test_compile(self):
         model = SimpleModel(2, 1, 2)
         result = fi_torchtools.compile(
-            model=model, optimizer='Adam', loss='CrossEntropyLoss',
+            model=model, optimizer=dict(name='Adam'), loss='CrossEntropyLoss',
             metrics=['Accuracy'], device='gpu', kwargs=dict(mode='reduce-overhead')
         )
 
         self.assertEqual(result['model'].__class__.__name__, 'OptimizedModule')
 
-        expected = flatiron.torch.optimizer.get('Adam').__class__
+        expected = flatiron.torch.optimizer.get(dict(name='Adam'), model).__class__
         self.assertIsInstance(result['optimizer'], expected)
 
         expected = flatiron.torch.loss.get('CrossEntropyLoss').__class__
@@ -114,7 +114,7 @@ class TorchToolsTests(DatasetTestBase):
                 fi_torchtools.TorchDataset.monkey_patch(data),
                 batch_size=32,
             )
-            opt = flatiron.torch.optimizer.get('Adam')
+            opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
             loss = flatiron.torch.loss.get('CrossEntropyLoss')
             device = torch.device('cuda')
             torch.manual_seed(42)
