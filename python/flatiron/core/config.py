@@ -55,51 +55,51 @@ class OptimizerConfig(BaseConfig):
     Attributes:
         name (string, optional): Name of optimizer. Default='sgd'.
         learning_rate (float, optional): Learning rate. Default=0.001.
-        sgd_momentum (float, optional): Momentum. Default=0.
-        sgd_nesterov (bool, optional): User Nesterov updates. Default=False.
-        adam_epsilon (float, optional): A small constant for numerical stability.
+        sgd__momentum (float, optional): Momentum. Default=0.
+        sgd__nesterov (bool, optional): User Nesterov updates. Default=False.
+        adam__epsilon (float, optional): A small constant for numerical stability.
             Default: 1e-07
-        adam_amsgrad (bool, optional): Whether to apply AMSGrad variant.
+        adam__amsgrad (bool, optional): Whether to apply AMSGrad variant.
             Default: False.
-        adam_beta_1 (float, optional): The exponential decay rate for the 1st moment
+        adam__beta_1 (float, optional): The exponential decay rate for the 1st moment
             estimates. Default: 0.9
-        adam_beta_2 (float, optional): The exponential decay rate for the 2nd moment
+        adam__beta_2 (float, optional): The exponential decay rate for the 2nd moment
             estimates. Default: 0.999
-        tf_loss_scale_factor (OptFloat, optional): Will be multiply the loss before
+        tf__loss_scale_factor (OptFloat, optional): Will be multiply the loss before
             computing gradients. Default: None.
-        tf_gradient_accumulation_steps (OptInt, optional): Update model and
+        tf__gradient_accumulation_steps (OptInt, optional): Update model and
             optimizer at this frequency. Default: None.
-        tf_global_clipnorm (float, optional): Clip all weights so norm is not
+        tf__global_clipnorm (float, optional): Clip all weights so norm is not
             higher than this. Default: None.
-        tf_clipnorm (float, optional): Clip individual weights so norm is not
+        tf__clipnorm (float, optional): Clip individual weights so norm is not
             higher than this. Default: None.
-        tf_clipvalue (float, optional): Clip weights at this max value.
+        tf__clipvalue (float, optional): Clip weights at this max value.
             Default: None
-        tf_use_ema (bool, optional): Exponential moving average. Default=False.
-        tf_ema_momentum (float, optional): Exponential moving average momentum.
+        tf__use_ema (bool, optional): Exponential moving average. Default=False.
+        tf__ema_momentum (float, optional): Exponential moving average momentum.
             Default=0.99.
-        tf_ema_overwrite_frequency (int, optional): Frequency of EMA overwrites.
+        tf__ema_overwrite_frequency (int, optional): Frequency of EMA overwrites.
             Default: None.
-        torch_adam_capturable (bool, optional): Whether this instance is safe to
+        torch_adam__capturable (bool, optional): Whether this instance is safe to
             capture in a CUDA graph. Default: False.
     '''
     name: str = 'sgd'
     learning_rate: float = 0.001
-    sgd_momentum: float = 0.0
-    sgd_nesterov: bool = False
-    adam_epsilon: float = 1e-07
-    adam_amsgrad: bool = False
-    adam_beta_1: float = 0.9
-    adam_beta_2: float = 0.999
-    tf_loss_scale_factor: OptFloat = None
-    tf_gradient_accumulation_steps: OptInt = None
-    tf_global_clipnorm: OptFloat = None
-    tf_clipnorm: OptFloat = None
-    tf_clipvalue: OptFloat = None
-    tf_use_ema: bool = False
-    tf_ema_momentum: float = 0.99
-    tf_ema_overwrite_frequency: OptInt = None
-    torch_adam_capturable: bool = False
+    sgd__momentum: float = 0.0
+    sgd__nesterov: bool = False
+    adam__epsilon: float = 1e-07
+    adam__amsgrad: bool = False
+    adam__beta_1: float = 0.9
+    adam__beta_2: float = 0.999
+    tf__loss_scale_factor: OptFloat = None
+    tf__gradient_accumulation_steps: OptInt = None
+    tf__global_clipnorm: OptFloat = None
+    tf__clipnorm: OptFloat = None
+    tf__clipvalue: OptFloat = None
+    tf__use_ema: bool = False
+    tf__ema_momentum: float = 0.99
+    tf__ema_overwrite_frequency: OptInt = None
+    torch_adam__capturable: bool = False
 
 
 class CompileConfig(BaseConfig):
