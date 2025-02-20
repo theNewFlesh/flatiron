@@ -1,7 +1,6 @@
 from tempfile import TemporaryDirectory
 from pathlib import Path
 
-import pytest
 from torch.utils.tensorboard import SummaryWriter
 import torch
 import torch.nn as nn
