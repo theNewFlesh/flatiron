@@ -228,23 +228,30 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        # resolve
+        # engine
         engine = self.config['engine']
+        if engine == 'tensorflow':
+            engine = 'tf'
 
+        # optimizer
+        opt = self.config['optimizer']
+        opt_name = opt['name'].lower()
+        opt = fict.resolve_kwargs(opt, engine, opt_name)
+
+        # kwargs
         comp = self.config['compile']
-        kwargs = fict.resolve_kwargs(engine, comp, return_keys='non-prefix')
+        kwargs = fict.resolve_kwargs(comp, engine, opt_name, 'unprefixed')
         del kwargs['loss']
         del kwargs['metrics']
         del kwargs['device']
 
-        opt = self.config['optimizer']
-        opt = fict.resolve_kwargs(opt['name'].lower(), opt)
-
         # compile
         msg = dict(
+            engine=self.config['engine'],
             model=self.config['model'],
             optimizer=opt,
             compile=comp,
+            kwargs=kwargs,
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
             self._compiled = self._engine.tools.compile(
