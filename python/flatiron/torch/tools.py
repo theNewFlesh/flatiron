@@ -129,7 +129,7 @@ def pre_build(device):
 def compile(
     model,      # type: Any
     optimizer,  # type: dict[str, Any]
-    loss,       # type: str
+    loss,       # type: dict[str, Any]
     metrics,    # type: list[str]
     device,     # type: str
     kwargs,     # type: dict[str, Any]

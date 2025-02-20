@@ -123,7 +123,7 @@ class TorchToolsTests(DatasetTestBase):
             device = torch.device('cpu')
             model = SimpleModel(3, 1).to(device)
             opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
-            loss = flatiron.torch.loss.get('CrossEntropyLoss')
+            loss = flatiron.torch.loss.get(dict(name='MSELoss'))
             torch.manual_seed(42)
 
             fi_torchtools._execute_epoch(
