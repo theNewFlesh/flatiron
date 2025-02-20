@@ -211,6 +211,13 @@ def _execute_epoch(
     else:
         raise ValueError(f'Invalid mode: {mode}')
 
+    # checkpoint mode
+    checkpoint_mode = all([
+        checkpoint is not None,
+        checkpoint.save_freq == 'batch',  # type: ignore
+        mode == 'train',
+    ])
+
     metrics = []
     epoch_size = len(data_loader)
     with context():
@@ -242,14 +249,14 @@ def _execute_epoch(
             metrics.append(batch_metrics)
 
             # write batch metrics
-            if writer is not None and mode == 'train':
+            if writer is not None:
                 batch_index = epoch * epoch_size + i
                 for key, val in batch_metrics.items():
                     writer.add_scalar(f'{mode}_batch_{key}', val, batch_index)
 
             # save model
-            if checkpoint is not None and checkpoint.save_freq == 'batch':
-                checkpoint.save(model, epoch)
+            if checkpoint_mode:
+                checkpoint.save(model, epoch)  # type: ignore
 
     # write mean epoch metrics
     if writer is not None:
