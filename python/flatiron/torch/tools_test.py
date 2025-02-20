@@ -129,13 +129,16 @@ class TorchToolsTests(DatasetTestBase):
         expected = flatiron.torch.metric.get('Accuracy').__class__
         self.assertIsInstance(result['metrics'][0], expected)
 
-    def get_dataloader(self, root):
-        asset = Path(root, 'asset')
+    def get_dataset(self, root, name):
+        asset = Path(root, name)
         os.makedirs(asset)
         self.create_png_dataset_files(asset, shape=(10, 10, 4))
         data = Dataset.read_directory(asset, labels='a')
-        data = fi_torchtools.TorchDataset.monkey_patch(data)
+        return data
 
+    def get_dataloader(self, root, name):
+        data = self.get_dataset(root, name)
+        data = fi_torchtools.TorchDataset.monkey_patch(data)
         loader = torchdata.DataLoader(
             fi_torchtools.TorchDataset.monkey_patch(data),
             batch_size=4,
@@ -160,9 +163,10 @@ class TorchToolsTests(DatasetTestBase):
         )
         return device, model, opt, loss, metrics, project, callbacks
 
+    # EXECUTE-EPOCH-------------------------------------------------------------
     def test_execute_epoch(self):
         with TemporaryDirectory() as root:
-            loader = self.get_dataloader(root)
+            loader = self.get_dataloader(root, 'train')
             device, model, opt, loss, metrics, proj, clbk = self.get_execute_epoch_params(root)
 
             fi_torchtools._execute_epoch(
@@ -191,8 +195,8 @@ class TorchToolsTests(DatasetTestBase):
 
     def test_execute_epoch_no_checkpoint(self):
         with TemporaryDirectory() as root:
-            loader = self.get_dataloader(root)
-            device, model, opt, loss, metrics, proj, clbk = self.get_execute_epoch_params(root)
+            loader = self.get_dataloader(root, 'train')
+            device, model, opt, loss, metrics, proj, _ = self.get_execute_epoch_params(root)
 
             fi_torchtools._execute_epoch(
                 epoch=1,
@@ -214,8 +218,8 @@ class TorchToolsTests(DatasetTestBase):
 
     def test_execute_epoch_test(self):
         with TemporaryDirectory() as root:
-            loader = self.get_dataloader(root)
-            device, model, opt, loss, metrics, proj, clbk = self.get_execute_epoch_params(root)
+            loader = self.get_dataloader(root, 'train')
+            device, model, opt, loss, metrics, proj, _ = self.get_execute_epoch_params(root)
 
             fi_torchtools._execute_epoch(
                 epoch=1,
@@ -234,3 +238,39 @@ class TorchToolsTests(DatasetTestBase):
             models = Path(proj['log_dir'], 'models')
             expected = os.listdir(models)
             self.assertFalse(len(expected), 0)
+
+    # TRAIN---------------------------------------------------------------------
+    def test_train(self):
+        with TemporaryDirectory() as root:
+            train_data = self.get_dataset(root, 'train')
+            test_data = self.get_dataset(root, 'test')
+            device, model, opt, loss, metrics, proj, clbk = self.get_execute_epoch_params(root)
+            compiled = dict(
+                model=model,
+                optimizer=opt,
+                loss=loss,
+                metrics=metrics,
+                device=device,
+                kwargs={},
+            )
+
+            fi_torchtools.train(
+                compiled=compiled,
+                callbacks=clbk,
+                train_data=train_data,
+                test_data=test_data,
+                batch_size=4,
+                epochs=1,
+                seed=42,
+            )
+
+            # checkpoint
+            models = Path(proj['log_dir'], 'models')
+            expected = os.listdir(models)
+            self.assertEqual(len(expected), 1)
+            self.assertRegex(expected[0], r'p-project.*\.safetensors')
+
+            # tensorboard
+            expected = os.listdir(proj['log_dir'])
+            expected.remove('models')
+            self.assertRegex(expected[0], 'events')
