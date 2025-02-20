@@ -283,10 +283,10 @@ def train(
     torch.manual_seed(seed)
     model = model.to(dev)
 
-    train_ldr = torchdata.DataLoader(
+    train_loader = torchdata.DataLoader(
         TorchDataset.monkey_patch(train_data), batch_size=batch_size
     )  # type: torchdata.DataLoader
-    test_ldr = torchdata.DataLoader(
+    test_loader = torchdata.DataLoader(
         TorchDataset.monkey_patch(test_data), batch_size=batch_size
     )  # type: torchdata.DataLoader
 
@@ -300,9 +300,9 @@ def train(
     )
     for i in tqdm.trange(epochs):
         _execute_epoch(
-            epoch=i, mode='train', data_loader=train_ldr, checkpoint=checkpoint,
+            epoch=i, mode='train', data_loader=train_loader, checkpoint=checkpoint,
             **kwargs
         )
-        _execute_epoch(epoch=i, mode='test', data_loader=test_ldr, **kwargs)
+        _execute_epoch(epoch=i, mode='test', data_loader=test_loader, **kwargs)
         if checkpoint.save_freq == 'epoch':
             checkpoint.save(model, i)
