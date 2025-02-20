@@ -17,17 +17,14 @@ from flatiron.core.dataset_test import DatasetTestBase
 
 
 class SimpleModel(nn.Module):
-    def __init__(self, input_channels, hidden_units, output_channels):
+    def __init__(self, input_channels, output_channels):
         super().__init__()
         self.layer_stack = nn.Sequential(
             nn.Conv2d(
-                in_channels=input_channels, out_channels=hidden_units,
+                in_channels=input_channels, out_channels=output_channels,
                 kernel_size=(3, 3), dtype=torch.float16, padding=1
             ),
-            nn.Conv2d(
-                in_channels=hidden_units, out_channels=output_channels,
-                kernel_size=(3, 3), dtype=torch.float16
-            ),
+            nn.ReLU(),
         )
 
     def forward(self, x):
@@ -44,7 +41,7 @@ class TorchToolsTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             target = Path(root, 'foo_{epoch:02d}.safetensors')
             check = fi_torchtools.ModelCheckpoint(target, 'batch')
-            model = SimpleModel(2, 1, 2)
+            model = SimpleModel(2, 2)
             check.save(model, 1)
 
             expected = Path(check._filepath.format(epoch=1))
@@ -93,7 +90,7 @@ class TorchToolsTests(DatasetTestBase):
             self.assertIsInstance(tdata[3], torch.Tensor)
 
     def test_compile(self):
-        model = SimpleModel(2, 1, 2)
+        model = SimpleModel(2, 2)
         result = fi_torchtools.compile(
             model=model, optimizer=dict(name='Adam'), loss='CrossEntropyLoss',
             metrics=['Accuracy'], device='gpu', kwargs=dict(mode='reduce-overhead')
@@ -124,7 +121,7 @@ class TorchToolsTests(DatasetTestBase):
             )
 
             device = torch.device('cpu')
-            model = SimpleModel(3, 3, 1).to(device)
+            model = SimpleModel(3, 1).to(device)
             opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
             loss = flatiron.torch.loss.get('CrossEntropyLoss')
             torch.manual_seed(42)
