@@ -124,8 +124,7 @@ class TorchToolsTests(DatasetTestBase):
             )
 
             device = torch.device('cpu')
-            model = SimpleModel(3, 3, 1) \
-                .to(device, memory_format=torch.channels_last)
+            model = SimpleModel(3, 3, 1).to(device)
             opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
             loss = flatiron.torch.loss.get('CrossEntropyLoss')
             torch.manual_seed(42)
