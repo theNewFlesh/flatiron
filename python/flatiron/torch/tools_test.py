@@ -1,5 +1,4 @@
 from tempfile import TemporaryDirectory
-import os
 from pathlib import Path
 
 import pytest
@@ -130,7 +129,6 @@ class TorchToolsTests(DatasetTestBase):
         self.assertIsInstance(result['metrics'][0], expected)
 
     @pytest.mark.timeout(30)
-    @pytest.mark.skipif('SKIP_SLOW_TESTS' in os.environ, reason='slow test')
     def test_execute_epoch(self):
         with TemporaryDirectory() as root:
             self.create_png_dataset_files(root, shape=(10, 10, 4))
