@@ -6,6 +6,7 @@ from pathlib import Path
 
 from torch.utils.tensorboard import SummaryWriter
 import pandas as pd
+import numpy as np
 import safetensors.torch as safetensors
 import tqdm.notebook as tqdm
 import torch
@@ -104,17 +105,19 @@ class TorchDataset(Dataset, torchdata.Dataset):
         return this
 
     def __getitem__(self, frame):
-        # type: (int) -> torch.Tensor | list[torch.Tensor]
+        # type: (int) -> list[torch.Tensor]
         '''
         Get tensor data by frame.
 
         Returns:
-            torch.Tensor: Tensor or list of Tensors.
+            lis[torch.Tensor]: List of Tensors.
         '''
         items = self.get_arrays(frame)
+
+        # make arrays (C, H, W) instead of (H, W, C) because pytorch sucks
+        items = [np.transpose(x, (2, 0, 1)) for x in items]
+
         output = list(map(torch.from_numpy, items))
-        if len(output) == 1:
-            return output[0]
         return output
 
 
@@ -202,11 +205,11 @@ def _execute_epoch(
             # get x and y
             if len(batch) == 2:
                 x, y = batch
-                x = x.to(device, memory_format=torch.channels_last)
-                y = y.to(device, memory_format=torch.channels_last)
+                x = x.to(device)
+                y = y.to(device)
             else:
                 x = batch
-                x = x.to(device, memory_format=torch.channels_last)
+                x = x.to(device)
                 y = x
 
             y_pred = model(x)

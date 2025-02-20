@@ -118,16 +118,17 @@ class TorchToolsTests(DatasetTestBase):
             data = Dataset.read_directory(root, labels='a')
             data = fi_torchtools.TorchDataset.monkey_patch(data)
 
-            model = SimpleModel(3, 3, 1)
             loader = torchdata.DataLoader(
                 fi_torchtools.TorchDataset.monkey_patch(data),
                 batch_size=1,
             )
+
+            device = torch.device('cpu')
+            model = SimpleModel(3, 3, 1) \
+                .to(device, memory_format=torch.channels_last)
             opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
             loss = flatiron.torch.loss.get('CrossEntropyLoss')
-            device = torch.device('cpu')
             torch.manual_seed(42)
-            model = model.to(device)
 
             fi_torchtools._execute_epoch(
                 epoch=1,
