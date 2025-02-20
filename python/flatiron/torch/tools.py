@@ -173,16 +173,16 @@ def compile(
 
 # TRAIN-------------------------------------------------------------------------
 def _execute_epoch(
-    epoch,               # type: int
-    model,               # type: torch.nn.Module
-    data_loader,         # type: torch.utils.data.DataLoader
-    optimizer,           # type: torch.optim.Optimizer
-    loss_func,           # type: torch.nn.Module
-    device,              # type: torch.device
-    metrics_funcs=None,  # type: Optional[Callable[..., dict[str, float]]]
-    writer=None,         # type: Optional[SummaryWriter]
-    checkpoint=None,     # type: Optional[ModelCheckpoint]
-    mode='train',        # type: str
+    epoch,             # type: int
+    model,             # type: torch.nn.Module
+    data_loader,       # type: torch.utils.data.DataLoader
+    optimizer,         # type: torch.optim.Optimizer
+    loss_func,         # type: torch.nn.Module
+    device,            # type: torch.device
+    metrics_funcs={},  # type: dict[str, Any]
+    writer=None,       # type: Optional[SummaryWriter]
+    checkpoint=None,   # type: Optional[ModelCheckpoint]
+    mode='train',      # type: str
 ):
     # type: (...) -> None
     '''
@@ -194,11 +194,10 @@ def _execute_epoch(
         data_loader (torch.utils.data.DataLoader): Torch data loader.
         optimizer (torch.optim.Optimizer): Torch optimizer.
         loss_func (torch.nn.Module): Torch loss function.
-        device (torch.device): Torch device.
-        metrics_funcs (Callable[..., dict[str, float]], optional): Torch metrics
-            function. Default: None.
+        metrics_funcs (dict, optional): Dict fo torch metrics. Default: {}.
         writer (SummaryWriter, optional): Tensorboard writer. Default: None.
         checkpoint (ModelCheckpoint, optional): Model saver. Default: None.
+        device (torch.device): Torch device.
         mode (str, optional): Mode to execute. Options: [train, test].
             Default: train.
     '''
@@ -212,11 +211,10 @@ def _execute_epoch(
         raise ValueError(f'Invalid mode: {mode}')
 
     # checkpoint mode
-    checkpoint_mode = all([
-        checkpoint is not None,
-        checkpoint.save_freq == 'batch',  # type: ignore
-        mode == 'train',
-    ])
+    checkpoint_mode = \
+        checkpoint is not None and \
+        checkpoint.save_freq == 'batch' and \
+        mode == 'train'
 
     metrics = []
     epoch_size = len(data_loader)
@@ -242,10 +240,10 @@ def _execute_epoch(
                 optimizer.step()
 
             # gather batch metrics
-            batch_metrics = {}
+            batch_metrics = dict(loss=loss)
             if metrics_funcs is not None:
-                batch_metrics = metrics_funcs(y_pred=y_pred, y_true=y)
-            batch_metrics['loss'] = loss
+                for name, func in metrics_funcs.items():
+                    batch_metrics[name] = func(y_pred, y)
             metrics.append(batch_metrics)
 
             # write batch metrics
@@ -261,6 +259,7 @@ def _execute_epoch(
     # write mean epoch metrics
     if writer is not None:
         epoch_metrics = pd.DataFrame(metrics) \
+            .map(lambda x: x.detach().numpy().mean()) \
             .rename(lambda x: f'{mode}_epoch_{x}', axis=1) \
             .mean() \
             .to_dict()
