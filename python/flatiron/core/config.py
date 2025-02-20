@@ -112,26 +112,26 @@ class CompileConfig(BaseConfig):
         loss (string): Loss metric name.
         metrics (list[str], optional): List of metrics. Default: [].
         device (str, optional): Hardware device. Default: 'gpu'.
-        tf_loss_weights (list[float], optional): List of loss weights.
+        tf__loss_weights (list[float], optional): List of loss weights.
             Default: None.
-        tf_weighted_metrics (list[float], optional): List of metric weights.
+        tf__weighted_metrics (list[float], optional): List of metric weights.
             Default: None.
-        tf_run_eagerly (bool, optional): Leave as False. Default: False.
-        tf_steps_per_execution (int, optional): Number of batches per function
+        tf__run_eagerly (bool, optional): Leave as False. Default: False.
+        tf__steps_per_execution (int, optional): Number of batches per function
             call. Default: 1.
-        tf_jit_compile (bool, optional): Use XLA. Default: False.
-        tf_auto_scale_loss (bool, optional): Model dtype is mixed_float16 when
+        tf__jit_compile (bool, optional): Use XLA. Default: False.
+        tf__auto_scale_loss (bool, optional): Model dtype is mixed_float16 when
             True. Default: True.
     '''
     loss: str
     metrics: list[str] = []
     device: str = 'gpu'
-    tf_loss_weights: Optional[list[float]] = None
-    tf_weighted_metrics: Optional[list[float]] = None
-    tf_run_eagerly: bool = False
-    tf_steps_per_execution: int = 1
-    tf_jit_compile: bool = False
-    tf_auto_scale_loss: bool = True
+    tf__loss_weights: Optional[list[float]] = None
+    tf__weighted_metrics: Optional[list[float]] = None
+    tf__run_eagerly: bool = False
+    tf__steps_per_execution: int = 1
+    tf__jit_compile: bool = False
+    tf__auto_scale_loss: bool = True
 
 
 class CallbacksConfig(BaseConfig):

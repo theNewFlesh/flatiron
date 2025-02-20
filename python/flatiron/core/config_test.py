@@ -109,12 +109,12 @@ class CompileConfigTests(unittest.TestCase):
             loss='dice_loss',
             metrics=[],
             device='gpu',
-            tf_loss_weights=None,
-            tf_weighted_metrics=None,
-            tf_run_eagerly=False,
-            tf_steps_per_execution=1,
-            tf_jit_compile=False,
-            tf_auto_scale_loss=True,
+            tf__loss_weights=None,
+            tf__weighted_metrics=None,
+            tf__run_eagerly=False,
+            tf__steps_per_execution=1,
+            tf__jit_compile=False,
+            tf__auto_scale_loss=True,
         )
 
     def test_validate(self):
