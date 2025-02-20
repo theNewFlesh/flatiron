@@ -292,6 +292,7 @@ def train(
     metrics = compiled['metrics']
     device = compiled['device']
     checkpoint = callbacks['checkpoint']  # type: Any
+    writer = callbacks['tensorboard']
 
     dev = torch.device(device)
     torch.manual_seed(seed)
@@ -310,7 +311,7 @@ def train(
         loss_func=loss,
         device=dev,
         metrics_funcs=metrics,
-        writer=callbacks['tensorboard'],
+        writer=writer,
     )
     for i in tqdm.trange(epochs):
         _execute_epoch(
