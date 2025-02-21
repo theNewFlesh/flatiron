@@ -21,8 +21,11 @@ class DummyModel(nn.Module):
         return self.layer_stack(x)
 
 
-def get_dummy_model():
-    return DummyModel
+def get_dummy_model(input_channels=3, output_channels=1):
+    return DummyModel(
+        input_channels=input_channels,
+        output_channels=output_channels,
+    )
 
 
 class DummyConfig(pyd.BaseModel):

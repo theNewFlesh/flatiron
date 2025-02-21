@@ -11,6 +11,7 @@ import yaml
 import flatiron.core.dataset as ficd
 import flatiron.tf as fitf
 import flatiron.tf.models.dummy as fi_tfdummy
+import flatiron.torch.models.dummy as fi_torchdummy
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -269,6 +270,22 @@ class TFPipelineTests(PipelineTestBase):
 
 
 class TorchPipelineTests(PipelineTestBase):
+    def get_config(self, root):
+        config = super().get_config(root)
+        config.update(dict(
+            engine='torch',
+            model=dict(
+                input_channels=3,
+                output_channels=1,
+            ),
+            optimizer=dict(name='sgd'),
+            compile=dict(
+                loss='MSELoss',
+                metrics=['Mean'],
+            )
+        ))
+        return config
+
     def test_run_torch(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
@@ -277,5 +294,5 @@ class TorchPipelineTests(PipelineTestBase):
             tb = Path(root, 'proj/tensorboard')
 
             self.assertFalse(tb.is_dir())
-            fi_tfdummy.DummyPipeline.from_string(config).run()
+            fi_torchdummy.DummyPipeline.from_string(config).run()
             self.assertTrue(tb.is_dir())
