@@ -1,7 +1,7 @@
 import unittest
 
+from flatiron.torch.models.dummy import DummyModel
 import flatiron.torch.optimizer as fi_torchoptim
-from flatiron.torch.tools_test import DummyModel
 # ------------------------------------------------------------------------------
 
 
