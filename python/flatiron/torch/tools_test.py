@@ -16,7 +16,7 @@ from flatiron.core.dataset_test import DatasetTestBase
 # ------------------------------------------------------------------------------
 
 
-class SimpleModel(nn.Module):
+class DummyModel(nn.Module):
     def __init__(self, input_channels, output_channels):
         super().__init__()
         self.layer_stack = nn.Sequential(
@@ -41,7 +41,7 @@ class TorchToolsTests(DatasetTestBase):
         with TemporaryDirectory() as root:
             target = Path(root, 'foo_{epoch:02d}.safetensors')
             check = fi_torchtools.ModelCheckpoint(target, 'batch')
-            model = SimpleModel(2, 2)
+            model = DummyModel(2, 2)
             check.save(model, 1)
 
             expected = Path(check._filepath.format(epoch=1))
@@ -109,7 +109,7 @@ class TorchToolsTests(DatasetTestBase):
             self.assertEqual(result.shape, (10, 10, 3))
 
     def test_compile(self):
-        model = SimpleModel(2, 2)
+        model = DummyModel(2, 2)
         result = fi_torchtools.compile(
             model=model, optimizer=dict(name='Adam'),
             loss=dict(name='CrossEntropyLoss'),
@@ -147,7 +147,7 @@ class TorchToolsTests(DatasetTestBase):
 
     def get_execute_epoch_params(self, root):
         device = torch.device('cpu')
-        model = SimpleModel(3, 1).to(device)
+        model = DummyModel(3, 1).to(device)
         opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
         loss = flatiron.torch.loss.get(dict(name='MSELoss'))
         torch.manual_seed(42)
