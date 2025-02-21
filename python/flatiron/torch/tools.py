@@ -211,10 +211,7 @@ def _execute_epoch(
         raise ValueError(f'Invalid mode: {mode}')
 
     # checkpoint mode
-    checkpoint_mode = \
-        checkpoint is not None and \
-        checkpoint.save_freq == 'batch' and \
-        mode == 'train'
+    checkpoint_mode = checkpoint is not None and checkpoint.save_freq == 'batch'
 
     metrics = []
     epoch_size = len(data_loader)
