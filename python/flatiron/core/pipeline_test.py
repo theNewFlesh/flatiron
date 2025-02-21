@@ -279,9 +279,20 @@ class PipelineTests(unittest.TestCase):
             self.assertRegex(log.output[0], 'TRAIN MODEL')
             self.assertTrue(Path(root, 'proj/tensorboard').is_dir())
 
-    def test_run(self):
+    def test_run_tf(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
+            config = yaml.dump(config)
+            tb = Path(root, 'proj/tensorboard')
+
+            self.assertFalse(tb.is_dir())
+            FakePipeline.from_string(config).run()
+            self.assertTrue(tb.is_dir())
+
+    def test_run_torch(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            config['engine'] = 'torch'
             config = yaml.dump(config)
             tb = Path(root, 'proj/tensorboard')
 
