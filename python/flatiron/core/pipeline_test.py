@@ -21,23 +21,24 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 # ------------------------------------------------------------------------------
 
 
-def get_fake_model(shape):
+def get_dummy_tf_model(shape):
     input_ = tfl.Input(shape, name='input')
     output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
     model = tfmodels.Model(inputs=[input_], outputs=[output])
     return model
 
 
-class FakeConfig(BaseModel):
+class DummyConfig(BaseModel):
     shape: list[int]
 
 
-class FakePipeline(ficp.PipelineBase):
+class DummyTFPipeline(ficp.PipelineBase):
     def model_config(self):
-        return FakeConfig
+        return DummyConfig
 
     def model_func(self):
-        return get_fake_model
+        return get_dummy_tf_model
+
 # ------------------------------------------------------------------------------
 
 
@@ -97,26 +98,26 @@ class PipelineTests(unittest.TestCase):
     def test_init(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            result = FakePipeline(config).config['optimizer']['name']
+            result = DummyTFPipeline(config).config['optimizer']['name']
             self.assertEqual(result, 'sgd')
 
     def test_init_model(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
 
-            result = FakePipeline(config).config['model']
+            result = DummyTFPipeline(config).config['model']
             expected = dict(shape=[10, 10, 3])
             self.assertEqual(result, expected)
 
             config['model'] = {}
             with self.assertRaises(ValueError):
-                FakePipeline(config)
+                DummyTFPipeline(config)
 
     def test_logger(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             asset = Path(root, 'proj/dset001/dset001_v001').as_posix()
-            pipe = FakePipeline(config)
+            pipe = DummyTFPipeline(config)
 
             # no slack
             config['dataset']['source'] = asset
@@ -137,20 +138,20 @@ class PipelineTests(unittest.TestCase):
 
             # directory
             config['dataset']['source'] = asset
-            result = FakePipeline(config).dataset
+            result = DummyTFPipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
             # file
             src = Path(asset, 'info.csv').as_posix()
             config['dataset']['source'] = src
-            result = FakePipeline(config).dataset
+            result = DummyTFPipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
     def test_from_string(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config = yaml.dump(config)
-            FakePipeline.from_string(config)
+            DummyTFPipeline.from_string(config)
 
     def test_read_yaml(self):
         with TemporaryDirectory() as root:
@@ -158,12 +159,12 @@ class PipelineTests(unittest.TestCase):
             src = Path(root, 'config.yaml')
             with open(src, 'w') as f:
                 yaml.safe_dump(config, f)
-            FakePipeline.read_yaml(src)
+            DummyTFPipeline.read_yaml(src)
 
     def test_load(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config)
+            pipe = DummyTFPipeline(config)
             self.assertIsNone(pipe._train_data)
             self.assertIsNone(pipe._test_data)
             pipe.train_test_split()
@@ -181,7 +182,7 @@ class PipelineTests(unittest.TestCase):
     def test_load_errors(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config)
+            pipe = DummyTFPipeline(config)
             self.assertIsNone(pipe.dataset.data)
 
             expected = 'Train and test data not loaded. '
@@ -192,7 +193,7 @@ class PipelineTests(unittest.TestCase):
     def test_unload(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config).train_test_split().load()
+            pipe = DummyTFPipeline(config).train_test_split().load()
             self.assertTrue(pipe._loaded)
 
             with self.assertLogs(level=logging.WARNING) as log:
@@ -205,7 +206,7 @@ class PipelineTests(unittest.TestCase):
     def test_unload_errors(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config)
+            pipe = DummyTFPipeline(config)
             self.assertIsNone(pipe.dataset.data)
 
             expected = 'Train and test data not loaded. '
@@ -220,7 +221,7 @@ class PipelineTests(unittest.TestCase):
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config)
+            pipe = DummyTFPipeline(config)
             self.assertIsNone(pipe._train_data)
             self.assertIsNone(pipe._test_data)
 
@@ -233,7 +234,7 @@ class PipelineTests(unittest.TestCase):
     def test_build(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config)
+            pipe = DummyTFPipeline(config)
 
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.build()
@@ -243,13 +244,13 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['engine'] = 'tensorflow'
-            result = FakePipeline(config)._engine
+            result = DummyTFPipeline(config)._engine
             self.assertIs(result, fitf)
 
     def test_compile_tf(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config).build()
+            pipe = DummyTFPipeline(config).build()
 
             self.assertEqual(pipe._compiled, {})
 
@@ -262,13 +263,13 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['compile']['loss'] = 'mse'
-            pipe = FakePipeline(config).build().compile()
+            pipe = DummyTFPipeline(config).build().compile()
             self.assertIs(pipe.model.loss.__name__, 'mean_squared_error')
 
     def test_train(self):
         with TemporaryDirectory(prefix='test-train-') as root:
             config = self.get_config(root)
-            pipe = FakePipeline(config) \
+            pipe = DummyTFPipeline(config) \
                 .train_test_split() \
                 .load() \
                 .build() \
@@ -286,7 +287,7 @@ class PipelineTests(unittest.TestCase):
             tb = Path(root, 'proj/tensorboard')
 
             self.assertFalse(tb.is_dir())
-            FakePipeline.from_string(config).run()
+            DummyTFPipeline.from_string(config).run()
             self.assertTrue(tb.is_dir())
 
     def test_run_torch(self):
@@ -297,5 +298,5 @@ class PipelineTests(unittest.TestCase):
             tb = Path(root, 'proj/tensorboard')
 
             self.assertFalse(tb.is_dir())
-            FakePipeline.from_string(config).run()
+            DummyTFPipeline.from_string(config).run()
             self.assertTrue(tb.is_dir())
