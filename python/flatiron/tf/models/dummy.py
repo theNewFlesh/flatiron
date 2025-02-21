@@ -15,7 +15,7 @@ def get_dummy_model(shape):
 
 
 class DummyConfig(pyd.BaseModel):
-    shape: tuple[int]
+    shape: list[int]
 
 
 class DummyPipeline(ficp.PipelineBase):

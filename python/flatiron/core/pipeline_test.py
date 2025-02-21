@@ -4,45 +4,20 @@ import logging
 import os
 import unittest
 
-from pydantic import BaseModel
-from tensorflow import keras  # noqa F401
-from keras import layers as tfl
-from keras import models as tfmodels
 import numpy as np
 import pandas as pd
 import yaml
 
 import flatiron.core.dataset as ficd
-import flatiron.core.pipeline as ficp
 import flatiron.tf as fitf
+import flatiron.tf.models.dummy as fi_tfdummy
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 # ------------------------------------------------------------------------------
 
 
-def get_dummy_tf_model(shape):
-    input_ = tfl.Input(shape, name='input')
-    output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
-    model = tfmodels.Model(inputs=[input_], outputs=[output])
-    return model
-
-
-class DummyConfig(BaseModel):
-    shape: list[int]
-
-
-class DummyTFPipeline(ficp.PipelineBase):
-    def model_config(self):
-        return DummyConfig
-
-    def model_func(self):
-        return get_dummy_tf_model
-
-# ------------------------------------------------------------------------------
-
-
-class PipelineTests(unittest.TestCase):
+class PipelineTestBase(unittest.TestCase):
     def write_npy(self, target, shape=(10, 10, 10, 4)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
@@ -95,29 +70,31 @@ class PipelineTests(unittest.TestCase):
             ),
         )
 
+
+class TFPipelineTests(PipelineTestBase):
     def test_init(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            result = DummyTFPipeline(config).config['optimizer']['name']
+            result = fi_tfdummy.DummyPipeline(config).config['optimizer']['name']
             self.assertEqual(result, 'sgd')
 
     def test_init_model(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
 
-            result = DummyTFPipeline(config).config['model']
+            result = fi_tfdummy.DummyPipeline(config).config['model']
             expected = dict(shape=[10, 10, 3])
             self.assertEqual(result, expected)
 
             config['model'] = {}
             with self.assertRaises(ValueError):
-                DummyTFPipeline(config)
+                fi_tfdummy.DummyPipeline(config)
 
     def test_logger(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             asset = Path(root, 'proj/dset001/dset001_v001').as_posix()
-            pipe = DummyTFPipeline(config)
+            pipe = fi_tfdummy.DummyPipeline(config)
 
             # no slack
             config['dataset']['source'] = asset
@@ -138,20 +115,20 @@ class PipelineTests(unittest.TestCase):
 
             # directory
             config['dataset']['source'] = asset
-            result = DummyTFPipeline(config).dataset
+            result = fi_tfdummy.DummyPipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
             # file
             src = Path(asset, 'info.csv').as_posix()
             config['dataset']['source'] = src
-            result = DummyTFPipeline(config).dataset
+            result = fi_tfdummy.DummyPipeline(config).dataset
             self.assertIsInstance(result, ficd.Dataset)
 
     def test_from_string(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config = yaml.dump(config)
-            DummyTFPipeline.from_string(config)
+            fi_tfdummy.DummyPipeline.from_string(config)
 
     def test_read_yaml(self):
         with TemporaryDirectory() as root:
@@ -159,12 +136,12 @@ class PipelineTests(unittest.TestCase):
             src = Path(root, 'config.yaml')
             with open(src, 'w') as f:
                 yaml.safe_dump(config, f)
-            DummyTFPipeline.read_yaml(src)
+            fi_tfdummy.DummyPipeline.read_yaml(src)
 
     def test_load(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config)
+            pipe = fi_tfdummy.DummyPipeline(config)
             self.assertIsNone(pipe._train_data)
             self.assertIsNone(pipe._test_data)
             pipe.train_test_split()
@@ -182,7 +159,7 @@ class PipelineTests(unittest.TestCase):
     def test_load_errors(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config)
+            pipe = fi_tfdummy.DummyPipeline(config)
             self.assertIsNone(pipe.dataset.data)
 
             expected = 'Train and test data not loaded. '
@@ -193,7 +170,7 @@ class PipelineTests(unittest.TestCase):
     def test_unload(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config).train_test_split().load()
+            pipe = fi_tfdummy.DummyPipeline(config).train_test_split().load()
             self.assertTrue(pipe._loaded)
 
             with self.assertLogs(level=logging.WARNING) as log:
@@ -206,7 +183,7 @@ class PipelineTests(unittest.TestCase):
     def test_unload_errors(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config)
+            pipe = fi_tfdummy.DummyPipeline(config)
             self.assertIsNone(pipe.dataset.data)
 
             expected = 'Train and test data not loaded. '
@@ -221,7 +198,7 @@ class PipelineTests(unittest.TestCase):
     def test_train_test_split(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config)
+            pipe = fi_tfdummy.DummyPipeline(config)
             self.assertIsNone(pipe._train_data)
             self.assertIsNone(pipe._test_data)
 
@@ -234,7 +211,7 @@ class PipelineTests(unittest.TestCase):
     def test_build(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config)
+            pipe = fi_tfdummy.DummyPipeline(config)
 
             with self.assertLogs(level=logging.WARNING) as log:
                 pipe.build()
@@ -244,13 +221,13 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['engine'] = 'tensorflow'
-            result = DummyTFPipeline(config)._engine
+            result = fi_tfdummy.DummyPipeline(config)._engine
             self.assertIs(result, fitf)
 
     def test_compile_tf(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config).build()
+            pipe = fi_tfdummy.DummyPipeline(config).build()
 
             self.assertEqual(pipe._compiled, {})
 
@@ -263,13 +240,13 @@ class PipelineTests(unittest.TestCase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             config['compile']['loss'] = 'mse'
-            pipe = DummyTFPipeline(config).build().compile()
+            pipe = fi_tfdummy.DummyPipeline(config).build().compile()
             self.assertIs(pipe.model.loss.__name__, 'mean_squared_error')
 
     def test_train(self):
         with TemporaryDirectory(prefix='test-train-') as root:
             config = self.get_config(root)
-            pipe = DummyTFPipeline(config) \
+            pipe = fi_tfdummy.DummyPipeline(config) \
                 .train_test_split() \
                 .load() \
                 .build() \
@@ -287,9 +264,11 @@ class PipelineTests(unittest.TestCase):
             tb = Path(root, 'proj/tensorboard')
 
             self.assertFalse(tb.is_dir())
-            DummyTFPipeline.from_string(config).run()
+            fi_tfdummy.DummyPipeline.from_string(config).run()
             self.assertTrue(tb.is_dir())
 
+
+class TorchPipelineTests(PipelineTestBase):
     def test_run_torch(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
@@ -298,5 +277,5 @@ class PipelineTests(unittest.TestCase):
             tb = Path(root, 'proj/tensorboard')
 
             self.assertFalse(tb.is_dir())
-            DummyTFPipeline.from_string(config).run()
+            fi_tfdummy.DummyPipeline.from_string(config).run()
             self.assertTrue(tb.is_dir())

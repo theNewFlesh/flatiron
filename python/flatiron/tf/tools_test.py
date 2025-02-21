@@ -4,14 +4,13 @@ from tempfile import TemporaryDirectory
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
-from keras import layers as tfl
-from keras import models as tfmodels
 
 import flatiron
 import flatiron.core.tools as fict
-import flatiron.tf.tools as fi_tftools
 from flatiron.core.dataset import Dataset
 from flatiron.core.dataset_test import DatasetTestBase
+import flatiron.tf.models.dummy as fi_tfdummy
+import flatiron.tf.tools as fi_tftools
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -26,13 +25,6 @@ class MockModel:
     def compile(self, *args, **kwargs):
         self.args = args
         self.kwargs = kwargs
-
-
-def get_fake_model(shape):
-    input_ = tfl.Input(shape, name='input')
-    output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
-    model = tfmodels.Model(inputs=[input_], outputs=[output])
-    return model
 
 
 class TFToolsTests(DatasetTestBase):
@@ -88,7 +80,7 @@ class TFToolsTests(DatasetTestBase):
         self.assertTrue(model.kwargs['jit_compile'])
 
     def test_train(self):
-        model = get_fake_model((10, 10, 3))
+        model = fi_tfdummy.get_dummy_model((10, 10, 3))
         model.compile(loss='mse', optimizer='adam')
         compiled = dict(model=model)
 
