@@ -1,11 +1,6 @@
-from typing import Optional
+from flatiron.core.types import OptBool, OptInt, OptStr
 
 import pydantic as pyd
-
-OptBool = Optional[bool]
-OptInt = Optional[int]
-OptFloat = Optional[float]
-OptStr = Optional[str]
 # ------------------------------------------------------------------------------
 
 

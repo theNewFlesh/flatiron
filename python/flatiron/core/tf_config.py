@@ -1,10 +1,6 @@
-from typing import Optional
+from flatiron.core.types import OptInt, OptFloat, OptStr
 
 import pydantic as pyd
-
-OptBool = Optional[bool]
-OptInt = Optional[int]
-OptFloat = Optional[float]
 # ------------------------------------------------------------------------------
 
 
@@ -98,7 +94,7 @@ class TFOptRMSpropConfig(TFOptBaseConfig, TFEpsilon):
 
 # LOSS--------------------------------------------------------------------------
 class TFLossBaseConfig(TFBaseConfig):
-    dtype: Optional[str] = None
+    dtype: OptStr = None
     reduction: str = 'sum_over_batch_size'
 
 
@@ -151,7 +147,7 @@ class TFLossHuberConfig(TFLossBaseConfig):
 
 
 class TFLossSparseCategoricalCrossentropyConfig(TFLossBaseConfig, TFLogits):
-    ignore_class: Optional[int] = None
+    ignore_class: OptInt = None
 
 
 class TFLossTverskyConfig(TFLossBaseConfig, TFAxis):
