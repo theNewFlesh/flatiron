@@ -12,7 +12,7 @@ class BaseConfig(pyd.BaseModel):
     name: str
 
 
-# TF-OPTIMIZER------------------------------------------------------------------
+# OPTIMIZER---------------------------------------------------------------------
 class TFOptBaseConfig(BaseConfig):
     clipnorm: OptFloat = None
     clipvalue: OptFloat = None
