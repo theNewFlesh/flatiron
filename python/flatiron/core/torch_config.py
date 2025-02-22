@@ -15,7 +15,7 @@ class BaseConfig(pyd.BaseModel):
 
 # OPTIMIZER---------------------------------------------------------------------
 class TorchBaseConfig(BaseConfig):
-    lr: float = 0.01
+    learning_rate: float = 0.01  # convert to lr
 
 
 class TMax(pyd.BaseModel):
