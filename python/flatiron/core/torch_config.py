@@ -1,3 +1,4 @@
+from typing import Union
 from flatiron.core.types import OptBool, OptInt, OptStr
 
 import pydantic as pyd
@@ -70,6 +71,35 @@ class TGroup2(TRed, TReduct, TSize):
 
 class TGroup3(TMarg, TRed, TReduct, TSize):
     pass
+
+
+# METRIC-HELPERS----------------------------------------------------------------
+class TInd(pyd.BaseModel):
+    ignore_index: OptInt = None
+
+
+class TNan(pyd.BaseModel):  # multi
+    nan_strategy: Union[str, float] = 'warn'
+
+
+class TAct(pyd.BaseModel):  # multi
+    empty_target_action: str = 'neg'
+
+
+class TOut(pyd.BaseModel):
+    num_outputs: int = 1
+
+
+class TMReduct(pyd.BaseModel):  # multi
+    reduction: OptStr = 'elementwise_mean'
+
+
+class TTopK(pyd.BaseModel):
+    top_k: OptInt = None
+
+
+class TCls(pyd.BaseModel):  # multi
+    num_classes: OptInt = None
 
 
 # OPTIMIZER---------------------------------------------------------------------
