@@ -8,12 +8,12 @@ OptFloat = Optional[float]
 # ------------------------------------------------------------------------------
 
 
-class BaseConfig(pyd.BaseModel):
+class TFBaseConfig(pyd.BaseModel):
     name: str
 
 
 # OPTIMIZER---------------------------------------------------------------------
-class TFOptBaseConfig(BaseConfig):
+class TFOptBaseConfig(TFBaseConfig):
     clipnorm: OptFloat = None
     clipvalue: OptFloat = None
     ema_momentum: float = 0.99
@@ -97,7 +97,7 @@ class TFOptRMSpropConfig(TFOptBaseConfig, TFEpsilon):
 
 
 # LOSS--------------------------------------------------------------------------
-class TFLossBaseConfig(BaseConfig):
+class TFLossBaseConfig(TFBaseConfig):
     dtype: Optional[str] = None
     reduction: str = 'sum_over_batch_size'
 
