@@ -94,3 +94,65 @@ class TFOptRMSpropConfig(TFOptBaseConfig, TFEpsilon):
     centered: bool = False
     momentum: float = 0.0
     rho: float = 0.9
+
+
+# LOSS--------------------------------------------------------------------------
+class TFLossBaseConfig(BaseConfig):
+    dtype: Optional[str] = None
+    reduction: str = 'sum_over_batch_size'
+
+
+class TFAxis(pyd.BaseModel):
+    axis: int = -1
+
+
+class TFLogits(pyd.BaseModel):
+    from_logits: bool = False
+
+
+class TFLossBinaryCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+    label_smoothing: float = 0.0
+
+
+class TFLossBinaryFocalCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+    alpha: float = 0.25
+    apply_class_balancing: bool = False
+    gamma: float = 2.0
+    label_smoothing: float = 0.0
+
+
+class TFLossCategoricalCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+    label_smoothing: float = 0.0
+
+
+class TFLossCategoricalFocalCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+    alpha: float = 0.25
+    gamma: float = 2.0
+    label_smoothing: float = 0.0
+
+
+class TFLossCircleConfig(TFLossBaseConfig):
+    gamma: float = 80.0
+    margin: float = 0.4
+    remove_diagonal: bool = True
+
+
+class TFLossCosineSimilarityConfig(TFLossBaseConfig, TFAxis):
+    pass
+
+
+class TFLossDiceConfig(TFLossBaseConfig, TFAxis):
+    pass
+
+
+class TFLossHuberConfig(TFLossBaseConfig):
+    delta: float = 1.0
+
+
+class TFLossSparseCategoricalCrossentropyConfig(TFLossBaseConfig, TFLogits):
+    ignore_class: Optional[int] = None
+
+
+class TFLossTverskyConfig(TFLossBaseConfig, TFAxis):
+    alpha: float = 0.5
+    beta: float = 0.5
