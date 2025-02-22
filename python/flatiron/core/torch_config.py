@@ -14,7 +14,7 @@ class BaseConfig(pyd.BaseModel):
 
 
 # OPTIMIZER---------------------------------------------------------------------
-class TorchBaseConfig(BaseConfig):
+class TorchOptBaseConfig(BaseConfig):
     learning_rate: float = 0.01  # convert to lr
 
 
@@ -52,42 +52,42 @@ class TGroup(TCap, TDecay, TDiff, TEps, TFor, TMax):
 # ------------------------------------------------------------------------------
 
 
-class TorchASGDConfig(TorchBaseConfig, TCap, TDecay, TDiff, TFor, TMax):
+class TorchOptASGDConfig(TorchOptBaseConfig, TCap, TDecay, TDiff, TFor, TMax):
     alpha: float = 0.75
     lambd: float = 0.0001
     t0: float = 1000000.0
 
 
-class TorchAdadeltaConfig(TorchBaseConfig, TGroup):
+class TorchOptAdadeltaConfig(TorchOptBaseConfig, TGroup):
     rho: float = 0.9
 
 
-class TorchAdafactorConfig(TorchBaseConfig, TDecay, TEps, TFor, TMax):
+class TorchOptAdafactorConfig(TorchOptBaseConfig, TDecay, TEps, TFor, TMax):
     beta2_decay: float = -0.8
     d: float = 1.0
 
 
-class TorchAdagradConfig(TorchBaseConfig, TDecay, TDiff, TEps, TFor, TMax):
+class TorchOptAdagradConfig(TorchOptBaseConfig, TDecay, TDiff, TEps, TFor, TMax):
     fused: OptBool = None
     initial_accumulator_value: float = 0
     lr_decay: float = 0
 
 
-class TorchAdamConfig(TorchBaseConfig, TGroup, TBeta):
+class TorchOptAdamConfig(TorchOptBaseConfig, TGroup, TBeta):
     amsgrad: bool = False
     fused: OptBool = None
 
 
-class TorchAdamWConfig(TorchBaseConfig, TGroup, TBeta):
+class TorchOptAdamWConfig(TorchOptBaseConfig, TGroup, TBeta):
     amsgrad: bool = False
     fused: OptBool = None
 
 
-class TorchAdamaxConfig(TorchBaseConfig, TGroup, TBeta):
+class TorchOptAdamaxConfig(TorchOptBaseConfig, TGroup, TBeta):
     pass
 
 
-class TorchLBFGSConfig(TorchBaseConfig):
+class TorchOptLBFGSConfig(TorchOptBaseConfig):
     history_size: int = 100
     line_search_fn: OptStr = None
     max_eval: OptInt = None
@@ -96,31 +96,31 @@ class TorchLBFGSConfig(TorchBaseConfig):
     tolerance_grad: float = 1e-07
 
 
-class TorchNAdamConfig(TorchBaseConfig, TGroup, TBeta):
+class TorchOptNAdamConfig(TorchOptBaseConfig, TGroup, TBeta):
     momentum_decay: float = 0.004
 
 
-class TorchRAdamConfig(TorchBaseConfig, TGroup, TBeta):
+class TorchOptRAdamConfig(TorchOptBaseConfig, TGroup, TBeta):
     pass
 
 
-class TorchRMSpropConfig(TorchBaseConfig, TGroup):
+class TorchOptRMSpropConfig(TorchOptBaseConfig, TGroup):
     alpha: float = 0.99
     centered: bool = False
     momentum: float = 0
 
 
-class TorchRpropConfig(TorchBaseConfig, TCap, TDiff, TFor, TMax):
+class TorchOptRpropConfig(TorchOptBaseConfig, TCap, TDiff, TFor, TMax):
     etas: tuple[float, float] = (0.5, 1.2)
     step_sizes: tuple[float, float] = (1e-06, 50)
 
 
-class TorchSGDConfig(TorchBaseConfig, TDecay, TDiff, TFor, TMax):
+class TorchOptSGDConfig(TorchOptBaseConfig, TDecay, TDiff, TFor, TMax):
     dampening: float = 0
     fused: OptBool = None
     momentum: float = 0
     nesterov: bool = False
 
 
-class TorchSparseAdamConfig(TorchBaseConfig, TEps, TMax, TBeta):
+class TorchOptSparseAdamConfig(TorchOptBaseConfig, TEps, TMax, TBeta):
     pass
