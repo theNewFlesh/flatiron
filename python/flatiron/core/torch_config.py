@@ -9,12 +9,12 @@ OptStr = Optional[str]
 # ------------------------------------------------------------------------------
 
 
-class BaseConfig(pyd.BaseModel):
+class TorchBaseConfig(pyd.BaseModel):
     name: str
 
 
 # OPTIMIZER---------------------------------------------------------------------
-class TorchOptBaseConfig(BaseConfig):
+class TorchOptBaseConfig(TorchBaseConfig):
     learning_rate: float = 0.01  # convert to lr
 
 
