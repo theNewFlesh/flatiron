@@ -78,28 +78,28 @@ class TInd(pyd.BaseModel):
     ignore_index: OptInt = None
 
 
-class TNan(pyd.BaseModel):  # multi
-    nan_strategy: Union[str, float] = 'warn'
+class TNan(pyd.BaseModel):
+    nan_strategy: Union[str, float] = 'warn'  # has multiple signatures
 
 
-class TAct(pyd.BaseModel):  # multi
-    empty_target_action: str = 'neg'
+class TAct(pyd.BaseModel):
+    empty_target_action: str = 'neg'  # has multiple signatures
 
 
 class TOut(pyd.BaseModel):
     num_outputs: int = 1
 
 
-class TMReduct(pyd.BaseModel):  # multi
-    reduction: OptStr = 'elementwise_mean'
+class TMReduct(pyd.BaseModel):
+    reduction: OptStr = 'elementwise_mean'  # has multiple signatures
 
 
 class TTopK(pyd.BaseModel):
     top_k: OptInt = None
 
 
-class TCls(pyd.BaseModel):  # multi
-    num_classes: OptInt = None
+class TCls(pyd.BaseModel):
+    num_classes: OptInt = None  # has multiple signatures
 
 
 # OPTIMIZER---------------------------------------------------------------------
