@@ -59,7 +59,7 @@ class TorchOptAdadeltaConfig(TorchOptBaseConfig, TGroup):
 
 class TorchOptAdafactorConfig(TorchOptBaseConfig, TDecay, TEps, TFor, TMax):
     beta2_decay: float = -0.8
-    d: float = 1.0
+    clipping_threshold: float = 1.0  # convert to d
 
 
 class TorchOptAdagradConfig(TorchOptBaseConfig, TDecay, TDiff, TEps, TFor, TMax):
