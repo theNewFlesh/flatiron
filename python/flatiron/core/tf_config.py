@@ -33,6 +33,7 @@ class TFEpsilon(pyd.BaseModel):
 class TFBeta(pyd.BaseModel):
     beta_1: float = 0.9
     beta_2: float = 0.99
+# ------------------------------------------------------------------------------
 
 
 class TFOptAdafactorConfig(TFOptBaseConfig):

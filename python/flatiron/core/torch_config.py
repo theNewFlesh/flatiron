@@ -49,6 +49,7 @@ class TBeta(pyd.BaseModel):
 
 class TGroup(TCap, TDecay, TDiff, TEps, TFor, TMax):
     pass
+# ------------------------------------------------------------------------------
 
 
 class TorchASGDConfig(TorchBaseConfig, TCap, TDecay, TDiff, TFor, TMax):
