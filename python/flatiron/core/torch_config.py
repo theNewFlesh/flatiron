@@ -9,7 +9,7 @@ class TorchBaseConfig(pyd.BaseModel):
     name: str
 
 
-# OPTIMIZER HELPERS
+# OPTIMIZER-HELPERS-------------------------------------------------------------
 class TorchOptBaseConfig(TorchBaseConfig):
     learning_rate: float = 0.01  # convert to lr
 
@@ -47,7 +47,7 @@ class TGroup1(TCap, TDecay, TDiff, TEps, TFor, TMax):
     pass
 
 
-# LOSS HELPERS
+# LOSS-HELPERS------------------------------------------------------------------
 class TReduct(pyd.BaseModel):
     reduction: str = 'mean'
 
