@@ -31,7 +31,7 @@ class TDiff(pyd.BaseModel):
 
 
 class TEps(pyd.BaseModel):
-    eps: float = 1e-06
+    epsilon: float = 1e-06  # convert to eps
 
 
 class TCap(pyd.BaseModel):
@@ -42,13 +42,22 @@ class TDecay(pyd.BaseModel):
     weight_decay: float = 0
 
 
+class TBeta(pyd.BaseModel):
+    beta_1: float = 0.9
+    beta_2: float = 0.999  # convert to betas: tuple[float, float]
+
+
+class TGroup(TCap, TDecay, TDiff, TEps, TFor, TMax):
+    pass
+
+
 class TorchASGDConfig(TorchBaseConfig, TCap, TDecay, TDiff, TFor, TMax):
     alpha: float = 0.75
     lambd: float = 0.0001
     t0: float = 1000000.0
 
 
-class TorchAdadeltaConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
+class TorchAdadeltaConfig(TorchBaseConfig, TGroup):
     rho: float = 0.9
 
 
@@ -63,20 +72,18 @@ class TorchAdagradConfig(TorchBaseConfig, TDecay, TDiff, TEps, TFor, TMax):
     lr_decay: float = 0
 
 
-class TorchAdamConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
+class TorchAdamConfig(TorchBaseConfig, TGroup, TBeta):
     amsgrad: bool = False
-    betas: tuple[float, float] = (0.9, 0.999)
     fused: OptBool = None
 
 
-class TorchAdamWConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
+class TorchAdamWConfig(TorchBaseConfig, TGroup, TBeta):
     amsgrad: bool = False
-    betas: tuple[float, float] = (0.9, 0.999)
     fused: OptBool = None
 
 
-class TorchAdamaxConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
-    betas: tuple[float, float] = (0.9, 0.999)
+class TorchAdamaxConfig(TorchBaseConfig, TGroup, TBeta):
+    pass
 
 
 class TorchLBFGSConfig(TorchBaseConfig):
@@ -88,16 +95,15 @@ class TorchLBFGSConfig(TorchBaseConfig):
     tolerance_grad: float = 1e-07
 
 
-class TorchNAdamConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
-    betas: tuple[float, float] = (0.9, 0.999)
+class TorchNAdamConfig(TorchBaseConfig, TGroup, TBeta):
     momentum_decay: float = 0.004
 
 
-class TorchRAdamConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
-    betas: tuple[float, float] = (0.9, 0.999)
+class TorchRAdamConfig(TorchBaseConfig, TGroup, TBeta):
+    pass
 
 
-class TorchRMSpropConfig(TorchBaseConfig, TCap, TDecay, TDiff, TEps, TFor, TMax):
+class TorchRMSpropConfig(TorchBaseConfig, TGroup):
     alpha: float = 0.99
     centered: bool = False
     momentum: float = 0
@@ -115,5 +121,5 @@ class TorchSGDConfig(TorchBaseConfig, TDecay, TDiff, TFor, TMax):
     nesterov: bool = False
 
 
-class TorchSparseAdamConfig(TorchBaseConfig, TEps, TMax):
-    betas: tuple[float, float] = (0.9, 0.999)
+class TorchSparseAdamConfig(TorchBaseConfig, TEps, TMax, TBeta):
+    pass
