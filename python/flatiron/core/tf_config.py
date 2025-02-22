@@ -108,6 +108,7 @@ class TFAxis(pyd.BaseModel):
 
 class TFLogits(pyd.BaseModel):
     from_logits: bool = False
+# ------------------------------------------------------------------------------
 
 
 class TFLossBinaryCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
