@@ -1,5 +1,5 @@
-from typing import Union
-from flatiron.core.types import OptBool, OptInt, OptStr
+from typing import Optional, Union
+from flatiron.core.types import OptBool, OptFloat, OptInt, OptStr
 
 import pydantic as pyd
 # ------------------------------------------------------------------------------
@@ -100,6 +100,10 @@ class TTopK(pyd.BaseModel):
 
 class TCls(pyd.BaseModel):
     num_classes: OptInt = None  # has multiple signatures
+
+
+class TDate(pyd.BaseModel):
+    data_range: Optional[Union[float, tuple[float, float]]] = None
 
 
 # OPTIMIZER---------------------------------------------------------------------
@@ -269,3 +273,311 @@ class TorchTripletMarginLossConfig(TorchBaseConfig, TEps, TGroup3):
 
 class TorchTripletMarginWithDistanceLossConfig(TorchBaseConfig, TMarg, TReduct):
     swap: bool = False
+
+
+# METRICS-----------------------------------------------------------------------
+class TorchMetBLEUScoreConfig(TorchBaseConfig):
+    n_gram: int = 4
+    smooth: bool = False
+    weights: Optional[list[float]] = None
+
+
+class TorchMetCHRFScoreConfig(TorchBaseConfig):
+    beta: float = 2.0
+    lowercase: bool = False
+    n_char_order: int = 6
+    n_word_order: int = 2
+    return_sentence_level_score: bool = False
+    whitespace: bool = False
+
+
+class TorchMetCatMetricConfig(TorchBaseConfig, TNan):
+    pass
+
+
+class TorchMetConcordanceCorrCoefConfig(TorchBaseConfig, TOut):
+    pass
+
+
+class TorchMetCosineSimilarityConfig(TorchBaseConfig):
+    reduction: str = 'sum'
+
+
+class TorchMetCramersVConfig(TorchBaseConfig, TCls, TNan):
+    bias_correction: bool = True
+    nan_replace_value: OptFloat = 0.0
+
+
+class TorchMetCriticalSuccessIndexConfig(TorchBaseConfig):
+    keep_sequence_dim: OptInt = None
+    threshold: float
+
+
+class TorchMetDiceConfig(TorchBaseConfig, TCls, TInd, TTopK):
+    average: OptStr = 'micro'
+    mdmc_average: OptStr = 'global'
+    multiclass: OptBool = None
+    threshold: float = 0.5
+    zero_division: int = 0
+
+
+class TorchMetErrorRelativeGlobalDimensionlessSynthesisConfig(TorchBaseConfig, TMReduct):
+    ratio: float = 4
+
+
+class TorchMetExplainedVarianceConfig(TorchBaseConfig):
+    multioutput: str = 'uniform_average'
+
+
+class TorchMetExtendedEditDistanceConfig(TorchBaseConfig):
+    alpha: float = 2.0
+    deletion: float = 0.2
+    insertion: float = 1.0
+    language: str = 'en'
+    return_sentence_level_score: bool = False
+    rho: float = 0.3
+
+
+class TorchMetFleissKappaConfig(TorchBaseConfig):
+    mode: str = 'counts'
+
+
+class TorchMetKLDivergenceConfig(TorchBaseConfig):
+    log_prob: bool = False
+    reduction: str = 'mean'
+
+
+class TorchMetKendallRankCorrCoefConfig(TorchBaseConfig, TOut):
+    alternative: OptStr = 'two-sided'
+    t_test: bool = False
+    variant: str = 'b'
+
+
+class TorchMetLogCoshErrorConfig(TorchBaseConfig, TOut):
+    pass
+
+
+class TorchMetMaxMetricConfig(TorchBaseConfig, TNan):
+    pass
+
+
+class TorchMetMeanAbsoluteErrorConfig(TorchBaseConfig, TOut):
+    pass
+
+
+class TorchMetMeanMetricConfig(TorchBaseConfig, TNan):
+    pass
+
+
+class TorchMetMeanSquaredErrorConfig(TorchBaseConfig, TOut):
+    squared: bool = True
+
+
+class TorchMetMinMetricConfig(TorchBaseConfig, TNan):
+    pass
+
+
+class TorchMetMinkowskiDistanceConfig(TorchBaseConfig):
+    p: float
+
+
+class TorchMetModifiedPanopticQualityConfig(TorchBaseConfig):
+    allow_unknown_preds_category: bool = False
+    stuffs: list[int]
+    things: list[int]
+
+
+class TorchMetMultiScaleStructuralSimilarityIndexMeasureConfig(TorchBaseConfig, TMReduct, TDate):
+    betas: tuple = (0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
+    gaussian_kernel: bool = True
+    k1: float = 0.01
+    k2: float = 0.03
+    kernel_size: Union[int, list[int]] = 11
+    normalize: str = 'relu'
+    sigma: Union[float, list[float]] = 1.5
+
+
+class TorchMetNormalizedRootMeanSquaredErrorConfig(TorchBaseConfig, TOut):
+    normalization: str = 'mean'
+
+
+class TorchMetPanopticQualityConfig(TorchBaseConfig):
+    allow_unknown_preds_category: bool = False
+    stuffs: list[int]
+    things: list[int]
+
+
+class TorchMetPeakSignalNoiseRatioConfig(TorchBaseConfig, TMReduct, TDate):
+    base: float = 10.0
+    dim: Optional[Union[int, tuple[int, ...]]] = None
+
+
+class TorchMetPearsonCorrCoefConfig(TorchBaseConfig, TOut):
+    pass
+
+
+class TorchMetPearsonsContingencyCoefficientConfig(TorchBaseConfig):
+    nan_replace_value: OptFloat = 0.0
+    nan_strategy: str = 'replace'
+    num_classes: int
+
+
+class TorchMetPermutationInvariantTrainingConfig(TorchBaseConfig):
+    eval_func: str = 'max'
+    mode: str = 'speaker-wise'
+
+
+class TorchMetPerplexityConfig(TorchBaseConfig, TInd):
+    pass
+
+
+class TorchMetR2ScoreConfig(TorchBaseConfig):
+    adjusted: int = 0
+    multioutput: str = 'uniform_average'
+
+
+class TorchMetRelativeAverageSpectralErrorConfig(TorchBaseConfig):
+    window_size: int = 8
+
+
+class TorchMetRelativeSquaredErrorConfig(TorchBaseConfig, TOut):
+    squared: bool = True
+
+
+class TorchMetRetrievalFallOutConfig(TorchBaseConfig, TInd, TTopK):
+    empty_target_action: str = 'pos'
+
+
+class TorchMetRetrievalHitRateConfig(TorchBaseConfig, TAct, TInd, TTopK):
+    pass
+
+
+class TorchMetRetrievalMAPConfig(TorchBaseConfig, TAct, TInd, TTopK):
+    pass
+
+
+class TorchMetRetrievalMRRConfig(TorchBaseConfig, TAct, TInd):
+    pass
+
+
+class TorchMetRetrievalNormalizedDCGConfig(TorchBaseConfig, TAct, TInd, TTopK):
+    pass
+
+
+class TorchMetRetrievalPrecisionConfig(TorchBaseConfig, TAct, TInd, TTopK):
+    adaptive_k: bool = False
+
+
+class TorchMetRetrievalPrecisionRecallCurveConfig(TorchBaseConfig, TInd):
+    adaptive_k: bool = False
+    max_k: OptInt = None
+
+
+class TorchMetRetrievalRPrecisionConfig(TorchBaseConfig, TAct, TInd):
+    pass
+
+
+class TorchMetRetrievalRecallConfig(TorchBaseConfig, TAct, TInd, TTopK):
+    pass
+
+
+class TorchMetRetrievalRecallAtFixedPrecisionConfig(TorchBaseConfig, TAct, TInd):
+    adaptive_k: bool = False
+    max_k: OptInt = None
+    min_precision: float = 0.0
+
+
+class TorchMetRootMeanSquaredErrorUsingSlidingWindowConfig(TorchBaseConfig):
+    window_size: int = 8
+
+
+class TorchMetRunningMeanConfig(TorchBaseConfig, TNan):
+    window: int = 5
+
+
+class TorchMetRunningSumConfig(TorchBaseConfig, TNan):
+    window: int = 5
+
+
+class TorchMetSacreBLEUScoreConfig(TorchBaseConfig):
+    lowercase: bool = False
+    n_gram: int = 4
+    smooth: bool = False
+    tokenize: str = '13a'
+    weights: Optional[list[float]] = None
+
+
+class TorchMetScaleInvariantSignalDistortionRatioConfig(TorchBaseConfig):
+    zero_mean: bool = False
+
+
+class TorchMetSignalDistortionRatioConfig(TorchBaseConfig):
+    filter_length: int = 512
+    load_diag: OptFloat = None
+    use_cg_iter: OptInt = None
+    zero_mean: bool = False
+
+
+class TorchMetSignalNoiseRatioConfig(TorchBaseConfig):
+    zero_mean: bool = False
+
+
+class TorchMetSpearmanCorrCoefConfig(TorchBaseConfig, TOut):
+    pass
+
+
+class TorchMetSpectralAngleMapperConfig(TorchBaseConfig, TMReduct):
+    pass
+
+
+class TorchMetSpectralDistortionIndexConfig(TorchBaseConfig, TMReduct):
+    p: int = 1
+
+
+class TorchMetStructuralSimilarityIndexMeasureConfig(TorchBaseConfig, TMReduct):
+    data_range: Optional[Union[float, tuple[float, float]]] = None
+    gaussian_kernel: bool = True
+    k1: float = 0.01
+    k2: float = 0.03
+    kernel_size: Union[int, list[int]] = 11
+    return_contrast_sensitivity: bool = False
+    return_full_image: bool = False
+    sigma: Union[float, list[float]] = 1.5
+
+
+class TorchMetSumMetricConfig(TorchBaseConfig, TNan):
+    pass
+
+
+class TorchMetTheilsUConfig(TorchBaseConfig):
+    nan_replace_value: OptFloat = 0.0
+    nan_strategy: str = 'replace'
+    num_classes: int
+
+
+class TorchMetTotalVariationConfig(TorchBaseConfig):
+    reduction: str = 'sum'
+
+
+class TorchMetTranslationEditRateConfig(TorchBaseConfig):
+    asian_support: bool = False
+    lowercase: bool = True
+    no_punctuation: bool = False
+    normalize: bool = False
+    return_sentence_level_score: bool = False
+
+
+class TorchMetTschuprowsTConfig(TorchBaseConfig):
+    bias_correction: bool = True
+    nan_replace_value: OptFloat = 0.0
+    nan_strategy: str = 'replace'
+    num_classes: int
+
+
+class TorchMetTweedieDevianceScoreConfig(TorchBaseConfig):
+    power: float = 0.0
+
+
+class TorchMetUniversalImageQualityIndexConfig(TorchBaseConfig, TMReduct):
+    kernel_size: tuple[int, ...] = (11, 11)
+    sigma: tuple[float, ...] = (1.5, 1.5)
