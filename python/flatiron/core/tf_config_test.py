@@ -4,6 +4,7 @@ import unittest
 
 import flatiron.core.tf_config as fi_tfconfig
 import flatiron.tf.optimizer as fi_tfoptim
+import flatiron.tf.loss as fi_tfloss
 # ------------------------------------------------------------------------------
 
 
@@ -41,4 +42,9 @@ class TFConfigTests(unittest.TestCase):
     def test_optimizer(self):
         req = dict(name='test')
         results = get_class_and_kwargs('TFOpt', fi_tfconfig, fi_tfoptim, req)
-        list(results)
+        self.assertGreater(len(list(results)), 0)
+
+    def test_loss(self):
+        req = dict(name='test', dtype='float16')
+        results = get_class_and_kwargs('TFLoss', fi_tfconfig, fi_tfloss, req)
+        self.assertGreater(len(list(results)), 0)

@@ -1,6 +1,8 @@
 from typing import Any, Callable, Union  # noqa F401
 import numpy
 
+from copy import deepcopy
+
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
 from keras import losses as tfloss
@@ -11,21 +13,23 @@ Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
 
 
-def get(name):
-    # type: (str) -> Callable[[Any], Any]
+def get(config):
+    # type: (dict) -> Callable[[Any], Any]
     '''
     Get function from this module.
 
     Args:
-        name (str): Function name.
+        config (dict): Optimizer config.
 
     Returns:
         function: Module function.
     '''
+    kwargs = deepcopy(config)
+    name = kwargs.pop('name')
     try:
         return fict.get_module_function(name, __name__)
     except NotImplementedError:
-        return tfloss.get(name)
+        return tfloss.get(dict(class_name=name, config=kwargs))
 # ------------------------------------------------------------------------------
 
 
