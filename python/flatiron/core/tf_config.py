@@ -19,7 +19,7 @@ class TFOptBaseConfig(TFBaseConfig):
     learning_rate: float = 0.001
     loss_scale_factor: OptFloat = None
     use_ema: bool = False
-    weight_decay: OptFloat = None
+    # weight_decay: OptFloat = None
 
 
 class TFEpsilon(pyd.BaseModel):
@@ -63,7 +63,7 @@ class TFNumThresh(pyd.BaseModel):
 
 
 # OPTIMIZERS--------------------------------------------------------------------
-class TFOptAdafactorConfig(TFOptBaseConfig):
+class TFOptAdafactor(TFOptBaseConfig):
     beta_2_decay: float = -0.8
     clip_threshold: float = 1.0
     epsilon_1: float = 1e-30
@@ -71,7 +71,7 @@ class TFOptAdafactorConfig(TFOptBaseConfig):
     relative_step: bool = True
 
 
-class TFOptFtrlConfig(TFOptBaseConfig):
+class TFOptFtrl(TFOptBaseConfig):
     beta: float = 0.0
     initial_accumulator_value: float = 0.1
     l1_regularization_strength: float = 0.0
@@ -80,94 +80,95 @@ class TFOptFtrlConfig(TFOptBaseConfig):
     learning_rate_power: float = -0.5
 
 
-class TFOptLionConfig(TFOptBaseConfig, TFBeta):
+class TFOptLion(TFOptBaseConfig, TFBeta):
     pass
 
 
-class TFOptSGDConfig(TFOptBaseConfig):
+class TFOptSGD(TFOptBaseConfig):
     momentum: float = 0.0
     nesterov: bool = False
 
 
-class TFOptAdadeltaConfig(TFOptBaseConfig, TFEpsilon):
+class TFOptAdadelta(TFOptBaseConfig, TFEpsilon):
     rho: float = 0.95
 
 
-class TFOptAdagradConfig(TFOptBaseConfig, TFEpsilon):
+class TFOptAdagrad(TFOptBaseConfig, TFEpsilon):
     initial_accumulator_value: float = 0.1
 
 
-class TFOptAdamConfig(TFOptBaseConfig, TFBeta, TFEpsilon):
+class TFOptAdam(TFOptBaseConfig, TFBeta, TFEpsilon):
     amsgrad: bool = False
 
 
-class TFOptAdamWConfig(TFOptBaseConfig, TFBeta, TFEpsilon):
+class TFOptAdamW(TFOptBaseConfig, TFBeta, TFEpsilon):
     amsgrad: bool = False
+    weight_decay: float = 0.004
 
 
-class TFOptAdamaxConfig(TFOptBaseConfig, TFBeta, TFEpsilon):
+class TFOptAdamax(TFOptBaseConfig, TFBeta, TFEpsilon):
     pass
 
 
-class TFOptLambConfig(TFOptBaseConfig, TFBeta, TFEpsilon):
+# class TFOptLamb(TFOptBaseConfig, TFBeta, TFEpsilon):
+#     pass
+
+
+class TFOptNadam(TFOptBaseConfig, TFBeta, TFEpsilon):
     pass
 
 
-class TFOptNadamConfig(TFOptBaseConfig, TFBeta, TFEpsilon):
-    pass
-
-
-class TFOptRMSpropConfig(TFOptBaseConfig, TFEpsilon):
+class TFOptRMSprop(TFOptBaseConfig, TFEpsilon):
     centered: bool = False
     momentum: float = 0.0
     rho: float = 0.9
 
 
 # LOSSES------------------------------------------------------------------------
-class TFLossBinaryCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+class TFLossBinaryCrossentropy(TFLossBaseConfig, TFAxis, TFLogits):
     label_smoothing: float = 0.0
 
 
-class TFLossBinaryFocalCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+class TFLossBinaryFocalCrossentropy(TFLossBaseConfig, TFAxis, TFLogits):
     alpha: float = 0.25
     apply_class_balancing: bool = False
     gamma: float = 2.0
     label_smoothing: float = 0.0
 
 
-class TFLossCategoricalCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+class TFLossCategoricalCrossentropy(TFLossBaseConfig, TFAxis, TFLogits):
     label_smoothing: float = 0.0
 
 
-class TFLossCategoricalFocalCrossentropyConfig(TFLossBaseConfig, TFAxis, TFLogits):
+class TFLossCategoricalFocalCrossentropy(TFLossBaseConfig, TFAxis, TFLogits):
     alpha: float = 0.25
     gamma: float = 2.0
     label_smoothing: float = 0.0
 
 
-class TFLossCircleConfig(TFLossBaseConfig):
+class TFLossCircle(TFLossBaseConfig):
     gamma: float = 80.0
     margin: float = 0.4
     remove_diagonal: bool = True
 
 
-class TFLossCosineSimilarityConfig(TFLossBaseConfig, TFAxis):
+class TFLossCosineSimilarity(TFLossBaseConfig, TFAxis):
     pass
 
 
-class TFLossDiceConfig(TFLossBaseConfig, TFAxis):
+class TFLossDice(TFLossBaseConfig, TFAxis):
     pass
 
 
-class TFLossHuberConfig(TFLossBaseConfig):
+class TFLossHuber(TFLossBaseConfig):
     delta: float = 1.0
 
 
-class TFLossSparseCategoricalCrossentropyConfig(TFLossBaseConfig, TFLogits):
+class TFLossSparseCategoricalCrossentropy(TFLossBaseConfig, TFLogits):
     ignore_class: OptInt = None
 
 
-class TFLossTverskyConfig(TFLossBaseConfig, TFAxis):
+class TFLossTversky(TFLossBaseConfig, TFAxis):
     alpha: float = 0.5
     beta: float = 0.5
 
