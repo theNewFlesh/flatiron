@@ -245,12 +245,12 @@ class TFMetricHinge(TFMetricBaseConfig):
     pass
 
 
-class TFMetricIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
-    sparse_y_pred: bool = True
-    sparse_y_true: bool = True
-    target_class_ids: list[int]
+# class TFMetricIoU(TFMetricBaseConfig, TFAxis):
+#     ignore_class: OptInt = None
+#     num_classes: int
+#     sparse_y_pred: bool = True
+#     sparse_y_true: bool = True
+#     target_class_ids: list[int]
 
 
 class TFMetricKLDivergence(TFMetricBaseConfig):
@@ -273,11 +273,11 @@ class TFMetricMeanAbsolutePercentageError(TFMetricBaseConfig):
     pass
 
 
-class TFMetricMeanIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
-    sparse_y_pred: bool = True
-    sparse_y_true: bool = True
+# class TFMetricMeanIoU(TFMetricBaseConfig, TFAxis):
+#     ignore_class: OptInt = None
+#     num_classes: int
+#     sparse_y_pred: bool = True
+#     sparse_y_true: bool = True
 
 
 class TFMetricMeanSquaredError(TFMetricBaseConfig):
@@ -292,17 +292,17 @@ class TFMetricMetric(TFMetricBaseConfig):
     pass
 
 
-class TFMetricOneHotIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
-    sparse_y_pred: bool = False
-    target_class_ids: list[int]
+# class TFMetricOneHotIoU(TFMetricBaseConfig, TFAxis):
+#     ignore_class: OptInt = None
+#     num_classes: int
+#     sparse_y_pred: bool = False
+#     target_class_ids: list[int]
 
 
-class TFMetricOneHotMeanIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
-    sparse_y_pred: bool = False
+# class TFMetricOneHotMeanIoU(TFMetricBaseConfig, TFAxis):
+#     ignore_class: OptInt = None
+#     num_classes: int
+#     sparse_y_pred: bool = False
 
 
 class TFMetricPearsonCorrelation(TFMetricBaseConfig, TFAxis):
@@ -317,8 +317,8 @@ class TFMetricPrecision(TFMetricBaseConfig, TFClsId, TFThresh):
     top_k: OptInt = None
 
 
-class TFMetricPrecisionAtRecall(TFMetricBaseConfig, TFClsId, TFNumThresh):
-    recall: float
+# class TFMetricPrecisionAtRecall(TFMetricBaseConfig, TFClsId, TFNumThresh):
+#     recall: float
 
 
 class TFMetricR2Score(TFMetricBaseConfig):
@@ -330,16 +330,16 @@ class TFMetricRecall(TFMetricBaseConfig, TFClsId, TFThresh):
     top_k: OptInt = None
 
 
-class TFMetricRecallAtPrecision(TFMetricBaseConfig, TFClsId, TFNumThresh):
-    precision: float
+# class TFMetricRecallAtPrecision(TFMetricBaseConfig, TFClsId, TFNumThresh):
+#     precision: float
 
 
 class TFMetricRootMeanSquaredError(TFMetricBaseConfig):
     pass
 
 
-class TFMetricSensitivityAtSpecificity(TFMetricBaseConfig, TFClsId, TFNumThresh):
-    specificity: float
+# class TFMetricSensitivityAtSpecificity(TFMetricBaseConfig, TFClsId, TFNumThresh):
+#     specificity: float
 
 
 class TFMetricSparseCategoricalAccuracy(TFMetricBaseConfig):
@@ -355,8 +355,8 @@ class TFMetricSparseTopKCategoricalAccuracy(TFMetricBaseConfig):
     k: int = 5
 
 
-class TFMetricSpecificityAtSensitivity(TFMetricBaseConfig, TFClsId, TFNumThresh):
-    sensitivity: float
+# class TFMetricSpecificityAtSensitivity(TFMetricBaseConfig, TFClsId, TFNumThresh):
+#     sensitivity: float
 
 
 class TFMetricSquaredHinge(TFMetricBaseConfig):
