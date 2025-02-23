@@ -107,42 +107,42 @@ class TDate(pyd.BaseModel):
 
 
 # OPTIMIZER---------------------------------------------------------------------
-class TorchOptASGDConfig(TorchOptBaseConfig, TCap, TDecay, TDiff, TFor, TMax):
+class TorchOptASGD(TorchOptBaseConfig, TCap, TDecay, TDiff, TFor, TMax):
     alpha: float = 0.75
     lambd: float = 0.0001
     t0: float = 1000000.0
 
 
-class TorchOptAdadeltaConfig(TorchOptBaseConfig, TGroup1):
+class TorchOptAdadelta(TorchOptBaseConfig, TGroup1):
     rho: float = 0.9
 
 
-class TorchOptAdafactorConfig(TorchOptBaseConfig, TDecay, TEps, TFor, TMax):
+class TorchOptAdafactor(TorchOptBaseConfig, TDecay, TEps, TFor, TMax):
     beta2_decay: float = -0.8
     clipping_threshold: float = 1.0  # convert to d
 
 
-class TorchOptAdagradConfig(TorchOptBaseConfig, TDecay, TDiff, TEps, TFor, TMax):
+class TorchOptAdagrad(TorchOptBaseConfig, TDecay, TDiff, TEps, TFor, TMax):
     fused: OptBool = None
     initial_accumulator_value: float = 0
     lr_decay: float = 0
 
 
-class TorchOptAdamConfig(TorchOptBaseConfig, TGroup1, TBeta):
+class TorchOptAdam(TorchOptBaseConfig, TGroup1, TBeta):
     amsgrad: bool = False
     fused: OptBool = None
 
 
-class TorchOptAdamWConfig(TorchOptBaseConfig, TGroup1, TBeta):
+class TorchOptAdamW(TorchOptBaseConfig, TGroup1, TBeta):
     amsgrad: bool = False
     fused: OptBool = None
 
 
-class TorchOptAdamaxConfig(TorchOptBaseConfig, TGroup1, TBeta):
+class TorchOptAdamax(TorchOptBaseConfig, TGroup1, TBeta):
     pass
 
 
-class TorchOptLBFGSConfig(TorchOptBaseConfig):
+class TorchOptLBFGS(TorchOptBaseConfig):
     history_size: int = 100
     line_search_fn: OptStr = None
     max_eval: OptInt = None
@@ -151,138 +151,138 @@ class TorchOptLBFGSConfig(TorchOptBaseConfig):
     tolerance_grad: float = 1e-07
 
 
-class TorchOptNAdamConfig(TorchOptBaseConfig, TGroup1, TBeta):
+class TorchOptNAdam(TorchOptBaseConfig, TGroup1, TBeta):
     momentum_decay: float = 0.004
 
 
-class TorchOptRAdamConfig(TorchOptBaseConfig, TGroup1, TBeta):
+class TorchOptRAdam(TorchOptBaseConfig, TGroup1, TBeta):
     pass
 
 
-class TorchOptRMSpropConfig(TorchOptBaseConfig, TGroup1):
+class TorchOptRMSprop(TorchOptBaseConfig, TGroup1):
     alpha: float = 0.99
     centered: bool = False
     momentum: float = 0
 
 
-class TorchOptRpropConfig(TorchOptBaseConfig, TCap, TDiff, TFor, TMax):
+class TorchOptRprop(TorchOptBaseConfig, TCap, TDiff, TFor, TMax):
     etas: tuple[float, float] = (0.5, 1.2)
     step_sizes: tuple[float, float] = (1e-06, 50)
 
 
-class TorchOptSGDConfig(TorchOptBaseConfig, TDecay, TDiff, TFor, TMax):
+class TorchOptSGD(TorchOptBaseConfig, TDecay, TDiff, TFor, TMax):
     dampening: float = 0
     fused: OptBool = None
     momentum: float = 0
     nesterov: bool = False
 
 
-class TorchOptSparseAdamConfig(TorchOptBaseConfig, TEps, TMax, TBeta):
+class TorchOptSparseAdam(TorchOptBaseConfig, TEps, TMax, TBeta):
     pass
 
 
 # LOSS--------------------------------------------------------------------------
-class TorchBCELossConfig(TorchBaseConfig, TGroup2):
+class TorchLossBCELoss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchBCEWithLogitsLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossBCEWithLogitsLoss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchCTCLossConfig(TorchBaseConfig, TReduct):
+class TorchLossCTCLoss(TorchBaseConfig, TReduct):
     blank: int = 0
     zero_infinity: bool = False
 
 
-class TorchCosineEmbeddingLossConfig(TorchBaseConfig, TGroup3):
+class TorchLossCosineEmbeddingLoss(TorchBaseConfig, TGroup3):
     pass
 
 
-class TorchCrossEntropyLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossCrossEntropyLoss(TorchBaseConfig, TGroup2):
     ignore_index: int = -100
     label_smoothing: float = 0.0
 
 
-class TorchGaussianNLLLossConfig(TorchBaseConfig, TEps, TReduct):
+class TorchLossGaussianNLLLoss(TorchBaseConfig, TEps, TReduct):
     full: bool = False
 
 
-class TorchHingeEmbeddingLossConfig(TorchBaseConfig, TGroup3):
+class TorchLossHingeEmbeddingLoss(TorchBaseConfig, TGroup3):
     pass
 
 
-class TorchHuberLossConfig(TorchBaseConfig, TReduct):
+class TorchLossHuberLoss(TorchBaseConfig, TReduct):
     delta: float = 1.0
 
 
-class TorchKLDivLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossKLDivLoss(TorchBaseConfig, TGroup2):
     log_target: bool = False
 
 
-class TorchL1LossConfig(TorchBaseConfig, TGroup2):
+class TorchLossL1Loss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchMSELossConfig(TorchBaseConfig, TGroup2):
+class TorchLossMSELoss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchMarginRankingLossConfig(TorchBaseConfig, TGroup3):
+class TorchLossMarginRankingLoss(TorchBaseConfig, TGroup3):
     pass
 
 
-class TorchMultiLabelMarginLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossMultiLabelMarginLoss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchMultiLabelSoftMarginLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossMultiLabelSoftMarginLoss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchMultiMarginLossConfig(TorchBaseConfig, TGroup3):
+class TorchLossMultiMarginLoss(TorchBaseConfig, TGroup3):
     exponent: int = 1  # convert to p
 
 
-class TorchNLLLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossNLLLoss(TorchBaseConfig, TGroup2):
     ignore_index: int = -100
 
 
-class TorchPairwiseDistanceConfig(TorchBaseConfig, TEps):
+class TorchLossPairwiseDistance(TorchBaseConfig, TEps):
     keepdim: bool = False
     norm_degree: float = 2.0  # convert to p
 
 
-class TorchPoissonNLLLossConfig(TorchBaseConfig, TEps, TGroup2):
+class TorchLossPoissonNLLLoss(TorchBaseConfig, TEps, TGroup2):
     full: bool = False
     log_input: bool = True
 
 
-class TorchSmoothL1LossConfig(TorchBaseConfig, TGroup2):
+class TorchLossSmoothL1Loss(TorchBaseConfig, TGroup2):
     beta: float = 1.0
 
 
-class TorchSoftMarginLossConfig(TorchBaseConfig, TGroup2):
+class TorchLossSoftMarginLoss(TorchBaseConfig, TGroup2):
     pass
 
 
-class TorchTripletMarginLossConfig(TorchBaseConfig, TEps, TGroup3):
+class TorchLossTripletMarginLoss(TorchBaseConfig, TEps, TGroup3):
     norm_degree: float = 2.0  # convert to p
     swap: bool = False
 
 
-class TorchTripletMarginWithDistanceLossConfig(TorchBaseConfig, TMarg, TReduct):
+class TorchLossTripletMarginWithDistanceLoss(TorchBaseConfig, TMarg, TReduct):
     swap: bool = False
 
 
 # METRICS-----------------------------------------------------------------------
-class TorchMetBLEUScoreConfig(TorchBaseConfig):
+class TorchMetricBLEUScore(TorchBaseConfig):
     n_gram: int = 4
     smooth: bool = False
     weights: Optional[list[float]] = None
 
 
-class TorchMetCHRFScoreConfig(TorchBaseConfig):
+class TorchMetricCHRFScore(TorchBaseConfig):
     beta: float = 2.0
     lowercase: bool = False
     n_char_order: int = 6
@@ -291,29 +291,29 @@ class TorchMetCHRFScoreConfig(TorchBaseConfig):
     whitespace: bool = False
 
 
-class TorchMetCatMetricConfig(TorchBaseConfig, TNan):
+class TorchMetricCatMetric(TorchBaseConfig, TNan):
     pass
 
 
-class TorchMetConcordanceCorrCoefConfig(TorchBaseConfig, TOut):
+class TorchMetricConcordanceCorrCoef(TorchBaseConfig, TOut):
     pass
 
 
-class TorchMetCosineSimilarityConfig(TorchBaseConfig):
+class TorchMetricCosineSimilarity(TorchBaseConfig):
     reduction: str = 'sum'
 
 
-class TorchMetCramersVConfig(TorchBaseConfig, TCls, TNan):
+class TorchMetricCramersV(TorchBaseConfig, TCls, TNan):
     bias_correction: bool = True
     nan_replace_value: OptFloat = 0.0
 
 
-class TorchMetCriticalSuccessIndexConfig(TorchBaseConfig):
+class TorchMetricCriticalSuccessIndex(TorchBaseConfig):
     keep_sequence_dim: OptInt = None
     threshold: float
 
 
-class TorchMetDiceConfig(TorchBaseConfig, TCls, TInd, TTopK):
+class TorchMetricDice(TorchBaseConfig, TCls, TInd, TTopK):
     average: OptStr = 'micro'
     mdmc_average: OptStr = 'global'
     multiclass: OptBool = None
@@ -321,15 +321,15 @@ class TorchMetDiceConfig(TorchBaseConfig, TCls, TInd, TTopK):
     zero_division: int = 0
 
 
-class TorchMetErrorRelativeGlobalDimensionlessSynthesisConfig(TorchBaseConfig, TMReduct):
+class TorchMetricErrorRelativeGlobalDimensionlessSynthesis(TorchBaseConfig, TMReduct):
     ratio: float = 4
 
 
-class TorchMetExplainedVarianceConfig(TorchBaseConfig):
+class TorchMetricExplainedVariance(TorchBaseConfig):
     multioutput: str = 'uniform_average'
 
 
-class TorchMetExtendedEditDistanceConfig(TorchBaseConfig):
+class TorchMetricExtendedEditDistance(TorchBaseConfig):
     alpha: float = 2.0
     deletion: float = 0.2
     insertion: float = 1.0
@@ -338,56 +338,56 @@ class TorchMetExtendedEditDistanceConfig(TorchBaseConfig):
     rho: float = 0.3
 
 
-class TorchMetFleissKappaConfig(TorchBaseConfig):
+class TorchMetricFleissKappa(TorchBaseConfig):
     mode: str = 'counts'
 
 
-class TorchMetKLDivergenceConfig(TorchBaseConfig):
+class TorchMetricKLDivergence(TorchBaseConfig):
     log_prob: bool = False
     reduction: str = 'mean'
 
 
-class TorchMetKendallRankCorrCoefConfig(TorchBaseConfig, TOut):
+class TorchMetricKendallRankCorrCoef(TorchBaseConfig, TOut):
     alternative: OptStr = 'two-sided'
     t_test: bool = False
     variant: str = 'b'
 
 
-class TorchMetLogCoshErrorConfig(TorchBaseConfig, TOut):
+class TorchMetricLogCoshError(TorchBaseConfig, TOut):
     pass
 
 
-class TorchMetMaxMetricConfig(TorchBaseConfig, TNan):
+class TorchMetricMaxMetric(TorchBaseConfig, TNan):
     pass
 
 
-class TorchMetMeanAbsoluteErrorConfig(TorchBaseConfig, TOut):
+class TorchMetricMeanAbsoluteError(TorchBaseConfig, TOut):
     pass
 
 
-class TorchMetMeanMetricConfig(TorchBaseConfig, TNan):
+class TorchMetricMeanMetric(TorchBaseConfig, TNan):
     pass
 
 
-class TorchMetMeanSquaredErrorConfig(TorchBaseConfig, TOut):
+class TorchMetricMeanSquaredError(TorchBaseConfig, TOut):
     squared: bool = True
 
 
-class TorchMetMinMetricConfig(TorchBaseConfig, TNan):
+class TorchMetricMinMetric(TorchBaseConfig, TNan):
     pass
 
 
-class TorchMetMinkowskiDistanceConfig(TorchBaseConfig):
+class TorchMetricMinkowskiDistance(TorchBaseConfig):
     p: float
 
 
-class TorchMetModifiedPanopticQualityConfig(TorchBaseConfig):
+class TorchMetricModifiedPanopticQuality(TorchBaseConfig):
     allow_unknown_preds_category: bool = False
     stuffs: list[int]
     things: list[int]
 
 
-class TorchMetMultiScaleStructuralSimilarityIndexMeasureConfig(TorchBaseConfig, TMReduct, TDate):
+class TorchMetricMultiScaleStructuralSimilarityIndexMeasure(TorchBaseConfig, TMReduct, TDate):
     betas: tuple = (0.0448, 0.2856, 0.3001, 0.2363, 0.1333)
     gaussian_kernel: bool = True
     k1: float = 0.01
@@ -397,109 +397,109 @@ class TorchMetMultiScaleStructuralSimilarityIndexMeasureConfig(TorchBaseConfig, 
     sigma: Union[float, list[float]] = 1.5
 
 
-class TorchMetNormalizedRootMeanSquaredErrorConfig(TorchBaseConfig, TOut):
+class TorchMetricNormalizedRootMeanSquaredError(TorchBaseConfig, TOut):
     normalization: str = 'mean'
 
 
-class TorchMetPanopticQualityConfig(TorchBaseConfig):
+class TorchMetricPanopticQuality(TorchBaseConfig):
     allow_unknown_preds_category: bool = False
     stuffs: list[int]
     things: list[int]
 
 
-class TorchMetPeakSignalNoiseRatioConfig(TorchBaseConfig, TMReduct, TDate):
+class TorchMetricPeakSignalNoiseRatio(TorchBaseConfig, TMReduct, TDate):
     base: float = 10.0
     dim: Optional[Union[int, tuple[int, ...]]] = None
 
 
-class TorchMetPearsonCorrCoefConfig(TorchBaseConfig, TOut):
+class TorchMetricPearsonCorrCoef(TorchBaseConfig, TOut):
     pass
 
 
-class TorchMetPearsonsContingencyCoefficientConfig(TorchBaseConfig):
+class TorchMetricPearsonsContingencyCoefficient(TorchBaseConfig):
     nan_replace_value: OptFloat = 0.0
     nan_strategy: str = 'replace'
     num_classes: int
 
 
-class TorchMetPermutationInvariantTrainingConfig(TorchBaseConfig):
+class TorchMetricPermutationInvariantTraining(TorchBaseConfig):
     eval_func: str = 'max'
     mode: str = 'speaker-wise'
 
 
-class TorchMetPerplexityConfig(TorchBaseConfig, TInd):
+class TorchMetricPerplexity(TorchBaseConfig, TInd):
     pass
 
 
-class TorchMetR2ScoreConfig(TorchBaseConfig):
+class TorchMetricR2Score(TorchBaseConfig):
     adjusted: int = 0
     multioutput: str = 'uniform_average'
 
 
-class TorchMetRelativeAverageSpectralErrorConfig(TorchBaseConfig):
+class TorchMetricRelativeAverageSpectralError(TorchBaseConfig):
     window_size: int = 8
 
 
-class TorchMetRelativeSquaredErrorConfig(TorchBaseConfig, TOut):
+class TorchMetricRelativeSquaredError(TorchBaseConfig, TOut):
     squared: bool = True
 
 
-class TorchMetRetrievalFallOutConfig(TorchBaseConfig, TInd, TTopK):
+class TorchMetricRetrievalFallOut(TorchBaseConfig, TInd, TTopK):
     empty_target_action: str = 'pos'
 
 
-class TorchMetRetrievalHitRateConfig(TorchBaseConfig, TAct, TInd, TTopK):
+class TorchMetricRetrievalHitRate(TorchBaseConfig, TAct, TInd, TTopK):
     pass
 
 
-class TorchMetRetrievalMAPConfig(TorchBaseConfig, TAct, TInd, TTopK):
+class TorchMetricRetrievalMAP(TorchBaseConfig, TAct, TInd, TTopK):
     pass
 
 
-class TorchMetRetrievalMRRConfig(TorchBaseConfig, TAct, TInd):
+class TorchMetricRetrievalMRR(TorchBaseConfig, TAct, TInd):
     pass
 
 
-class TorchMetRetrievalNormalizedDCGConfig(TorchBaseConfig, TAct, TInd, TTopK):
+class TorchMetricRetrievalNormalizedDCG(TorchBaseConfig, TAct, TInd, TTopK):
     pass
 
 
-class TorchMetRetrievalPrecisionConfig(TorchBaseConfig, TAct, TInd, TTopK):
+class TorchMetricRetrievalPrecision(TorchBaseConfig, TAct, TInd, TTopK):
     adaptive_k: bool = False
 
 
-class TorchMetRetrievalPrecisionRecallCurveConfig(TorchBaseConfig, TInd):
+class TorchMetricRetrievalPrecisionRecallCurve(TorchBaseConfig, TInd):
     adaptive_k: bool = False
     max_k: OptInt = None
 
 
-class TorchMetRetrievalRPrecisionConfig(TorchBaseConfig, TAct, TInd):
+class TorchMetricRetrievalRPrecision(TorchBaseConfig, TAct, TInd):
     pass
 
 
-class TorchMetRetrievalRecallConfig(TorchBaseConfig, TAct, TInd, TTopK):
+class TorchMetricRetrievalRecall(TorchBaseConfig, TAct, TInd, TTopK):
     pass
 
 
-class TorchMetRetrievalRecallAtFixedPrecisionConfig(TorchBaseConfig, TAct, TInd):
+class TorchMetricRetrievalRecallAtFixedPrecision(TorchBaseConfig, TAct, TInd):
     adaptive_k: bool = False
     max_k: OptInt = None
     min_precision: float = 0.0
 
 
-class TorchMetRootMeanSquaredErrorUsingSlidingWindowConfig(TorchBaseConfig):
+class TorchMetricRootMeanSquaredErrorUsingSlidingWindow(TorchBaseConfig):
     window_size: int = 8
 
 
-class TorchMetRunningMeanConfig(TorchBaseConfig, TNan):
+class TorchMetricRunningMean(TorchBaseConfig, TNan):
     window: int = 5
 
 
-class TorchMetRunningSumConfig(TorchBaseConfig, TNan):
+class TorchMetricRunningSum(TorchBaseConfig, TNan):
     window: int = 5
 
 
-class TorchMetSacreBLEUScoreConfig(TorchBaseConfig):
+class TorchMetricSacreBLEUScore(TorchBaseConfig):
     lowercase: bool = False
     n_gram: int = 4
     smooth: bool = False
@@ -507,34 +507,34 @@ class TorchMetSacreBLEUScoreConfig(TorchBaseConfig):
     weights: Optional[list[float]] = None
 
 
-class TorchMetScaleInvariantSignalDistortionRatioConfig(TorchBaseConfig):
+class TorchMetricScaleInvariantSignalDistortionRatio(TorchBaseConfig):
     zero_mean: bool = False
 
 
-class TorchMetSignalDistortionRatioConfig(TorchBaseConfig):
+class TorchMetricSignalDistortionRatio(TorchBaseConfig):
     filter_length: int = 512
     load_diag: OptFloat = None
     use_cg_iter: OptInt = None
     zero_mean: bool = False
 
 
-class TorchMetSignalNoiseRatioConfig(TorchBaseConfig):
+class TorchMetricSignalNoiseRatio(TorchBaseConfig):
     zero_mean: bool = False
 
 
-class TorchMetSpearmanCorrCoefConfig(TorchBaseConfig, TOut):
+class TorchMetricSpearmanCorrCoef(TorchBaseConfig, TOut):
     pass
 
 
-class TorchMetSpectralAngleMapperConfig(TorchBaseConfig, TMReduct):
+class TorchMetricSpectralAngleMapper(TorchBaseConfig, TMReduct):
     pass
 
 
-class TorchMetSpectralDistortionIndexConfig(TorchBaseConfig, TMReduct):
+class TorchMetricSpectralDistortionIndex(TorchBaseConfig, TMReduct):
     p: int = 1
 
 
-class TorchMetStructuralSimilarityIndexMeasureConfig(TorchBaseConfig, TMReduct):
+class TorchMetricStructuralSimilarityIndexMeasure(TorchBaseConfig, TMReduct):
     data_range: Optional[Union[float, tuple[float, float]]] = None
     gaussian_kernel: bool = True
     k1: float = 0.01
@@ -545,21 +545,21 @@ class TorchMetStructuralSimilarityIndexMeasureConfig(TorchBaseConfig, TMReduct):
     sigma: Union[float, list[float]] = 1.5
 
 
-class TorchMetSumMetricConfig(TorchBaseConfig, TNan):
+class TorchMetricSumMetric(TorchBaseConfig, TNan):
     pass
 
 
-class TorchMetTheilsUConfig(TorchBaseConfig):
+class TorchMetricTheilsU(TorchBaseConfig):
     nan_replace_value: OptFloat = 0.0
     nan_strategy: str = 'replace'
     num_classes: int
 
 
-class TorchMetTotalVariationConfig(TorchBaseConfig):
+class TorchMetricTotalVariation(TorchBaseConfig):
     reduction: str = 'sum'
 
 
-class TorchMetTranslationEditRateConfig(TorchBaseConfig):
+class TorchMetricTranslationEditRate(TorchBaseConfig):
     asian_support: bool = False
     lowercase: bool = True
     no_punctuation: bool = False
@@ -567,17 +567,17 @@ class TorchMetTranslationEditRateConfig(TorchBaseConfig):
     return_sentence_level_score: bool = False
 
 
-class TorchMetTschuprowsTConfig(TorchBaseConfig):
+class TorchMetricTschuprowsT(TorchBaseConfig):
     bias_correction: bool = True
     nan_replace_value: OptFloat = 0.0
     nan_strategy: str = 'replace'
     num_classes: int
 
 
-class TorchMetTweedieDevianceScoreConfig(TorchBaseConfig):
+class TorchMetricTweedieDevianceScore(TorchBaseConfig):
     power: float = 0.0
 
 
-class TorchMetUniversalImageQualityIndexConfig(TorchBaseConfig, TMReduct):
+class TorchMetricUniversalImageQualityIndex(TorchBaseConfig, TMReduct):
     kernel_size: tuple[int, ...] = (11, 11)
     sigma: tuple[float, ...] = (1.5, 1.5)
