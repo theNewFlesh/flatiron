@@ -1,5 +1,4 @@
-from typing import Optional, Union
-from flatiron.core.types import OptInt, OptFloat, OptStr
+from flatiron.core.types import OptInt, OptFloat, OptStr, OptFloats, OptListFloat
 
 import pydantic as pyd
 # ------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ class TFMetricBaseConfig(TFBaseConfig):
 
 
 class TFThresh(pyd.BaseModel):
-    thresholds: Optional[Union[float, list[float]]] = None
+    thresholds: OptFloats = None
 
 
 class TFClsId(pyd.BaseModel):
@@ -177,7 +176,7 @@ class TFLossTverskyConfig(TFLossBaseConfig, TFAxis):
 class TFMetricAUC(TFMetricBaseConfig, TFNumThresh, TFThresh):
     curve: str = 'ROC'
     from_logits: bool = False
-    label_weights: Optional[list[float]] = None
+    label_weights: OptListFloat = None
     multi_label: bool = False
     num_labels: OptInt = None
     summation_method: str = 'interpolation'

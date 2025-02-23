@@ -1,5 +1,6 @@
-from typing import Optional, Union
-from flatiron.core.types import OptBool, OptFloat, OptInt, OptStr
+from typing import Union
+from flatiron.core.types import OptBool, Ints, OptInt, OptInts, OptStr
+from flatiron.core.types import Floats, OptFloat, OptListFloat, OptPairFloat
 
 import pydantic as pyd
 # ------------------------------------------------------------------------------
@@ -103,7 +104,7 @@ class TCls(pyd.BaseModel):
 
 
 class TDate(pyd.BaseModel):
-    data_range: Optional[Union[float, tuple[float, float]]] = None
+    data_range: OptPairFloat = None
 
 
 # OPTIMIZER---------------------------------------------------------------------
@@ -279,7 +280,7 @@ class TorchLossTripletMarginWithDistanceLoss(TorchBaseConfig, TMarg, TReduct):
 class TorchMetricBLEUScore(TorchBaseConfig):
     n_gram: int = 4
     smooth: bool = False
-    weights: Optional[list[float]] = None
+    weights: OptListFloat = None
 
 
 class TorchMetricCHRFScore(TorchBaseConfig):
@@ -392,9 +393,9 @@ class TorchMetricMultiScaleStructuralSimilarityIndexMeasure(TorchBaseConfig, TMR
     gaussian_kernel: bool = True
     k1: float = 0.01
     k2: float = 0.03
-    kernel_size: Union[int, list[int]] = 11
+    kernel_size: Ints = 11
     normalize: str = 'relu'
-    sigma: Union[float, list[float]] = 1.5
+    sigma: Floats = 1.5
 
 
 class TorchMetricNormalizedRootMeanSquaredError(TorchBaseConfig, TOut):
@@ -409,7 +410,7 @@ class TorchMetricPanopticQuality(TorchBaseConfig):
 
 class TorchMetricPeakSignalNoiseRatio(TorchBaseConfig, TMReduct, TDate):
     base: float = 10.0
-    dim: Optional[Union[int, tuple[int, ...]]] = None
+    dim: OptInts = None
 
 
 class TorchMetricPearsonCorrCoef(TorchBaseConfig, TOut):
@@ -504,7 +505,7 @@ class TorchMetricSacreBLEUScore(TorchBaseConfig):
     n_gram: int = 4
     smooth: bool = False
     tokenize: str = '13a'
-    weights: Optional[list[float]] = None
+    weights: OptListFloat = None
 
 
 class TorchMetricScaleInvariantSignalDistortionRatio(TorchBaseConfig):
@@ -535,14 +536,14 @@ class TorchMetricSpectralDistortionIndex(TorchBaseConfig, TMReduct):
 
 
 class TorchMetricStructuralSimilarityIndexMeasure(TorchBaseConfig, TMReduct):
-    data_range: Optional[Union[float, tuple[float, float]]] = None
+    data_range: OptPairFloat = None
     gaussian_kernel: bool = True
     k1: float = 0.01
     k2: float = 0.03
-    kernel_size: Union[int, list[int]] = 11
+    kernel_size: Ints = 11
     return_contrast_sensitivity: bool = False
     return_full_image: bool = False
-    sigma: Union[float, list[float]] = 1.5
+    sigma: Floats = 1.5
 
 
 class TorchMetricSumMetric(TorchBaseConfig, TNan):
