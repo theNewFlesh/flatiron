@@ -19,7 +19,7 @@ class TFOptBaseConfig(TFBaseConfig):
     learning_rate: float = 0.001
     loss_scale_factor: OptFloat = None
     use_ema: bool = False
-    # weight_decay: OptFloat = None
+    # weight_decay: OptFloat = None  # deprecated
 
 
 class TFEpsilon(pyd.BaseModel):
