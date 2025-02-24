@@ -2,8 +2,6 @@ from typing import Any, Union  # noqa F401
 import numpy
 
 import tensorflow as tf
-from tensorflow import keras  # noqa F401
-from keras import losses as tfloss
 
 import flatiron.tf.tools as fi_tftools
 
@@ -22,7 +20,7 @@ def get(config):
     Returns:
         function: Module function.
     '''
-    return fi_tftools.get(config, __name__, tfloss.__name__)
+    return fi_tftools.get(config, __name__, 'keras.api.losses')
 # ------------------------------------------------------------------------------
 
 

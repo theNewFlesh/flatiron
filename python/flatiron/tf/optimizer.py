@@ -1,8 +1,5 @@
 from typing import Any  # noqa F401
 
-from tensorflow import keras  # noqa: F401
-from keras import optimizers as tfoptim
-
 import flatiron.tf.tools as fi_tftools
 # ------------------------------------------------------------------------------
 
@@ -18,4 +15,4 @@ def get(config):
     Returns:
         function: Module function.
     '''
-    return fi_tftools.get(config, __name__, tfoptim.__name__)
+    return fi_tftools.get(config, __name__, 'keras.api.optimizers')
