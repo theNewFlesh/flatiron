@@ -47,6 +47,59 @@ class PipelineBase(ABC):
         config = yaml.safe_load(text)
         return cls(config)
 
+    def _resolve_model(self, config):
+        config['model'] = self.model_config() \
+            .model_validate(config['model'], strict=True) \
+            .model_dump()
+        return config
+
+    def _resolve_pipeline(self, config):
+        model = config.pop('model', {})
+        config = cfg.PipelineConfig \
+            .model_validate(config, strict=True) \
+            .model_dump()
+        config['model'] = model
+        return config
+
+    def _resolve_field(self, config, field):
+        prefix = config['framework']['name']
+        if prefix == 'tensorflow':
+            prefix = 'TF'
+        else:
+            prefix = prefix.capitalize()
+
+        pkg = f'flatiron.{prefix.lower()}'
+        lut = dict(
+            framework=(f'{prefix}Framework', False, f'{pkg}.config', None              ),  # noqa E202
+            optimizer=(f'{prefix}Opt',       True,  f'{pkg}.config', f'{pkg}.optimizer'),  # noqa E202
+            loss     =(f'{prefix}Loss',      True,  f'{pkg}.config', f'{pkg}.loss'     ),  # noqa E202
+            metrics  =(f'{prefix}Metric',    True,  f'{pkg}.config', f'{pkg}.metric'   ),  # noqa E202
+        )
+        kwargs = dict(zip(['class_prefix', 'prepend', 'module_1', 'module_2'], lut[field]))
+
+        subconfig = config[field]
+        if isinstance(subconfig, list):
+            config[field] = [self._resolve_subconfig(x, **kwargs) for x in subconfig]
+        else:
+            config[field] = self._resolve_subconfig(subconfig, **kwargs)
+
+        return config
+
+    def _resolve_subconfig(self, subconfig, class_prefix, prepend, module_1, module_2):
+        if module_2 is not None:
+            if fict.is_custom_definition(subconfig, module_2):
+                return subconfig
+
+        name = subconfig['name']
+        output = deepcopy(subconfig)
+        output['name'] = class_prefix
+        if prepend:
+            output['name'] += name
+
+        output = fict.resolve_module_config(output, module_1)
+        output['name'] = name
+        return output
+
     def __init__(self, config):
         # type: (dict) -> None
         '''
@@ -56,47 +109,12 @@ class PipelineBase(ABC):
             config (dict): PipelineBase config.
         '''
         config = deepcopy(config)
-
-        # model
-        model_config = config.pop('model', {})
-        model = self.model_config() \
-            .model_validate(model_config, strict=True) \
-            .model_dump()
-
-        # pipeline
-        config = cfg.PipelineConfig \
-            .model_validate(config, strict=True)\
-            .model_dump()
-        config['model'] = model
-
-        # engine
-        engine = config['framework']['name']
-        capengine = engine.capitalize()
-        if engine == 'tensorflow':
-            engine = 'tf'
-            capengine = 'TF'
-        config_module = f'flatiron.{engine}.config'
-
-        # framework, optimizer, loss
-        data = [
-            ('framework', 'Framework', False),
-            ('optimizer', 'Opt', True),
-            ('loss', 'Loss', True),
-        ]
-        for field, class_, prepend in data:
-            module = f'flatiron.{engine}.{field}'
-            if fict.is_custom_definition(config[field], module):
-                continue
-
-            old_name = config[field]['name']
-            name = f'{capengine}{class_}'
-            if prepend:
-                name += config[field]['name']
-            config[field]['name'] = name
-
-            config[field] = fict.resolve_module_config(config[field], config_module)
-            config[field]['name'] = old_name
-
+        config = self._resolve_model(config)
+        config = self._resolve_pipeline(config)
+        config = self._resolve_field(config, 'framework')
+        config = self._resolve_field(config, 'optimizer')
+        config = self._resolve_field(config, 'loss')
+        config = self._resolve_field(config, 'metrics')
         self.config = config
 
         # create Dataset instance
