@@ -274,16 +274,14 @@ class TorchPipelineTests(PipelineTestBase):
     def get_config(self, root):
         config = super().get_config(root)
         config.update(dict(
-            engine='torch',
+            framework=dict(name='torch'),
             model=dict(
                 input_channels=3,
                 output_channels=1,
             ),
             optimizer=dict(name='sgd'),
-            compile=dict(
-                loss=dict(name='MSELoss'),
-                metrics=[dict(name='Mean')],
-            )
+            loss=dict(name='MSELoss'),
+            metrics=[dict(name='Mean')],
         ))
         return config
 
