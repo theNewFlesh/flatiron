@@ -1,5 +1,5 @@
+from typing import Callable  # noqa F401
 from typing_extensions import Annotated
-from flatiron.tf.models.unet import attention_gate_2d
 
 import pydantic as pyd
 
@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 
 import flatiron.core.validators as vd
+import flatiron.core.pipeline as ficp
 # ------------------------------------------------------------------------------
 
 
@@ -130,6 +131,10 @@ class UNet(nn.Module):
         return x
 
 
+def get_unet_model(in_channels, out_channels=3, dtype='float16'):
+    return UNet(in_channels, out_channels, dtype)
+
+
 # CONFIG------------------------------------------------------------------------
 class UNetConfig(pyd.BaseModel):
     '''
@@ -190,5 +195,5 @@ class UNetPipeline(ficp.PipelineBase):
         return UNetConfig
 
     def model_func(self):
-        # type: () -> tfmodels.Model
+        # type: () -> Callable[..., nn.Module]
         return get_unet_model
