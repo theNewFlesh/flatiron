@@ -4,6 +4,9 @@ from tempfile import TemporaryDirectory
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
+from keras import optimizers as tfoptim
+
+from lunchbox.enforce import EnforceError
 
 import flatiron
 import flatiron.core.tools as fict
@@ -11,6 +14,7 @@ from flatiron.core.dataset import Dataset
 from flatiron.core.dataset_test import DatasetTestBase
 import flatiron.tf.models.dummy as fi_tfdummy
 import flatiron.tf.tools as fi_tftools
+import flatiron.tf.loss as fi_tfloss
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -28,6 +32,23 @@ class MockModel:
 
 
 class TFToolsTests(DatasetTestBase):
+    def test_get(self):
+        fi_tftools.get(dict(name='dice_loss'), fi_tfloss, tfoptim)
+
+    def test_get_fallback(self):
+        result = fi_tftools.get(
+            dict(name='SGD', learning_rate=0.01), __name__, tfoptim,
+        )
+        self.assertIsInstance(result, tfoptim.SGD)
+
+    def test_get_errors(self):
+        expected = 'Config must be a dict with a name key.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fi_tftools.get('SGD', __name__, tfoptim)
+
+        with self.assertRaisesRegex(EnforceError, expected):
+            fi_tftools.get({}, __name__, tfoptim)
+
     def test_get_callbacks(self):
         with TemporaryDirectory() as root:
             proj = fict.get_tensorboard_project('proj', root)

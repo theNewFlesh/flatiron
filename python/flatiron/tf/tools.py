@@ -5,6 +5,7 @@ from flatiron.core.types import Compiled, Filepath, Getter  # noqa: F401
 from copy import deepcopy
 import math
 
+from lunchbox.enforce import Enforce
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
 import tensorflow as tf
@@ -29,12 +30,15 @@ def get(config, module, fallback_module):
         fallback_module (Any): Fallback module, either a tf or torch module.
 
     Raises:
-        AssertionError: If config is not a dict.
+        EnforceError: If config is not a dict with a name key.
 
     Returns:
         object: Instance or function.
     '''
-    assert isinstance(config, dict), f'Config must be a dict. Given value: {config}.'
+    msg = 'Config must be a dict with a name key.'
+    Enforce(config, 'instance of', dict, message=msg)
+    Enforce('name', 'in', config, message=msg)
+    # --------------------------------------------------------------------------
 
     config = deepcopy(config)
     name = config.pop('name')
