@@ -2,7 +2,7 @@ import inspect
 import re
 import unittest
 
-import flatiron.core.tf_config as fi_tfconfig
+import flatiron.tf.config as fi_tfconfig
 import flatiron.tf.loss as fi_tfloss
 import flatiron.tf.metric as fi_tfmetric
 import flatiron.tf.optimizer as fi_tfoptim
