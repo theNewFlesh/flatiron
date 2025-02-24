@@ -1,7 +1,7 @@
 from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
-from flatiron.core.types import Filepath, OptInt, OptFloat  # noqa F401
+from flatiron.core.types import Filepath, OptInt, OptFloat, Getter  # noqa F401
 import pandas as pd  # noqa F401
 
 from datetime import datetime
@@ -91,6 +91,22 @@ def enforce_callbacks(log_directory, checkpoint_pattern):
     msg += f'Given value: {checkpoint_pattern}'
     msg = msg.replace('{', '{{').replace('}', '}}')
     Enforce(match, '!=', None, message=msg)
+
+
+def enforce_getter(value):
+    # type: (Getter) -> None
+    '''
+    Enforces value is a dict with a name key.
+
+    Args:
+        value (dict): Dict..
+
+    Raises:
+        EnforceError: Is not a dict with a name key.
+    '''
+    msg = 'Value must be a dict with a name key.'
+    Enforce(value, 'instance of', dict, message=msg)
+    Enforce('name', 'in', value, message=msg)
 
 
 # MISC--------------------------------------------------------------------------

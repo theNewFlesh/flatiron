@@ -83,6 +83,16 @@ class ToolsTests(unittest.TestCase):
             with self.assertRaisesRegex(EnforceError, expected):
                 fict.enforce_callbacks(root, 'foobar')
 
+    def test_enforce_getter(self):
+        fict.enforce_getter(dict(name='foo'))
+
+        expected = 'Value must be a dict with a name key.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.enforce_getter('foo')
+
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.enforce_getter(dict(taco='pizza'))
+
     def test_pad_layer_name(self):
         expected = 'foo____bar'
         result = fict.pad_layer_name('foo_bar', 10)
