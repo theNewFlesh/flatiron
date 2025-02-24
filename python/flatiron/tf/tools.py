@@ -5,7 +5,6 @@ from flatiron.core.types import Compiled, Filepath, Getter  # noqa: F401
 from copy import deepcopy
 import math
 
-from lunchbox.enforce import Enforce
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
 import tensorflow as tf
