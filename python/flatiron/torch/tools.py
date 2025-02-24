@@ -140,30 +140,30 @@ def pre_build(device):
 
 
 def compile(
+    framework,  # type: Getter
     model,      # type: Any
     optimizer,  # type: Getter
     loss,       # type: Getter
     metrics,    # type: list[str]
-    device,     # type: str
-    kwargs,     # type: Getter
 ):
     # type: (...) -> Getter
     '''
     Call `torch.compile` on given model with kwargs.
 
     Args:
+        framework (dict): Framework dict.
         model (Any): Model to be compiled.
         optimizer (dict): Optimizer config for compilation.
         loss (str): Loss to be compiled.
         metrics (list[str]): Metrics function to be compiled.
-        device (str): Hardware device to compile to.
-        kwargs: Other params to be passed to `model.compile`.
 
     Returns:
         dict: Dict of compiled objects.
     '''
+    del framework['name']
+    device = framework.pop('device')
     return dict(
-        model=torch.compile(model, **kwargs),
+        model=torch.compile(model, **framework),
         optimizer=fi_torchoptim.get(optimizer, model),
         loss=fi_torchloss.get(loss),
         metrics=[fi_torchmetric.get(m) for m in metrics],

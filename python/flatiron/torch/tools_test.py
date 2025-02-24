@@ -96,11 +96,11 @@ class TorchToolsTests(DatasetTestBase):
     def test_compile(self):
         model = fi_torchdummy.DummyModel(2, 2)
         result = fi_torchtools.compile(
-            model=model, optimizer=dict(name='Adam'),
+            framework=dict(name='torch', device='gpu', mode='reduce-overhead'),
+            model=model,
+            optimizer=dict(name='Adam'),
             loss=dict(name='CrossEntropyLoss'),
             metrics=['Accuracy'],
-            device='gpu',
-            kwargs=dict(mode='reduce-overhead'),
         )
 
         self.assertEqual(result['model'].__class__.__name__, 'OptimizedModule')
