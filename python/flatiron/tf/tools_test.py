@@ -46,9 +46,9 @@ class TFToolsTests(DatasetTestBase):
         model = MockModel()
         result = fi_tftools.compile(
             model=model,
-            optimizer=dict(name='adam', learning_rate=0.01),
-            loss='mse',
-            metrics=['dice'],
+            optimizer=dict(name='Adam', learning_rate=0.01),
+            loss=dict(name='MeanSquaredError'),
+            metrics=[dict(name='dice')],
             device='cpu',
             kwargs=dict(jit_compile=True),
         )
@@ -56,23 +56,23 @@ class TFToolsTests(DatasetTestBase):
         self.assertTrue(model.kwargs['jit_compile'])
         self.assertEqual(os.environ.get('CUDA_VISIBLE_DEVICES', 'xxx'), '-1')
 
-        expected = dict(name='adam', learning_rate=0.01)
+        expected = dict(name='Adam', learning_rate=0.01)
         expected = flatiron.tf.optimizer.get(expected).__class__
         self.assertIsInstance(model.kwargs['optimizer'], expected)
 
-        expected = flatiron.tf.loss.get('mse').__class__
+        expected = flatiron.tf.loss.get(dict(name='MeanSquaredError')).__class__
         self.assertIsInstance(model.kwargs['loss'], expected)
 
-        expected = flatiron.tf.metric.get('dice').__class__
+        expected = flatiron.tf.metric.get(dict(name='dice')).__class__
         self.assertIsInstance(model.kwargs['metrics'][0], expected)
 
     def test_compile_device(self):
         model = MockModel()
         result = fi_tftools.compile(
             model=model,
-            optimizer=dict(name='adam', learning_rate=0.01),
-            loss='mse',
-            metrics=['dice'],
+            optimizer=dict(name='Adam', learning_rate=0.01),
+            loss=dict(name='MeanSquaredError'),
+            metrics=[dict(name='dice')],
             device='1',
             kwargs=dict(jit_compile=True),
         )
@@ -81,7 +81,10 @@ class TFToolsTests(DatasetTestBase):
 
     def test_train(self):
         model = fi_tfdummy.get_dummy_model((10, 10, 3))
-        model.compile(loss='mse', optimizer='adam')
+        model.compile(
+            loss=dict(name='MeanSquaredError'),
+            optimizer=dict(name='Adam'),
+        )
         compiled = dict(model=model)
 
         with TemporaryDirectory() as root:

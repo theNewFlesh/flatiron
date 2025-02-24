@@ -58,8 +58,8 @@ class PipelineTestBase(unittest.TestCase):
             ),
             optimizer=dict(name='sgd'),
             compile=dict(
-                loss='dice_loss',
-                metrics=['jaccard', 'dice'],
+                loss=dict(name='dice_loss'),
+                metrics=[dict(name='jaccard'), dict(name='dice')],
             ),
             train=dict(
                 epochs=1,
@@ -280,8 +280,8 @@ class TorchPipelineTests(PipelineTestBase):
             ),
             optimizer=dict(name='sgd'),
             compile=dict(
-                loss='MSELoss',
-                metrics=['Mean'],
+                loss=dict(name='MSELoss'),
+                metrics=[dict(name='Mean')],
             )
         ))
         return config
