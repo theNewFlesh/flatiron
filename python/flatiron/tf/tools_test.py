@@ -105,10 +105,7 @@ class TFToolsTests(DatasetTestBase):
 
     def test_train(self):
         model = fi_tfdummy.get_dummy_model((10, 10, 3))
-        model.compile(
-            loss=dict(name='MeanSquaredError'),
-            optimizer=dict(name='Adam'),
-        )
+        model.compile(loss='mse', optimizer='adam')
         compiled = dict(model=model)
 
         with TemporaryDirectory() as root:
