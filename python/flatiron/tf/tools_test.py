@@ -14,7 +14,6 @@ from flatiron.core.dataset import Dataset
 from flatiron.core.dataset_test import DatasetTestBase
 import flatiron.tf.models.dummy as fi_tfdummy
 import flatiron.tf.tools as fi_tftools
-import flatiron.tf.loss as fi_tfloss
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -33,21 +32,25 @@ class MockModel:
 
 class TFToolsTests(DatasetTestBase):
     def test_get(self):
-        fi_tftools.get(dict(name='dice_loss'), fi_tfloss, tfoptim)
+        fi_tftools.get(
+            dict(name='dice_loss'), 'flatiron.tf.loss', tfoptim.__name__
+        )
 
     def test_get_fallback(self):
         result = fi_tftools.get(
-            dict(name='SGD', learning_rate=0.01), __name__, tfoptim,
+            dict(name='SGD', learning_rate=0.01),
+            'flatiron.tf.optimizer',
+            tfoptim.__name__,
         )
         self.assertIsInstance(result, tfoptim.SGD)
 
     def test_get_errors(self):
         expected = 'Config must be a dict with a name key.'
         with self.assertRaisesRegex(EnforceError, expected):
-            fi_tftools.get('SGD', __name__, tfoptim)
+            fi_tftools.get('SGD', __name__, tfoptim.__name__)
 
         with self.assertRaisesRegex(EnforceError, expected):
-            fi_tftools.get({}, __name__, tfoptim)
+            fi_tftools.get({}, __name__, tfoptim.__name__)
 
     def test_get_callbacks(self):
         with TemporaryDirectory() as root:

@@ -18,4 +18,4 @@ def get(config):
     Returns:
         function: Module function.
     '''
-    return fi_tftools.get(config, __name__, tfoptim)
+    return fi_tftools.get(config, __name__, tfoptim.__name__)

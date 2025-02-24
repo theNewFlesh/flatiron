@@ -22,7 +22,7 @@ def get(config):
     Returns:
         function: Module function.
     '''
-    return fi_tftools.get(config, __name__, tfmetric)
+    return fi_tftools.get(config, __name__, tfmetric.__name__)
 # ------------------------------------------------------------------------------
 
 

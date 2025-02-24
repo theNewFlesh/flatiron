@@ -22,7 +22,7 @@ def get(config):
     Returns:
         function: Module function.
     '''
-    return fi_tftools.get(config, __name__, tfloss)
+    return fi_tftools.get(config, __name__, tfloss.__name__)
 # ------------------------------------------------------------------------------
 
 

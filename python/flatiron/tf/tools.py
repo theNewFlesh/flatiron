@@ -20,14 +20,14 @@ Callbacks = dict[str, tfcallbacks.TensorBoard | tfcallbacks.ModelCheckpoint]
 
 
 def get(config, module, fallback_module):
-    # type: (Getter, str, Any) -> Any
+    # type: (Getter, str, str) -> Any
     '''
     Given a config and set of modules return an instance or function.
 
     Args:
         config (dict): Instance config.
         module (str): Always __name__.
-        fallback_module (Any): Fallback module, either a tf or torch module.
+        fallback_module (str): Fallback module, either a tf or torch module.
 
     Raises:
         EnforceError: If config is not a dict with a name key.
@@ -45,7 +45,8 @@ def get(config, module, fallback_module):
     try:
         return fict.get_module_function(name, module)
     except NotImplementedError:
-        return fallback_module.get(dict(class_name=name, config=config))
+        mod = fict.get_module(fallback_module)
+        return mod.get(dict(class_name=name, config=config))
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
