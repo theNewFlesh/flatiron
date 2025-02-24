@@ -101,6 +101,7 @@ def compile(framework, model, optimizer, loss, metrics):
         dict: Dict of compiled objects.
     '''
     framework.pop('name')
+    framework.pop('device')
     model.compile(
         optimizer=fi_tfoptim.get(optimizer),
         loss=fi_tfloss.get(loss),

@@ -277,30 +277,20 @@ class PipelineBase(ABC):
             PipelineBase: Self.
         '''
         config = deepcopy(self.config)
-
-        # kwargs
-        kwargs = config['framework']
-        engine = kwargs.pop('name')
-        device = kwargs.pop('device')
-
-        # compile
         msg = dict(
-            engine=engine,
+            framework=config['framework'],
             model=config['model'],
             optimizer=config['optimizer'],
             loss=config['loss'],
             metrics=config['metrics'],
-            device=device,
-            kwargs=kwargs,
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
             self._compiled = self._engine.tools.compile(
-                self.model,
+                framework=config['framework'],
+                model=self.model,
                 optimizer=config['optimizer'],
                 loss=config['loss'],
                 metrics=config['metrics'],
-                device=device,
-                kwargs=kwargs,
             )
         return self
 
