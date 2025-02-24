@@ -222,7 +222,7 @@ class TFPipelineTests(PipelineTestBase):
     def test_engine(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            config['engine'] = 'tensorflow'
+            config['framework']['name'] = 'tensorflow'
             result = fi_tfdummy.DummyPipeline(config)._engine
             self.assertIs(result, fitf)
 
@@ -241,9 +241,9 @@ class TFPipelineTests(PipelineTestBase):
     def test_compile_loss(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            config['compile']['loss'] = 'mse'
+            config['loss']['name'] = 'Dice'
             pipe = fi_tfdummy.DummyPipeline(config).build().compile()
-            self.assertIs(pipe.model.loss.__name__, 'mean_squared_error')
+            self.assertIs(pipe.model.loss.name, 'dice')
 
     def test_train(self):
         with TemporaryDirectory(prefix='test-train-') as root:
@@ -290,7 +290,7 @@ class TorchPipelineTests(PipelineTestBase):
     def test_run_torch(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            config['engine'] = 'torch'
+            config['framework']['name'] = 'torch'
             config = yaml.dump(config)
             tb = Path(root, 'proj/tensorboard')
 

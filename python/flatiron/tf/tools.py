@@ -94,10 +94,10 @@ def compile(model, optimizer, loss, metrics, device, kwargs={}):
     Args:
         model (Any): Model to be compiled.
         optimizer (dict): Optimizer settings.
-        loss (str): Loss to be compiled.
-        metrics (list[str]): Metrics function to be compiled.
+        loss (dict): Loss to be compiled.
+        metrics (list[dict]): Metrics function to be compiled.
         device (str): Hardware device to compile to.
-        kwargs: Other params to be passed to `model.compile`.
+        kwargs (dict): Other params to be passed to `model.compile`.
 
     Returns:
         dict: Dict of compiled objects.

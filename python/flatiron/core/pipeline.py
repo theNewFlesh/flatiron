@@ -247,7 +247,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        self._engine.tools.pre_build(self.config['compile']['device'])
+        self._engine.tools.pre_build(self.config['framework']['device'])
         config = self.config['model']
         with self._logger('build', 'BUILD MODEL', dict(model=config)):
             self.model = self.model_func()(**config)
@@ -262,7 +262,7 @@ class PipelineBase(ABC):
         Returns:
             Any: flatiron.tf or flatiron.torch
         '''
-        if self.config['engine'] == 'tensorflow':
+        if self.config['framework']['name'] == 'tensorflow':
             import flatiron.tf as __tf_engine
             return __tf_engine
         import flatiron.torch as __torch_engine
@@ -276,38 +276,30 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        # engine
-        engine = self.config['engine']
-        if engine == 'tensorflow':
-            engine = 'tf'
-
-        # optimizer
-        opt = self.config['optimizer']
-        opt_name = opt['name'].lower()
-        opt = fict.resolve_kwargs(opt, engine, opt_name)
+        config = deepcopy(self.config)
 
         # kwargs
-        comp = self.config['compile']
-        kwargs = fict.resolve_kwargs(comp, engine, opt_name, 'unprefixed')
-        del kwargs['loss']
-        del kwargs['metrics']
-        del kwargs['device']
+        kwargs = config['framework']
+        engine = kwargs.pop('name')
+        device = kwargs.pop('device')
 
         # compile
         msg = dict(
-            engine=self.config['engine'],
-            model=self.config['model'],
-            optimizer=opt,
-            compile=comp,
+            engine=engine,
+            model=config['model'],
+            optimizer=config['optimizer'],
+            loss=config['loss'],
+            metrics=config['metrics'],
+            device=device,
             kwargs=kwargs,
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
             self._compiled = self._engine.tools.compile(
                 self.model,
-                optimizer=opt,
-                loss=comp['loss'],
-                metrics=comp['metrics'],
-                device=comp['device'],
+                optimizer=config['optimizer'],
+                loss=config['loss'],
+                metrics=config['metrics'],
+                device=device,
                 kwargs=kwargs,
             )
         return self
@@ -326,7 +318,7 @@ class PipelineBase(ABC):
         train = self.config['train']
         log = self.config['logger']
         ext = 'safetensors'
-        if self.config['engine'] == 'tensorflow':
+        if self.config['framework']['name'] == 'tensorflow':
             ext = 'keras'
 
         with self._logger('train', 'TRAIN MODEL', self.config):
@@ -370,7 +362,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        if self.config['engine'] == 'tensorflow':
+        if self.config['framework']['name'] == 'tensorflow':
             return self \
                 .build() \
                 .compile() \
