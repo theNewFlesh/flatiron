@@ -373,3 +373,35 @@ def resolve_module_config(config, module):
 
     model = get_module_class(config['name'], module)
     return model.model_validate(config).model_dump()
+
+
+def is_custom_definition(config, module):
+    # type: (Getter, str) -> bool
+    '''
+    Given a config and set of modules return a validated dict.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+
+    Raises:
+        EnforceError: If config is not a dict with a name key.
+
+    Returns:
+        bool: True if config is of custom defined code.
+    '''
+    enforce_getter(config)
+    # --------------------------------------------------------------------------
+
+    try:
+        get_module_function(config['name'], module)
+        return True
+    except NotImplementedError:
+        pass
+
+    try:
+        get_module_class(config['name'], module)
+        return True
+    except NotImplementedError:
+        pass
+    return False
