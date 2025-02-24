@@ -43,10 +43,16 @@ class PipelineTestBase(unittest.TestCase):
         dset = Path(proj, 'dset001', 'dset001_v001').as_posix()
         _, info_path = self.create_dataset_files(dset)
         return dict(
-            engine='tensorflow',
+            framework=dict(
+                name='tensorflow',
+                device='cpu',
+            ),
             model=dict(
                 shape=[10, 10, 3]
             ),
+            optimizer=dict(name='SGD'),
+            loss=dict(name='dice_loss'),
+            metrics=[dict(name='jaccard'), dict(name='dice')],
             dataset=dict(
                 source=info_path,
                 labels=[2],
@@ -55,11 +61,6 @@ class PipelineTestBase(unittest.TestCase):
             callbacks=dict(
                 project='proj',
                 root=root,
-            ),
-            optimizer=dict(name='sgd'),
-            compile=dict(
-                loss=dict(name='dice_loss'),
-                metrics=[dict(name='jaccard'), dict(name='dice')],
             ),
             train=dict(
                 epochs=1,
@@ -77,7 +78,7 @@ class TFPipelineTests(PipelineTestBase):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
             result = fi_tfdummy.DummyPipeline(config).config['optimizer']['name']
-            self.assertEqual(result, 'sgd')
+            self.assertEqual(result, 'SGD')
 
     def test_init_model(self):
         with TemporaryDirectory() as root:

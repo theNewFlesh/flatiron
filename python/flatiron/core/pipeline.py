@@ -68,6 +68,35 @@ class PipelineBase(ABC):
             .model_validate(config, strict=True)\
             .model_dump()
         config['model'] = model
+
+        # engine
+        engine = config['framework']['name']
+        capengine = engine.capitalize()
+        if engine == 'tensorflow':
+            engine = 'tf'
+            capengine = 'TF'
+        config_module = f'flatiron.{engine}.config'
+
+        # framework, optimizer, loss
+        data = [
+            ('framework', 'Framework', False),
+            ('optimizer', 'Opt', True),
+            ('loss', 'Loss', True),
+        ]
+        for field, class_, prepend in data:
+            module = f'flatiron.{engine}.{field}'
+            if fict.is_custom_definition(config[field], module):
+                continue
+
+            old_name = config[field]['name']
+            name = f'{capengine}{class_}'
+            if prepend:
+                name += config[field]['name']
+            config[field]['name'] = name
+
+            config[field] = fict.resolve_module_config(config[field], config_module)
+            config[field]['name'] = old_name
+
         self.config = config
 
         # create Dataset instance
