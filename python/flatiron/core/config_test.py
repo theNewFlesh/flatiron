@@ -74,56 +74,59 @@ class DatasetConfigTests(unittest.TestCase):
 class OptimizerConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            name='sgd',
+            name='SGD',
             learning_rate=0.001,
-            sgd__momentum=0.0,
-            sgd__nesterov=False,
-            adam__epsilon=1e-07,
-            adam__amsgrad=False,
-            adam__beta_1=0.9,
-            adam__beta_2=0.999,
-            tf__loss_scale_factor=None,
-            tf__gradient_accumulation_steps=None,
-            tf__global_clipnorm=None,
-            tf__clipnorm=None,
-            tf__clipvalue=None,
-            tf__use_ema=False,
-            tf__ema_momentum=0.99,
-            tf__ema_overwrite_frequency=None,
-            torch_adam__capturable=False,
+            momentum=0.0,
+            nesterov=False,
         )
 
     def test_validate(self):
         ficc.OptimizerConfig(**self.get_config())
 
     def test_defaults(self):
-        expected = self.get_config()
+        expected = dict(name='SGD')
         result = ficc.OptimizerConfig().model_dump()
         self.assertEqual(result, expected)
-        tfoptim.get(result['name'])
 
 
-class CompileConfigTests(unittest.TestCase):
+class LossConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            loss='dice_loss',
-            metrics=[],
-            device='gpu',
-            tf__loss_weights=None,
-            tf__weighted_metrics=None,
-            tf__run_eagerly=False,
-            tf__steps_per_execution=1,
-            tf__jit_compile=False,
-            tf__auto_scale_loss=True,
+            name='MeanSquaredError',
+            foo='bar',
         )
 
     def test_validate(self):
-        ficc.CompileConfig(**self.get_config())
+        ficc.LossConfig(**self.get_config())
 
     def test_defaults(self):
-        expected = self.get_config()
-        result = ficc.CompileConfig(loss='dice_loss').model_dump()
+        expected = dict(name='MeanSquaredError')
+        result = ficc.LossConfig().model_dump()
         self.assertEqual(result, expected)
+
+
+class MetricsConfigTests(unittest.TestCase):
+    def get_config(self):
+        return dict(
+            metrics=[
+                dict(name='Mean'),
+                dict(name='Accuracy'),
+            ]
+        )
+
+    def test_validate(self):
+        ficc.MetricsConfig(**self.get_config())
+
+    def test_defaults(self):
+        expected = dict(metrics=[dict(name='Mean')])
+        result = ficc.MetricsConfig().model_dump()
+        self.assertEqual(result, expected)
+
+    def test_validation(self):
+        expected = 'All dicts must contain name key. Given value: {}.'
+        with self.assertRaisesRegex(ValueError, expected):
+            config = dict(metrics=[dict(name='Mean'), {}])
+            ficc.MetricsConfig().model_validate(config)
 
 
 class CallbacksConfigTests(unittest.TestCase):
@@ -207,6 +210,7 @@ class PipelineConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
             engine='tensorflow',
+            device='gpu',
             dataset=dict(
                 source='/tmp/foobar/info.csv',
                 label_axis=-1,
@@ -214,9 +218,12 @@ class PipelineConfigTests(unittest.TestCase):
             optimizer=dict(
                 name='adam',
             ),
-            compile=dict(
-                loss='jaccard_loss',
+            loss=dict(
+                name='jaccard_loss',
             ),
+            metrics=[
+                dict(name='Mean'),
+            ],
             callbacks=dict(
                 project='project',
                 root='root',
