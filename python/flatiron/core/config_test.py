@@ -3,7 +3,6 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from tensorflow import keras  # noqa F401
-from keras import optimizers as tfoptim
 import pydantic_core._pydantic_core as pydc
 
 import flatiron.core.config as ficc
