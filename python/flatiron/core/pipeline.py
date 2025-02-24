@@ -334,7 +334,7 @@ class PipelineBase(ABC):
                 callbacks=callbacks,
                 train_data=self._train_data,
                 test_data=self._test_data,
-                **train,
+                params=train,
             )
         return self
 

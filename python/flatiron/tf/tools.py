@@ -116,8 +116,7 @@ def train(
     callbacks,       # type: Callbacks
     train_data,      # type: Dataset
     test_data,       # type: Optional[Dataset]
-    batch_size=32,   # type: int
-    **kwargs,
+    params,          # type: dict
 ):
     # type: (...) -> None
     '''
@@ -128,9 +127,9 @@ def train(
         callbacks (dict): Dict of callbacks.
         train_data (Dataset): Training dataset.
         test_data (Dataset): Test dataset.
-        batch_size (int, optional): Batch size. Default: 32.
-        **kwargs: Other params to be passed to `model.fit`.
+        params (dict): Training params.
     '''
+    batch_size = params['batch_size']
     model = compiled['model']
     x_train, y_train = train_data.xy_split()
     steps = math.ceil(x_train.shape[0] / batch_size)
@@ -145,5 +144,15 @@ def train(
         callbacks=list(callbacks.values()),
         validation_data=val,
         steps_per_epoch=steps,
-        **kwargs,
+        batch_size=params['batch_size'],
+        epochs=params['epochs'],
+        verbose=params['verbose'],
+        validation_split=params['validation_split'],
+        shuffle=params['shuffle'],
+        initial_epoch=params['initial_epoch'],
+        validation_freq=params['validation_freq'],
+        # class_weight=train['class_weight'],
+        # sample_weight=train['sample_weight'],
+        # validation_steps=train['validation_steps'],
+        # validation_batch_size=train['validation_batch_size'],
     )

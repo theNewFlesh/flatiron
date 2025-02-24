@@ -11,6 +11,19 @@ class TorchBaseConfig(pyd.BaseModel):
     name: str
 
 
+# FRAMEWORK---------------------------------------------------------------------
+class TorchFramework(pyd.BaseModel):
+    '''
+    Configuration for calls to torch train function.
+
+    Attributes:
+        name (str): Framework name. Default: 'torch'.
+        device (str, optional): Hardware device. Default: 'cuda'.
+    '''
+    name: str = 'torch'
+    device: str = 'cuda'
+
+
 # OPTIMIZER-HELPERS-------------------------------------------------------------
 class TorchOptBaseConfig(TorchBaseConfig):
     learning_rate: float = 0.01  # convert to lr

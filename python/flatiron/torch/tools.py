@@ -289,17 +289,17 @@ def train(
         seed (int, optional): Random seed. Default: 42.
         **kwargs: Other params to be passed to _execute_epoch.
     '''
+    framework = compiled['framework']
     model = compiled['model']
     optimizer = compiled['optimizer']
     loss = compiled['loss']
     metrics = compiled['metrics']
-    device = compiled['device']
     checkpoint = callbacks['checkpoint']  # type: Any
     writer = callbacks['tensorboard']
 
-    dev = torch.device(device)
+    device = torch.device(framework['device'])
     torch.manual_seed(seed)
-    model = model.to(dev)
+    model = model.to(device)
 
     train_loader = torchdata.DataLoader(
         TorchDataset.monkey_patch(train_data), batch_size=batch_size
@@ -312,7 +312,7 @@ def train(
         model=model,
         optimizer=optimizer,
         loss_func=loss,
-        device=dev,
+        device=device,
         metrics_funcs=metrics,
         writer=writer,
     )

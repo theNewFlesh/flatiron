@@ -68,7 +68,7 @@ class TFToolsTests(DatasetTestBase):
     def test_compile(self):
         model = MockModel()
         result = fi_tftools.compile(
-            framework=dict(name='tf', jit_compile=True),
+            framework=dict(name='tf', jit_compile=True, device='cpu'),
             model=model,
             optimizer=dict(name='Adam', learning_rate=0.01),
             loss=dict(name='MeanSquaredError'),

@@ -156,6 +156,7 @@ class TrainConfigTests(unittest.TestCase):
             epochs=30,
             verbose='auto',
             validation_split=0.0,
+            seed=42,
             shuffle=True,
             initial_epoch=1,
             validation_freq=1,

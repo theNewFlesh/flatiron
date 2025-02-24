@@ -122,6 +122,7 @@ class TrainConfig(BaseConfig):
             Auto is usually 1. Default: auto.
         validation_split (float, optional): Fraction of training data to use for
             validation. Default: 0.
+        seed (int, optional): Seed value. Default: 42.
         shuffle (bool, optional): Shuffle training data per epoch.
             Default: True.
         initial_epoch (int, optional): Epoch at which to start training
@@ -133,17 +134,10 @@ class TrainConfig(BaseConfig):
     epochs: int = 30
     verbose: Union[str, int] = 'auto'
     validation_split: float = 0.0
+    seed: int = 42
     shuffle: bool = True
     initial_epoch: int = 1
     validation_freq: int = 1
-    # callbacks
-    # class_weight
-    # initial_epoch
-    # sample_weight
-    # steps_per_epoch
-    # validation_batch_size
-    # validation_data
-    # validation_steps
 
 
 class LoggerConfig(BaseConfig):
