@@ -2,6 +2,7 @@ from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
 from flatiron.core.types import Compiled, Filepath  # noqa: F401
 
+from copy import deepcopy
 import math
 
 from tensorflow import keras  # noqa F401
@@ -15,6 +16,27 @@ import flatiron.tf.optimizer as fi_tfoptim
 
 Callbacks = dict[str, tfcallbacks.TensorBoard | tfcallbacks.ModelCheckpoint]
 # ------------------------------------------------------------------------------
+
+
+def get(config, module, fallback_module):
+    # type: (dict[str, Any], str, Any) -> Any
+    '''
+    Given a config and set of modules return an instance or function.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+        fallback_module (Any): Fallback module, either a tf or torch module.
+
+    Returns:
+        object: Instance or function.
+    '''
+    kwargs = deepcopy(config)
+    name = kwargs.pop('name')
+    try:
+        return fict.get_module_function(name, module)
+    except NotImplementedError:
+        return fallback_module.get(dict(class_name=name, config=kwargs))
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):

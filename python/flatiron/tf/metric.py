@@ -1,20 +1,18 @@
-from typing import Any, Callable, Union  # noqa F401
+from typing import Any, Union  # noqa F401
 import numpy
-
-from copy import deepcopy
 
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
 from keras import metrics as tfmetric
 
-import flatiron.core.tools as fict
+import flatiron.tf.tools as fi_tftools
 
 Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
 
-    
+
 def get(config):
-    # type: (dict) -> Callable[[Any], Any]
+    # type: (dict) -> Any
     '''
     Get function from this module.
 
@@ -24,12 +22,7 @@ def get(config):
     Returns:
         function: Module function.
     '''
-    kwargs = deepcopy(config)
-    name = kwargs.pop('name')
-    try:
-        return fict.get_module_function(name, __name__)
-    except NotImplementedError:
-        return tfmetric.get(dict(class_name=name, config=kwargs))
+    return fi_tftools.get(config, __name__, tfmetric)
 # ------------------------------------------------------------------------------
 
 
