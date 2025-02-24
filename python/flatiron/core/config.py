@@ -68,25 +68,6 @@ class LossConfig(pyd.BaseModel):
     name: str = 'MeanSquaredError'
 
 
-class MetricsConfig(BaseConfig):
-    '''
-    Configuration for metric.
-
-    Attributes:
-        metrics (list[dict], optional): Metric dicts.
-            Default=[dict(name='Mean')].
-    '''
-    metrics: list[Getter] = [dict(name='Mean')]
-
-    @pyd.field_validator('metrics')
-    def _validate_metrics(cls, items):
-        for item in items:
-            if 'name' not in item.keys():
-                msg = f'All dicts must contain name key. Given value: {item}.'
-                raise ValueError(msg)
-        return items
-
-
 class CallbacksConfig(BaseConfig):
     '''
     Configuration for callbacks.
@@ -198,6 +179,8 @@ class PipelineConfig(BaseConfig):
         device (str, optional): Hardware device. Default: 'gpu'.
         dataset (dict): Dataset configuration.
         optimizer (dict): Optimizer configuration.
+        loss (dict): Loss configuration.
+        metrics (list[dict], optional): Metric dicts. Default=[dict(name='Mean')].
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
         logger (dict): Logger configuration.
@@ -208,7 +191,15 @@ class PipelineConfig(BaseConfig):
     dataset: DatasetConfig
     optimizer: OptimizerConfig
     loss: LossConfig
-    metrics: MetricsConfig
+    metrics: list[Getter] = [dict(name='Mean')]
     callbacks: CallbacksConfig
     logger: LoggerConfig
     train: TrainConfig
+
+    @pyd.field_validator('metrics')
+    def _validate_metrics(cls, items):
+        for item in items:
+            if 'name' not in item.keys():
+                msg = f'All dicts must contain name key. Given value: {item}.'
+                raise ValueError(msg)
+        return items

@@ -105,30 +105,6 @@ class LossConfigTests(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-class MetricsConfigTests(unittest.TestCase):
-    def get_config(self):
-        return dict(
-            metrics=[
-                dict(name='Mean'),
-                dict(name='Accuracy'),
-            ]
-        )
-
-    def test_validate(self):
-        ficc.MetricsConfig(**self.get_config())
-
-    def test_defaults(self):
-        expected = dict(metrics=[dict(name='Mean')])
-        result = ficc.MetricsConfig().model_dump()
-        self.assertEqual(result, expected)
-
-    def test_validation(self):
-        expected = 'All dicts must contain name key. Given value: {}.'
-        with self.assertRaisesRegex(ValueError, expected):
-            config = dict(metrics=[dict(name='Mean'), {}])
-            ficc.MetricsConfig().model_validate(config)
-
-
 class CallbacksConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
@@ -238,6 +214,13 @@ class PipelineConfigTests(unittest.TestCase):
             .model_dump()
         self.assertEqual(result['callbacks']['mode'], 'auto')
         self.assertEqual(result['engine'], 'tensorflow')
+
+    def test_validate_metrics(self):
+        config = self.get_config()
+        config['metrics'] = [dict(metrics=[dict(name='Mean'), {}])]
+        expected = 'All dicts must contain name key. Given value:.*{}.'
+        with self.assertRaisesRegex(ValueError, expected):
+            ficc.PipelineConfig.model_validate(config, strict=True)
 
     def test_errors(self):
         config = self.get_config()
