@@ -351,3 +351,25 @@ def get_module_class(name, module):
     if name in classes:
         return classes[name]
     raise NotImplementedError(f'Class not found: {name}')
+
+
+def resolve_module_config(config, module):
+    # type: (Getter, str) -> Getter
+    '''
+    Given a config and set of modules return a validated dict.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+
+    Raises:
+        EnforceError: If config is not a dict with a name key.
+
+    Returns:
+        dict: Resolved config dict.
+    '''
+    enforce_getter(config)
+    # --------------------------------------------------------------------------
+
+    model = get_module_class(config['name'], module)
+    return model.model_validate(config).model_dump()

@@ -5,6 +5,7 @@ import unittest
 from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
 import pandas as pd
+import pydantic as pyd
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -16,6 +17,11 @@ def fake_func(foo):
 
 class FakeClass:
     pass
+
+
+class FakeConfig(pyd.BaseModel):
+    name: str
+    foo: str
 
 
 class ToolsTests(unittest.TestCase):
@@ -315,3 +321,12 @@ b
         expected = 'Class not found: NonClass'
         with self.assertRaisesRegex(NotImplementedError, expected):
             fict.get_module_class('NonClass', __name__)
+
+    def test_resolve_module_config(self):
+        config = dict(name='FakeConfig', foo='bar')
+        result = fict.resolve_module_config(config, __name__)
+        self.assertEqual(result, config)
+
+        config = dict(name='NonConfig', foo='bar')
+        with self.assertRaises(NotImplementedError):
+            fict.resolve_module_config(config, __name__)

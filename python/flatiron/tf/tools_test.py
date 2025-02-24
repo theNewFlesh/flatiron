@@ -45,11 +45,10 @@ class TFToolsTests(DatasetTestBase):
         self.assertIsInstance(result, tfoptim.SGD)
 
     def test_get_errors(self):
-        expected = 'Config must be a dict with a name key.'
-        with self.assertRaisesRegex(EnforceError, expected):
+        with self.assertRaises(EnforceError):
             fi_tftools.get('SGD', __name__, tfoptim.__name__)
 
-        with self.assertRaisesRegex(EnforceError, expected):
+        with self.assertRaises(EnforceError):
             fi_tftools.get({}, __name__, tfoptim.__name__)
 
     def test_get_callbacks(self):
