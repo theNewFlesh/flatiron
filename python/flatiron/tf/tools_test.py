@@ -68,12 +68,11 @@ class TFToolsTests(DatasetTestBase):
     def test_compile(self):
         model = MockModel()
         result = fi_tftools.compile(
+            framework=dict(name='tf', jit_compile=True),
             model=model,
             optimizer=dict(name='Adam', learning_rate=0.01),
             loss=dict(name='MeanSquaredError'),
             metrics=[dict(name='dice')],
-            device='cpu',
-            kwargs=dict(jit_compile=True),
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])
@@ -92,12 +91,11 @@ class TFToolsTests(DatasetTestBase):
     def test_compile_device(self):
         model = MockModel()
         result = fi_tftools.compile(
+            framework=dict(name='tf', jit_compile=True, device=1),
             model=model,
             optimizer=dict(name='Adam', learning_rate=0.01),
             loss=dict(name='MeanSquaredError'),
             metrics=[dict(name='dice')],
-            device='1',
-            kwargs=dict(jit_compile=True),
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])

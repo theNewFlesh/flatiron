@@ -85,27 +85,27 @@ def pre_build(device):
         tf.config.set_visible_devices([], 'GPU')
 
 
-def compile(model, optimizer, loss, metrics, device, kwargs={}):
-    # type: (Any, Getter, Getter, list[Getter], str, Getter) -> Getter
+def compile(framework, model, optimizer, loss, metrics):
+    # type: (Getter, Any, Getter, Getter, list[Getter]) -> Getter
     '''
     Call `modile.compile` on given model with kwargs.
 
     Args:
+        framework (dict): Framework dict.
         model (Any): Model to be compiled.
         optimizer (dict): Optimizer settings.
         loss (dict): Loss to be compiled.
         metrics (list[dict]): Metrics function to be compiled.
-        device (str): Hardware device to compile to.
-        kwargs (dict): Other params to be passed to `model.compile`.
 
     Returns:
         dict: Dict of compiled objects.
     '''
+    framework.pop('name')
     model.compile(
         optimizer=fi_tfoptim.get(optimizer),
         loss=fi_tfloss.get(loss),
         metrics=[fi_tfmetric.get(m) for m in metrics],
-        **kwargs,
+        **framework,
     )
     return dict(model=model)
 
