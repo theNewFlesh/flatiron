@@ -35,9 +35,7 @@ def get(config, module, fallback_module):
     Returns:
         object: Instance or function.
     '''
-    msg = 'Config must be a dict with a name key.'
-    Enforce(config, 'instance of', dict, message=msg)
-    Enforce('name', 'in', config, message=msg)
+    fict.enforce_getter(config)
     # --------------------------------------------------------------------------
 
     config = deepcopy(config)
