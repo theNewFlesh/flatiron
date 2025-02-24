@@ -238,11 +238,11 @@ class PipelineConfigTests(unittest.TestCase):
 
     def test_errors(self):
         config = self.get_config()
-        config['engine'] = None
+        config['framework']['name'] = None
         with self.assertRaises(ValueError):
             ficc.PipelineConfig(**config)
 
-        del config['engine']
+        del config['framework']
         with self.assertRaises(ValueError):
             ficc.PipelineConfig(**config)
 
