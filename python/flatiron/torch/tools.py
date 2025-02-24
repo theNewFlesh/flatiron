@@ -1,6 +1,6 @@
-from typing import Any, Callable, Optional  # noqa F401
+from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa: F401
-from flatiron.core.types import Compiled, Filepath  # noqa: F401
+from flatiron.core.types import Compiled, Filepath, Getter  # noqa F401
 
 from pathlib import Path
 
@@ -141,13 +141,13 @@ def pre_build(device):
 
 def compile(
     model,      # type: Any
-    optimizer,  # type: dict[str, Any]
-    loss,       # type: dict[str, Any]
+    optimizer,  # type: Getter
+    loss,       # type: Getter
     metrics,    # type: list[str]
     device,     # type: str
-    kwargs,     # type: dict[str, Any]
+    kwargs,     # type: Getter
 ):
-    # type: (...) -> dict[str, Any]
+    # type: (...) -> Getter
     '''
     Call `torch.compile` on given model with kwargs.
 
@@ -179,7 +179,7 @@ def _execute_epoch(
     optimizer,         # type: torch.optim.Optimizer
     loss_func,         # type: torch.nn.Module
     device,            # type: torch.device
-    metrics_funcs={},  # type: dict[str, Any]
+    metrics_funcs={},  # type: Getter
     writer=None,       # type: Optional[SummaryWriter]
     checkpoint=None,   # type: Optional[ModelCheckpoint]
     mode='train',      # type: str

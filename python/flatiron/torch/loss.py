@@ -1,4 +1,4 @@
-from typing import Any  # noqa F401
+from flatiron.core.types import Getter  # noqa F401
 
 from copy import deepcopy
 from torch.nn import Module  # noqa: F401
@@ -10,7 +10,7 @@ import flatiron.core.tools as fict
 
 
 def get(config):
-    # type: (dict[str, Any]) -> Module
+    # type: (Getter) -> Module
     '''
     Get function from this module.
 

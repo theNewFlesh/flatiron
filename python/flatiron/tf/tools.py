@@ -1,6 +1,6 @@
 from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
-from flatiron.core.types import Compiled, Filepath  # noqa: F401
+from flatiron.core.types import Compiled, Filepath, Getter  # noqa: F401
 
 from copy import deepcopy
 import math
@@ -19,7 +19,7 @@ Callbacks = dict[str, tfcallbacks.TensorBoard | tfcallbacks.ModelCheckpoint]
 
 
 def get(config, module, fallback_module):
-    # type: (dict[str, Any], str, Any) -> Any
+    # type: (Getter, str, Any) -> Any
     '''
     Given a config and set of modules return an instance or function.
 
@@ -28,15 +28,20 @@ def get(config, module, fallback_module):
         module (str): Always __name__.
         fallback_module (Any): Fallback module, either a tf or torch module.
 
+    Raises:
+        AssertionError: If config is not a dict.
+
     Returns:
         object: Instance or function.
     '''
-    kwargs = deepcopy(config)
-    name = kwargs.pop('name')
+    assert isinstance(config, dict), f'Config must be a dict. Given value: {config}.'
+
+    config = deepcopy(config)
+    name = config.pop('name')
     try:
         return fict.get_module_function(name, module)
     except NotImplementedError:
-        return fallback_module.get(dict(class_name=name, config=kwargs))
+        return fallback_module.get(dict(class_name=name, config=config))
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
@@ -79,7 +84,7 @@ def pre_build(device):
 
 
 def compile(model, optimizer, loss, metrics, device, kwargs={}):
-    # type: (Any, dict[str, Any], str, list[str], str, dict[str, Any]) -> dict[str, Any]
+    # type: (Any, Getter, Getter, list[Getter], str, Getter) -> Getter
     '''
     Call `modile.compile` on given model with kwargs.
 
