@@ -1,5 +1,6 @@
 from typing import Optional, Union
 from typing_extensions import Annotated
+
 from flatiron.core.types import OptLabels, OptFloat, Getter
 
 import pydantic as pyd
@@ -44,6 +45,10 @@ class DatasetConfig(BaseConfig):
     reshape: bool = True
     shuffle: bool = True
     seed: Optional[int] = None
+
+
+class FrameworkConfig(pyd.BaseModel):
+    name: Annotated[str, pyd.AfterValidator(vd.is_engine)] = 'tensorflow'
 
 
 class OptimizerConfig(pyd.BaseModel):
@@ -175,8 +180,7 @@ class PipelineConfig(BaseConfig):
     See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.pipeline
 
     Attributes:
-        engine (str): Deep learning framework.
-        device (str, optional): Hardware device. Default: 'gpu'.
+        framework (dict): Deep learning framework config.
         dataset (dict): Dataset configuration.
         optimizer (dict): Optimizer configuration.
         loss (dict): Loss configuration.
@@ -186,8 +190,7 @@ class PipelineConfig(BaseConfig):
         logger (dict): Logger configuration.
         train (dict): Train configuration.
     '''
-    engine: Annotated[str, pyd.AfterValidator(vd.is_engine)]
-    device: str = 'gpu'
+    framework: FrameworkConfig
     dataset: DatasetConfig
     optimizer: OptimizerConfig
     loss: LossConfig

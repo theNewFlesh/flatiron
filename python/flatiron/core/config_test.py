@@ -70,6 +70,22 @@ class DatasetConfigTests(unittest.TestCase):
                 ficc.DatasetConfig(**config)
 
 
+class FrameworkConfigTests(unittest.TestCase):
+    def get_config(self):
+        return dict(name='torch', foo='bar')
+
+    def test_validate(self):
+        ficc.FrameworkConfig.model_validate(dict(name='tensorflow'))
+        ficc.FrameworkConfig.model_validate(dict(name='torch'))
+        with self.assertRaises(ValueError):
+            ficc.FrameworkConfig.model_validate(dict(name='foo'))
+
+    def test_defaults(self):
+        expected = dict(name='tensorflow')
+        result = ficc.FrameworkConfig().model_dump()
+        self.assertEqual(result, expected)
+
+
 class OptimizerConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
@@ -184,8 +200,7 @@ class LoggerConfigTests(unittest.TestCase):
 class PipelineConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            engine='tensorflow',
-            device='gpu',
+            framework=dict(name='tensorflow'),
             dataset=dict(
                 source='/tmp/foobar/info.csv',
                 label_axis=-1,
@@ -212,7 +227,7 @@ class PipelineConfigTests(unittest.TestCase):
             .model_validate(self.get_config(), strict=True) \
             .model_dump()
         self.assertEqual(result['callbacks']['mode'], 'auto')
-        self.assertEqual(result['engine'], 'tensorflow')
+        self.assertEqual(result['framework']['name'], 'tensorflow')
 
     def test_validate_metrics(self):
         config = self.get_config()
