@@ -40,6 +40,26 @@ def get_class_and_kwargs(prefix, config_module, library_module, required):
 
 
 class TFConfigTests(unittest.TestCase):
+    def get_config(self):
+        return dict(
+            name='tensorflow',
+            device='gpu',
+            loss_weights=None,
+            weighted_metrics=None,
+            run_eagerly=False,
+            steps_per_execution=1,
+            jit_compile=False,
+            auto_scale_loss=True,
+        )
+
+    def test_framework_validate(self):
+        fi_tfconfig.TFFramework.model_validate(self.get_config())
+
+    def test_framework_defaults(self):
+        expected = self.get_config()
+        result = fi_tfconfig.TFFramework().model_dump()
+        self.assertEqual(result, expected)
+
     def test_optimizer(self):
         req = dict(name='test')
         results = get_class_and_kwargs('TFOpt', fi_tfconfig, fi_tfoptim, req)

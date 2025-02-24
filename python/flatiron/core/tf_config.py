@@ -8,6 +8,37 @@ class TFBaseConfig(pyd.BaseModel):
     name: str
 
 
+# FRAMEWORK---------------------------------------------------------------------
+class TFFramework(pyd.BaseModel):
+    '''
+    Configuration for calls to model.compile.
+
+    See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile
+
+    Attributes:
+        name (str): Framework name. Default: 'tensorflow'.
+        device (str, optional): Hardware device. Default: 'gpu'.
+        loss_weights (list[float], optional): List of loss weights.
+            Default: None.
+        weighted_metrics (list[float], optional): List of metric weights.
+            Default: None.
+        run_eagerly (bool, optional): Leave as False. Default: False.
+        steps_per_execution (int, optional): Number of batches per function
+            call. Default: 1.
+        jit_compile (bool, optional): Use XLA. Default: False.
+        auto_scale_loss (bool, optional): Model dtype is mixed_float16 when
+            True. Default: True.
+    '''
+    name: str = 'tensorflow'
+    device: str = 'gpu'
+    loss_weights: OptListFloat = None
+    weighted_metrics: OptListFloat = None
+    run_eagerly: bool = False
+    steps_per_execution: int = 1
+    jit_compile: bool = False
+    auto_scale_loss: bool = True
+
+
 # OPTIMIZER-HELPERS-------------------------------------------------------------
 class TFOptBaseConfig(TFBaseConfig):
     clipnorm: OptFloat = None
