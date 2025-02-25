@@ -3,7 +3,6 @@ from tempfile import TemporaryDirectory
 import unittest
 
 from tensorflow import keras  # noqa F401
-from keras import optimizers as tfoptim
 import pydantic_core._pydantic_core as pydc
 
 import flatiron.core.config as ficc
@@ -71,57 +70,53 @@ class DatasetConfigTests(unittest.TestCase):
                 ficc.DatasetConfig(**config)
 
 
+class FrameworkConfigTests(unittest.TestCase):
+    def get_config(self):
+        return dict(name='torch', foo='bar')
+
+    def test_validate(self):
+        ficc.FrameworkConfig.model_validate(dict(name='tensorflow'))
+        ficc.FrameworkConfig.model_validate(dict(name='torch'))
+        with self.assertRaises(ValueError):
+            ficc.FrameworkConfig.model_validate(dict(name='foo'))
+
+    def test_defaults(self):
+        expected = dict(name='tensorflow', device='cpu')
+        result = ficc.FrameworkConfig().model_dump()
+        self.assertEqual(result, expected)
+
+
 class OptimizerConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            name='sgd',
+            name='SGD',
             learning_rate=0.001,
-            loss_scale_factor=None,
-            gradient_accumulation_steps=None,
-            global_clipnorm=None,
-            clipnorm=None,
-            clipvalue=None,
-            sgd_momentum=0.0,
-            sgd_nesterov=False,
-            adam_epsilon=1e-07,
-            adam_amsgrad=False,
-            adam_beta_2=0.999,
-            adam_beta_1=0.9,
-            use_ema=False,
-            ema_momentum=0.99,
-            ema_overwrite_frequency=None,
+            momentum=0.0,
+            nesterov=False,
         )
 
     def test_validate(self):
         ficc.OptimizerConfig(**self.get_config())
 
     def test_defaults(self):
-        expected = self.get_config()
+        expected = dict(name='SGD')
         result = ficc.OptimizerConfig().model_dump()
         self.assertEqual(result, expected)
-        tfoptim.get(result['name'])
 
 
-class CompileConfigTests(unittest.TestCase):
+class LossConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            loss='dice_loss',
-            metrics=[],
-            device='gpu',
-            tf_loss_weights=None,
-            tf_weighted_metrics=None,
-            tf_run_eagerly=False,
-            tf_steps_per_execution=1,
-            tf_jit_compile=False,
-            tf_auto_scale_loss=True,
+            name='MeanSquaredError',
+            foo='bar',
         )
 
     def test_validate(self):
-        ficc.CompileConfig(**self.get_config())
+        ficc.LossConfig(**self.get_config())
 
     def test_defaults(self):
-        expected = self.get_config()
-        result = ficc.CompileConfig(loss='dice_loss').model_dump()
+        expected = dict(name='MeanSquaredError')
+        result = ficc.LossConfig().model_dump()
         self.assertEqual(result, expected)
 
 
@@ -161,6 +156,7 @@ class TrainConfigTests(unittest.TestCase):
             epochs=30,
             verbose='auto',
             validation_split=0.0,
+            seed=42,
             shuffle=True,
             initial_epoch=1,
             validation_freq=1,
@@ -205,7 +201,7 @@ class LoggerConfigTests(unittest.TestCase):
 class PipelineConfigTests(unittest.TestCase):
     def get_config(self):
         return dict(
-            engine='tensorflow',
+            framework=dict(name='tensorflow'),
             dataset=dict(
                 source='/tmp/foobar/info.csv',
                 label_axis=-1,
@@ -213,9 +209,12 @@ class PipelineConfigTests(unittest.TestCase):
             optimizer=dict(
                 name='adam',
             ),
-            compile=dict(
-                loss='jaccard_loss',
+            loss=dict(
+                name='jaccard_loss',
             ),
+            metrics=[
+                dict(name='Mean'),
+            ],
             callbacks=dict(
                 project='project',
                 root='root',
@@ -229,15 +228,22 @@ class PipelineConfigTests(unittest.TestCase):
             .model_validate(self.get_config(), strict=True) \
             .model_dump()
         self.assertEqual(result['callbacks']['mode'], 'auto')
-        self.assertEqual(result['engine'], 'tensorflow')
+        self.assertEqual(result['framework']['name'], 'tensorflow')
+
+    def test_validate_metrics(self):
+        config = self.get_config()
+        config['metrics'] = [dict(metrics=[dict(name='Mean'), {}])]
+        expected = 'All dicts must contain name key. Given value:.*{}.'
+        with self.assertRaisesRegex(ValueError, expected):
+            ficc.PipelineConfig.model_validate(config, strict=True)
 
     def test_errors(self):
         config = self.get_config()
-        config['engine'] = None
+        config['framework']['name'] = None
         with self.assertRaises(ValueError):
             ficc.PipelineConfig(**config)
 
-        del config['engine']
+        del config['framework']
         with self.assertRaises(ValueError):
             ficc.PipelineConfig(**config)
 

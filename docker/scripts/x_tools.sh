@@ -602,6 +602,17 @@ x_session_server () {
     python3 $REPO_SUBPACKAGE/server/app.py;
 }
 
+x_session_tensorboard () {
+    # Run tensorboard
+    # args: log_directory
+    x_env_activate_dev;
+    echo "${CYAN2}TENSORBOARD${CLEAR}\n";
+    tensorboard \
+        --host 0.0.0.0 \
+        --port 9006 \
+        --logdir="$1";
+}
+
 # TEST-FUNCTIONS----------------------------------------------------------------
 x_test_coverage () {
     # Generate test coverage report

@@ -300,6 +300,20 @@ class Dataset:
         '''
         return len(self._info)
 
+    def __getitem(self, frame):
+        # type: (int) -> Any
+        '''
+        Get data by frame.
+        Thisi is needed to avoid recursion errors when overloading __getitem__.
+
+        Raises:
+            IndexError: If frame is missing or multiple frames were found.
+
+        Returns:
+            object: Data of given frame.
+        '''
+        return self._read_file(self.get_filepath(frame))
+
     def __getitem__(self, frame):
         # type: (int) -> Any
         '''
@@ -311,7 +325,7 @@ class Dataset:
         Returns:
             object: Data of given frame.
         '''
-        return self._read_file(self.get_filepath(frame))
+        return self.__getitem(frame)
 
     def get_filepath(self, frame):
         # type: (int) -> Any
@@ -348,10 +362,10 @@ class Dataset:
             list[np.ndarray]: List of arrays from the given frame.
         '''
         labels = self.labels  # type: Any
-        if labels is None:
+        if labels is None or labels == []:
             return [self._read_file_as_array(self.get_filepath(frame))]
 
-        item = self.__getitem__(frame)
+        item = self.__getitem(frame)
 
         # get labels
         if not isinstance(labels, list):

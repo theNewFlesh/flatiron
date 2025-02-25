@@ -1,5 +1,5 @@
 from typing import Any, Optional, Type  # noqa F401
-from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
+from flatiron.core.types import AnyModel, Compiled, Filepath, OptStr, Getter  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -46,6 +46,7 @@ class PipelineBase(ABC):
         '''
         config = yaml.safe_load(text)
         return cls(config)
+    # --------------------------------------------------------------------------
 
     def __init__(self, config):
         # type: (dict) -> None
@@ -56,18 +57,12 @@ class PipelineBase(ABC):
             config (dict): PipelineBase config.
         '''
         config = deepcopy(config)
-
-        # model
-        model_config = config.pop('model', {})
-        model = self.model_config() \
-            .model_validate(model_config, strict=True) \
-            .model_dump()
-
-        # pipeline
-        config = cfg.PipelineConfig \
-            .model_validate(config, strict=True)\
-            .model_dump()
-        config['model'] = model
+        config = self._resolve_model(config)
+        config = self._resolve_pipeline(config)
+        config = self._resolve_field(config, 'framework')
+        config = self._resolve_field(config, 'optimizer')
+        config = self._resolve_field(config, 'loss')
+        config = self._resolve_field(config, 'metrics')
         self.config = config
 
         # create Dataset instance
@@ -88,6 +83,115 @@ class PipelineBase(ABC):
         self._train_data = None  # type: Optional[Dataset]
         self._test_data = None  # type: Optional[Dataset]
         self._loaded = False
+
+    def _resolve_model(self, config):
+        # type: (dict) -> dict
+        '''
+        Resolve and validate given model config.
+
+        Args:
+            config (dict): Model config.
+
+        Returns:
+            dict: Validated model config.
+        '''
+        config['model'] = self.model_config() \
+            .model_validate(config['model'], strict=True) \
+            .model_dump()
+        return config
+
+    def _resolve_pipeline(self, config):
+        # type: (dict) -> dict
+        '''
+        Resolve and validate given pipeline config.
+
+        Args:
+            config (dict): Pipeline config.
+
+        Returns:
+            dict: Validated pipeline config.
+        '''
+        model = config.pop('model', {})
+        config = cfg.PipelineConfig \
+            .model_validate(config, strict=True) \
+            .model_dump()
+        config['model'] = model
+        return config
+
+    def _resolve_field(self, config, field):
+        # type: (dict, str) -> dict
+        '''
+        Resolve and validate given pipeline config field.
+
+        Args:
+            config (dict): Pipeline config.
+            field (str): Config field name.
+
+        Returns:
+            dict: Updated pipeline config.
+        '''
+        prefix = config['framework']['name']
+        if prefix == 'tensorflow':
+            prefix = 'TF'
+        else:
+            prefix = prefix.capitalize()
+
+        pkg = f'flatiron.{prefix.lower()}'
+        lut = dict(
+            framework=(f'{prefix}Framework', False, f'{pkg}.config', None              ),  # noqa E202
+            optimizer=(f'{prefix}Opt',       True,  f'{pkg}.config', f'{pkg}.optimizer'),  # noqa E202
+            loss     =(f'{prefix}Loss',      True,  f'{pkg}.config', f'{pkg}.loss'     ),  # noqa E202
+            metrics  =(f'{prefix}Metric',    True,  f'{pkg}.config', f'{pkg}.metric'   ),  # noqa E202
+        )
+        keys = ['class_prefix', 'prepend', 'config_module', 'other_module']
+        kwargs = dict(zip(keys, lut[field]))  # type: Getter
+
+        subconfig = config[field]
+        if isinstance(subconfig, list):
+            config[field] = [self._resolve_subconfig(x, **kwargs) for x in subconfig]
+        else:
+            config[field] = self._resolve_subconfig(subconfig, **kwargs)
+
+        return config
+
+    def _resolve_subconfig(
+        self, subconfig, class_prefix, prepend, config_module, other_module
+    ):
+        # type: (dict, str, bool, str, OptStr) -> dict
+        '''
+        For use in _resolve_field. Resolves and validates given subconfig.
+        If class is not custom definition found in config module or
+        other module, a standard definition will be resolved from config module.
+        class prefix and prepend are used to modify the config name field in
+        order to make it a valid class name.
+
+        Args:
+            subconfig (dict): Subconfig.
+            class_prefix (str): Class prefix.
+            prepend (bool): Prepend class prefix.
+            config_module (str): Module name.
+            other_module (str): Module name.
+
+        Returns:
+            dict: Validated subconfig.
+        '''
+        if config_module is not None:
+            if fict.is_custom_definition(subconfig, config_module):
+                return subconfig
+        if other_module is not None:
+            if fict.is_custom_definition(subconfig, other_module):
+                return subconfig
+
+        name = subconfig['name']
+        output = deepcopy(subconfig)
+        output['name'] = class_prefix
+        if prepend:
+            output['name'] += name
+
+        output = fict.resolve_module_config(output, config_module)
+        output['name'] = name
+        return output
+    # --------------------------------------------------------------------------
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
@@ -200,7 +304,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        self._engine.tools.pre_build(self.config['compile']['device'])
+        self._engine.tools.pre_build(self.config['framework']['device'])
         config = self.config['model']
         with self._logger('build', 'BUILD MODEL', dict(model=config)):
             self.model = self.model_func()(**config)
@@ -215,12 +319,11 @@ class PipelineBase(ABC):
         Returns:
             Any: flatiron.tf or flatiron.torch
         '''
-        engine = self.config['engine']
-        if engine == 'tensorflow':
-            import flatiron.tf as __engine
-        # elif engine == 'torch':
-        #     import flatiron.torch as __engine
-        return __engine
+        if self.config['framework']['name'] == 'tensorflow':
+            import flatiron.tf as __tf_engine
+            return __tf_engine
+        import flatiron.torch as __torch_engine
+        return __torch_engine
 
     def compile(self):
         # type: () -> PipelineBase
@@ -230,32 +333,21 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        # resolve
-        engine = self.config['engine']
-
-        comp = self.config['compile']
-        kwargs = fict.resolve_kwargs(engine, comp, return_keys='non-prefix')
-        del kwargs['loss']
-        del kwargs['metrics']
-        del kwargs['device']
-
-        opt = self.config['optimizer']
-        opt = fict.resolve_kwargs(opt['name'].lower(), opt)
-
-        # compile
+        config = deepcopy(self.config)
         msg = dict(
-            model=self.config['model'],
-            optimizer=opt,
-            compile=comp,
+            framework=config['framework'],
+            model=config['model'],
+            optimizer=config['optimizer'],
+            loss=config['loss'],
+            metrics=config['metrics'],
         )
         with self._logger('compile', 'COMPILE MODEL', msg):
             self._compiled = self._engine.tools.compile(
-                self.model,
-                optimizer=opt,
-                loss=comp['loss'],
-                metrics=comp['metrics'],
-                device=comp['device'],
-                kwargs=kwargs,
+                framework=config['framework'],
+                model=self.model,
+                optimizer=config['optimizer'],
+                loss=config['loss'],
+                metrics=config['metrics'],
             )
         return self
 
@@ -272,13 +364,17 @@ class PipelineBase(ABC):
         callbacks = self.config['callbacks']
         train = self.config['train']
         log = self.config['logger']
+        ext = 'safetensors'
+        if self.config['framework']['name'] == 'tensorflow':
+            ext = 'keras'
 
         with self._logger('train', 'TRAIN MODEL', self.config):
             # create tensorboard
             tb = fict.get_tensorboard_project(
-                callbacks['project'],
-                callbacks['root'],
-                log['timezone'],
+                project=callbacks['project'],
+                root=callbacks['root'],
+                timezone=log['timezone'],
+                extension=ext,
             )
 
             # create checkpoint params and callbacks
@@ -295,7 +391,7 @@ class PipelineBase(ABC):
                 callbacks=callbacks,
                 train_data=self._train_data,
                 test_data=self._test_data,
-                **train,
+                params=train,
             )
         return self
 
@@ -313,7 +409,7 @@ class PipelineBase(ABC):
         Returns:
             PipelineBase: Self.
         '''
-        if self.config['engine'] == 'tensorflow':
+        if self.config['framework']['name'] == 'tensorflow':
             return self \
                 .build() \
                 .compile() \

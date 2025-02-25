@@ -1,10 +1,9 @@
 from typing import Any, Callable, Optional, Union  # noqa F401
 from http.client import HTTPResponse  # noqa F401
 from lunchbox.stopwatch import StopWatch  # noqa F401
-from flatiron.core.types import Filepath, OptInt, OptFloat  # noqa F401
+from flatiron.core.types import Filepath, OptInt, OptFloat, Getter  # noqa F401
 import pandas as pd  # noqa F401
 
-from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 import inspect
@@ -20,8 +19,10 @@ import yaml
 # ------------------------------------------------------------------------------
 
 
-def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
-    # type: (Filepath, Filepath, str) -> dict[str, str]
+def get_tensorboard_project(
+    project, root='/mnt/storage', timezone='UTC', extension='keras'
+):
+    # type: (Filepath, Filepath, str, str) -> dict[str, str]
     '''
     Creates directory structure for Tensorboard project.
 
@@ -29,10 +30,19 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
         project (str): Name of project.
         root (str or Path): Tensorboard parent directory. Default: /mnt/storage
         timezone (str, optional): Timezone. Default: UTC.
+        extension (str, optional): File extension.
+            Options: [keras, safetensors]. Default: keras.
+
+    Raises:
+        EnforceError: If extension is not keras or safetensors.
 
     Returns:
         dict: Project details.
     '''
+    msg = 'Extension must be keras or safetensors. Given value: {a}.'
+    Enforce(extension, 'in', ['keras', 'safetensors'], message=msg)
+    # --------------------------------------------------------------------------
+
     # create timestamp
     timestamp = datetime \
         .now(tz=pytz.timezone(timezone)) \
@@ -46,7 +56,8 @@ def get_tensorboard_project(project, root='/mnt/storage', timezone='UTC'):
     os.makedirs(model_dir, exist_ok=True)
 
     # checkpoint pattern
-    target = f'p-{project}_{timestamp}' + '_e-{epoch:03d}.keras'
+    epoch = '{epoch:03d}'
+    target = f'p-{project}_{timestamp}_e-{epoch}.{extension}'
     target = Path(model_dir, target).as_posix()
 
     output = dict(
@@ -80,6 +91,22 @@ def enforce_callbacks(log_directory, checkpoint_pattern):
     msg += f'Given value: {checkpoint_pattern}'
     msg = msg.replace('{', '{{').replace('}', '}}')
     Enforce(match, '!=', None, message=msg)
+
+
+def enforce_getter(value):
+    # type: (Getter) -> None
+    '''
+    Enforces value is a dict with a name key.
+
+    Args:
+        value (dict): Dict..
+
+    Raises:
+        EnforceError: Is not a dict with a name key.
+    '''
+    msg = 'Value must be a dict with a name key.'
+    Enforce(value, 'instance of', dict, message=msg)
+    Enforce('name', 'in', value, message=msg)
 
 
 # MISC--------------------------------------------------------------------------
@@ -176,43 +203,46 @@ def slack_it(
     return lbt.post_to_slack(url, channel, message)  # pragma: no cover
 
 
-def resolve_kwargs(prefix, kwargs, return_keys='both'):
-    # type: (str, dict, str) -> dict
+def resolve_kwargs(kwargs, engine, optimizer, return_type='both'):
+    # type: (dict, str, str, str) -> dict
     '''
     Filter keyword arguments base on prefix and return them minus the prefix.
 
     Args:
-        prefix (str): Prefix name.
         kwargs (dict): Kwargs dict.
-        return_keys (str, optional): Which kind of keys to return.
-            Options: [prefix, non-prefix, both]. Default: both.
+        engine (str): Deep learning framework.
+        optimizer (str): Optimizer name.
+        return_type (str, optional): Which kind of keys to return.
+            Options: [prefixed, unprefixed, both]. Default: both.
 
     Returns:
         dict: Resolved kwargs.
     '''
-    kwargs = deepcopy(kwargs)
+    prefixed = {}
+    unprefixed = {}
+    for key, val in kwargs.items():
+        if not re.search('__', key):
+            unprefixed[key] = val
+            continue
 
-    if prefix == 'tensorflow':
-        prefix = 'tf'
+        head, tail = re.split('__', key, maxsplit=1)
+        if not re.search(f'{engine}|{optimizer}', head):
+            continue
 
-    legal = ['tf', 'torch', 'sgd', 'adam']
-    assert prefix in legal, f'Illegal prefix: {prefix}. Legal prefixes: {legal}.'
+        cond = [
+            head.startswith(optimizer),
+            head == engine,
+            f'{engine}_{optimizer}' == head,
+        ]
+        if any(cond):
+            prefixed[tail] = val
 
-    # non prefix
-    regex = '|'.join(legal)
-    regex = f'^({regex})_'
-    output = dict(filter(lambda x: not re.search(regex, x[0]), kwargs.items()))
-    if return_keys == 'non-prefix':
-        return output
-
-    # prefix
-    extra = dict(filter(lambda x: x[0].startswith(prefix), kwargs.items()))
-    extra = {re.sub(regex, '', k): v for k, v in extra.items()}
-    if return_keys == 'prefix':
-        return extra
-
-    output.update(extra)
-    return output
+    if return_type == 'prefixed':
+        return prefixed
+    elif return_type == 'unprefixed':
+        return unprefixed
+    prefixed.update(unprefixed)
+    return prefixed
 
 
 def train_test_split(data, test_size=0.2, shuffle=True, seed=None, limit=None):
@@ -321,3 +351,57 @@ def get_module_class(name, module):
     if name in classes:
         return classes[name]
     raise NotImplementedError(f'Class not found: {name}')
+
+
+def resolve_module_config(config, module):
+    # type: (Getter, str) -> Getter
+    '''
+    Given a config and set of modules return a validated dict.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+
+    Raises:
+        EnforceError: If config is not a dict with a name key.
+
+    Returns:
+        dict: Resolved config dict.
+    '''
+    enforce_getter(config)
+    # --------------------------------------------------------------------------
+
+    model = get_module_class(config['name'], module)
+    return model.model_validate(config).model_dump()
+
+
+def is_custom_definition(config, module):
+    # type: (Getter, str) -> bool
+    '''
+    Determine whether config is of custom defined code.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+
+    Raises:
+        EnforceError: If config is not a dict with a name key.
+
+    Returns:
+        bool: True if config is of custom defined code.
+    '''
+    enforce_getter(config)
+    # --------------------------------------------------------------------------
+
+    try:
+        get_module_function(config['name'], module)
+        return True
+    except NotImplementedError:
+        pass
+
+    try:
+        get_module_class(config['name'], module)
+        return True
+    except NotImplementedError:
+        pass
+    return False

@@ -17,13 +17,13 @@ class DatasetTestBase(unittest.TestCase):
     def write_npy(self, target, shape=(10, 10, 3)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
-        array = np.ones(shape, dtype=np.uint8)
+        array = np.floor(np.random.random(shape) * 255).astype(np.uint8)
         np.save(target, array)
 
     def write_png(self, target, shape=(10, 10, 4)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
-        array = np.ones(shape, dtype=np.uint8)
+        array = np.floor(np.random.random(shape) * 255).astype(np.uint8)
         cvd.Image.from_array(array).write(target)
 
     def create_dataset_files(

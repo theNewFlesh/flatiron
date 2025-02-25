@@ -4,14 +4,16 @@ from tempfile import TemporaryDirectory
 import tensorflow as tf
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
-from keras import layers as tfl
-from keras import models as tfmodels
+from keras import optimizers as tfoptim
+
+from lunchbox.enforce import EnforceError
 
 import flatiron
 import flatiron.core.tools as fict
-import flatiron.tf.tools as fi_tftools
 from flatiron.core.dataset import Dataset
 from flatiron.core.dataset_test import DatasetTestBase
+import flatiron.tf.models.dummy as fi_tfdummy
+import flatiron.tf.tools as fi_tftools
 
 # disable GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
@@ -28,14 +30,27 @@ class MockModel:
         self.kwargs = kwargs
 
 
-def get_fake_model(shape):
-    input_ = tfl.Input(shape, name='input')
-    output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
-    model = tfmodels.Model(inputs=[input_], outputs=[output])
-    return model
-
-
 class TFToolsTests(DatasetTestBase):
+    def test_get(self):
+        fi_tftools.get(
+            dict(name='dice_loss'), 'flatiron.tf.loss', tfoptim.__name__
+        )
+
+    def test_get_fallback(self):
+        result = fi_tftools.get(
+            dict(name='SGD', learning_rate=0.01),
+            'flatiron.tf.optimizer',
+            tfoptim.__name__,
+        )
+        self.assertIsInstance(result, tfoptim.SGD)
+
+    def test_get_errors(self):
+        with self.assertRaises(EnforceError):
+            fi_tftools.get('SGD', __name__, tfoptim.__name__)
+
+        with self.assertRaises(EnforceError):
+            fi_tftools.get({}, __name__, tfoptim.__name__)
+
     def test_get_callbacks(self):
         with TemporaryDirectory() as root:
             proj = fict.get_tensorboard_project('proj', root)
@@ -53,42 +68,40 @@ class TFToolsTests(DatasetTestBase):
     def test_compile(self):
         model = MockModel()
         result = fi_tftools.compile(
+            framework=dict(name='tf', jit_compile=True, device='cpu'),
             model=model,
-            optimizer=dict(name='adam', learning_rate=0.01),
-            loss='mse',
-            metrics=['dice'],
-            device='cpu',
-            kwargs=dict(jit_compile=True),
+            optimizer=dict(name='Adam', learning_rate=0.01),
+            loss=dict(name='MeanSquaredError'),
+            metrics=[dict(name='dice')],
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])
         self.assertEqual(os.environ.get('CUDA_VISIBLE_DEVICES', 'xxx'), '-1')
 
-        expected = dict(name='adam', learning_rate=0.01)
+        expected = dict(name='Adam', learning_rate=0.01)
         expected = flatiron.tf.optimizer.get(expected).__class__
         self.assertIsInstance(model.kwargs['optimizer'], expected)
 
-        expected = flatiron.tf.loss.get('mse').__class__
+        expected = flatiron.tf.loss.get(dict(name='MeanSquaredError')).__class__
         self.assertIsInstance(model.kwargs['loss'], expected)
 
-        expected = flatiron.tf.metric.get('dice').__class__
+        expected = flatiron.tf.metric.get(dict(name='dice')).__class__
         self.assertIsInstance(model.kwargs['metrics'][0], expected)
 
     def test_compile_device(self):
         model = MockModel()
         result = fi_tftools.compile(
+            framework=dict(name='tf', jit_compile=True, device=1),
             model=model,
-            optimizer=dict(name='adam', learning_rate=0.01),
-            loss='mse',
-            metrics=['dice'],
-            device='1',
-            kwargs=dict(jit_compile=True),
+            optimizer=dict(name='Adam', learning_rate=0.01),
+            loss=dict(name='MeanSquaredError'),
+            metrics=[dict(name='dice')],
         )
         self.assertEqual(result, dict(model=model))
         self.assertTrue(model.kwargs['jit_compile'])
 
     def test_train(self):
-        model = get_fake_model((10, 10, 3))
+        model = fi_tfdummy.get_dummy_model((10, 10, 3))
         model.compile(loss='mse', optimizer='adam')
         compiled = dict(model=model)
 
@@ -105,5 +118,5 @@ class TFToolsTests(DatasetTestBase):
                 callbacks={},
                 train_data=train,
                 test_data=test,
-                batch_size=1,
+                params=dict(batch_size=1, epochs=1),
             )

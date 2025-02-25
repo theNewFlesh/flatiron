@@ -1,6 +1,7 @@
 from typing import Optional, Union
 from typing_extensions import Annotated
-from flatiron.core.types import OptLabels, OptInt, OptFloat
+
+from flatiron.core.types import OptLabels, OptFloat, Getter
 
 import pydantic as pyd
 
@@ -46,94 +47,36 @@ class DatasetConfig(BaseConfig):
     seed: Optional[int] = None
 
 
-class OptimizerConfig(BaseConfig):
+class FrameworkConfig(pyd.BaseModel):
+    name: Annotated[str, pyd.AfterValidator(vd.is_engine)] = 'tensorflow'
+    device: str = 'cpu'
+
+
+class OptimizerConfig(pyd.BaseModel):
     '''
-    Configuration for keras optimizer.
+    Configuration for optimizer.
 
     See: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer
 
     Attributes:
-        name (string, optional): Name of optimizer. Default='sgd'.
-        learning_rate (float, optional): Learning rate. Default=0.001.
-        momentum (float, optional): Momentum. Default=0.
-        nesterov (bool, optional): User Nesterov updates. Default=False.
-        epsilon (float, optional): A small constant for numerical stability.
-            Default: 1e-07
-        loss_scale_factor (OptFloat, optional): Will be multiply the loss before
-            computing gradients. Default: None.
-        gradient_accumulation_steps (OptInt, optional): Update model and
-            optimizer at this frequency. Default: None.
-        global_clipnorm (float, optional): Clip all weights so norm is not
-            higher than this. Default: None.
-        clipnorm (float, optional): Clip individual weights so norm is not
-            higher than this. Default: None.
-        clipvalue (float, optional): Clip weights at this max value.
-            Default: None
-        amsgrad (bool, optional): Whether to apply AMSGrad variant.
-            Default: False.
-        beta_1 (float, optional): The exponential decay rate for the 1st moment
-            estimates. Default: 0.9
-        beta_2 (float, optional): The exponential decay rate for the 2nd moment
-            estimates. Default: 0.999
-        use_ema (bool, optional): Exponential moving average. Default=False.
-        ema_momentum (float, optional): Exponential moving average momentum.
-            Default=0.99.
-        ema_overwrite_frequency (int, optional): Frequency of EMA overwrites.
-            Default: None.
+        name (string, optional): Name of optimizer. Default='SGD'.
     '''
-    name: str = 'sgd'
-    learning_rate: float = 0.001
-    loss_scale_factor: OptFloat = None
-    gradient_accumulation_steps: OptInt = None
-    global_clipnorm: OptFloat = None
-    clipnorm: OptFloat = None
-    clipvalue: OptFloat = None
-    use_ema: bool = False
-    ema_momentum: float = 0.99
-    ema_overwrite_frequency: OptInt = None
-    sgd_momentum: float = 0.0
-    sgd_nesterov: bool = False
-    adam_epsilon: float = 1e-07
-    adam_amsgrad: bool = False
-    adam_beta_1: float = 0.9
-    adam_beta_2: float = 0.999
+    name: str = 'SGD'
 
 
-class CompileConfig(BaseConfig):
+class LossConfig(pyd.BaseModel):
     '''
-    Configuration for calls to model.compile.
-
-    See: https://www.tensorflow.org/api_docs/python/tf/keras/Model#compile
+    Configuration for loss.
 
     Attributes:
-        loss (string): Loss metric name.
-        metrics (list[str], optional): List of metrics. Default: [].
-        device (str, optional): Hardware device. Default: 'gpu'.
-        tf_loss_weights (list[float], optional): List of loss weights.
-            Default: None.
-        tf_weighted_metrics (list[float], optional): List of metric weights.
-            Default: None.
-        tf_run_eagerly (bool, optional): Leave as False. Default: False.
-        tf_steps_per_execution (int, optional): Number of batches per function
-            call. Default: 1.
-        tf_jit_compile (bool, optional): Use XLA. Default: False.
-        tf_auto_scale_loss (bool, optional): Model dtype is mixed_float16 when
-            True. Default: True.
+        name (string, optional): Name of loss. Default='MeanSquaredError'.
     '''
-    loss: str
-    metrics: list[str] = []
-    device: str = 'gpu'
-    tf_loss_weights: Optional[list[float]] = None
-    tf_weighted_metrics: Optional[list[float]] = None
-    tf_run_eagerly: bool = False
-    tf_steps_per_execution: int = 1
-    tf_jit_compile: bool = False
-    tf_auto_scale_loss: bool = True
+    name: str = 'MeanSquaredError'
 
 
 class CallbacksConfig(BaseConfig):
     '''
-    Configuration for tensorflow callbacks.
+    Configuration for callbacks.
 
     See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.tools
     See: https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/ModelCheckpoint
@@ -180,6 +123,7 @@ class TrainConfig(BaseConfig):
             Auto is usually 1. Default: auto.
         validation_split (float, optional): Fraction of training data to use for
             validation. Default: 0.
+        seed (int, optional): Seed value. Default: 42.
         shuffle (bool, optional): Shuffle training data per epoch.
             Default: True.
         initial_epoch (int, optional): Epoch at which to start training
@@ -191,17 +135,10 @@ class TrainConfig(BaseConfig):
     epochs: int = 30
     verbose: Union[str, int] = 'auto'
     validation_split: float = 0.0
+    seed: int = 42
     shuffle: bool = True
     initial_epoch: int = 1
     validation_freq: int = 1
-    # callbacks
-    # class_weight
-    # initial_epoch
-    # sample_weight
-    # steps_per_epoch
-    # validation_batch_size
-    # validation_data
-    # validation_steps
 
 
 class LoggerConfig(BaseConfig):
@@ -238,18 +175,29 @@ class PipelineConfig(BaseConfig):
     See: https://thenewflesh.github.io/flatiron/core.html#module-flatiron.core.pipeline
 
     Attributes:
+        framework (dict): Deep learning framework config.
         dataset (dict): Dataset configuration.
         optimizer (dict): Optimizer configuration.
+        loss (dict): Loss configuration.
+        metrics (list[dict], optional): Metric dicts. Default=[dict(name='Mean')].
         compile (dict): Compile configuration.
         callbacks (dict): Callbacks configuration.
-        engine (str): Deep learning framework.
         logger (dict): Logger configuration.
         train (dict): Train configuration.
     '''
+    framework: FrameworkConfig
     dataset: DatasetConfig
     optimizer: OptimizerConfig
-    compile: CompileConfig
+    loss: LossConfig
+    metrics: list[Getter] = [dict(name='Mean')]
     callbacks: CallbacksConfig
-    engine: Annotated[str, pyd.AfterValidator(vd.is_engine)]
     logger: LoggerConfig
     train: TrainConfig
+
+    @pyd.field_validator('metrics')
+    def _validate_metrics(cls, items):
+        for item in items:
+            if 'name' not in item.keys():
+                msg = f'All dicts must contain name key. Given value: {item}.'
+                raise ValueError(msg)
+        return items
