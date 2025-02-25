@@ -6,6 +6,14 @@ tf
 
    models
 
+config
+------
+.. automodule:: flatiron.tf.config
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 loss
 ----
 .. automodule:: flatiron.tf.loss

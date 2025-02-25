@@ -6,6 +6,14 @@ torch
 
    models
 
+config
+------
+.. automodule:: flatiron.torch.config
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 loss
 ----
 .. automodule:: flatiron.torch.loss
