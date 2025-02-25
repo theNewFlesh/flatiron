@@ -43,6 +43,11 @@ class TorchToolsTests(DatasetTestBase):
         result = fi_torchtools.resolve_config(config)
         self.assertEqual(result, expected)
 
+    def test_get(self):
+        fi_torchtools.get(
+            dict(name='MSELoss'), __name__, 'torch.nn.modules.loss'
+        )
+
     def test_modelcheckpoint_init(self):
         result = fi_torchtools.ModelCheckpoint('/foo/bar', 'batch')
         self.assertEqual(result._filepath, '/foo/bar')
