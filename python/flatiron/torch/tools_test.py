@@ -100,7 +100,7 @@ class TorchToolsTests(DatasetTestBase):
             model=model,
             optimizer=dict(name='Adam'),
             loss=dict(name='CrossEntropyLoss'),
-            metrics=['Accuracy'],
+            metrics=[dict(name='Dice')],
         )
 
         self.assertEqual(result['model'].__class__.__name__, 'OptimizedModule')
@@ -111,7 +111,7 @@ class TorchToolsTests(DatasetTestBase):
         expected = flatiron.torch.loss.get(dict(name='CrossEntropyLoss')).__class__
         self.assertIsInstance(result['loss'], expected)
 
-        expected = flatiron.torch.metric.get('Accuracy').__class__
+        expected = flatiron.torch.metric.get(dict(name='Dice')).__class__
         self.assertIsInstance(result['metrics'][0], expected)
 
     def get_dataset(self, root, name):

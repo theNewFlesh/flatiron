@@ -1,23 +1,20 @@
+from flatiron.core.types import Getter  # noqa F401
+
 from torch.nn import Module  # noqa: F401
 
-import torchmetrics as torchmetric
-
-import flatiron.core.tools as fict
+import flatiron.torch.tools as fi_torchtools
 # ------------------------------------------------------------------------------
 
 
-def get(name):
-    # type: (str) -> Module
+def get(config):
+    # type: (Getter) -> Module
     '''
     Get function from this module.
 
     Args:
-        name (str): Function name.
+        config (dict): Loss config.
 
     Returns:
         function: Module function.
     '''
-    try:
-        return fict.get_module_class(name, __name__)
-    except NotImplementedError:
-        return getattr(torchmetric, name)
+    return fi_torchtools.get(config, __name__, 'torchmetrics')

@@ -2,6 +2,7 @@ from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa: F401
 from flatiron.core.types import Compiled, Filepath, Getter  # noqa F401
 
+from copy import deepcopy
 from pathlib import Path
 
 from torch.utils.tensorboard import SummaryWriter
@@ -16,6 +17,79 @@ import flatiron.core.tools as fict
 import flatiron.torch.loss as fi_torchloss
 import flatiron.torch.metric as fi_torchmetric
 import flatiron.torch.optimizer as fi_torchoptim
+# ------------------------------------------------------------------------------
+
+
+def resolve_config(config):
+    # type: (dict) -> dict
+    '''
+    Resolve configs handed to Torch classes. Replaces the following:
+
+    * learning_rate
+    * epsilon
+    * clipping_threshold
+    * exponent
+    * norm_degree
+    * beta_1
+    * beta_2
+
+    Args:
+        config (dict): Config dict.
+
+    Returns:
+        dict: Resolved config.
+    '''
+    params = config.pop('params', None)
+    output = deepcopy(config)
+    if params is not None:
+        output['params'] = params
+
+    lut = dict(
+        learning_rate='lr',
+        epsilon='eps',
+        clipping_threshold='d',
+        exponent='p',
+        norm_degree='p',
+    )
+    for key, val in config.items():
+        if key in lut:
+            output[lut[key]] = val
+            del output[key]
+
+    if 'beta_1' in output or 'beta_2' in output:
+        beta_1 = output.pop('beta_1', 0.9)
+        beta_2 = output.pop('beta_2', 0.999)
+        output['betas'] = (beta_1, beta_2)
+
+    return output
+
+
+def get(config, module, fallback_module):
+    # type: (Getter, str, str) -> Any
+    '''
+    Given a config and set of modules return an instance or function.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+        fallback_module (str): Fallback module, either a tf or torch module.
+
+    Raises:
+        EnforceError: If config is not a dict with a name key.
+
+    Returns:
+        object: Instance or function.
+    '''
+    fict.enforce_getter(config)
+    # --------------------------------------------------------------------------
+
+    config = resolve_config(config)
+    name = config.pop('name')
+    try:
+        return fict.get_module_class(name, module)
+    except NotImplementedError:
+        mod = fict.get_module(fallback_module)
+        return getattr(mod, name)(**config)
 
 
 # CALLBACKS---------------------------------------------------------------------
