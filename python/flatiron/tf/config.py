@@ -141,8 +141,8 @@ class TFOptAdamax(TFOptBaseConfig, TFBeta, TFEpsilon):
     pass
 
 
-# class TFOptLamb(TFOptBaseConfig, TFBeta, TFEpsilon):
-#     pass
+class TFOptLamb(TFOptBaseConfig, TFBeta, TFEpsilon):
+    pass
 
 
 class TFOptNadam(TFOptBaseConfig, TFBeta, TFEpsilon):
