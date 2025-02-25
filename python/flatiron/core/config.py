@@ -49,6 +49,7 @@ class DatasetConfig(BaseConfig):
 
 class FrameworkConfig(pyd.BaseModel):
     name: Annotated[str, pyd.AfterValidator(vd.is_engine)] = 'tensorflow'
+    device: str = 'cpu'
 
 
 class OptimizerConfig(pyd.BaseModel):
