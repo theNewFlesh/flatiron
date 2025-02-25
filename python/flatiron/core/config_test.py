@@ -81,7 +81,7 @@ class FrameworkConfigTests(unittest.TestCase):
             ficc.FrameworkConfig.model_validate(dict(name='foo'))
 
     def test_defaults(self):
-        expected = dict(name='tensorflow')
+        expected = dict(name='tensorflow', device='cpu')
         result = ficc.FrameworkConfig().model_dump()
         self.assertEqual(result, expected)
 
