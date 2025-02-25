@@ -275,7 +275,7 @@ class TFMetricFalsePositives(TFMetricBaseConfig, TFThresh):
 class TFMetricHinge(TFMetricBaseConfig):
     pass
 
-
+# TODO: Enable these configs
 # class TFMetricIoU(TFMetricBaseConfig, TFAxis):
 #     ignore_class: OptInt = None
 #     num_classes: int
