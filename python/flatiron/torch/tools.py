@@ -218,7 +218,7 @@ def compile(
     model,      # type: Any
     optimizer,  # type: Getter
     loss,       # type: Getter
-    metrics,    # type: list[str]
+    metrics,    # type: list[Getter]
 ):
     # type: (...) -> Getter
     '''
