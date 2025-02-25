@@ -279,9 +279,9 @@ class TorchPipelineTests(PipelineTestBase):
                 input_channels=3,
                 output_channels=1,
             ),
-            optimizer=dict(name='sgd'),
+            optimizer=dict(name='SGD'),
             loss=dict(name='MSELoss'),
-            metrics=[dict(name='Mean')],
+            metrics=[dict(name='Dice')],
         ))
         return config
 
