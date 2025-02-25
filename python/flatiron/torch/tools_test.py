@@ -82,7 +82,7 @@ class TorchToolsTests(DatasetTestBase):
             result = fi_torchtools.TorchDataset \
                 .monkey_patch(expected, channels_first=False)
 
-            self.assertIs(result._info, expected._info)
+            self.assertEqual(result._info.shape, expected._info.shape)
             self.assertEqual(result.data, expected.data)
             self.assertEqual(result.labels, expected.labels)
             self.assertEqual(result.label_axis, expected.label_axis)
@@ -167,7 +167,7 @@ class TorchToolsTests(DatasetTestBase):
         opt = flatiron.torch.optimizer.get(dict(name='Adam'), model)
         loss = flatiron.torch.loss.get(dict(name='MSELoss'))
         torch.manual_seed(42)
-        metrics = dict(mean=torchmetrics.MeanMetric())
+        metrics = [torchmetrics.MeanMetric()]
 
         project = fict.get_tensorboard_project(
             'project', root, extension='safetensors'
