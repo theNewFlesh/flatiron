@@ -118,5 +118,5 @@ class TFToolsTests(DatasetTestBase):
                 callbacks={},
                 train_data=train,
                 test_data=test,
-                batch_size=1,
+                params=dict(batch_size=1, epochs=1),
             )

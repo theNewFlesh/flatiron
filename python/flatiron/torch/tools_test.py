@@ -231,12 +231,16 @@ class TorchToolsTests(DatasetTestBase):
             test_data = self.get_dataset(root, 'test')
             device, model, opt, loss, metrics, proj, clbk = self.get_execute_epoch_params(root)
             compiled = dict(
+                framework=dict(device=device),
                 model=model,
                 optimizer=opt,
                 loss=loss,
                 metrics=metrics,
-                device=device,
-                kwargs={},
+            )
+            params = dict(
+                batch_size=4,
+                epochs=1,
+                seed=42,
             )
 
             fi_torchtools.train(
@@ -244,9 +248,7 @@ class TorchToolsTests(DatasetTestBase):
                 callbacks=clbk,
                 train_data=train_data,
                 test_data=test_data,
-                batch_size=4,
-                epochs=1,
-                seed=42,
+                params=params,
             )
 
             # checkpoint

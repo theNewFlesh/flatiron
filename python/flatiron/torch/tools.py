@@ -266,14 +266,11 @@ def _execute_epoch(
 
 
 def train(
-    compiled,       # type: Compiled
-    callbacks,      # type: Callbacks
-    train_data,     # type: Dataset
-    test_data,      # type: Dataset
-    batch_size=32,  # type: int
-    epochs=50,      # type: int
-    seed=42,        # type: int
-    **kwargs,
+    compiled,    # type: Compiled
+    callbacks,   # type: Callbacks
+    train_data,  # type: Dataset
+    test_data,   # type: Dataset
+    params,      # type: dict
 ):
     # type: (...) -> None
     '''
@@ -284,10 +281,7 @@ def train(
         callbacks (dict): Dict of callbacks.
         train_data (Dataset): Training dataset.
         test_data (Dataset): Test dataset.
-        batch_size (int, optional): Batch size. Default: 32.
-        epochs (int, optional): Number of epochs. Default: 32.
-        seed (int, optional): Random seed. Default: 42.
-        **kwargs: Other params to be passed to _execute_epoch.
+        params (dict): Training params.
     '''
     framework = compiled['framework']
     model = compiled['model']
@@ -296,9 +290,10 @@ def train(
     metrics = compiled['metrics']
     checkpoint = callbacks['checkpoint']  # type: Any
     writer = callbacks['tensorboard']
+    batch_size = params['batch_size']
 
     device = torch.device(framework['device'])
-    torch.manual_seed(seed)
+    torch.manual_seed(params['seed'])
     model = model.to(device)
 
     train_loader = torchdata.DataLoader(
@@ -316,10 +311,10 @@ def train(
         metrics_funcs=metrics,
         writer=writer,
     )
-    for i in tqdm.trange(epochs):
+    for i in tqdm.trange(params['epochs']):
         _execute_epoch(
-            epoch=i, mode='train', data_loader=train_loader, checkpoint=checkpoint,
-            **kwargs
+            epoch=i, mode='train', data_loader=train_loader,
+            checkpoint=checkpoint, **kwargs
         )
         _execute_epoch(epoch=i, mode='test', data_loader=test_loader, **kwargs)
         if checkpoint.save_freq == 'epoch':
