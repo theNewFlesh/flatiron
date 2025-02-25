@@ -332,7 +332,7 @@ def _execute_epoch(
     # write mean epoch metrics
     if writer is not None:
         epoch_metrics = pd.DataFrame(metrics) \
-            .map(lambda x: x.detach().numpy().mean()) \
+            .map(lambda x: x.cpu().detach().numpy().mean()) \
             .rename(lambda x: f'{mode}_epoch_{x}', axis=1) \
             .mean() \
             .to_dict()
