@@ -1,4 +1,4 @@
-from typing import Any, Optional  # noqa F401
+from typing import Any, Callable, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa: F401
 from flatiron.core.types import Compiled, Filepath, Getter  # noqa F401
 
@@ -255,7 +255,7 @@ def _execute_epoch(
     optimizer,         # type: torch.optim.Optimizer
     loss_func,         # type: torch.nn.Module
     device,            # type: torch.device
-    metrics_funcs=[],  # type: list[Getter]
+    metrics_funcs=[],  # type: list[Callable]
     writer=None,       # type: Optional[SummaryWriter]
     checkpoint=None,   # type: Optional[ModelCheckpoint]
     mode='train',      # type: str
@@ -270,7 +270,7 @@ def _execute_epoch(
         data_loader (torch.utils.data.DataLoader): Torch data loader.
         optimizer (torch.optim.Optimizer): Torch optimizer.
         loss_func (torch.nn.Module): Torch loss function.
-        metrics_funcs (list[dict], optional): List of torch metrics.
+        metrics_funcs (list[Callable], optional): List of torch metrics.
             Default: [].
         writer (SummaryWriter, optional): Tensorboard writer. Default: None.
         checkpoint (ModelCheckpoint, optional): Model saver. Default: None.
