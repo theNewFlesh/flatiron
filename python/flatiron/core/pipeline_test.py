@@ -108,7 +108,7 @@ class TFPipelineTests(PipelineTestBase):
             config = self.get_config(root)
 
             result = fi_tfdummy.DummyPipeline(config).config['model']
-            expected = dict(shape=[10, 10, 3])
+            expected = dict(shape=[10, 10, 3], activation='relu')
             self.assertEqual(result, expected)
 
             config['model'] = {}
