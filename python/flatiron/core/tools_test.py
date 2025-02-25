@@ -330,3 +330,19 @@ b
         config = dict(name='NonConfig', foo='bar')
         with self.assertRaises(NotImplementedError):
             fict.resolve_module_config(config, __name__)
+
+    def test_is_custom_definition(self):
+        config = dict(name='is_custom_definition')
+        module = 'flatiron.core.tools'
+        result = fict.is_custom_definition(config, module)
+        self.assertTrue(result)
+
+        config = dict(name='PipelineBase')
+        module = 'flatiron.core.pipeline'
+        result = fict.is_custom_definition(config, module)
+        self.assertTrue(result)
+
+        config = dict(name='is_not_a_function')
+        module = 'flatiron.core.tools'
+        result = fict.is_custom_definition(config, module)
+        self.assertFalse(result)
