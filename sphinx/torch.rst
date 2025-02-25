@@ -4,7 +4,7 @@ torch
 .. toctree::
    :maxdepth: 1
 
-   models
+   torch_models
 
 config
 ------

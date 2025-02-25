@@ -4,7 +4,7 @@ tf
 .. toctree::
    :maxdepth: 1
 
-   models
+   tf_models
 
 config
 ------
