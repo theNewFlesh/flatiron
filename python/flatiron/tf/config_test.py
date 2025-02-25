@@ -1,3 +1,4 @@
+from copy import deepcopy
 import inspect
 import re
 import unittest
@@ -28,10 +29,26 @@ def config_class_to_library_class(config_class, prefix, module):
 
 
 def get_class_and_kwargs(prefix, config_module, library_module, required):
+    lut = dict(
+        IoU=dict(num_classes=1, target_class_ids=[0]),
+        OneHotIoU=dict(num_classes=1, target_class_ids=[0]),
+        MeanIoU=dict(num_classes=1),
+        OneHotMeanIoU=dict(num_classes=1),
+        PrecisionAtRecall=dict(recall=1.0),
+        RecallAtPrecision=dict(precision=1.0),
+        SensitivityAtSpecificity=dict(specificity=1.0),
+        SpecificityAtSensitivity=dict(sensitivity=1.0),
+    )
     configs = find_classes(config_module, prefix)
     for config_class in configs:
-        config = config_class.model_validate(required).model_dump()
+        req = deepcopy(required)
+
         name = re.sub(prefix, '', config_class.__name__)
+        fix = lut.get(name, {})
+        if fix != {}:
+            req.update(fix)
+
+        config = config_class.model_validate(req).model_dump()
         config['name'] = name
         try:
             yield library_module.get(config)
