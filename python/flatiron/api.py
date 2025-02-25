@@ -71,7 +71,7 @@ torch = __argparse.Namespace(
     config=__create_namespace(__fi_torchconfig, 'classes'),
     loss=__create_namespace(__fi_torchloss),
     metric=__create_namespace(__fi_torchmetric),
-    models=__fi_tfmodels,
+    models=__fi_torchmodels,
     optimizer=__create_namespace(__fi_torchopt),
     tools=__create_namespace(__fi_torchtools, 'funcs'),
 )
