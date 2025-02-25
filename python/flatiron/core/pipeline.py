@@ -47,6 +47,42 @@ class PipelineBase(ABC):
         config = yaml.safe_load(text)
         return cls(config)
 
+    def __init__(self, config):
+        # type: (dict) -> None
+        '''
+        PipelineBase is a base class for machine learning pipelines.
+
+        Args:
+            config (dict): PipelineBase config.
+        '''
+        config = deepcopy(config)
+        config = self._resolve_model(config)
+        config = self._resolve_pipeline(config)
+        config = self._resolve_field(config, 'framework')
+        config = self._resolve_field(config, 'optimizer')
+        config = self._resolve_field(config, 'loss')
+        config = self._resolve_field(config, 'metrics')
+        self.config = config
+
+        # create Dataset instance
+        dconf = config['dataset']
+        src = dconf['source']
+        kwargs = dict(
+            ext_regex=dconf['ext_regex'],
+            labels=dconf['labels'],
+            label_axis=dconf['label_axis'],
+            calc_file_size=False,
+        )
+        if Path(src).is_file():
+            self.dataset = Dataset.read_csv(src, **kwargs)
+        else:
+            self.dataset = Dataset.read_directory(src, **kwargs)
+
+        self._compiled = {}  # type: Compiled
+        self._train_data = None  # type: Optional[Dataset]
+        self._test_data = None  # type: Optional[Dataset]
+        self._loaded = False
+
     def _resolve_model(self, config):
         # type: (dict) -> dict
         '''
@@ -154,42 +190,6 @@ class PipelineBase(ABC):
         output = fict.resolve_module_config(output, config_module)
         output['name'] = name
         return output
-
-    def __init__(self, config):
-        # type: (dict) -> None
-        '''
-        PipelineBase is a base class for machine learning pipelines.
-
-        Args:
-            config (dict): PipelineBase config.
-        '''
-        config = deepcopy(config)
-        config = self._resolve_model(config)
-        config = self._resolve_pipeline(config)
-        config = self._resolve_field(config, 'framework')
-        config = self._resolve_field(config, 'optimizer')
-        config = self._resolve_field(config, 'loss')
-        config = self._resolve_field(config, 'metrics')
-        self.config = config
-
-        # create Dataset instance
-        dconf = config['dataset']
-        src = dconf['source']
-        kwargs = dict(
-            ext_regex=dconf['ext_regex'],
-            labels=dconf['labels'],
-            label_axis=dconf['label_axis'],
-            calc_file_size=False,
-        )
-        if Path(src).is_file():
-            self.dataset = Dataset.read_csv(src, **kwargs)
-        else:
-            self.dataset = Dataset.read_directory(src, **kwargs)
-
-        self._compiled = {}  # type: Compiled
-        self._train_data = None  # type: Optional[Dataset]
-        self._test_data = None  # type: Optional[Dataset]
-        self._loaded = False
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger
