@@ -378,7 +378,7 @@ def resolve_module_config(config, module):
 def is_custom_definition(config, module):
     # type: (Getter, str) -> bool
     '''
-    Given a config and set of modules return a validated dict.
+    Determine whether config is of custom defined code.
 
     Args:
         config (dict): Instance config.
