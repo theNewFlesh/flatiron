@@ -184,13 +184,13 @@ class TFPipelineTests(PipelineTestBase):
             pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
 
             result = pipe._resolve_subconfig(
-                dict(name='tensorflow'),
-                'TFFramework',
+                dict(name='jaccard_loss'),
+                'TFLoss',
                 False,
-                'flatiron.tf.config',
+                'flatiron.tf.loss',
                 None,
             )
-            self.assertEqual(result['name'], 'tensorflow')
+            self.assertEqual(result['name'], 'jaccard_loss')
 
     def test_resolve_subconfig_no_prepend(self):
         with TemporaryDirectory() as root:
