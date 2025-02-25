@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flatiron.torch.config &mdash; flatiron  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            flatiron
+          </a>
+              <div class="version">
+                0.21.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#production-cli">Production CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../core.html">core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tf.html">tf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../torch.html">torch</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">flatiron</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">flatiron.torch.config</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for flatiron.torch.config</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptBool</span><span class="p">,</span> <span class="n">Ints</span><span class="p">,</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptInts</span><span class="p">,</span> <span class="n">OptStr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Floats</span><span class="p">,</span> <span class="n">OptFloat</span><span class="p">,</span> <span class="n">OptListFloat</span><span class="p">,</span> <span class="n">OptPairFloat</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyd</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="c1"># BASE--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchBaseConfig">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchBaseConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchBaseConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<span class="c1"># FRAMEWORK---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchFramework">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchFramework">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchFramework</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Configuration for calls to torch train function.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        name (str): Framework name. Default: &#39;torch&#39;.</span>
+<span class="sd">        device (str, optional): Hardware device. Default: &#39;cuda&#39;.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;torch&#39;</span>
+    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span></div>
+
+
+
+<span class="c1"># OPTIMIZER-HELPERS-------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchOptBaseConfig">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptBaseConfig">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptBaseConfig</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>  <span class="c1"># convert to lr</span></div>
+
+
+
+<div class="viewcode-block" id="TMax">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TMax">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TMax</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">maximize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TFor">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TFor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFor</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">foreach</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TDiff">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TDiff">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TDiff</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">differentiable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TEps">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TEps">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TEps</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-06</span>  <span class="c1"># convert to eps</span></div>
+
+
+
+<div class="viewcode-block" id="TCap">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TCap">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TCap</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">capturable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TDecay">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TDecay">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TDecay</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">weight_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="TBeta">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TBeta">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TBeta</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">beta_1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">beta_2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.999</span>  <span class="c1"># convert to betas: tuple[float, float]</span></div>
+
+
+
+<div class="viewcode-block" id="TGroup1">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TGroup1">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TGroup1</span><span class="p">(</span><span class="n">TCap</span><span class="p">,</span> <span class="n">TDecay</span><span class="p">,</span> <span class="n">TDiff</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TFor</span><span class="p">,</span> <span class="n">TMax</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="c1"># LOSS-HELPERS------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TReduct">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TReduct">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TReduct</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TRed">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TRed">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TRed</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">reduce</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TSize">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TSize">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TSize</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">size_average</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TMarg">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TMarg">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TMarg</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="TGroup2">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TGroup2">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TGroup2</span><span class="p">(</span><span class="n">TRed</span><span class="p">,</span> <span class="n">TReduct</span><span class="p">,</span> <span class="n">TSize</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TGroup3">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TGroup3">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TGroup3</span><span class="p">(</span><span class="n">TMarg</span><span class="p">,</span> <span class="n">TRed</span><span class="p">,</span> <span class="n">TReduct</span><span class="p">,</span> <span class="n">TSize</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="c1"># METRIC-HELPERS----------------------------------------------------------------</span>
+<div class="viewcode-block" id="TInd">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TInd">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TInd</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">ignore_index</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TNan">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TNan">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TNan</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">nan_strategy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;warn&#39;</span>  <span class="c1"># has multiple signatures</span></div>
+
+
+
+<div class="viewcode-block" id="TAct">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TAct">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TAct</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">empty_target_action</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;neg&#39;</span>  <span class="c1"># has multiple signatures</span></div>
+
+
+
+<div class="viewcode-block" id="TOut">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TOut">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TOut</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">num_outputs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="TMReduct">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TMReduct">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TMReduct</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;elementwise_mean&#39;</span>  <span class="c1"># has multiple signatures</span></div>
+
+
+
+<div class="viewcode-block" id="TTopK">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TTopK">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TTopK</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">top_k</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TCls">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TCls">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TCls</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># has multiple signatures</span></div>
+
+
+
+<div class="viewcode-block" id="TDate">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TDate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TDate</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">data_range</span><span class="p">:</span> <span class="n">OptPairFloat</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<span class="c1"># OPTIMIZER---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchOptASGD">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptASGD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptASGD</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TCap</span><span class="p">,</span> <span class="n">TDecay</span><span class="p">,</span> <span class="n">TDiff</span><span class="p">,</span> <span class="n">TFor</span><span class="p">,</span> <span class="n">TMax</span><span class="p">):</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.75</span>
+    <span class="n">lambd</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0001</span>
+    <span class="n">t0</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1000000.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptAdadelta">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptAdadelta">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptAdadelta</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">):</span>
+    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.9</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptAdafactor">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptAdafactor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptAdafactor</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TDecay</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TFor</span><span class="p">,</span> <span class="n">TMax</span><span class="p">):</span>
+    <span class="n">beta2_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span>
+    <span class="n">clipping_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># convert to d</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptAdagrad">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptAdagrad">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptAdagrad</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TDecay</span><span class="p">,</span> <span class="n">TDiff</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TFor</span><span class="p">,</span> <span class="n">TMax</span><span class="p">):</span>
+    <span class="n">fused</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">initial_accumulator_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lr_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptAdam">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptAdam">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptAdam</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">,</span> <span class="n">TBeta</span><span class="p">):</span>
+    <span class="n">amsgrad</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fused</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptAdamW">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptAdamW">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptAdamW</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">,</span> <span class="n">TBeta</span><span class="p">):</span>
+    <span class="n">amsgrad</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">fused</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptAdamax">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptAdamax">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptAdamax</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">,</span> <span class="n">TBeta</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptLBFGS">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptLBFGS">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptLBFGS</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">):</span>
+    <span class="n">history_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">line_search_fn</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_eval</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">max_iter</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span>
+    <span class="n">tolerance_change</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-09</span>
+    <span class="n">tolerance_grad</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-07</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptNAdam">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptNAdam">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptNAdam</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">,</span> <span class="n">TBeta</span><span class="p">):</span>
+    <span class="n">momentum_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.004</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptRAdam">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptRAdam">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptRAdam</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">,</span> <span class="n">TBeta</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptRMSprop">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptRMSprop">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptRMSprop</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TGroup1</span><span class="p">):</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span>
+    <span class="n">centered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptRprop">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptRprop">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptRprop</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TCap</span><span class="p">,</span> <span class="n">TDiff</span><span class="p">,</span> <span class="n">TFor</span><span class="p">,</span> <span class="n">TMax</span><span class="p">):</span>
+    <span class="n">etas</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+    <span class="n">step_sizes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1e-06</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptSGD">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptSGD">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptSGD</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TDecay</span><span class="p">,</span> <span class="n">TDiff</span><span class="p">,</span> <span class="n">TFor</span><span class="p">,</span> <span class="n">TMax</span><span class="p">):</span>
+    <span class="n">dampening</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">fused</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nesterov</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchOptSparseAdam">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchOptSparseAdam">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchOptSparseAdam</span><span class="p">(</span><span class="n">TorchOptBaseConfig</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TMax</span><span class="p">,</span> <span class="n">TBeta</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<span class="c1"># LOSS--------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchLossBCELoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossBCELoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossBCELoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossBCEWithLogitsLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossBCEWithLogitsLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossBCEWithLogitsLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossCTCLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossCTCLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossCTCLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TReduct</span><span class="p">):</span>
+    <span class="n">blank</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">zero_infinity</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossCosineEmbeddingLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossCosineEmbeddingLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossCosineEmbeddingLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup3</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossCrossEntropyLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossCrossEntropyLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossCrossEntropyLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="n">ignore_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+    <span class="n">label_smoothing</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossGaussianNLLLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossGaussianNLLLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossGaussianNLLLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TReduct</span><span class="p">):</span>
+    <span class="n">full</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossHingeEmbeddingLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossHingeEmbeddingLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossHingeEmbeddingLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup3</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossHuberLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossHuberLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossHuberLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TReduct</span><span class="p">):</span>
+    <span class="n">delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossKLDivLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossKLDivLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossKLDivLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="n">log_target</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossL1Loss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossL1Loss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossL1Loss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossMSELoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossMSELoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossMSELoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossMarginRankingLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossMarginRankingLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossMarginRankingLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup3</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossMultiLabelMarginLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossMultiLabelMarginLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossMultiLabelMarginLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossMultiLabelSoftMarginLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossMultiLabelSoftMarginLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossMultiLabelSoftMarginLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossMultiMarginLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossMultiMarginLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossMultiMarginLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup3</span><span class="p">):</span>
+    <span class="n">exponent</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># convert to p</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossNLLLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossNLLLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossNLLLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="n">ignore_index</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossPairwiseDistance">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossPairwiseDistance">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossPairwiseDistance</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TEps</span><span class="p">):</span>
+    <span class="n">keepdim</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">norm_degree</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># convert to p</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossPoissonNLLLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossPoissonNLLLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossPoissonNLLLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="n">full</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">log_input</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossSmoothL1Loss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossSmoothL1Loss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossSmoothL1Loss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossSoftMarginLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossSoftMarginLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossSoftMarginLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TGroup2</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossTripletMarginLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossTripletMarginLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossTripletMarginLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TEps</span><span class="p">,</span> <span class="n">TGroup3</span><span class="p">):</span>
+    <span class="n">norm_degree</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>  <span class="c1"># convert to p</span>
+    <span class="n">swap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchLossTripletMarginWithDistanceLoss">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchLossTripletMarginWithDistanceLoss</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMarg</span><span class="p">,</span> <span class="n">TReduct</span><span class="p">):</span>
+    <span class="n">swap</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<span class="c1"># METRICS-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchMetricBLEUScore">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricBLEUScore">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricBLEUScore</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">n_gram</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">OptListFloat</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricCHRFScore">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCHRFScore">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCHRFScore</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">beta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">n_char_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span>
+    <span class="n">n_word_order</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">return_sentence_level_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">whitespace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricCatMetric">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCatMetric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCatMetric</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricConcordanceCorrCoef">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricConcordanceCorrCoef">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricConcordanceCorrCoef</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricCosineSimilarity">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCosineSimilarity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCosineSimilarity</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricCramersV">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCramersV">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCramersV</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TCls</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="n">bias_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricCriticalSuccessIndex">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCriticalSuccessIndex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCriticalSuccessIndex</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">keep_sequence_dim</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricDice">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricDice">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricDice</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TCls</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="n">average</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;micro&#39;</span>
+    <span class="n">mdmc_average</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;global&#39;</span>
+    <span class="n">multiclass</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">zero_division</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricErrorRelativeGlobalDimensionlessSynthesis">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricErrorRelativeGlobalDimensionlessSynthesis</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">):</span>
+    <span class="n">ratio</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">4</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricExplainedVariance">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricExplainedVariance">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricExplainedVariance</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">multioutput</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricExtendedEditDistance">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricExtendedEditDistance</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
+    <span class="n">deletion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">insertion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+    <span class="n">return_sentence_level_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricFleissKappa">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricFleissKappa">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricFleissKappa</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;counts&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricKLDivergence">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricKLDivergence">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricKLDivergence</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">log_prob</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricKendallRankCorrCoef">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricKendallRankCorrCoef</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="n">alternative</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;two-sided&#39;</span>
+    <span class="n">t_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">variant</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricLogCoshError">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricLogCoshError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricLogCoshError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMaxMetric">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMaxMetric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMaxMetric</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMeanAbsoluteError">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMeanAbsoluteError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMeanAbsoluteError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMeanMetric">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMeanMetric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMeanMetric</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMeanSquaredError">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMeanSquaredError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMeanSquaredError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="n">squared</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMinMetric">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMinMetric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMinMetric</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMinkowskiDistance">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMinkowskiDistance">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMinkowskiDistance</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">float</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricModifiedPanopticQuality">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricModifiedPanopticQuality</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">allow_unknown_preds_category</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">stuffs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">things</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricMultiScaleStructuralSimilarityIndexMeasure">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricMultiScaleStructuralSimilarityIndexMeasure</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">,</span> <span class="n">TDate</span><span class="p">):</span>
+    <span class="n">betas</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0448</span><span class="p">,</span> <span class="mf">0.2856</span><span class="p">,</span> <span class="mf">0.3001</span><span class="p">,</span> <span class="mf">0.2363</span><span class="p">,</span> <span class="mf">0.1333</span><span class="p">)</span>
+    <span class="n">gaussian_kernel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">k1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">k2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.03</span>
+    <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Ints</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">normalize</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">Floats</span> <span class="o">=</span> <span class="mf">1.5</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricNormalizedRootMeanSquaredError">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricNormalizedRootMeanSquaredError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="n">normalization</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricPanopticQuality">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPanopticQuality">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPanopticQuality</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">allow_unknown_preds_category</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">stuffs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">things</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricPeakSignalNoiseRatio">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPeakSignalNoiseRatio">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPeakSignalNoiseRatio</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">,</span> <span class="n">TDate</span><span class="p">):</span>
+    <span class="n">base</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">10.0</span>
+    <span class="n">dim</span><span class="p">:</span> <span class="n">OptInts</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricPearsonCorrCoef">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPearsonCorrCoef">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPearsonCorrCoef</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricPearsonsContingencyCoefficient">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPearsonsContingencyCoefficient</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">nan_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricPermutationInvariantTraining">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPermutationInvariantTraining</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">eval_func</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;speaker-wise&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricPerplexity">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPerplexity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPerplexity</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TInd</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricR2Score">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricR2Score">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricR2Score</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">adjusted</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">multioutput</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRelativeAverageSpectralError">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRelativeAverageSpectralError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRelativeAverageSpectralError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRelativeSquaredError">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRelativeSquaredError">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRelativeSquaredError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="n">squared</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalFallOut">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalFallOut">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalFallOut</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="n">empty_target_action</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pos&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalHitRate">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalHitRate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalHitRate</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalMAP">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalMAP">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalMAP</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalMRR">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalMRR">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalMRR</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalNormalizedDCG">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalNormalizedDCG">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalNormalizedDCG</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalPrecision">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalPrecision">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalPrecision</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="n">adaptive_k</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalPrecisionRecallCurve">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalPrecisionRecallCurve</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TInd</span><span class="p">):</span>
+    <span class="n">adaptive_k</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">max_k</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalRPrecision">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalRPrecision">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalRPrecision</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalRecall">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalRecall">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalRecall</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRetrievalRecallAtFixedPrecision">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalRecallAtFixedPrecision</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TAct</span><span class="p">,</span> <span class="n">TInd</span><span class="p">):</span>
+    <span class="n">adaptive_k</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">max_k</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">min_precision</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRootMeanSquaredErrorUsingSlidingWindow">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRootMeanSquaredErrorUsingSlidingWindow</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRunningMean">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRunningMean">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRunningMean</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricRunningSum">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRunningSum">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRunningSum</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="n">window</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSacreBLEUScore">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSacreBLEUScore</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">n_gram</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">tokenize</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;13a&#39;</span>
+    <span class="n">weights</span><span class="p">:</span> <span class="n">OptListFloat</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricScaleInvariantSignalDistortionRatio">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricScaleInvariantSignalDistortionRatio</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">zero_mean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSignalDistortionRatio">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSignalDistortionRatio</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">filter_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span>
+    <span class="n">load_diag</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">use_cg_iter</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">zero_mean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSignalNoiseRatio">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSignalNoiseRatio">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSignalNoiseRatio</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">zero_mean</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSpearmanCorrCoef">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSpearmanCorrCoef">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSpearmanCorrCoef</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSpectralAngleMapper">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSpectralAngleMapper">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSpectralAngleMapper</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSpectralDistortionIndex">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSpectralDistortionIndex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSpectralDistortionIndex</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">):</span>
+    <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricStructuralSimilarityIndexMeasure">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricStructuralSimilarityIndexMeasure</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">):</span>
+    <span class="n">data_range</span><span class="p">:</span> <span class="n">OptPairFloat</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">gaussian_kernel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">k1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
+    <span class="n">k2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.03</span>
+    <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Ints</span> <span class="o">=</span> <span class="mi">11</span>
+    <span class="n">return_contrast_sensitivity</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">return_full_image</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="n">Floats</span> <span class="o">=</span> <span class="mf">1.5</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricSumMetric">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricSumMetric">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricSumMetric</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricTheilsU">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTheilsU">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTheilsU</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">nan_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricTotalVariation">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTotalVariation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTotalVariation</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricTranslationEditRate">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTranslationEditRate">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTranslationEditRate</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">asian_support</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">no_punctuation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">return_sentence_level_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricTschuprowsT">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTschuprowsT">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTschuprowsT</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">bias_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">nan_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricTweedieDevianceScore">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTweedieDevianceScore">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTweedieDevianceScore</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+    <span class="n">power</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span></div>
+
+
+
+<div class="viewcode-block" id="TorchMetricUniversalImageQualityIndex">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricUniversalImageQualityIndex">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricUniversalImageQualityIndex</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TMReduct</span><span class="p">):</span>
+    <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+    <span class="n">sigma</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

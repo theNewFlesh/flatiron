@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.21.0
+                0.21.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -58,6 +58,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="core.html">core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tf.html">tf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="torch.html">torch</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -99,6 +100,7 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
@@ -113,6 +115,7 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
  | <a href="#X"><strong>X</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
@@ -120,6 +123,8 @@
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.dataset.Dataset.__getitem">__getitem() (flatiron.core.dataset.Dataset method)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.__init__">__init__() (flatiron.core.dataset.Dataset method)</a>
 
       <ul>
@@ -127,17 +132,21 @@
 </li>
         <li><a href="core.html#flatiron.core.pipeline.PipelineBase.__init__">(flatiron.core.pipeline.PipelineBase method)</a>
 </li>
+        <li><a href="torch.html#flatiron.torch.tools.ModelCheckpoint.__init__">(flatiron.torch.tools.ModelCheckpoint method)</a>
+</li>
       </ul></li>
       <li><a href="core.html#flatiron.core.config.BaseConfig._abc_impl">_abc_impl (flatiron.core.config.BaseConfig attribute)</a>
 
       <ul>
         <li><a href="core.html#flatiron.core.config.CallbacksConfig._abc_impl">(flatiron.core.config.CallbacksConfig attribute)</a>
 </li>
-        <li><a href="core.html#flatiron.core.config.CompileConfig._abc_impl">(flatiron.core.config.CompileConfig attribute)</a>
-</li>
         <li><a href="core.html#flatiron.core.config.DatasetConfig._abc_impl">(flatiron.core.config.DatasetConfig attribute)</a>
 </li>
+        <li><a href="core.html#flatiron.core.config.FrameworkConfig._abc_impl">(flatiron.core.config.FrameworkConfig attribute)</a>
+</li>
         <li><a href="core.html#flatiron.core.config.LoggerConfig._abc_impl">(flatiron.core.config.LoggerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.LossConfig._abc_impl">(flatiron.core.config.LossConfig attribute)</a>
 </li>
         <li><a href="core.html#flatiron.core.config.OptimizerConfig._abc_impl">(flatiron.core.config.OptimizerConfig attribute)</a>
 </li>
@@ -147,14 +156,412 @@
 </li>
         <li><a href="core.html#flatiron.core.pipeline.PipelineBase._abc_impl">(flatiron.core.pipeline.PipelineBase attribute)</a>
 </li>
-        <li><a href="models.html#flatiron.tf.models.unet.UNetConfig._abc_impl">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+        <li><a href="tf.html#flatiron.tf.config.TFAxis._abc_impl">(flatiron.tf.config.TFAxis attribute)</a>
 </li>
-        <li><a href="models.html#flatiron.tf.models.unet.UNetPipeline._abc_impl">(flatiron.tf.models.unet.UNetPipeline attribute)</a>
+        <li><a href="tf.html#flatiron.tf.config.TFBaseConfig._abc_impl">(flatiron.tf.config.TFBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFBeta._abc_impl">(flatiron.tf.config.TFBeta attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFClsId._abc_impl">(flatiron.tf.config.TFClsId attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFEpsilon._abc_impl">(flatiron.tf.config.TFEpsilon attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFFramework._abc_impl">(flatiron.tf.config.TFFramework attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLogits._abc_impl">(flatiron.tf.config.TFLogits attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig._abc_impl">(flatiron.tf.config.TFLossBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBinaryCrossentropy._abc_impl">(flatiron.tf.config.TFLossBinaryCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy._abc_impl">(flatiron.tf.config.TFLossBinaryFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalCrossentropy._abc_impl">(flatiron.tf.config.TFLossCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalFocalCrossentropy._abc_impl">(flatiron.tf.config.TFLossCategoricalFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCircle._abc_impl">(flatiron.tf.config.TFLossCircle attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCosineSimilarity._abc_impl">(flatiron.tf.config.TFLossCosineSimilarity attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossDice._abc_impl">(flatiron.tf.config.TFLossDice attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossHuber._abc_impl">(flatiron.tf.config.TFLossHuber attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossSparseCategoricalCrossentropy._abc_impl">(flatiron.tf.config.TFLossSparseCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossTversky._abc_impl">(flatiron.tf.config.TFLossTversky attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricAccuracy._abc_impl">(flatiron.tf.config.TFMetricAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricAUC._abc_impl">(flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBaseConfig._abc_impl">(flatiron.tf.config.TFMetricBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryAccuracy._abc_impl">(flatiron.tf.config.TFMetricBinaryAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy._abc_impl">(flatiron.tf.config.TFMetricBinaryCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryIoU._abc_impl">(flatiron.tf.config.TFMetricBinaryIoU attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalAccuracy._abc_impl">(flatiron.tf.config.TFMetricCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy._abc_impl">(flatiron.tf.config.TFMetricCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalHinge._abc_impl">(flatiron.tf.config.TFMetricCategoricalHinge attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricConcordanceCorrelation._abc_impl">(flatiron.tf.config.TFMetricConcordanceCorrelation attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCosineSimilarity._abc_impl">(flatiron.tf.config.TFMetricCosineSimilarity attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricF1Score._abc_impl">(flatiron.tf.config.TFMetricF1Score attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFalseNegatives._abc_impl">(flatiron.tf.config.TFMetricFalseNegatives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFalsePositives._abc_impl">(flatiron.tf.config.TFMetricFalsePositives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFBetaScore._abc_impl">(flatiron.tf.config.TFMetricFBetaScore attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricHinge._abc_impl">(flatiron.tf.config.TFMetricHinge attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricKLDivergence._abc_impl">(flatiron.tf.config.TFMetricKLDivergence attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricLogCoshError._abc_impl">(flatiron.tf.config.TFMetricLogCoshError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMean._abc_impl">(flatiron.tf.config.TFMetricMean attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanAbsoluteError._abc_impl">(flatiron.tf.config.TFMetricMeanAbsoluteError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanAbsolutePercentageError._abc_impl">(flatiron.tf.config.TFMetricMeanAbsolutePercentageError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanSquaredError._abc_impl">(flatiron.tf.config.TFMetricMeanSquaredError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanSquaredLogarithmicError._abc_impl">(flatiron.tf.config.TFMetricMeanSquaredLogarithmicError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMetric._abc_impl">(flatiron.tf.config.TFMetricMetric attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricPearsonCorrelation._abc_impl">(flatiron.tf.config.TFMetricPearsonCorrelation attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricPoisson._abc_impl">(flatiron.tf.config.TFMetricPoisson attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricPrecision._abc_impl">(flatiron.tf.config.TFMetricPrecision attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricR2Score._abc_impl">(flatiron.tf.config.TFMetricR2Score attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricRecall._abc_impl">(flatiron.tf.config.TFMetricRecall attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricRootMeanSquaredError._abc_impl">(flatiron.tf.config.TFMetricRootMeanSquaredError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalAccuracy._abc_impl">(flatiron.tf.config.TFMetricSparseCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy._abc_impl">(flatiron.tf.config.TFMetricSparseCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy._abc_impl">(flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSquaredHinge._abc_impl">(flatiron.tf.config.TFMetricSquaredHinge attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSum._abc_impl">(flatiron.tf.config.TFMetricSum attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTopKCategoricalAccuracy._abc_impl">(flatiron.tf.config.TFMetricTopKCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTrueNegatives._abc_impl">(flatiron.tf.config.TFMetricTrueNegatives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTruePositives._abc_impl">(flatiron.tf.config.TFMetricTruePositives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFNumThresh._abc_impl">(flatiron.tf.config.TFNumThresh attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta._abc_impl">(flatiron.tf.config.TFOptAdadelta attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor._abc_impl">(flatiron.tf.config.TFOptAdafactor attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdagrad._abc_impl">(flatiron.tf.config.TFOptAdagrad attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdam._abc_impl">(flatiron.tf.config.TFOptAdam attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdamax._abc_impl">(flatiron.tf.config.TFOptAdamax attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdamW._abc_impl">(flatiron.tf.config.TFOptAdamW attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig._abc_impl">(flatiron.tf.config.TFOptBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptFtrl._abc_impl">(flatiron.tf.config.TFOptFtrl attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptLion._abc_impl">(flatiron.tf.config.TFOptLion attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptNadam._abc_impl">(flatiron.tf.config.TFOptNadam attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptRMSprop._abc_impl">(flatiron.tf.config.TFOptRMSprop attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptSGD._abc_impl">(flatiron.tf.config.TFOptSGD attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFThresh._abc_impl">(flatiron.tf.config.TFThresh attribute)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyConfig._abc_impl">(flatiron.tf.models.dummy.DummyConfig attribute)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyPipeline._abc_impl">(flatiron.tf.models.dummy.DummyPipeline attribute)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig._abc_impl">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetPipeline._abc_impl">(flatiron.tf.models.unet.UNetPipeline attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TAct._abc_impl">(flatiron.torch.config.TAct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TBeta._abc_impl">(flatiron.torch.config.TBeta attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TCap._abc_impl">(flatiron.torch.config.TCap attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TCls._abc_impl">(flatiron.torch.config.TCls attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TDate._abc_impl">(flatiron.torch.config.TDate attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TDecay._abc_impl">(flatiron.torch.config.TDecay attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TDiff._abc_impl">(flatiron.torch.config.TDiff attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TEps._abc_impl">(flatiron.torch.config.TEps attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TFor._abc_impl">(flatiron.torch.config.TFor attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TGroup1._abc_impl">(flatiron.torch.config.TGroup1 attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TGroup2._abc_impl">(flatiron.torch.config.TGroup2 attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TGroup3._abc_impl">(flatiron.torch.config.TGroup3 attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TInd._abc_impl">(flatiron.torch.config.TInd attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TMarg._abc_impl">(flatiron.torch.config.TMarg attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TMax._abc_impl">(flatiron.torch.config.TMax attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TMReduct._abc_impl">(flatiron.torch.config.TMReduct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TNan._abc_impl">(flatiron.torch.config.TNan attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig._abc_impl">(flatiron.torch.config.TorchBaseConfig attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchFramework._abc_impl">(flatiron.torch.config.TorchFramework attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossBCELoss._abc_impl">(flatiron.torch.config.TorchLossBCELoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossBCEWithLogitsLoss._abc_impl">(flatiron.torch.config.TorchLossBCEWithLogitsLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCosineEmbeddingLoss._abc_impl">(flatiron.torch.config.TorchLossCosineEmbeddingLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCrossEntropyLoss._abc_impl">(flatiron.torch.config.TorchLossCrossEntropyLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCTCLoss._abc_impl">(flatiron.torch.config.TorchLossCTCLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossGaussianNLLLoss._abc_impl">(flatiron.torch.config.TorchLossGaussianNLLLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossHingeEmbeddingLoss._abc_impl">(flatiron.torch.config.TorchLossHingeEmbeddingLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossHuberLoss._abc_impl">(flatiron.torch.config.TorchLossHuberLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossKLDivLoss._abc_impl">(flatiron.torch.config.TorchLossKLDivLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossL1Loss._abc_impl">(flatiron.torch.config.TorchLossL1Loss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMarginRankingLoss._abc_impl">(flatiron.torch.config.TorchLossMarginRankingLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMSELoss._abc_impl">(flatiron.torch.config.TorchLossMSELoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMultiLabelMarginLoss._abc_impl">(flatiron.torch.config.TorchLossMultiLabelMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMultiLabelSoftMarginLoss._abc_impl">(flatiron.torch.config.TorchLossMultiLabelSoftMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMultiMarginLoss._abc_impl">(flatiron.torch.config.TorchLossMultiMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossNLLLoss._abc_impl">(flatiron.torch.config.TorchLossNLLLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossPairwiseDistance._abc_impl">(flatiron.torch.config.TorchLossPairwiseDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossPoissonNLLLoss._abc_impl">(flatiron.torch.config.TorchLossPoissonNLLLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossSmoothL1Loss._abc_impl">(flatiron.torch.config.TorchLossSmoothL1Loss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossSoftMarginLoss._abc_impl">(flatiron.torch.config.TorchLossSoftMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginLoss._abc_impl">(flatiron.torch.config.TorchLossTripletMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss._abc_impl">(flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricBLEUScore._abc_impl">(flatiron.torch.config.TorchMetricBLEUScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCatMetric._abc_impl">(flatiron.torch.config.TorchMetricCatMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore._abc_impl">(flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricConcordanceCorrCoef._abc_impl">(flatiron.torch.config.TorchMetricConcordanceCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCosineSimilarity._abc_impl">(flatiron.torch.config.TorchMetricCosineSimilarity attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCramersV._abc_impl">(flatiron.torch.config.TorchMetricCramersV attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCriticalSuccessIndex._abc_impl">(flatiron.torch.config.TorchMetricCriticalSuccessIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricDice._abc_impl">(flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis._abc_impl">(flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExplainedVariance._abc_impl">(flatiron.torch.config.TorchMetricExplainedVariance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance._abc_impl">(flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricFleissKappa._abc_impl">(flatiron.torch.config.TorchMetricFleissKappa attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef._abc_impl">(flatiron.torch.config.TorchMetricKendallRankCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricKLDivergence._abc_impl">(flatiron.torch.config.TorchMetricKLDivergence attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricLogCoshError._abc_impl">(flatiron.torch.config.TorchMetricLogCoshError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMaxMetric._abc_impl">(flatiron.torch.config.TorchMetricMaxMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanAbsoluteError._abc_impl">(flatiron.torch.config.TorchMetricMeanAbsoluteError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanMetric._abc_impl">(flatiron.torch.config.TorchMetricMeanMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanSquaredError._abc_impl">(flatiron.torch.config.TorchMetricMeanSquaredError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMinkowskiDistance._abc_impl">(flatiron.torch.config.TorchMetricMinkowskiDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMinMetric._abc_impl">(flatiron.torch.config.TorchMetricMinMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality._abc_impl">(flatiron.torch.config.TorchMetricModifiedPanopticQuality attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure._abc_impl">(flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError._abc_impl">(flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPanopticQuality._abc_impl">(flatiron.torch.config.TorchMetricPanopticQuality attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPeakSignalNoiseRatio._abc_impl">(flatiron.torch.config.TorchMetricPeakSignalNoiseRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonCorrCoef._abc_impl">(flatiron.torch.config.TorchMetricPearsonCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient._abc_impl">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining._abc_impl">(flatiron.torch.config.TorchMetricPermutationInvariantTraining attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPerplexity._abc_impl">(flatiron.torch.config.TorchMetricPerplexity attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricR2Score._abc_impl">(flatiron.torch.config.TorchMetricR2Score attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeAverageSpectralError._abc_impl">(flatiron.torch.config.TorchMetricRelativeAverageSpectralError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeSquaredError._abc_impl">(flatiron.torch.config.TorchMetricRelativeSquaredError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalFallOut._abc_impl">(flatiron.torch.config.TorchMetricRetrievalFallOut attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalHitRate._abc_impl">(flatiron.torch.config.TorchMetricRetrievalHitRate attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalMAP._abc_impl">(flatiron.torch.config.TorchMetricRetrievalMAP attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalMRR._abc_impl">(flatiron.torch.config.TorchMetricRetrievalMRR attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalNormalizedDCG._abc_impl">(flatiron.torch.config.TorchMetricRetrievalNormalizedDCG attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecision._abc_impl">(flatiron.torch.config.TorchMetricRetrievalPrecision attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve._abc_impl">(flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecall._abc_impl">(flatiron.torch.config.TorchMetricRetrievalRecall attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision._abc_impl">(flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRPrecision._abc_impl">(flatiron.torch.config.TorchMetricRetrievalRPrecision attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow._abc_impl">(flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningMean._abc_impl">(flatiron.torch.config.TorchMetricRunningMean attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningSum._abc_impl">(flatiron.torch.config.TorchMetricRunningSum attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore._abc_impl">(flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio._abc_impl">(flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio._abc_impl">(flatiron.torch.config.TorchMetricSignalDistortionRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalNoiseRatio._abc_impl">(flatiron.torch.config.TorchMetricSignalNoiseRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpearmanCorrCoef._abc_impl">(flatiron.torch.config.TorchMetricSpearmanCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralAngleMapper._abc_impl">(flatiron.torch.config.TorchMetricSpectralAngleMapper attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralDistortionIndex._abc_impl">(flatiron.torch.config.TorchMetricSpectralDistortionIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure._abc_impl">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSumMetric._abc_impl">(flatiron.torch.config.TorchMetricSumMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU._abc_impl">(flatiron.torch.config.TorchMetricTheilsU attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTotalVariation._abc_impl">(flatiron.torch.config.TorchMetricTotalVariation attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate._abc_impl">(flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT._abc_impl">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTweedieDevianceScore._abc_impl">(flatiron.torch.config.TorchMetricTweedieDevianceScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricUniversalImageQualityIndex._abc_impl">(flatiron.torch.config.TorchMetricUniversalImageQualityIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdadelta._abc_impl">(flatiron.torch.config.TorchOptAdadelta attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdafactor._abc_impl">(flatiron.torch.config.TorchOptAdafactor attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdagrad._abc_impl">(flatiron.torch.config.TorchOptAdagrad attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdam._abc_impl">(flatiron.torch.config.TorchOptAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdamax._abc_impl">(flatiron.torch.config.TorchOptAdamax attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdamW._abc_impl">(flatiron.torch.config.TorchOptAdamW attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptASGD._abc_impl">(flatiron.torch.config.TorchOptASGD attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptBaseConfig._abc_impl">(flatiron.torch.config.TorchOptBaseConfig attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS._abc_impl">(flatiron.torch.config.TorchOptLBFGS attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptNAdam._abc_impl">(flatiron.torch.config.TorchOptNAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRAdam._abc_impl">(flatiron.torch.config.TorchOptRAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRMSprop._abc_impl">(flatiron.torch.config.TorchOptRMSprop attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRprop._abc_impl">(flatiron.torch.config.TorchOptRprop attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSGD._abc_impl">(flatiron.torch.config.TorchOptSGD attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSparseAdam._abc_impl">(flatiron.torch.config.TorchOptSparseAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TOut._abc_impl">(flatiron.torch.config.TOut attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TRed._abc_impl">(flatiron.torch.config.TRed attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TReduct._abc_impl">(flatiron.torch.config.TReduct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TSize._abc_impl">(flatiron.torch.config.TSize attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TTopK._abc_impl">(flatiron.torch.config.TTopK attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyConfig._abc_impl">(flatiron.torch.models.dummy.DummyConfig attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyPipeline._abc_impl">(flatiron.torch.models.dummy.DummyPipeline attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig._abc_impl">(flatiron.torch.models.unet.UNetConfig attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetPipeline._abc_impl">(flatiron.torch.models.unet.UNetPipeline attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase._engine">_engine (flatiron.core.pipeline.PipelineBase property)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.tools._execute_epoch">_execute_epoch() (in module flatiron.torch.tools)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset._get_stats">_get_stats() (flatiron.core.dataset.Dataset static method)</a>
 </li>
@@ -164,7 +571,17 @@
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset._read_file_as_array">_read_file_as_array() (flatiron.core.dataset.Dataset method)</a>
 </li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase._resolve_field">_resolve_field() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset._resolve_limit">_resolve_limit() (flatiron.core.dataset.Dataset static method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase._resolve_model">_resolve_model() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase._resolve_pipeline">_resolve_pipeline() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.pipeline.PipelineBase._resolve_subconfig">_resolve_subconfig() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig._validate_metrics">_validate_metrics() (flatiron.core.config.PipelineConfig class method)</a>
 </li>
       <li><a href="core.html#flatiron.core.config.LoggerConfig._validate_slack_methods">_validate_slack_methods() (flatiron.core.config.LoggerConfig class method)</a>
 </li>
@@ -174,39 +591,123 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.activation">activation (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id0">[1]</a>
+      <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyConfig.activation">activation (flatiron.tf.models.dummy.DummyConfig attribute)</a>
+
+      <ul>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.activation">(flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id0">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.adam_amsgrad">adam_amsgrad (flatiron.core.config.OptimizerConfig attribute)</a>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.activation">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id0">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.adam_beta_1">adam_beta_1 (flatiron.core.config.OptimizerConfig attribute)</a>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecision.adaptive_k">adaptive_k (flatiron.torch.config.TorchMetricRetrievalPrecision attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve.adaptive_k">(flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.adam_beta_2">adam_beta_2 (flatiron.core.config.OptimizerConfig attribute)</a>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision.adaptive_k">(flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.adam_epsilon">adam_epsilon (flatiron.core.config.OptimizerConfig attribute)</a>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricR2Score.adjusted">adjusted (flatiron.torch.config.TorchMetricR2Score attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.amsgrad">amsgrad (flatiron.core.config.OptimizerConfig attribute)</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality.allow_unknown_preds_category">allow_unknown_preds_category (flatiron.torch.config.TorchMetricModifiedPanopticQuality attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPanopticQuality.allow_unknown_preds_category">(flatiron.torch.config.TorchMetricPanopticQuality attribute)</a>
 </li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy.alpha">alpha (flatiron.tf.config.TFLossBinaryFocalCrossentropy attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalFocalCrossentropy.alpha">(flatiron.tf.config.TFLossCategoricalFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossTversky.alpha">(flatiron.tf.config.TFLossTversky attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.alpha">(flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptASGD.alpha">(flatiron.torch.config.TorchOptASGD attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRMSprop.alpha">(flatiron.torch.config.TorchOptRMSprop attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef.alternative">alternative (flatiron.torch.config.TorchMetricKendallRankCorrCoef attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdam.amsgrad">amsgrad (flatiron.tf.config.TFOptAdam attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdamW.amsgrad">(flatiron.tf.config.TFOptAdamW attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdam.amsgrad">(flatiron.torch.config.TorchOptAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdamW.amsgrad">(flatiron.torch.config.TorchOptAdamW attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy.apply_class_balancing">apply_class_balancing (flatiron.tf.config.TFLossBinaryFocalCrossentropy attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.asian_support">asian_support (flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset.asset_name">asset_name (flatiron.core.dataset.Dataset property)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.asset_path">asset_path (flatiron.core.dataset.Dataset property)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_activation_1">attention_activation_1 (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id1">[1]</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_activation_1">attention_activation_1 (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id1">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_activation_1">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id1">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_activation_2">attention_activation_2 (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id2">[1]</a>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_activation_2">attention_activation_2 (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id2">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_activation_2">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id2">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.attention_gate_2d">attention_gate_2d() (in module flatiron.tf.models.unet)</a>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.attention_gate_2d">attention_gate_2d() (in module flatiron.tf.models.unet)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_gates">attention_gates (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id3">[1]</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_gates">attention_gates (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id3">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_gates">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id3">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_kernel_initializer">attention_kernel_initializer (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id4">[1]</a>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_kernel_initializer">attention_kernel_initializer (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id4">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_kernel_initializer">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id4">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_kernel_size">attention_kernel_size (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id5">[1]</a>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_kernel_size">attention_kernel_size (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id5">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_kernel_size">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id5">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_padding">attention_padding (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id6">[1]</a>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_padding">attention_padding (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id6">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_padding">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id6">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.attention_strides">attention_strides (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id7">[1]</a>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.attention_strides">attention_strides (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id7">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.attention_strides">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id7">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="torch_models.html#flatiron.torch.models.unet.AtttentionGate2DBlock">AtttentionGate2DBlock (class in flatiron.torch.models.unet)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework.auto_scale_loss">auto_scale_loss (flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id0">[1]</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricF1Score.average">average (flatiron.tf.config.TFMetricF1Score attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFBetaScore.average">(flatiron.tf.config.TFMetricFBetaScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricDice.average">(flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFAxis.axis">axis (flatiron.tf.config.TFAxis attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -214,17 +715,57 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPeakSignalNoiseRatio.base">base (flatiron.torch.config.TorchMetricPeakSignalNoiseRatio attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.config.BaseConfig">BaseConfig (class in flatiron.core.config)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.batch_norm">batch_norm (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id8">[1]</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.batch_norm">batch_norm (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id8">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.batch_norm">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id8">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.TrainConfig.batch_size">batch_size (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id49">[1]</a>
+      </ul></li>
+      <li><a href="core.html#flatiron.core.config.TrainConfig.batch_size">batch_size (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id33">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.beta_1">beta_1 (flatiron.core.config.OptimizerConfig attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFLossTversky.beta">beta (flatiron.tf.config.TFLossTversky attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFBetaScore.beta">(flatiron.tf.config.TFMetricFBetaScore attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.beta">(flatiron.tf.config.TFOptFtrl attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossSmoothL1Loss.beta">(flatiron.torch.config.TorchLossSmoothL1Loss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.beta">(flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdafactor.beta2_decay">beta2_decay (flatiron.torch.config.TorchOptAdafactor attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.beta_2">beta_2 (flatiron.core.config.OptimizerConfig attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFBeta.beta_1">beta_1 (flatiron.tf.config.TFBeta attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TBeta.beta_1">(flatiron.torch.config.TBeta attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFBeta.beta_2">beta_2 (flatiron.tf.config.TFBeta attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TBeta.beta_2">(flatiron.torch.config.TBeta attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor.beta_2_decay">beta_2_decay (flatiron.tf.config.TFOptAdafactor attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.betas">betas (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCramersV.bias_correction">bias_correction (flatiron.torch.config.TorchMetricCramersV attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT.bias_correction">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossCTCLoss.blank">blank (flatiron.torch.config.TorchLossCTCLoss attribute)</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.build">build() (flatiron.core.pipeline.PipelineBase method)</a>
 </li>
@@ -238,12 +779,28 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.callbacks">callbacks (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id42">[1]</a>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.callbacks">callbacks (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id25">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig">CallbacksConfig (class in flatiron.core.config)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.classes">classes (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id9">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TCap.capturable">capturable (flatiron.torch.config.TCap attribute)</a>
 </li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptRMSprop.centered">centered (flatiron.tf.config.TFOptRMSprop attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRMSprop.centered">(flatiron.torch.config.TorchOptRMSprop attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricR2Score.class_aggregation">class_aggregation (flatiron.tf.config.TFMetricR2Score attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFClsId.class_id">class_id (flatiron.tf.config.TFClsId attribute)</a>
+</li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.classes">classes (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id9">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.classes">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id9">[1]</a>
+</li>
+      </ul></li>
       <li>
     cli
 
@@ -251,25 +808,33 @@
         <li><a href="cli.html#module-cli">module</a>
 </li>
       </ul></li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.clipnorm">clipnorm (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id32">[1]</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.clipvalue">clipvalue (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id33">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor.clip_threshold">clip_threshold (flatiron.tf.config.TFOptAdafactor attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.compile">compile (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id43">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.clipnorm">clipnorm (flatiron.tf.config.TFOptBaseConfig attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdafactor.clipping_threshold">clipping_threshold (flatiron.torch.config.TorchOptAdafactor attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.clipvalue">clipvalue (flatiron.tf.config.TFOptBaseConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.compile">compile (flatiron.core.config.PipelineConfig attribute)</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.compile">compile() (flatiron.core.pipeline.PipelineBase method)</a>
 
       <ul>
         <li><a href="tf.html#flatiron.tf.tools.compile">(in module flatiron.tf.tools)</a>
 </li>
-      </ul></li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig">CompileConfig (class in flatiron.core.config)</a>
+        <li><a href="torch.html#flatiron.torch.tools.compile">(in module flatiron.torch.tools)</a>
 </li>
+      </ul></li>
       <li><a href="cli.html#cli.container_id_command">container_id_command() (in module cli)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.conv_2d_block">conv_2d_block() (in module flatiron.tf.models.unet)</a>
+      <li><a href="torch_models.html#flatiron.torch.models.unet.Conv2DBlock">Conv2DBlock (class in flatiron.torch.models.unet)</a>
+</li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.conv_2d_block">conv_2d_block() (in module flatiron.tf.models.unet)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.curve">curve (flatiron.tf.config.TFMetricAUC attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -277,55 +842,127 @@
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.data_format">data_format (flatiron.tf.models.unet.UNetConfig attribute)</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptSGD.dampening">dampening (flatiron.torch.config.TorchOptSGD attribute)</a>
 </li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.data_format">data_format (flatiron.tf.models.unet.UNetConfig attribute)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.data_format">(flatiron.torch.models.unet.UNetConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TDate.data_range">data_range (flatiron.torch.config.TDate attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.data_range">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.dataset.Dataset">Dataset (class in flatiron.core.dataset)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.dataset">dataset (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id44">[1]</a>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.dataset">dataset (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id26">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.DatasetConfig">DatasetConfig (class in flatiron.core.config)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.deletion">deletion (flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossHuber.delta">delta (flatiron.tf.config.TFLossHuber attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossHuberLoss.delta">(flatiron.torch.config.TorchLossHuberLoss attribute)</a>
+</li>
+      </ul></li>
       <li><a href="cli.html#cli.destroy_dev_command">destroy_dev_command() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.destroy_prod_command">destroy_prod_command() (in module cli)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.device">device (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id9">[1]</a>
+      <li><a href="core.html#flatiron.core.config.FrameworkConfig.device">device (flatiron.core.config.FrameworkConfig attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFFramework.device">(flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id1">[1]</a>
 </li>
+        <li><a href="torch.html#flatiron.torch.config.TorchFramework.device">(flatiron.torch.config.TorchFramework attribute)</a>, <a href="torch.html#id0">[1]</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tf.html#flatiron.tf.metric.dice">dice() (in module flatiron.tf.metric)</a>
 </li>
       <li><a href="tf.html#flatiron.tf.loss.dice_loss">dice_loss() (in module flatiron.tf.loss)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TDiff.differentiable">differentiable (flatiron.torch.config.TDiff attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPeakSignalNoiseRatio.dim">dim (flatiron.torch.config.TorchMetricPeakSignalNoiseRatio attribute)</a>
+</li>
       <li><a href="cli.html#cli.docker_exec">docker_exec() (in module cli)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.dtype">dtype (flatiron.tf.models.unet.UNetConfig attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig.dtype">dtype (flatiron.tf.config.TFLossBaseConfig attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBaseConfig.dtype">(flatiron.tf.config.TFMetricBaseConfig attribute)</a>
 </li>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.dtype">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.dtype">(flatiron.torch.models.unet.UNetConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyConfig">DummyConfig (class in flatiron.tf.models.dummy)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyConfig">(class in flatiron.torch.models.dummy)</a>
+</li>
+      </ul></li>
+      <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyModel">DummyModel (class in flatiron.torch.models.dummy)</a>
+</li>
+      <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyPipeline">DummyPipeline (class in flatiron.tf.models.dummy)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyPipeline">(class in flatiron.torch.models.dummy)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.ema_momentum">ema_momentum (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id34">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.ema_momentum">ema_momentum (flatiron.tf.config.TFOptBaseConfig attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.ema_overwrite_frequency">ema_overwrite_frequency (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id35">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.ema_overwrite_frequency">ema_overwrite_frequency (flatiron.tf.config.TFOptBaseConfig attribute)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TAct.empty_target_action">empty_target_action (flatiron.torch.config.TAct attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalFallOut.empty_target_action">(flatiron.torch.config.TorchMetricRetrievalFallOut attribute)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.tools.enforce_callbacks">enforce_callbacks() (in module flatiron.core.tools)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.engine">engine (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id45">[1]</a>
+      <li><a href="core.html#flatiron.core.tools.enforce_getter">enforce_getter() (in module flatiron.core.tools)</a>
+</li>
+      <li><a href="cli.html#cli.enter_repo">enter_repo() (in module cli)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.TrainConfig.epochs">epochs (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id34">[1]</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cli.html#cli.enter_repo">enter_repo() (in module cli)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFEpsilon.epsilon">epsilon (flatiron.tf.config.TFEpsilon attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TEps.epsilon">(flatiron.torch.config.TEps attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.TrainConfig.epochs">epochs (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id50">[1]</a>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor.epsilon_1">epsilon_1 (flatiron.tf.config.TFOptAdafactor attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.epsilon">epsilon (flatiron.core.config.OptimizerConfig attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor.epsilon_2">epsilon_2 (flatiron.tf.config.TFOptAdafactor attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptRprop.etas">etas (flatiron.torch.config.TorchOptRprop attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining.eval_func">eval_func (flatiron.torch.config.TorchMetricPermutationInvariantTraining attribute)</a>
 </li>
       <li><a href="cli.html#cli.exit_repo">exit_repo() (in module cli)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.ext_regex">ext_regex (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id18">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossMultiMarginLoss.exponent">exponent (flatiron.torch.config.TorchLossMultiMarginLoss attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.ext_regex">ext_regex (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id9">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -335,8 +972,14 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.dataset.Dataset.filepaths">filepaths (flatiron.core.dataset.Dataset property)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.filters">filters (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id10">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio.filter_length">filter_length (flatiron.torch.config.TorchMetricSignalDistortionRatio attribute)</a>
 </li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.filters">filters (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id10">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.filters">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id10">[1]</a>
+</li>
+      </ul></li>
       <li>
     flatiron.core.config
 
@@ -372,13 +1015,18 @@
         <li><a href="core.html#module-flatiron.core.tools">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     flatiron.core.validators
 
       <ul>
         <li><a href="core.html#module-flatiron.core.validators">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.tf.config
+
+      <ul>
+        <li><a href="tf.html#module-flatiron.tf.config">module</a>
 </li>
       </ul></li>
       <li>
@@ -396,10 +1044,17 @@
 </li>
       </ul></li>
       <li>
+    flatiron.tf.models.dummy
+
+      <ul>
+        <li><a href="tf_models.html#module-flatiron.tf.models.dummy">module</a>
+</li>
+      </ul></li>
+      <li>
     flatiron.tf.models.unet
 
       <ul>
-        <li><a href="models.html#module-flatiron.tf.models.unet">module</a>
+        <li><a href="tf_models.html#module-flatiron.tf.models.unet">module</a>
 </li>
       </ul></li>
       <li>
@@ -416,14 +1071,125 @@
         <li><a href="tf.html#module-flatiron.tf.tools">module</a>
 </li>
       </ul></li>
+      <li>
+    flatiron.torch.config
+
+      <ul>
+        <li><a href="torch.html#module-flatiron.torch.config">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    flatiron.torch.loss
+
+      <ul>
+        <li><a href="torch.html#module-flatiron.torch.loss">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.torch.metric
+
+      <ul>
+        <li><a href="torch.html#module-flatiron.torch.metric">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.torch.models.dummy
+
+      <ul>
+        <li><a href="torch_models.html#module-flatiron.torch.models.dummy">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.torch.models.unet
+
+      <ul>
+        <li><a href="torch_models.html#module-flatiron.torch.models.unet">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.torch.optimizer
+
+      <ul>
+        <li><a href="torch.html#module-flatiron.torch.optimizer">module</a>
+</li>
+      </ul></li>
+      <li>
+    flatiron.torch.tools
+
+      <ul>
+        <li><a href="torch.html#module-flatiron.torch.tools">module</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TFor.foreach">foreach (flatiron.torch.config.TFor attribute)</a>
+</li>
+      <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyModel.forward">forward() (flatiron.torch.models.dummy.DummyModel method)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.AtttentionGate2DBlock.forward">(flatiron.torch.models.unet.AtttentionGate2DBlock method)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.Conv2DBlock.forward">(flatiron.torch.models.unet.Conv2DBlock method)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNet.forward">(flatiron.torch.models.unet.UNet method)</a>
+</li>
+      </ul></li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.framework">framework (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id27">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FrameworkConfig">FrameworkConfig (class in flatiron.core.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLogits.from_logits">from_logits (flatiron.tf.config.TFLogits attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.from_logits">(flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy.from_logits">(flatiron.tf.config.TFMetricBinaryCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy.from_logits">(flatiron.tf.config.TFMetricCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.from_logits">(flatiron.tf.config.TFMetricSparseCategoricalCrossentropy attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy.from_sorted_ids">from_sorted_ids (flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.from_string">from_string() (flatiron.core.pipeline.PipelineBase class method)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossGaussianNLLLoss.full">full (flatiron.torch.config.TorchLossGaussianNLLLoss attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossPoissonNLLLoss.full">(flatiron.torch.config.TorchLossPoissonNLLLoss attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdagrad.fused">fused (flatiron.torch.config.TorchOptAdagrad attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdam.fused">(flatiron.torch.config.TorchOptAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdamW.fused">(flatiron.torch.config.TorchOptAdamW attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSGD.fused">(flatiron.torch.config.TorchOptSGD attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy.gamma">gamma (flatiron.tf.config.TFLossBinaryFocalCrossentropy attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalFocalCrossentropy.gamma">(flatiron.tf.config.TFLossCategoricalFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCircle.gamma">(flatiron.tf.config.TFLossCircle attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.gaussian_kernel">gaussian_kernel (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.gaussian_kernel">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      </ul></li>
       <li><a href="tf.html#flatiron.tf.loss.get">get() (in module flatiron.tf.loss)</a>
 
       <ul>
@@ -431,17 +1197,37 @@
 </li>
         <li><a href="tf.html#flatiron.tf.optimizer.get">(in module flatiron.tf.optimizer)</a>
 </li>
+        <li><a href="tf.html#flatiron.tf.tools.get">(in module flatiron.tf.tools)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.loss.get">(in module flatiron.torch.loss)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.metric.get">(in module flatiron.torch.metric)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.optimizer.get">(in module flatiron.torch.optimizer)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.tools.get">(in module flatiron.torch.tools)</a>
+</li>
       </ul></li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.get_arrays">get_arrays() (flatiron.core.dataset.Dataset method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tf.html#flatiron.tf.tools.get_callbacks">get_callbacks() (in module flatiron.tf.tools)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.tools.get_callbacks">(in module flatiron.torch.tools)</a>
 </li>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.dummy.get_dummy_model">get_dummy_model() (in module flatiron.tf.models.dummy)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.get_dummy_model">(in module flatiron.torch.models.dummy)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.get_filepath">get_filepath() (flatiron.core.dataset.Dataset method)</a>
 </li>
       <li><a href="cli.html#cli.get_illegal_mode_command">get_illegal_mode_command() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.get_info">get_info() (in module cli)</a>
 </li>
       <li><a href="core.html#flatiron.core.tools.get_module">get_module() (in module flatiron.core.tools)</a>
@@ -452,11 +1238,23 @@
 </li>
       <li><a href="core.html#flatiron.core.tools.get_tensorboard_project">get_tensorboard_project() (in module flatiron.core.tools)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.get_unet_model">get_unet_model() (in module flatiron.tf.models.unet)</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.get_unet_model">get_unet_model() (in module flatiron.tf.models.unet)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.get_unet_model">(in module flatiron.torch.models.unet)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.global_clipnorm">global_clipnorm (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id36">[1]</a>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.global_clipnorm">global_clipnorm (flatiron.tf.config.TFOptBaseConfig attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.gradient_accumulation_steps">gradient_accumulation_steps (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id37">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.gradient_accumulation_steps">gradient_accumulation_steps (flatiron.tf.config.TFOptBaseConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.history_size">history_size (flatiron.torch.config.TorchOptLBFGS attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -464,27 +1262,63 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tf.html#flatiron.tf.config.TFLossSparseCategoricalCrossentropy.ignore_class">ignore_class (flatiron.tf.config.TFLossSparseCategoricalCrossentropy attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TInd.ignore_index">ignore_index (flatiron.torch.config.TInd attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCrossEntropyLoss.ignore_index">(flatiron.torch.config.TorchLossCrossEntropyLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossNLLLoss.ignore_index">(flatiron.torch.config.TorchLossNLLLoss attribute)</a>
+</li>
+      </ul></li>
       <li><a href="cli.html#cli.image_id_command">image_id_command() (in module cli)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.info">info (flatiron.core.dataset.Dataset property)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.TrainConfig.initial_epoch">initial_epoch (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id51">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdagrad.initial_accumulator_value">initial_accumulator_value (flatiron.tf.config.TFOptAdagrad attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.initial_accumulator_value">(flatiron.tf.config.TFOptFtrl attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdagrad.initial_accumulator_value">(flatiron.torch.config.TorchOptAdagrad attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="core.html#flatiron.core.config.TrainConfig.initial_epoch">initial_epoch (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id35">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.initial_value_threshold">initial_value_threshold (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id0">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.input_channels">input_channels (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id11">[1]</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.input_channels">input_channels (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id11">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyConfig.input_channels">(flatiron.torch.models.dummy.DummyConfig attribute)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.input_height">input_height (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id12">[1]</a>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.input_channels">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id11">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.input_width">input_width (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id13">[1]</a>
-</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.input_height">input_height (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id12">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.input_height">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id12">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.input_width">input_width (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id13">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.input_width">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id13">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.insertion">insertion (flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
       <li><a href="tf.html#flatiron.tf.metric.intersection_over_union">intersection_over_union() (in module flatiron.tf.metric)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_base_two">is_base_two() (in module flatiron.core.validators)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_callback_mode">is_callback_mode() (in module flatiron.core.validators)</a>
+</li>
+      <li><a href="core.html#flatiron.core.tools.is_custom_definition">is_custom_definition() (in module flatiron.core.tools)</a>
 </li>
       <li><a href="core.html#flatiron.core.validators.is_engine">is_engine() (in module flatiron.core.validators)</a>
 </li>
@@ -508,35 +1342,113 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tf.html#flatiron.tf.loss.jaccard_loss">jaccard_loss() (in module flatiron.tf.loss)</a>
 </li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework.jit_compile">jit_compile (flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id2">[1]</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.kernel_initializer">kernel_initializer (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id14">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy.k">k (flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTopKCategoricalAccuracy.k">(flatiron.tf.config.TFMetricTopKCategoricalAccuracy attribute)</a>
 </li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.k1">k1 (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.k1">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.k2">k2 (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.k2">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCriticalSuccessIndex.keep_sequence_dim">keep_sequence_dim (flatiron.torch.config.TorchMetricCriticalSuccessIndex attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossPairwiseDistance.keepdim">keepdim (flatiron.torch.config.TorchLossPairwiseDistance attribute)</a>
+</li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.kernel_initializer">kernel_initializer (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id14">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.kernel_initializer">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id14">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.kernel_size">kernel_size (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.kernel_size">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricUniversalImageQualityIndex.kernel_size">(flatiron.torch.config.TorchMetricUniversalImageQualityIndex attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.label_axis">label_axis (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id19">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.l1_regularization_strength">l1_regularization_strength (flatiron.tf.config.TFOptFtrl attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.labels">labels (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id20">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.l2_regularization_strength">l2_regularization_strength (flatiron.tf.config.TFOptFtrl attribute)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.layers">layers (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id15">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.l2_shrinkage_regularization_strength">l2_shrinkage_regularization_strength (flatiron.tf.config.TFOptFtrl attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.learning_rate">learning_rate (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id38">[1]</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.label_axis">label_axis (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id10">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.LoggerConfig.level">level (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id27">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBinaryCrossentropy.label_smoothing">label_smoothing (flatiron.tf.config.TFLossBinaryCrossentropy attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy.label_smoothing">(flatiron.tf.config.TFLossBinaryFocalCrossentropy attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.limit">limit (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id21">[1]</a>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalCrossentropy.label_smoothing">(flatiron.tf.config.TFLossCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalFocalCrossentropy.label_smoothing">(flatiron.tf.config.TFLossCategoricalFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy.label_smoothing">(flatiron.tf.config.TFMetricBinaryCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy.label_smoothing">(flatiron.tf.config.TFMetricCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCrossEntropyLoss.label_smoothing">(flatiron.torch.config.TorchLossCrossEntropyLoss attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.label_weights">label_weights (flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.labels">labels (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id11">[1]</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptASGD.lambd">lambd (flatiron.torch.config.TorchOptASGD attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.language">language (flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.layers">layers (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id15">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.layers">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id15">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.learning_rate">learning_rate (flatiron.tf.config.TFOptBaseConfig attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptBaseConfig.learning_rate">(flatiron.torch.config.TorchOptBaseConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.learning_rate_power">learning_rate_power (flatiron.tf.config.TFOptFtrl attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.level">level (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id18">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.limit">limit (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id12">[1]</a>
+</li>
       <li><a href="cli.html#cli.line">line() (in module cli)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.line_search_fn">line_search_fn (flatiron.torch.config.TorchOptLBFGS attribute)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.load">load() (flatiron.core.dataset.Dataset method)</a>
 
@@ -544,13 +1456,35 @@
         <li><a href="core.html#flatiron.core.pipeline.PipelineBase.load">(flatiron.core.pipeline.PipelineBase method)</a>
 </li>
       </ul></li>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.logger">logger (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id46">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio.load_diag">load_diag (flatiron.torch.config.TorchMetricSignalDistortionRatio attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossPoissonNLLLoss.log_input">log_input (flatiron.torch.config.TorchLossPoissonNLLLoss attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricKLDivergence.log_prob">log_prob (flatiron.torch.config.TorchMetricKLDivergence attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossKLDivLoss.log_target">log_target (flatiron.torch.config.TorchLossKLDivLoss attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.logger">logger (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id28">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.LoggerConfig">LoggerConfig (class in flatiron.core.config)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.loss">loss (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id10">[1]</a>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.loss">loss (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id29">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.loss_scale_factor">loss_scale_factor (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id39">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.loss_scale_factor">loss_scale_factor (flatiron.tf.config.TFOptBaseConfig attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework.loss_weights">loss_weights (flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id3">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.LossConfig">LossConfig (class in flatiron.core.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.lowercase">lowercase (flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.lowercase">(flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.lowercase">(flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdagrad.lr_decay">lr_decay (flatiron.torch.config.TorchOptAdagrad attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -560,20 +1494,50 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.main">main() (in module cli)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.metrics">metrics (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id11">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFLossCircle.margin">margin (flatiron.tf.config.TFLossCircle attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TMarg.margin">(flatiron.torch.config.TMarg attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.max_eval">max_eval (flatiron.torch.config.TorchOptLBFGS attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.max_iter">max_iter (flatiron.torch.config.TorchOptLBFGS attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve.max_k">max_k (flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision.max_k">(flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TMax.maximize">maximize (flatiron.torch.config.TMax attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricDice.mdmc_average">mdmc_average (flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.metrics">metrics (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id30">[1]</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision.min_precision">min_precision (flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision attribute)</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.mode">mode (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id1">[1]</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricFleissKappa.mode">(flatiron.torch.config.TorchMetricFleissKappa attribute)</a>
 </li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining.mode">(flatiron.torch.config.TorchMetricPermutationInvariantTraining attribute)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.config.BaseConfig.model_config">model_config (flatiron.core.config.BaseConfig attribute)</a>
 
       <ul>
         <li><a href="core.html#flatiron.core.config.CallbacksConfig.model_config">(flatiron.core.config.CallbacksConfig attribute)</a>
 </li>
-        <li><a href="core.html#flatiron.core.config.CompileConfig.model_config">(flatiron.core.config.CompileConfig attribute)</a>
-</li>
         <li><a href="core.html#flatiron.core.config.DatasetConfig.model_config">(flatiron.core.config.DatasetConfig attribute)</a>
 </li>
+        <li><a href="core.html#flatiron.core.config.FrameworkConfig.model_config">(flatiron.core.config.FrameworkConfig attribute)</a>
+</li>
         <li><a href="core.html#flatiron.core.config.LoggerConfig.model_config">(flatiron.core.config.LoggerConfig attribute)</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.LossConfig.model_config">(flatiron.core.config.LossConfig attribute)</a>
 </li>
         <li><a href="core.html#flatiron.core.config.OptimizerConfig.model_config">(flatiron.core.config.OptimizerConfig attribute)</a>
 </li>
@@ -581,23 +1545,427 @@
 </li>
         <li><a href="core.html#flatiron.core.config.TrainConfig.model_config">(flatiron.core.config.TrainConfig attribute)</a>
 </li>
-        <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.model_config">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+        <li><a href="tf.html#flatiron.tf.config.TFAxis.model_config">(flatiron.tf.config.TFAxis attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFBaseConfig.model_config">(flatiron.tf.config.TFBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFBeta.model_config">(flatiron.tf.config.TFBeta attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFClsId.model_config">(flatiron.tf.config.TFClsId attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFEpsilon.model_config">(flatiron.tf.config.TFEpsilon attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFFramework.model_config">(flatiron.tf.config.TFFramework attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLogits.model_config">(flatiron.tf.config.TFLogits attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig.model_config">(flatiron.tf.config.TFLossBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBinaryCrossentropy.model_config">(flatiron.tf.config.TFLossBinaryCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy.model_config">(flatiron.tf.config.TFLossBinaryFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalCrossentropy.model_config">(flatiron.tf.config.TFLossCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalFocalCrossentropy.model_config">(flatiron.tf.config.TFLossCategoricalFocalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCircle.model_config">(flatiron.tf.config.TFLossCircle attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossCosineSimilarity.model_config">(flatiron.tf.config.TFLossCosineSimilarity attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossDice.model_config">(flatiron.tf.config.TFLossDice attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossHuber.model_config">(flatiron.tf.config.TFLossHuber attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossSparseCategoricalCrossentropy.model_config">(flatiron.tf.config.TFLossSparseCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFLossTversky.model_config">(flatiron.tf.config.TFLossTversky attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricAccuracy.model_config">(flatiron.tf.config.TFMetricAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.model_config">(flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBaseConfig.model_config">(flatiron.tf.config.TFMetricBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryAccuracy.model_config">(flatiron.tf.config.TFMetricBinaryAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy.model_config">(flatiron.tf.config.TFMetricBinaryCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryIoU.model_config">(flatiron.tf.config.TFMetricBinaryIoU attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalAccuracy.model_config">(flatiron.tf.config.TFMetricCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy.model_config">(flatiron.tf.config.TFMetricCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalHinge.model_config">(flatiron.tf.config.TFMetricCategoricalHinge attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricConcordanceCorrelation.model_config">(flatiron.tf.config.TFMetricConcordanceCorrelation attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricCosineSimilarity.model_config">(flatiron.tf.config.TFMetricCosineSimilarity attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricF1Score.model_config">(flatiron.tf.config.TFMetricF1Score attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFalseNegatives.model_config">(flatiron.tf.config.TFMetricFalseNegatives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFalsePositives.model_config">(flatiron.tf.config.TFMetricFalsePositives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFBetaScore.model_config">(flatiron.tf.config.TFMetricFBetaScore attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricHinge.model_config">(flatiron.tf.config.TFMetricHinge attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricKLDivergence.model_config">(flatiron.tf.config.TFMetricKLDivergence attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricLogCoshError.model_config">(flatiron.tf.config.TFMetricLogCoshError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMean.model_config">(flatiron.tf.config.TFMetricMean attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanAbsoluteError.model_config">(flatiron.tf.config.TFMetricMeanAbsoluteError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanAbsolutePercentageError.model_config">(flatiron.tf.config.TFMetricMeanAbsolutePercentageError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanSquaredError.model_config">(flatiron.tf.config.TFMetricMeanSquaredError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanSquaredLogarithmicError.model_config">(flatiron.tf.config.TFMetricMeanSquaredLogarithmicError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricMetric.model_config">(flatiron.tf.config.TFMetricMetric attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricPearsonCorrelation.model_config">(flatiron.tf.config.TFMetricPearsonCorrelation attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricPoisson.model_config">(flatiron.tf.config.TFMetricPoisson attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricPrecision.model_config">(flatiron.tf.config.TFMetricPrecision attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricR2Score.model_config">(flatiron.tf.config.TFMetricR2Score attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricRecall.model_config">(flatiron.tf.config.TFMetricRecall attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricRootMeanSquaredError.model_config">(flatiron.tf.config.TFMetricRootMeanSquaredError attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalAccuracy.model_config">(flatiron.tf.config.TFMetricSparseCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.model_config">(flatiron.tf.config.TFMetricSparseCategoricalCrossentropy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy.model_config">(flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSquaredHinge.model_config">(flatiron.tf.config.TFMetricSquaredHinge attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricSum.model_config">(flatiron.tf.config.TFMetricSum attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTopKCategoricalAccuracy.model_config">(flatiron.tf.config.TFMetricTopKCategoricalAccuracy attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTrueNegatives.model_config">(flatiron.tf.config.TFMetricTrueNegatives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricTruePositives.model_config">(flatiron.tf.config.TFMetricTruePositives attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFNumThresh.model_config">(flatiron.tf.config.TFNumThresh attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta.model_config">(flatiron.tf.config.TFOptAdadelta attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor.model_config">(flatiron.tf.config.TFOptAdafactor attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdagrad.model_config">(flatiron.tf.config.TFOptAdagrad attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdam.model_config">(flatiron.tf.config.TFOptAdam attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdamax.model_config">(flatiron.tf.config.TFOptAdamax attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptAdamW.model_config">(flatiron.tf.config.TFOptAdamW attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.model_config">(flatiron.tf.config.TFOptBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptFtrl.model_config">(flatiron.tf.config.TFOptFtrl attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptLion.model_config">(flatiron.tf.config.TFOptLion attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptNadam.model_config">(flatiron.tf.config.TFOptNadam attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptRMSprop.model_config">(flatiron.tf.config.TFOptRMSprop attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFOptSGD.model_config">(flatiron.tf.config.TFOptSGD attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFThresh.model_config">(flatiron.tf.config.TFThresh attribute)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyConfig.model_config">(flatiron.tf.models.dummy.DummyConfig attribute)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.model_config">(flatiron.tf.models.unet.UNetConfig attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TAct.model_config">(flatiron.torch.config.TAct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TBeta.model_config">(flatiron.torch.config.TBeta attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TCap.model_config">(flatiron.torch.config.TCap attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TCls.model_config">(flatiron.torch.config.TCls attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TDate.model_config">(flatiron.torch.config.TDate attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TDecay.model_config">(flatiron.torch.config.TDecay attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TDiff.model_config">(flatiron.torch.config.TDiff attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TEps.model_config">(flatiron.torch.config.TEps attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TFor.model_config">(flatiron.torch.config.TFor attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TGroup1.model_config">(flatiron.torch.config.TGroup1 attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TGroup2.model_config">(flatiron.torch.config.TGroup2 attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TGroup3.model_config">(flatiron.torch.config.TGroup3 attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TInd.model_config">(flatiron.torch.config.TInd attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TMarg.model_config">(flatiron.torch.config.TMarg attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TMax.model_config">(flatiron.torch.config.TMax attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TMReduct.model_config">(flatiron.torch.config.TMReduct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TNan.model_config">(flatiron.torch.config.TNan attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig.model_config">(flatiron.torch.config.TorchBaseConfig attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchFramework.model_config">(flatiron.torch.config.TorchFramework attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossBCELoss.model_config">(flatiron.torch.config.TorchLossBCELoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossBCEWithLogitsLoss.model_config">(flatiron.torch.config.TorchLossBCEWithLogitsLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCosineEmbeddingLoss.model_config">(flatiron.torch.config.TorchLossCosineEmbeddingLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCrossEntropyLoss.model_config">(flatiron.torch.config.TorchLossCrossEntropyLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossCTCLoss.model_config">(flatiron.torch.config.TorchLossCTCLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossGaussianNLLLoss.model_config">(flatiron.torch.config.TorchLossGaussianNLLLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossHingeEmbeddingLoss.model_config">(flatiron.torch.config.TorchLossHingeEmbeddingLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossHuberLoss.model_config">(flatiron.torch.config.TorchLossHuberLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossKLDivLoss.model_config">(flatiron.torch.config.TorchLossKLDivLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossL1Loss.model_config">(flatiron.torch.config.TorchLossL1Loss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMarginRankingLoss.model_config">(flatiron.torch.config.TorchLossMarginRankingLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMSELoss.model_config">(flatiron.torch.config.TorchLossMSELoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMultiLabelMarginLoss.model_config">(flatiron.torch.config.TorchLossMultiLabelMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMultiLabelSoftMarginLoss.model_config">(flatiron.torch.config.TorchLossMultiLabelSoftMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossMultiMarginLoss.model_config">(flatiron.torch.config.TorchLossMultiMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossNLLLoss.model_config">(flatiron.torch.config.TorchLossNLLLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossPairwiseDistance.model_config">(flatiron.torch.config.TorchLossPairwiseDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossPoissonNLLLoss.model_config">(flatiron.torch.config.TorchLossPoissonNLLLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossSmoothL1Loss.model_config">(flatiron.torch.config.TorchLossSmoothL1Loss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossSoftMarginLoss.model_config">(flatiron.torch.config.TorchLossSoftMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginLoss.model_config">(flatiron.torch.config.TorchLossTripletMarginLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss.model_config">(flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricBLEUScore.model_config">(flatiron.torch.config.TorchMetricBLEUScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCatMetric.model_config">(flatiron.torch.config.TorchMetricCatMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.model_config">(flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricConcordanceCorrCoef.model_config">(flatiron.torch.config.TorchMetricConcordanceCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCosineSimilarity.model_config">(flatiron.torch.config.TorchMetricCosineSimilarity attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCramersV.model_config">(flatiron.torch.config.TorchMetricCramersV attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCriticalSuccessIndex.model_config">(flatiron.torch.config.TorchMetricCriticalSuccessIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricDice.model_config">(flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis.model_config">(flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExplainedVariance.model_config">(flatiron.torch.config.TorchMetricExplainedVariance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.model_config">(flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricFleissKappa.model_config">(flatiron.torch.config.TorchMetricFleissKappa attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef.model_config">(flatiron.torch.config.TorchMetricKendallRankCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricKLDivergence.model_config">(flatiron.torch.config.TorchMetricKLDivergence attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricLogCoshError.model_config">(flatiron.torch.config.TorchMetricLogCoshError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMaxMetric.model_config">(flatiron.torch.config.TorchMetricMaxMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanAbsoluteError.model_config">(flatiron.torch.config.TorchMetricMeanAbsoluteError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanMetric.model_config">(flatiron.torch.config.TorchMetricMeanMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanSquaredError.model_config">(flatiron.torch.config.TorchMetricMeanSquaredError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMinkowskiDistance.model_config">(flatiron.torch.config.TorchMetricMinkowskiDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMinMetric.model_config">(flatiron.torch.config.TorchMetricMinMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality.model_config">(flatiron.torch.config.TorchMetricModifiedPanopticQuality attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.model_config">(flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError.model_config">(flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPanopticQuality.model_config">(flatiron.torch.config.TorchMetricPanopticQuality attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPeakSignalNoiseRatio.model_config">(flatiron.torch.config.TorchMetricPeakSignalNoiseRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonCorrCoef.model_config">(flatiron.torch.config.TorchMetricPearsonCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.model_config">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining.model_config">(flatiron.torch.config.TorchMetricPermutationInvariantTraining attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPerplexity.model_config">(flatiron.torch.config.TorchMetricPerplexity attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricR2Score.model_config">(flatiron.torch.config.TorchMetricR2Score attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeAverageSpectralError.model_config">(flatiron.torch.config.TorchMetricRelativeAverageSpectralError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeSquaredError.model_config">(flatiron.torch.config.TorchMetricRelativeSquaredError attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalFallOut.model_config">(flatiron.torch.config.TorchMetricRetrievalFallOut attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalHitRate.model_config">(flatiron.torch.config.TorchMetricRetrievalHitRate attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalMAP.model_config">(flatiron.torch.config.TorchMetricRetrievalMAP attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalMRR.model_config">(flatiron.torch.config.TorchMetricRetrievalMRR attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalNormalizedDCG.model_config">(flatiron.torch.config.TorchMetricRetrievalNormalizedDCG attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecision.model_config">(flatiron.torch.config.TorchMetricRetrievalPrecision attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve.model_config">(flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecall.model_config">(flatiron.torch.config.TorchMetricRetrievalRecall attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision.model_config">(flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRPrecision.model_config">(flatiron.torch.config.TorchMetricRetrievalRPrecision attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow.model_config">(flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningMean.model_config">(flatiron.torch.config.TorchMetricRunningMean attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningSum.model_config">(flatiron.torch.config.TorchMetricRunningSum attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.model_config">(flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio.model_config">(flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio.model_config">(flatiron.torch.config.TorchMetricSignalDistortionRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalNoiseRatio.model_config">(flatiron.torch.config.TorchMetricSignalNoiseRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpearmanCorrCoef.model_config">(flatiron.torch.config.TorchMetricSpearmanCorrCoef attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralAngleMapper.model_config">(flatiron.torch.config.TorchMetricSpectralAngleMapper attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralDistortionIndex.model_config">(flatiron.torch.config.TorchMetricSpectralDistortionIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.model_config">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSumMetric.model_config">(flatiron.torch.config.TorchMetricSumMetric attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU.model_config">(flatiron.torch.config.TorchMetricTheilsU attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTotalVariation.model_config">(flatiron.torch.config.TorchMetricTotalVariation attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.model_config">(flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT.model_config">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTweedieDevianceScore.model_config">(flatiron.torch.config.TorchMetricTweedieDevianceScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricUniversalImageQualityIndex.model_config">(flatiron.torch.config.TorchMetricUniversalImageQualityIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdadelta.model_config">(flatiron.torch.config.TorchOptAdadelta attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdafactor.model_config">(flatiron.torch.config.TorchOptAdafactor attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdagrad.model_config">(flatiron.torch.config.TorchOptAdagrad attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdam.model_config">(flatiron.torch.config.TorchOptAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdamax.model_config">(flatiron.torch.config.TorchOptAdamax attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdamW.model_config">(flatiron.torch.config.TorchOptAdamW attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptASGD.model_config">(flatiron.torch.config.TorchOptASGD attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptBaseConfig.model_config">(flatiron.torch.config.TorchOptBaseConfig attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.model_config">(flatiron.torch.config.TorchOptLBFGS attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptNAdam.model_config">(flatiron.torch.config.TorchOptNAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRAdam.model_config">(flatiron.torch.config.TorchOptRAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRMSprop.model_config">(flatiron.torch.config.TorchOptRMSprop attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRprop.model_config">(flatiron.torch.config.TorchOptRprop attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSGD.model_config">(flatiron.torch.config.TorchOptSGD attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSparseAdam.model_config">(flatiron.torch.config.TorchOptSparseAdam attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TOut.model_config">(flatiron.torch.config.TOut attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TRed.model_config">(flatiron.torch.config.TRed attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TReduct.model_config">(flatiron.torch.config.TReduct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TSize.model_config">(flatiron.torch.config.TSize attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TTopK.model_config">(flatiron.torch.config.TTopK attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyConfig.model_config">(flatiron.torch.models.dummy.DummyConfig attribute)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.model_config">(flatiron.torch.models.unet.UNetConfig attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.model_config">model_config() (flatiron.core.pipeline.PipelineBase method)</a>
 
       <ul>
-        <li><a href="models.html#flatiron.tf.models.unet.UNetPipeline.model_config">(flatiron.tf.models.unet.UNetPipeline method)</a>
+        <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyPipeline.model_config">(flatiron.tf.models.dummy.DummyPipeline method)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetPipeline.model_config">(flatiron.tf.models.unet.UNetPipeline method)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyPipeline.model_config">(flatiron.torch.models.dummy.DummyPipeline method)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetPipeline.model_config">(flatiron.torch.models.unet.UNetPipeline method)</a>
 </li>
       </ul></li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.model_func">model_func() (flatiron.core.pipeline.PipelineBase method)</a>
 
       <ul>
-        <li><a href="models.html#flatiron.tf.models.unet.UNetPipeline.model_func">(flatiron.tf.models.unet.UNetPipeline method)</a>
+        <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyPipeline.model_func">(flatiron.tf.models.dummy.DummyPipeline method)</a>
+</li>
+        <li><a href="tf_models.html#flatiron.tf.models.unet.UNetPipeline.model_func">(flatiron.tf.models.unet.UNetPipeline method)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyPipeline.model_func">(flatiron.torch.models.dummy.DummyPipeline method)</a>
+</li>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetPipeline.model_func">(flatiron.torch.models.unet.UNetPipeline method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.tools.ModelCheckpoint">ModelCheckpoint (class in flatiron.torch.tools)</a>
+</li>
       <li>
     module
 
@@ -616,32 +1984,154 @@
 </li>
         <li><a href="core.html#module-flatiron.core.validators">flatiron.core.validators</a>
 </li>
+        <li><a href="tf.html#module-flatiron.tf.config">flatiron.tf.config</a>
+</li>
         <li><a href="tf.html#module-flatiron.tf.loss">flatiron.tf.loss</a>
 </li>
         <li><a href="tf.html#module-flatiron.tf.metric">flatiron.tf.metric</a>
 </li>
-        <li><a href="models.html#module-flatiron.tf.models.unet">flatiron.tf.models.unet</a>
+        <li><a href="tf_models.html#module-flatiron.tf.models.dummy">flatiron.tf.models.dummy</a>
+</li>
+        <li><a href="tf_models.html#module-flatiron.tf.models.unet">flatiron.tf.models.unet</a>
 </li>
         <li><a href="tf.html#module-flatiron.tf.optimizer">flatiron.tf.optimizer</a>
 </li>
         <li><a href="tf.html#module-flatiron.tf.tools">flatiron.tf.tools</a>
 </li>
+        <li><a href="torch.html#module-flatiron.torch.config">flatiron.torch.config</a>
+</li>
+        <li><a href="torch.html#module-flatiron.torch.loss">flatiron.torch.loss</a>
+</li>
+        <li><a href="torch.html#module-flatiron.torch.metric">flatiron.torch.metric</a>
+</li>
+        <li><a href="torch_models.html#module-flatiron.torch.models.dummy">flatiron.torch.models.dummy</a>
+</li>
+        <li><a href="torch_models.html#module-flatiron.torch.models.unet">flatiron.torch.models.unet</a>
+</li>
+        <li><a href="torch.html#module-flatiron.torch.optimizer">flatiron.torch.optimizer</a>
+</li>
+        <li><a href="torch.html#module-flatiron.torch.tools">flatiron.torch.tools</a>
+</li>
       </ul></li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.momentum">momentum (flatiron.core.config.OptimizerConfig attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptRMSprop.momentum">momentum (flatiron.tf.config.TFOptRMSprop attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFOptSGD.momentum">(flatiron.tf.config.TFOptSGD attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptRMSprop.momentum">(flatiron.torch.config.TorchOptRMSprop attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSGD.momentum">(flatiron.torch.config.TorchOptSGD attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptNAdam.momentum_decay">momentum_decay (flatiron.torch.config.TorchOptNAdam attribute)</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.monitor">monitor (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id2">[1]</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.tools.TorchDataset.monkey_patch">monkey_patch() (flatiron.torch.tools.TorchDataset static method)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.multi_label">multi_label (flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricDice.multiclass">multiclass (flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricExplainedVariance.multioutput">multioutput (flatiron.torch.config.TorchMetricExplainedVariance attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricR2Score.multioutput">(flatiron.torch.config.TorchMetricR2Score attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="N">N</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.name">name (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id40">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.n_char_order">n_char_order (flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricBLEUScore.n_gram">n_gram (flatiron.torch.config.TorchMetricBLEUScore attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.n_gram">(flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.n_word_order">n_word_order (flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.FrameworkConfig.name">name (flatiron.core.config.FrameworkConfig attribute)</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.config.LossConfig.name">(flatiron.core.config.LossConfig attribute)</a>, <a href="core.html#id23">[1]</a>
+</li>
+        <li><a href="core.html#flatiron.core.config.OptimizerConfig.name">(flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id24">[1]</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFBaseConfig.name">(flatiron.tf.config.TFBaseConfig attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFFramework.name">(flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id4">[1]</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig.name">(flatiron.torch.config.TorchBaseConfig attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchFramework.name">(flatiron.torch.config.TorchFramework attribute)</a>, <a href="torch.html#id1">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCramersV.nan_replace_value">nan_replace_value (flatiron.torch.config.TorchMetricCramersV attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_replace_value">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU.nan_replace_value">(flatiron.torch.config.TorchMetricTheilsU attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT.nan_replace_value">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TNan.nan_strategy">nan_strategy (flatiron.torch.config.TNan attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_strategy">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU.nan_strategy">(flatiron.torch.config.TorchMetricTheilsU attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT.nan_strategy">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.nesterov">nesterov (flatiron.core.config.OptimizerConfig attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFOptSGD.nesterov">nesterov (flatiron.tf.config.TFOptSGD attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptSGD.nesterov">(flatiron.torch.config.TorchOptSGD attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.no_punctuation">no_punctuation (flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossPairwiseDistance.norm_degree">norm_degree (flatiron.torch.config.TorchLossPairwiseDistance attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginLoss.norm_degree">(flatiron.torch.config.TorchLossTripletMarginLoss attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError.normalization">normalization (flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.normalize">normalize (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.normalize">(flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TCls.num_classes">num_classes (flatiron.torch.config.TCls attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.num_classes">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU.num_classes">(flatiron.torch.config.TorchMetricTheilsU attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT.num_classes">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.num_labels">num_labels (flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TOut.num_outputs">num_outputs (flatiron.torch.config.TOut attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricR2Score.num_regressors">num_regressors (flatiron.tf.config.TFMetricR2Score attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFNumThresh.num_thresholds">num_thresholds (flatiron.tf.config.TFNumThresh attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -649,13 +2139,19 @@
 <h2 id="O">O</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.optimizer">optimizer (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id47">[1]</a>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.optimizer">optimizer (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id31">[1]</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.OptimizerConfig">OptimizerConfig (class in flatiron.core.config)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig">OptimizerConfig (class in flatiron.core.config)</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.output_activation">output_activation (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id16">[1]</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.output_activation">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id16">[1]</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig.output_activation">output_activation (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="models.html#id16">[1]</a>
+      </ul></li>
+      <li><a href="torch_models.html#flatiron.torch.models.dummy.DummyConfig.output_channels">output_channels (flatiron.torch.models.dummy.DummyConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -663,6 +2159,12 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMinkowskiDistance.p">p (flatiron.torch.config.TorchMetricMinkowskiDistance attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralDistortionIndex.p">(flatiron.torch.config.TorchMetricSpectralDistortionIndex attribute)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.tools.pad_layer_name">pad_layer_name() (in module flatiron.core.tools)</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase">PipelineBase (class in flatiron.core.pipeline)</a>
@@ -673,8 +2175,14 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="tf.html#flatiron.tf.tools.pre_build">pre_build() (in module flatiron.tf.tools)</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTweedieDevianceScore.power">power (flatiron.torch.config.TorchMetricTweedieDevianceScore attribute)</a>
 </li>
+      <li><a href="tf.html#flatiron.tf.tools.pre_build">pre_build() (in module flatiron.tf.tools)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.tools.pre_build">(in module flatiron.torch.tools)</a>
+</li>
+      </ul></li>
       <li><a href="cli.html#cli.prod_command">prod_command() (in module cli)</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.project">project (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id3">[1]</a>
@@ -697,29 +2205,79 @@
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis.ratio">ratio (flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis attribute)</a>
+</li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.read_csv">read_csv() (flatiron.core.dataset.Dataset class method)</a>
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.read_directory">read_directory() (flatiron.core.dataset.Dataset class method)</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.read_yaml">read_yaml() (flatiron.core.pipeline.PipelineBase class method)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TRed.reduce">reduce (flatiron.torch.config.TRed attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig.reduction">reduction (flatiron.tf.config.TFLossBaseConfig attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TMReduct.reduction">(flatiron.torch.config.TMReduct attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCosineSimilarity.reduction">(flatiron.torch.config.TorchMetricCosineSimilarity attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricKLDivergence.reduction">(flatiron.torch.config.TorchMetricKLDivergence attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTotalVariation.reduction">(flatiron.torch.config.TorchMetricTotalVariation attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TReduct.reduction">(flatiron.torch.config.TReduct attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor.relative_step">relative_step (flatiron.tf.config.TFOptAdafactor attribute)</a>
+</li>
       <li><a href="cli.html#cli.remove_command">remove_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.remove_container">remove_container() (in module cli)</a>
 </li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossCircle.remove_diagonal">remove_diagonal (flatiron.tf.config.TFLossCircle attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.reshape">reshape (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id13">[1]</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.reshape">reshape (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id22">[1]</a>
-</li>
       <li><a href="cli.html#cli.resolve">resolve() (in module cli)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.tools.resolve_config">resolve_config() (in module flatiron.torch.tools)</a>
 </li>
       <li><a href="core.html#flatiron.core.tools.resolve_kwargs">resolve_kwargs() (in module flatiron.core.tools)</a>
 </li>
+      <li><a href="core.html#flatiron.core.tools.resolve_module_config">resolve_module_config() (in module flatiron.core.tools)</a>
+</li>
       <li><a href="cli.html#cli.restart_command">restart_command() (in module cli)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.return_contrast_sensitivity">return_contrast_sensitivity (flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.return_full_image">return_full_image (flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.return_sentence_level_score">return_sentence_level_score (flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.return_sentence_level_score">(flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.return_sentence_level_score">(flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta.rho">rho (flatiron.tf.config.TFOptAdadelta attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFOptRMSprop.rho">(flatiron.tf.config.TFOptRMSprop attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance.rho">(flatiron.torch.config.TorchMetricExtendedEditDistance attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchOptAdadelta.rho">(flatiron.torch.config.TorchOptAdadelta attribute)</a>
+</li>
+      </ul></li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.root">root (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id4">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.run">run() (flatiron.core.pipeline.PipelineBase method)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework.run_eagerly">run_eagerly (flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id5">[1]</a>
 </li>
   </ul></td>
 </tr></table>
@@ -727,38 +2285,64 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.tools.ModelCheckpoint.save">save() (flatiron.torch.tools.ModelCheckpoint method)</a>
+</li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.save_best_only">save_best_only (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id5">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.save_freq">save_freq (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id6">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.save_weights_only">save_weights_only (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id7">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.seed">seed (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id23">[1]</a>
-</li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.sgd_momentum">sgd_momentum (flatiron.core.config.OptimizerConfig attribute)</a>
-</li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.sgd_nesterov">sgd_nesterov (flatiron.core.config.OptimizerConfig attribute)</a>
-</li>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.shuffle">shuffle (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id24">[1]</a>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.seed">seed (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id14">[1]</a>
 
       <ul>
-        <li><a href="core.html#flatiron.core.config.TrainConfig.shuffle">(flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id52">[1]</a>
+        <li><a href="core.html#flatiron.core.config.TrainConfig.seed">(flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id36">[1]</a>
 </li>
       </ul></li>
-      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_channel">slack_channel (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id28">[1]</a>
+      <li><a href="tf_models.html#flatiron.tf.models.dummy.DummyConfig.shape">shape (flatiron.tf.models.dummy.DummyConfig attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.shuffle">shuffle (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id15">[1]</a>
+
+      <ul>
+        <li><a href="core.html#flatiron.core.config.TrainConfig.shuffle">(flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id37">[1]</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.sigma">sigma (flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure.sigma">(flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricUniversalImageQualityIndex.sigma">(flatiron.torch.config.TorchMetricUniversalImageQualityIndex attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TSize.size_average">size_average (flatiron.torch.config.TSize attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_channel">slack_channel (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id19">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.tools.slack_it">slack_it() (in module flatiron.core.tools)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_methods">slack_methods (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id29">[1]</a>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_methods">slack_methods (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id20">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_url">slack_url (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id30">[1]</a>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.slack_url">slack_url (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id21">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.logging.SlackLogger">SlackLogger (class in flatiron.core.logging)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.source">source (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id25">[1]</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricBLEUScore.smooth">smooth (flatiron.torch.config.TorchMetricBLEUScore attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.smooth">(flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
 </li>
+      </ul></li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.source">source (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id16">[1]</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanSquaredError.squared">squared (flatiron.torch.config.TorchMetricMeanSquaredError attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeSquaredError.squared">(flatiron.torch.config.TorchMetricRelativeSquaredError attribute)</a>
+</li>
+      </ul></li>
       <li><a href="cli.html#cli.start">start() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.start_command">start_command() (in module cli)</a>
@@ -767,40 +2351,468 @@
 </li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.stats">stats (flatiron.core.dataset.Dataset property)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptRprop.step_sizes">step_sizes (flatiron.torch.config.TorchOptRprop attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework.steps_per_execution">steps_per_execution (flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id6">[1]</a>
+</li>
       <li><a href="cli.html#cli.stop">stop() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.stop_command">stop_command() (in module cli)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality.stuffs">stuffs (flatiron.torch.config.TorchMetricModifiedPanopticQuality attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPanopticQuality.stuffs">(flatiron.torch.config.TorchMetricPanopticQuality attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.summation_method">summation_method (flatiron.tf.config.TFMetricAUC attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginLoss.swap">swap (flatiron.torch.config.TorchLossTripletMarginLoss attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss.swap">(flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.DatasetConfig.test_size">test_size (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id26">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptASGD.t0">t0 (flatiron.torch.config.TorchOptASGD attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.tf_auto_scale_loss">tf_auto_scale_loss (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id12">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef.t_test">t_test (flatiron.torch.config.TorchMetricKendallRankCorrCoef attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.tf_jit_compile">tf_jit_compile (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id13">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TAct">TAct (class in flatiron.torch.config)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.tf_loss_weights">tf_loss_weights (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id14">[1]</a>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryIoU.target_class_ids">target_class_ids (flatiron.tf.config.TFMetricBinaryIoU attribute)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.tf_run_eagerly">tf_run_eagerly (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id15">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TBeta">TBeta (class in flatiron.torch.config)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.tf_steps_per_execution">tf_steps_per_execution (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id16">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TCap">TCap (class in flatiron.torch.config)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.CompileConfig.tf_weighted_metrics">tf_weighted_metrics (flatiron.core.config.CompileConfig attribute)</a>, <a href="core.html#id17">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TCls">TCls (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TDate">TDate (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TDecay">TDecay (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TDiff">TDiff (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TEps">TEps (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.DatasetConfig.test_size">test_size (flatiron.core.config.DatasetConfig attribute)</a>, <a href="core.html#id17">[1]</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFAxis">TFAxis (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFBaseConfig">TFBaseConfig (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFBeta">TFBeta (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFClsId">TFClsId (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFEpsilon">TFEpsilon (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework">TFFramework (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLogits">TFLogits (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig">TFLossBaseConfig (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBinaryCrossentropy">TFLossBinaryCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossBinaryFocalCrossentropy">TFLossBinaryFocalCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalCrossentropy">TFLossCategoricalCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossCategoricalFocalCrossentropy">TFLossCategoricalFocalCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossCircle">TFLossCircle (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossCosineSimilarity">TFLossCosineSimilarity (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossDice">TFLossDice (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossHuber">TFLossHuber (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossSparseCategoricalCrossentropy">TFLossSparseCategoricalCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFLossTversky">TFLossTversky (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAccuracy">TFMetricAccuracy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricAUC">TFMetricAUC (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricBaseConfig">TFMetricBaseConfig (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryAccuracy">TFMetricBinaryAccuracy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy">TFMetricBinaryCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryIoU">TFMetricBinaryIoU (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalAccuracy">TFMetricCategoricalAccuracy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy">TFMetricCategoricalCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalHinge">TFMetricCategoricalHinge (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricConcordanceCorrelation">TFMetricConcordanceCorrelation (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricCosineSimilarity">TFMetricCosineSimilarity (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricF1Score">TFMetricF1Score (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricFalseNegatives">TFMetricFalseNegatives (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricFalsePositives">TFMetricFalsePositives (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricFBetaScore">TFMetricFBetaScore (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricHinge">TFMetricHinge (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricKLDivergence">TFMetricKLDivergence (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricLogCoshError">TFMetricLogCoshError (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricMean">TFMetricMean (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricMeanAbsoluteError">TFMetricMeanAbsoluteError (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricMeanAbsolutePercentageError">TFMetricMeanAbsolutePercentageError (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricMeanSquaredError">TFMetricMeanSquaredError (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricMeanSquaredLogarithmicError">TFMetricMeanSquaredLogarithmicError (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricMetric">TFMetricMetric (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricPearsonCorrelation">TFMetricPearsonCorrelation (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricPoisson">TFMetricPoisson (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricPrecision">TFMetricPrecision (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricR2Score">TFMetricR2Score (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricRecall">TFMetricRecall (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricRootMeanSquaredError">TFMetricRootMeanSquaredError (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalAccuracy">TFMetricSparseCategoricalAccuracy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy">TFMetricSparseCategoricalCrossentropy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy">TFMetricSparseTopKCategoricalAccuracy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSquaredHinge">TFMetricSquaredHinge (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricSum">TFMetricSum (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricTopKCategoricalAccuracy">TFMetricTopKCategoricalAccuracy (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricTrueNegatives">TFMetricTrueNegatives (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricTruePositives">TFMetricTruePositives (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFNumThresh">TFNumThresh (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta">TFOptAdadelta (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdafactor">TFOptAdafactor (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdagrad">TFOptAdagrad (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdam">TFOptAdam (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdamax">TFOptAdamax (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdamW">TFOptAdamW (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig">TFOptBaseConfig (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptFtrl">TFOptFtrl (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptLion">TFOptLion (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptNadam">TFOptNadam (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptRMSprop">TFOptRMSprop (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptSGD">TFOptSGD (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TFor">TFor (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFThresh">TFThresh (class in flatiron.tf.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TGroup1">TGroup1 (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TGroup2">TGroup2 (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TGroup3">TGroup3 (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality.things">things (flatiron.torch.config.TorchMetricModifiedPanopticQuality attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricPanopticQuality.things">(flatiron.torch.config.TorchMetricPanopticQuality attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryAccuracy.threshold">threshold (flatiron.tf.config.TFMetricBinaryAccuracy attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryIoU.threshold">(flatiron.tf.config.TFMetricBinaryIoU attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricF1Score.threshold">(flatiron.tf.config.TFMetricF1Score attribute)</a>
+</li>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricFBetaScore.threshold">(flatiron.tf.config.TFMetricFBetaScore attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricCriticalSuccessIndex.threshold">(flatiron.torch.config.TorchMetricCriticalSuccessIndex attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricDice.threshold">(flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFThresh.thresholds">thresholds (flatiron.tf.config.TFThresh attribute)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.LoggerConfig.timezone">timezone (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id22">[1]</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TInd">TInd (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TMarg">TMarg (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TMax">TMax (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TMReduct">TMReduct (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TNan">TNan (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.tokenize">tokenize (flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.tolerance_change">tolerance_change (flatiron.torch.config.TorchOptLBFGS attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.tolerance_grad">tolerance_grad (flatiron.torch.config.TorchOptLBFGS attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFMetricPrecision.top_k">top_k (flatiron.tf.config.TFMetricPrecision attribute)</a>
+
+      <ul>
+        <li><a href="tf.html#flatiron.tf.config.TFMetricRecall.top_k">(flatiron.tf.config.TFMetricRecall attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TTopK.top_k">(flatiron.torch.config.TTopK attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig">TorchBaseConfig (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.tools.TorchDataset">TorchDataset (class in flatiron.torch.tools)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchFramework">TorchFramework (class in flatiron.torch.config)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.LoggerConfig.timezone">timezone (flatiron.core.config.LoggerConfig attribute)</a>, <a href="core.html#id31">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossBCELoss">TorchLossBCELoss (class in flatiron.torch.config)</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.PipelineConfig.train">train (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id48">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossBCEWithLogitsLoss">TorchLossBCEWithLogitsLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossCosineEmbeddingLoss">TorchLossCosineEmbeddingLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossCrossEntropyLoss">TorchLossCrossEntropyLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossCTCLoss">TorchLossCTCLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossGaussianNLLLoss">TorchLossGaussianNLLLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossHingeEmbeddingLoss">TorchLossHingeEmbeddingLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossHuberLoss">TorchLossHuberLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossKLDivLoss">TorchLossKLDivLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossL1Loss">TorchLossL1Loss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossMarginRankingLoss">TorchLossMarginRankingLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossMSELoss">TorchLossMSELoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossMultiLabelMarginLoss">TorchLossMultiLabelMarginLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossMultiLabelSoftMarginLoss">TorchLossMultiLabelSoftMarginLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossMultiMarginLoss">TorchLossMultiMarginLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossNLLLoss">TorchLossNLLLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossPairwiseDistance">TorchLossPairwiseDistance (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossPoissonNLLLoss">TorchLossPoissonNLLLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossSmoothL1Loss">TorchLossSmoothL1Loss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossSoftMarginLoss">TorchLossSoftMarginLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginLoss">TorchLossTripletMarginLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossTripletMarginWithDistanceLoss">TorchLossTripletMarginWithDistanceLoss (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricBLEUScore">TorchMetricBLEUScore (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCatMetric">TorchMetricCatMetric (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore">TorchMetricCHRFScore (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricConcordanceCorrCoef">TorchMetricConcordanceCorrCoef (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCosineSimilarity">TorchMetricCosineSimilarity (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCramersV">TorchMetricCramersV (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCriticalSuccessIndex">TorchMetricCriticalSuccessIndex (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricDice">TorchMetricDice (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricErrorRelativeGlobalDimensionlessSynthesis">TorchMetricErrorRelativeGlobalDimensionlessSynthesis (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricExplainedVariance">TorchMetricExplainedVariance (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricExtendedEditDistance">TorchMetricExtendedEditDistance (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricFleissKappa">TorchMetricFleissKappa (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef">TorchMetricKendallRankCorrCoef (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricKLDivergence">TorchMetricKLDivergence (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricLogCoshError">TorchMetricLogCoshError (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMaxMetric">TorchMetricMaxMetric (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanAbsoluteError">TorchMetricMeanAbsoluteError (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanMetric">TorchMetricMeanMetric (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMeanSquaredError">TorchMetricMeanSquaredError (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMinkowskiDistance">TorchMetricMinkowskiDistance (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMinMetric">TorchMetricMinMetric (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricModifiedPanopticQuality">TorchMetricModifiedPanopticQuality (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure">TorchMetricMultiScaleStructuralSimilarityIndexMeasure (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError">TorchMetricNormalizedRootMeanSquaredError (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPanopticQuality">TorchMetricPanopticQuality (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPeakSignalNoiseRatio">TorchMetricPeakSignalNoiseRatio (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonCorrCoef">TorchMetricPearsonCorrCoef (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient">TorchMetricPearsonsContingencyCoefficient (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining">TorchMetricPermutationInvariantTraining (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricPerplexity">TorchMetricPerplexity (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricR2Score">TorchMetricR2Score (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeAverageSpectralError">TorchMetricRelativeAverageSpectralError (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeSquaredError">TorchMetricRelativeSquaredError (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalFallOut">TorchMetricRetrievalFallOut (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalHitRate">TorchMetricRetrievalHitRate (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalMAP">TorchMetricRetrievalMAP (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalMRR">TorchMetricRetrievalMRR (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalNormalizedDCG">TorchMetricRetrievalNormalizedDCG (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecision">TorchMetricRetrievalPrecision (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalPrecisionRecallCurve">TorchMetricRetrievalPrecisionRecallCurve (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecall">TorchMetricRetrievalRecall (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRecallAtFixedPrecision">TorchMetricRetrievalRecallAtFixedPrecision (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRetrievalRPrecision">TorchMetricRetrievalRPrecision (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow">TorchMetricRootMeanSquaredErrorUsingSlidingWindow (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningMean">TorchMetricRunningMean (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningSum">TorchMetricRunningSum (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore">TorchMetricSacreBLEUScore (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio">TorchMetricScaleInvariantSignalDistortionRatio (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio">TorchMetricSignalDistortionRatio (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalNoiseRatio">TorchMetricSignalNoiseRatio (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSpearmanCorrCoef">TorchMetricSpearmanCorrCoef (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralAngleMapper">TorchMetricSpectralAngleMapper (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSpectralDistortionIndex">TorchMetricSpectralDistortionIndex (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricStructuralSimilarityIndexMeasure">TorchMetricStructuralSimilarityIndexMeasure (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSumMetric">TorchMetricSumMetric (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU">TorchMetricTheilsU (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTotalVariation">TorchMetricTotalVariation (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate">TorchMetricTranslationEditRate (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT">TorchMetricTschuprowsT (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricTweedieDevianceScore">TorchMetricTweedieDevianceScore (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricUniversalImageQualityIndex">TorchMetricUniversalImageQualityIndex (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdadelta">TorchOptAdadelta (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdafactor">TorchOptAdafactor (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdagrad">TorchOptAdagrad (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdam">TorchOptAdam (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdamax">TorchOptAdamax (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptAdamW">TorchOptAdamW (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptASGD">TorchOptASGD (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptBaseConfig">TorchOptBaseConfig (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS">TorchOptLBFGS (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptNAdam">TorchOptNAdam (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptRAdam">TorchOptRAdam (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptRMSprop">TorchOptRMSprop (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptRprop">TorchOptRprop (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptSGD">TorchOptSGD (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchOptSparseAdam">TorchOptSparseAdam (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TOut">TOut (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="core.html#flatiron.core.config.PipelineConfig.train">train (flatiron.core.config.PipelineConfig attribute)</a>, <a href="core.html#id32">[1]</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.train">train() (flatiron.core.pipeline.PipelineBase method)</a>
 
       <ul>
         <li><a href="tf.html#flatiron.tf.tools.train">(in module flatiron.tf.tools)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.tools.train">(in module flatiron.torch.tools)</a>
 </li>
       </ul></li>
       <li><a href="core.html#flatiron.core.dataset.Dataset.train_test_split">train_test_split() (flatiron.core.dataset.Dataset method)</a>
@@ -813,18 +2825,36 @@
       </ul></li>
       <li><a href="core.html#flatiron.core.config.TrainConfig">TrainConfig (class in flatiron.core.config)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TRed">TRed (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TReduct">TReduct (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TSize">TSize (class in flatiron.torch.config)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TTopK">TTopK (class in flatiron.torch.config)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="models.html#flatiron.tf.models.unet.unet_width_and_layers_are_valid">unet_width_and_layers_are_valid() (in module flatiron.tf.models.unet)</a>
+      <li><a href="torch_models.html#flatiron.torch.models.unet.UNet">UNet (class in flatiron.torch.models.unet)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetConfig">UNetConfig (class in flatiron.tf.models.unet)</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.unet_width_and_layers_are_valid">unet_width_and_layers_are_valid() (in module flatiron.tf.models.unet)</a>
 </li>
-      <li><a href="models.html#flatiron.tf.models.unet.UNetPipeline">UNetPipeline (class in flatiron.tf.models.unet)</a>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig">UNetConfig (class in flatiron.tf.models.unet)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig">(class in flatiron.torch.models.unet)</a>
 </li>
+      </ul></li>
+      <li><a href="tf_models.html#flatiron.tf.models.unet.UNetPipeline">UNetPipeline (class in flatiron.tf.models.unet)</a>
+
+      <ul>
+        <li><a href="torch_models.html#flatiron.torch.models.unet.UNetPipeline">(class in flatiron.torch.models.unet)</a>
+</li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.tools.unindent">unindent() (in module flatiron.core.tools)</a>
@@ -835,7 +2865,9 @@
         <li><a href="core.html#flatiron.core.pipeline.PipelineBase.unload">(flatiron.core.pipeline.PipelineBase method)</a>
 </li>
       </ul></li>
-      <li><a href="core.html#flatiron.core.config.OptimizerConfig.use_ema">use_ema (flatiron.core.config.OptimizerConfig attribute)</a>, <a href="core.html#id41">[1]</a>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio.use_cg_iter">use_cg_iter (flatiron.torch.config.TorchMetricSignalDistortionRatio attribute)</a>
+</li>
+      <li><a href="tf.html#flatiron.tf.config.TFOptBaseConfig.use_ema">use_ema (flatiron.tf.config.TFOptBaseConfig attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -843,22 +2875,60 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="core.html#flatiron.core.config.TrainConfig.validation_freq">validation_freq (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id53">[1]</a>
+      <li><a href="core.html#flatiron.core.config.TrainConfig.validation_freq">validation_freq (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id38">[1]</a>
 </li>
-      <li><a href="core.html#flatiron.core.config.TrainConfig.validation_split">validation_split (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id54">[1]</a>
+      <li><a href="core.html#flatiron.core.config.TrainConfig.validation_split">validation_split (flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id39">[1]</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef.variant">variant (flatiron.torch.config.TorchMetricKendallRankCorrCoef attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.verbose">verbose (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id8">[1]</a>
 
       <ul>
-        <li><a href="core.html#flatiron.core.config.TrainConfig.verbose">(flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id55">[1]</a>
+        <li><a href="core.html#flatiron.core.config.TrainConfig.verbose">(flatiron.core.config.TrainConfig attribute)</a>, <a href="core.html#id40">[1]</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.version_commit_command">version_commit_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.version_variable">version_variable() (in module cli)</a>
 </li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="tf.html#flatiron.tf.config.TFOptAdamW.weight_decay">weight_decay (flatiron.tf.config.TFOptAdamW attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TDecay.weight_decay">(flatiron.torch.config.TDecay attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="tf.html#flatiron.tf.config.TFFramework.weighted_metrics">weighted_metrics (flatiron.tf.config.TFFramework attribute)</a>, <a href="tf.html#id7">[1]</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricBLEUScore.weights">weights (flatiron.torch.config.TorchMetricBLEUScore attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.weights">(flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricCHRFScore.whitespace">whitespace (flatiron.torch.config.TorchMetricCHRFScore attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningMean.window">window (flatiron.torch.config.TorchMetricRunningMean attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRunningSum.window">(flatiron.torch.config.TorchMetricRunningSum attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricRelativeAverageSpectralError.window_size">window_size (flatiron.torch.config.TorchMetricRelativeAverageSpectralError attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow.window_size">(flatiron.torch.config.TorchMetricRootMeanSquaredErrorUsingSlidingWindow attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -877,12 +2947,24 @@
 <h2 id="Z">Z</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricDice.zero_division">zero_division (flatiron.torch.config.TorchMetricDice attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchLossCTCLoss.zero_infinity">zero_infinity (flatiron.torch.config.TorchLossCTCLoss attribute)</a>
+</li>
+      <li><a href="torch.html#flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio.zero_mean">zero_mean (flatiron.torch.config.TorchMetricScaleInvariantSignalDistortionRatio attribute)</a>
+
+      <ul>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalDistortionRatio.zero_mean">(flatiron.torch.config.TorchMetricSignalDistortionRatio attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TorchMetricSignalNoiseRatio.zero_mean">(flatiron.torch.config.TorchMetricSignalNoiseRatio attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.zsh_command">zsh_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.zsh_complete_command">zsh_complete_command() (in module cli)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cli.html#cli.zsh_root_command">zsh_root_command() (in module cli)</a>
 </li>
       <li><a href="cli.html#cli.zshrc_tools">zshrc_tools() (in module cli)</a>

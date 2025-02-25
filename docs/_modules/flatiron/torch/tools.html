@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flatiron.torch.tools &mdash; flatiron  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/style.css" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            flatiron
+          </a>
+              <div class="version">
+                0.21.1
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#installation-for-developers">Installation for Developers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#installation-for-production">Installation for Production</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#quickstart-guide">Quickstart Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#development-cli">Development CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../readme.html#production-cli">Production CLI</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../core.html">core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tf.html">tf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../torch.html">torch</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">cli</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">flatiron</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">flatiron.torch.tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for flatiron.torch.tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span>  <span class="c1"># noqa F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Compiled</span><span class="p">,</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">Getter</span>  <span class="c1"># noqa F401</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.tensorboard</span><span class="w"> </span><span class="kn">import</span> <span class="n">SummaryWriter</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">safetensors.torch</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">safetensors</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tqdm.notebook</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tqdm</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">torchdata</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.torch.loss</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fi_torchloss</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.torch.metric</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fi_torchmetric</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.torch.optimizer</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fi_torchoptim</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="resolve_config">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.resolve_config">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">resolve_config</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="c1"># type: (dict) -&gt; dict</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Resolve configs handed to Torch classes. Replaces the following:</span>
+
+<span class="sd">    * learning_rate</span>
+<span class="sd">    * epsilon</span>
+<span class="sd">    * clipping_threshold</span>
+<span class="sd">    * exponent</span>
+<span class="sd">    * norm_degree</span>
+<span class="sd">    * beta_1</span>
+<span class="sd">    * beta_2</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (dict): Config dict.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Resolved config.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;params&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="s1">&#39;params&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">params</span>
+
+    <span class="n">lut</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">learning_rate</span><span class="o">=</span><span class="s1">&#39;lr&#39;</span><span class="p">,</span>
+        <span class="n">epsilon</span><span class="o">=</span><span class="s1">&#39;eps&#39;</span><span class="p">,</span>
+        <span class="n">clipping_threshold</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span>
+        <span class="n">exponent</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span>
+        <span class="n">norm_degree</span><span class="o">=</span><span class="s1">&#39;p&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">lut</span><span class="p">:</span>
+            <span class="n">output</span><span class="p">[</span><span class="n">lut</span><span class="p">[</span><span class="n">key</span><span class="p">]]</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="k">del</span> <span class="n">output</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;beta_1&#39;</span> <span class="ow">in</span> <span class="n">output</span> <span class="ow">or</span> <span class="s1">&#39;beta_2&#39;</span> <span class="ow">in</span> <span class="n">output</span><span class="p">:</span>
+        <span class="n">beta_1</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;beta_1&#39;</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+        <span class="n">beta_2</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;beta_2&#39;</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s1">&#39;betas&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">beta_1</span><span class="p">,</span> <span class="n">beta_2</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+
+<div class="viewcode-block" id="get">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.get">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">fallback_module</span><span class="p">):</span>
+    <span class="c1"># type: (Getter, str, str) -&gt; Any</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Given a config and set of modules return an instance or function.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config (dict): Instance config.</span>
+<span class="sd">        module (str): Always __name__.</span>
+<span class="sd">        fallback_module (str): Fallback module, either a tf or torch module.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        EnforceError: If config is not a dict with a name key.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: Instance or function.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">fict</span><span class="o">.</span><span class="n">enforce_getter</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="c1"># --------------------------------------------------------------------------</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">resolve_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module_class</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+        <span class="n">mod</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module</span><span class="p">(</span><span class="n">fallback_module</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="n">name</span><span class="p">)(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># CALLBACKS---------------------------------------------------------------------</span>
+<div class="viewcode-block" id="ModelCheckpoint">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.ModelCheckpoint">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ModelCheckpoint</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Class for saving PyTorch models.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="ModelCheckpoint.__init__">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.ModelCheckpoint.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">save_freq</span><span class="o">=</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># type: (Filepath, str, Any) -&gt; None</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Constructs ModelCheckpoint instance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (str or Path): Filepath pattern.</span>
+<span class="sd">            save_freq (str, optional): Save frequency. Default: epoch.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_freq</span> <span class="o">=</span> <span class="n">save_freq</span></div>
+
+
+<div class="viewcode-block" id="ModelCheckpoint.save">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.ModelCheckpoint.save">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">epoch</span><span class="p">):</span>
+        <span class="c1"># type: (torch.nn.Module, int) -&gt; None</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Save PyTorch model.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model (torch.nn.Module): Model to be saved.</span>
+<span class="sd">            epoch (int): Current epoch.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filepath</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+        <span class="n">safetensors</span><span class="o">.</span><span class="n">save_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">Callbacks</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">SummaryWriter</span> <span class="o">|</span> <span class="n">ModelCheckpoint</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="get_callbacks">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.get_callbacks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="n">checkpoint_params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="c1"># type: (Filepath, str, dict) -&gt; Callbacks</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Create a list of callbacks for Tensoflow model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        log_directory (str or Path): Tensorboard project log directory.</span>
+<span class="sd">        checkpoint_pattern (str): Filepath pattern for checkpoint callback.</span>
+<span class="sd">        checkpoint_params (dict, optional): Params to be passed to checkpoint</span>
+<span class="sd">            callback. Default: {}.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        EnforceError: If log directory does not exist.</span>
+<span class="sd">        EnforeError: If checkpoint pattern does not contain &#39;{epoch}&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: Tensorboard and ModelCheckpoint callbacks.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">fict</span><span class="o">.</span><span class="n">enforce_callbacks</span><span class="p">(</span><span class="n">log_directory</span><span class="p">,</span> <span class="n">checkpoint_pattern</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">tensorboard</span><span class="o">=</span><span class="n">SummaryWriter</span><span class="p">(</span><span class="n">log_dir</span><span class="o">=</span><span class="n">log_directory</span><span class="p">),</span>
+        <span class="n">checkpoint</span><span class="o">=</span><span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">checkpoint_pattern</span><span class="p">,</span> <span class="o">**</span><span class="n">checkpoint_params</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># DATASET-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="TorchDataset">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.TorchDataset">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">,</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">Dataset</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Class for inheriting torch Dataset into flatiron Dataset.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="TorchDataset.monkey_patch">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.TorchDataset.monkey_patch">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">monkey_patch</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">channels_first</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="c1"># type: (Dataset, bool) -&gt; TorchDataset</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Construct and monkey patch a new TorchDataset instance from a given</span>
+<span class="sd">        Dataset.</span>
+<span class="sd">        Pytorch expects images in with the shape (C, H , W) per default.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataset (Dataset): Dataset.</span>
+<span class="sd">            channels_first (bool, optional): Will convert any matrix of shape</span>
+<span class="sd">                (H, W, C)  into (C, H, W). Default: True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TorchDataset: TorchDataset instance.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">this</span> <span class="o">=</span> <span class="n">TorchDataset</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">_info</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">_info</span><span class="p">[</span><span class="s1">&#39;frame&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">_info</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">labels</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">label_axis</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">label_axis</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">_ext_regex</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">_ext_regex</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">_calc_file_size</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">_calc_file_size</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">_sample_gb</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">_sample_gb</span>
+        <span class="n">this</span><span class="o">.</span><span class="n">_channels_first</span> <span class="o">=</span> <span class="n">channels_first</span>  <span class="c1"># type: ignore</span>
+        <span class="k">return</span> <span class="n">this</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
+        <span class="c1"># type: (int) -&gt; list[torch.Tensor]</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get tensor data by frame.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            lis[torch.Tensor]: List of Tensors.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_arrays</span><span class="p">(</span><span class="n">frame</span><span class="p">)</span>
+
+        <span class="c1"># pytorch warns about arrays not being writable, this fixes that</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+
+        <span class="c1"># pytorch expects (C, H, W) because it sucks</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_channels_first</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+            <span class="n">arrays</span> <span class="o">=</span> <span class="n">items</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">arrays</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">,</span> <span class="n">items</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
+
+<span class="c1"># COMPILE-----------------------------------------------------------------------</span>
+<div class="viewcode-block" id="pre_build">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.pre_build">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pre_build</span><span class="p">(</span><span class="n">device</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="compile">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.compile">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">compile</span><span class="p">(</span>
+    <span class="n">framework</span><span class="p">,</span>  <span class="c1"># type: Getter</span>
+    <span class="n">model</span><span class="p">,</span>      <span class="c1"># type: Any</span>
+    <span class="n">optimizer</span><span class="p">,</span>  <span class="c1"># type: Getter</span>
+    <span class="n">loss</span><span class="p">,</span>       <span class="c1"># type: Getter</span>
+    <span class="n">metrics</span><span class="p">,</span>    <span class="c1"># type: list[Getter]</span>
+<span class="p">):</span>
+    <span class="c1"># type: (...) -&gt; Getter</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Call `torch.compile` on given model with kwargs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        framework (dict): Framework dict.</span>
+<span class="sd">        model (Any): Model to be compiled.</span>
+<span class="sd">        optimizer (dict): Optimizer config for compilation.</span>
+<span class="sd">        loss (str): Loss to be compiled.</span>
+<span class="sd">        metrics (list[str]): Metrics function to be compiled.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: Dict of compiled objects.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;device&#39;</span><span class="p">],</span> <span class="n">framework</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+    <span class="p">))</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="n">fi_torchoptim</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">model</span><span class="p">),</span>
+        <span class="n">loss</span><span class="o">=</span><span class="n">fi_torchloss</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">loss</span><span class="p">),</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="n">fi_torchmetric</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">metrics</span><span class="p">],</span>
+    <span class="p">)</span></div>
+
+
+
+<span class="c1"># TRAIN-------------------------------------------------------------------------</span>
+<div class="viewcode-block" id="_execute_epoch">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools._execute_epoch">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">_execute_epoch</span><span class="p">(</span>
+    <span class="n">epoch</span><span class="p">,</span>             <span class="c1"># type: int</span>
+    <span class="n">model</span><span class="p">,</span>             <span class="c1"># type: torch.nn.Module</span>
+    <span class="n">data_loader</span><span class="p">,</span>       <span class="c1"># type: torch.utils.data.DataLoader</span>
+    <span class="n">optimizer</span><span class="p">,</span>         <span class="c1"># type: torch.optim.Optimizer</span>
+    <span class="n">loss_func</span><span class="p">,</span>         <span class="c1"># type: torch.nn.Module</span>
+    <span class="n">device</span><span class="p">,</span>            <span class="c1"># type: torch.device</span>
+    <span class="n">metrics_funcs</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># type: list[Callable]</span>
+    <span class="n">writer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>       <span class="c1"># type: Optional[SummaryWriter]</span>
+    <span class="n">checkpoint</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>   <span class="c1"># type: Optional[ModelCheckpoint]</span>
+    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span>      <span class="c1"># type: str</span>
+<span class="p">):</span>
+    <span class="c1"># type: (...) -&gt; None</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Execute train or test epoch on given torch model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        epoch (int): Current epoch.</span>
+<span class="sd">        model (torch.nn.Module): Torch model.</span>
+<span class="sd">        data_loader (torch.utils.data.DataLoader): Torch data loader.</span>
+<span class="sd">        optimizer (torch.optim.Optimizer): Torch optimizer.</span>
+<span class="sd">        loss_func (torch.nn.Module): Torch loss function.</span>
+<span class="sd">        metrics_funcs (list[Callable], optional): List of torch metrics.</span>
+<span class="sd">            Default: [].</span>
+<span class="sd">        writer (SummaryWriter, optional): Tensorboard writer. Default: None.</span>
+<span class="sd">        checkpoint (ModelCheckpoint, optional): Model saver. Default: None.</span>
+<span class="sd">        device (torch.device): Torch device.</span>
+<span class="sd">        mode (str, optional): Mode to execute. Options: [train, test].</span>
+<span class="sd">            Default: train.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">enable_grad</span>  <span class="c1"># type: Any</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;test&#39;</span><span class="p">:</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid mode: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+    <span class="c1"># checkpoint mode</span>
+    <span class="n">checkpoint_mode</span> <span class="o">=</span> <span class="n">checkpoint</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">save_freq</span> <span class="o">==</span> <span class="s1">&#39;batch&#39;</span>
+
+    <span class="n">metrics</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">epoch_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_loader</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">context</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data_loader</span><span class="p">):</span>
+            <span class="c1"># get x and y</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">batch</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">batch</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_func</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+            <span class="c1"># train model on batch</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;train&#39;</span><span class="p">:</span>
+                <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+                <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+                <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="c1"># gather batch metrics</span>
+            <span class="n">batch_metrics</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">metric</span> <span class="ow">in</span> <span class="n">metrics_funcs</span><span class="p">:</span>
+                <span class="n">batch_metrics</span><span class="p">[</span><span class="n">metric</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">]</span> <span class="o">=</span> <span class="n">metric</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_metrics</span><span class="p">)</span>
+
+            <span class="c1"># write batch metrics</span>
+            <span class="k">if</span> <span class="n">writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">batch_index</span> <span class="o">=</span> <span class="n">epoch</span> <span class="o">*</span> <span class="n">epoch_size</span> <span class="o">+</span> <span class="n">i</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">batch_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">_batch_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">batch_index</span><span class="p">)</span>
+
+            <span class="c1"># save model</span>
+            <span class="k">if</span> <span class="n">checkpoint_mode</span><span class="p">:</span>
+                <span class="n">checkpoint</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>  <span class="c1"># type: ignore</span>
+
+    <span class="c1"># write mean epoch metrics</span>
+    <span class="k">if</span> <span class="n">writer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">epoch_metrics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span> \
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">_epoch_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> \
+            <span class="o">.</span><span class="n">mean</span><span class="p">()</span> \
+            <span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">epoch_metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">add_scalar</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">_epoch_</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">epoch</span> <span class="o">*</span> <span class="n">epoch_size</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="train">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.tools.train">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span>
+    <span class="n">compiled</span><span class="p">,</span>    <span class="c1"># type: Compiled</span>
+    <span class="n">callbacks</span><span class="p">,</span>   <span class="c1"># type: Callbacks</span>
+    <span class="n">train_data</span><span class="p">,</span>  <span class="c1"># type: Dataset</span>
+    <span class="n">test_data</span><span class="p">,</span>   <span class="c1"># type: Dataset</span>
+    <span class="n">params</span><span class="p">,</span>      <span class="c1"># type: dict</span>
+<span class="p">):</span>
+    <span class="c1"># type: (...) -&gt; None</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Train Torch model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        compiled (dict): Compiled objects.</span>
+<span class="sd">        callbacks (dict): Dict of callbacks.</span>
+<span class="sd">        train_data (Dataset): Training dataset.</span>
+<span class="sd">        test_data (Dataset): Test dataset.</span>
+<span class="sd">        params (dict): Training params.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">framework</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">[</span><span class="s1">&#39;framework&#39;</span><span class="p">]</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span>
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">]</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span>
+    <span class="n">metrics</span> <span class="o">=</span> <span class="n">compiled</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">callbacks</span><span class="p">[</span><span class="s1">&#39;checkpoint&#39;</span><span class="p">]</span>  <span class="c1"># type: Any</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">callbacks</span><span class="p">[</span><span class="s1">&#39;tensorboard&#39;</span><span class="p">]</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;batch_size&#39;</span><span class="p">]</span>
+
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">framework</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">])</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;seed&#39;</span><span class="p">])</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">TorchDataset</span><span class="o">.</span><span class="n">monkey_patch</span><span class="p">(</span><span class="n">train_data</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
+    <span class="p">)</span>  <span class="c1"># type: torchdata.DataLoader</span>
+    <span class="n">test_loader</span> <span class="o">=</span> <span class="n">torchdata</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">TorchDataset</span><span class="o">.</span><span class="n">monkey_patch</span><span class="p">(</span><span class="n">test_data</span><span class="p">),</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span>
+    <span class="p">)</span>  <span class="c1"># type: torchdata.DataLoader</span>
+
+    <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+        <span class="n">loss_func</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span>
+        <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">,</span>
+        <span class="n">metrics_funcs</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+        <span class="n">writer</span><span class="o">=</span><span class="n">writer</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">trange</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;epochs&#39;</span><span class="p">]):</span>
+        <span class="n">_execute_epoch</span><span class="p">(</span>
+            <span class="n">epoch</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">=</span><span class="n">train_loader</span><span class="p">,</span>
+            <span class="n">checkpoint</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="n">_execute_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">=</span><span class="n">test_loader</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">checkpoint</span><span class="o">.</span><span class="n">save_freq</span> <span class="o">==</span> <span class="s1">&#39;epoch&#39;</span><span class="p">:</span>
+            <span class="n">checkpoint</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Alex Braun &lt;alexander.g.braun@gmail.com&gt;.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

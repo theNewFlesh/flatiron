@@ -4,7 +4,15 @@ tf
 .. toctree::
    :maxdepth: 1
 
-   models
+   tf_models
+
+config
+------
+.. automodule:: flatiron.tf.config
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
 
 loss
 ----

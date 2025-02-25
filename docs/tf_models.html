@@ -23,7 +23,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="cli" href="cli.html" />
+    <link rel="next" title="torch" href="torch.html" />
     <link rel="prev" title="tf" href="tf.html" /> 
 </head>
 
@@ -39,7 +39,7 @@
             flatiron
           </a>
               <div class="version">
-                0.21.0
+                0.21.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -63,6 +63,12 @@
 <li class="toctree-l1"><a class="reference internal" href="core.html">core</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="tf.html">tf</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-flatiron.tf.models.dummy">dummy</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.models.dummy.DummyConfig"><code class="docutils literal notranslate"><span class="pre">DummyConfig</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.models.dummy.DummyPipeline"><code class="docutils literal notranslate"><span class="pre">DummyPipeline</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.models.dummy.get_dummy_model"><code class="docutils literal notranslate"><span class="pre">get_dummy_model()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#module-flatiron.tf.models.unet">unet</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.models.unet.UNetConfig"><code class="docutils literal notranslate"><span class="pre">UNetConfig</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.models.unet.UNetPipeline"><code class="docutils literal notranslate"><span class="pre">UNetPipeline</span></code></a></li>
@@ -74,12 +80,14 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.config">config</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.loss">loss</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.metric">metric</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.optimizer">optimizer</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tf.html#module-flatiron.tf.tools">tools</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="torch.html">torch</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -104,7 +112,7 @@
           <li class="breadcrumb-item"><a href="tf.html">tf</a></li>
       <li class="breadcrumb-item active">models</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/models.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/tf_models.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -114,6 +122,82 @@
              
   <section id="models">
 <h1>models<a class="headerlink" href="#models" title="Link to this heading"></a></h1>
+<section id="module-flatiron.tf.models.dummy">
+<span id="dummy"></span><h2>dummy<a class="headerlink" href="#module-flatiron.tf.models.dummy" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.models.dummy.</span></span><span class="sig-name descname"><span class="pre">DummyConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/models/dummy.html#DummyConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.models.dummy.DummyConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyConfig._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.models.dummy.DummyConfig._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyConfig.activation">
+<span class="sig-name descname"><span class="pre">activation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.tf.models.dummy.DummyConfig.activation" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.models.dummy.DummyConfig.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyConfig.shape">
+<span class="sig-name descname"><span class="pre">shape</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.models.dummy.DummyConfig.shape" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.models.dummy.</span></span><span class="sig-name descname"><span class="pre">DummyPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/models/dummy.html#DummyPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.models.dummy.DummyPipeline" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="core.html#flatiron.core.pipeline.PipelineBase" title="flatiron.core.pipeline.PipelineBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">PipelineBase</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyPipeline._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.models.dummy.DummyPipeline._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyPipeline.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/models/dummy.html#DummyPipeline.model_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.models.dummy.DummyPipeline.model_config" title="Link to this definition"></a></dt>
+<dd><p>Subclasses of PipelineBase will need to define a config class for models
+created in the build method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pydantic BaseModel config class.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>BaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.DummyPipeline.model_func">
+<span class="sig-name descname"><span class="pre">model_func</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/models/dummy.html#DummyPipeline.model_func"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.models.dummy.DummyPipeline.model_func" title="Link to this definition"></a></dt>
+<dd><p>Subclasses of PipelineBase need to define a function that builds and
+returns a machine learning model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Machine learning model.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>AnyModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.tf.models.dummy.get_dummy_model">
+<span class="sig-prename descclassname"><span class="pre">flatiron.tf.models.dummy.</span></span><span class="sig-name descname"><span class="pre">get_dummy_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'relu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/models/dummy.html#get_dummy_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.models.dummy.get_dummy_model" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
 <section id="module-flatiron.tf.models.unet">
 <span id="unet"></span><h2>unet<a class="headerlink" href="#module-flatiron.tf.models.unet" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -614,7 +698,7 @@ Default: ‘he_normal’</p></li>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="tf.html" class="btn btn-neutral float-left" title="tf" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="cli.html" class="btn btn-neutral float-right" title="cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="torch.html" class="btn btn-neutral float-right" title="torch" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

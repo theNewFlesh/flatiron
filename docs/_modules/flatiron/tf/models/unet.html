@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.21.0
+                0.21.1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
@@ -58,6 +58,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../core.html">core</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../tf.html">tf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../torch.html">torch</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Development CLI</span></p>
 <ul>
@@ -109,7 +110,7 @@
 
 <span class="c1"># FUNCS-------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="unet_width_and_layers_are_valid">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.unet_width_and_layers_are_valid">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.unet_width_and_layers_are_valid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">unet_width_and_layers_are_valid</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">layers</span><span class="p">):</span>
     <span class="c1"># type: (int, int) -&gt; bool</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
@@ -133,7 +134,7 @@
 
 
 <div class="viewcode-block" id="conv_2d_block">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.conv_2d_block">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.conv_2d_block">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">conv_2d_block</span><span class="p">(</span>
     <span class="n">input_</span><span class="p">,</span>  <span class="c1"># type: KerasTensor</span>
     <span class="n">filters</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>  <span class="c1"># type: int</span>
@@ -203,7 +204,7 @@
 
 
 <div class="viewcode-block" id="attention_gate_2d">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.attention_gate_2d">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.attention_gate_2d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">attention_gate_2d</span><span class="p">(</span>
     <span class="n">query</span><span class="p">,</span>  <span class="c1"># type: KerasTensor</span>
     <span class="n">skip_connection</span><span class="p">,</span>  <span class="c1"># type: KerasTensor</span>
@@ -264,7 +265,7 @@
 
 
 <div class="viewcode-block" id="get_unet_model">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.get_unet_model">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.get_unet_model">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_unet_model</span><span class="p">(</span>
     <span class="n">input_width</span><span class="p">,</span>  <span class="c1"># type: int</span>
     <span class="n">input_height</span><span class="p">,</span>  <span class="c1"># type: int</span>
@@ -456,7 +457,7 @@
 
 <span class="c1"># CONFIG------------------------------------------------------------------------</span>
 <div class="viewcode-block" id="UNetConfig">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.UNetConfig">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.UNetConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UNetConfig</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Configuration for UNet model.</span>
@@ -512,17 +513,17 @@
 
 <span class="c1"># PIPELINE----------------------------------------------------------------------</span>
 <div class="viewcode-block" id="UNetPipeline">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.UNetPipeline">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.UNetPipeline">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">UNetPipeline</span><span class="p">(</span><span class="n">ficp</span><span class="o">.</span><span class="n">PipelineBase</span><span class="p">):</span>
 <div class="viewcode-block" id="UNetPipeline.model_config">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.UNetPipeline.model_config">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.UNetPipeline.model_config">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; type[UNetConfig]</span>
         <span class="k">return</span> <span class="n">UNetConfig</span></div>
 
 
 <div class="viewcode-block" id="UNetPipeline.model_func">
-<a class="viewcode-back" href="../../../../models.html#flatiron.tf.models.unet.UNetPipeline.model_func">[docs]</a>
+<a class="viewcode-back" href="../../../../tf_models.html#flatiron.tf.models.unet.UNetPipeline.model_func">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># type: () -&gt; tfmodels.Model</span>
         <span class="k">return</span> <span class="n">get_unet_model</span></div>
