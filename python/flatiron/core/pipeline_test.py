@@ -178,6 +178,20 @@ class TFPipelineTests(PipelineTestBase):
             self.assertEqual(result['name'], 'Huber')
             self.assertIs(result['dtype'], None)
 
+    def test_resolve_subconfig_config_module(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+
+            result = pipe._resolve_subconfig(
+                dict(name='tensorflow'),
+                'TFFramework',
+                False,
+                'flatiron.tf.config',
+                None,
+            )
+            self.assertEqual(result['name'], 'tensorflow')
+
     def test_resolve_subconfig_no_prepend(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
