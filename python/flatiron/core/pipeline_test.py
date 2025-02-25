@@ -4,6 +4,7 @@ import logging
 import os
 import unittest
 
+import cv_depot.api as cvd
 import numpy as np
 import pandas as pd
 import yaml
@@ -25,6 +26,12 @@ class PipelineTestBase(unittest.TestCase):
         array = np.ones(shape, dtype=np.float16)
         np.save(target, array)
 
+    def write_png(self, target, shape=(10, 10, 4)):
+        target = Path(target)
+        os.makedirs(target.parent, exist_ok=True)
+        array = np.floor(np.random.random(shape) * 255).astype(np.uint8)
+        cvd.Image.from_array(array).write(target)
+
     def create_dataset_files(self, root, shape=(10, 10, 10, 4)):
         os.makedirs(Path(root, 'data'))
         info = pd.DataFrame()
@@ -37,11 +44,26 @@ class PipelineTestBase(unittest.TestCase):
         info.to_csv(info_path, index=None)
         return info, info_path
 
-    def get_config(self, root):
+    def create_png_dataset_files(self, root, shape=(10, 10, 3), indicator='f'):
+        os.makedirs(Path(root, 'data'))
+        info = pd.DataFrame()
+        info['filepath_relative'] = [f'data/foo_{indicator}{i:02d}.png' for i in range(10)]
+        info['asset_path'] = root
+        info.filepath_relative \
+            .apply(lambda x: Path(root, x)) \
+            .apply(lambda x: self.write_png(x, shape))
+        info_path = Path(root, 'info.csv').as_posix()
+        info.to_csv(info_path, index=None)
+        return info, info_path
+
+    def get_config(self, root, png=False):
         proj = Path(root, 'proj').as_posix()
         os.makedirs(proj)
         dset = Path(proj, 'dset001', 'dset001_v001').as_posix()
-        _, info_path = self.create_dataset_files(dset)
+        if png:
+            _, info_path = self.create_png_dataset_files(dset)
+        else:
+            _, info_path = self.create_dataset_files(dset)
         return dict(
             framework=dict(
                 name='tensorflow',
@@ -272,16 +294,16 @@ class TFPipelineTests(PipelineTestBase):
 
 class TorchPipelineTests(PipelineTestBase):
     def get_config(self, root):
-        config = super().get_config(root)
+        config = super().get_config(root, png=True)
         config.update(dict(
-            framework=dict(name='torch'),
+            framework=dict(name='torch', device='cpu'),
             model=dict(
                 input_channels=3,
                 output_channels=1,
             ),
-            optimizer=dict(name='SGD'),
+            optimizer=dict(name='Adam'),
             loss=dict(name='MSELoss'),
-            metrics=[dict(name='Dice')],
+            metrics=[dict(name='MeanMetric')],
         ))
         return config
 

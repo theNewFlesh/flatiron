@@ -172,7 +172,8 @@ class TorchDataset(Dataset, torchdata.Dataset):
             TorchDataset: TorchDataset instance.
         '''
         this = TorchDataset(dataset.info)
-        this._info = dataset._info
+        this._info = dataset._info.copy()
+        this._info['frame'] = this._info.index
         this.data = dataset.data
         this.labels = dataset.labels
         this.label_axis = dataset.label_axis
@@ -234,14 +235,15 @@ def compile(
     Returns:
         dict: Dict of compiled objects.
     '''
-    del framework['name']
-    device = framework.pop('device')
+    kwargs = dict(filter(
+        lambda x: x[0] not in ['name', 'device'], framework.items()
+    ))
     return dict(
-        model=torch.compile(model, **framework),
+        framework=framework,
+        model=torch.compile(model, **kwargs),
         optimizer=fi_torchoptim.get(optimizer, model),
         loss=fi_torchloss.get(loss),
         metrics=[fi_torchmetric.get(m) for m in metrics],
-        device=device,
     )
 
 
@@ -253,7 +255,7 @@ def _execute_epoch(
     optimizer,         # type: torch.optim.Optimizer
     loss_func,         # type: torch.nn.Module
     device,            # type: torch.device
-    metrics_funcs={},  # type: Getter
+    metrics_funcs=[],  # type: list[Getter]
     writer=None,       # type: Optional[SummaryWriter]
     checkpoint=None,   # type: Optional[ModelCheckpoint]
     mode='train',      # type: str
@@ -268,7 +270,8 @@ def _execute_epoch(
         data_loader (torch.utils.data.DataLoader): Torch data loader.
         optimizer (torch.optim.Optimizer): Torch optimizer.
         loss_func (torch.nn.Module): Torch loss function.
-        metrics_funcs (dict, optional): Dict fo torch metrics. Default: {}.
+        metrics_funcs (list[dict], optional): List of torch metrics.
+            Default: [].
         writer (SummaryWriter, optional): Tensorboard writer. Default: None.
         checkpoint (ModelCheckpoint, optional): Model saver. Default: None.
         device (torch.device): Torch device.
@@ -312,9 +315,8 @@ def _execute_epoch(
 
             # gather batch metrics
             batch_metrics = dict(loss=loss)
-            if metrics_funcs is not None:
-                for name, func in metrics_funcs.items():
-                    batch_metrics[name] = func(y_pred, y)
+            for metric in metrics_funcs:
+                batch_metrics[metric.__class__.__name__] = metric(y_pred, y)
             metrics.append(batch_metrics)
 
             # write batch metrics
