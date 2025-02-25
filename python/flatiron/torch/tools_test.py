@@ -255,6 +255,26 @@ class TorchToolsTests(DatasetTestBase):
             expected = os.listdir(models)
             self.assertFalse(len(expected), 0)
 
+    def test_execute_epoch_errors(self):
+        with TemporaryDirectory() as root:
+            loader = self.get_dataloader(root, 'train')
+            device, model, opt, loss, metrics, _, _ = self.get_execute_epoch_params(root)
+
+            expected = 'Invalid mode: foobar.'
+            with self.assertRaisesRegex(ValueError, expected):
+                fi_torchtools._execute_epoch(
+                    epoch=1,
+                    model=model,
+                    data_loader=loader,
+                    optimizer=opt,
+                    loss_func=loss,
+                    metrics_funcs=metrics,
+                    writer=None,
+                    checkpoint=None,
+                    device=device,
+                    mode='foobar',
+                )
+
     # TRAIN---------------------------------------------------------------------
     def test_train(self):
         with TemporaryDirectory() as root:

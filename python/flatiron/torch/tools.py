@@ -285,7 +285,7 @@ def _execute_epoch(
         context = torch.inference_mode
         model.eval()
     else:
-        raise ValueError(f'Invalid mode: {mode}')
+        raise ValueError(f'Invalid mode: {mode}.')
 
     # checkpoint mode
     checkpoint_mode = checkpoint is not None and checkpoint.save_freq == 'batch'
