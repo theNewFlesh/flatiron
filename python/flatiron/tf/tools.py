@@ -1,16 +1,49 @@
 from typing import Any, Optional  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
-from flatiron.core.types import Callbacks, Compiled, Filepath  # noqa: F401
+from flatiron.core.types import Compiled, Filepath, Getter  # noqa: F401
 
+from copy import deepcopy
 import math
 
 from tensorflow import keras  # noqa F401
 from keras import callbacks as tfcallbacks
 import tensorflow as tf
 
-import flatiron
 import flatiron.core.tools as fict
+import flatiron.tf.loss as fi_tfloss
+import flatiron.tf.metric as fi_tfmetric
+import flatiron.tf.optimizer as fi_tfoptim
+
+Callbacks = dict[str, tfcallbacks.TensorBoard | tfcallbacks.ModelCheckpoint]
 # ------------------------------------------------------------------------------
+
+
+def get(config, module, fallback_module):
+    # type: (Getter, str, str) -> Any
+    '''
+    Given a config and set of modules return an instance or function.
+
+    Args:
+        config (dict): Instance config.
+        module (str): Always __name__.
+        fallback_module (str): Fallback module, either a tf or torch module.
+
+    Raises:
+        EnforceError: If config is not a dict with a name key.
+
+    Returns:
+        object: Instance or function.
+    '''
+    fict.enforce_getter(config)
+    # --------------------------------------------------------------------------
+
+    config = deepcopy(config)
+    name = config.pop('name')
+    try:
+        return fict.get_module_function(name, module)
+    except NotImplementedError:
+        mod = fict.get_module(fallback_module)
+        return mod.get(dict(class_name=name, config=config))
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
@@ -52,27 +85,28 @@ def pre_build(device):
         tf.config.set_visible_devices([], 'GPU')
 
 
-def compile(model, optimizer, loss, metrics, device, kwargs={}):
-    # type: (Any, dict[str, Any], str, list[str], str, dict[str, Any]) -> dict[str, Any]
+def compile(framework, model, optimizer, loss, metrics):
+    # type: (Getter, Any, Getter, Getter, list[Getter]) -> Getter
     '''
     Call `modile.compile` on given model with kwargs.
 
     Args:
+        framework (dict): Framework dict.
         model (Any): Model to be compiled.
         optimizer (dict): Optimizer settings.
-        loss (str): Loss to be compiled.
-        metrics (list[str]): Metrics function to be compiled.
-        device (str): Hardware device to compile to.
-        kwargs: Other params to be passed to `model.compile`.
+        loss (dict): Loss to be compiled.
+        metrics (list[dict]): Metrics function to be compiled.
 
     Returns:
         dict: Dict of compiled objects.
     '''
+    framework.pop('name')
+    framework.pop('device')
     model.compile(
-        optimizer=flatiron.tf.optimizer.get(optimizer),
-        loss=flatiron.tf.loss.get(loss),
-        metrics=[flatiron.tf.metric.get(m) for m in metrics],
-        **kwargs,
+        optimizer=fi_tfoptim.get(optimizer),
+        loss=fi_tfloss.get(loss),
+        metrics=[fi_tfmetric.get(m) for m in metrics],
+        **framework,
     )
     return dict(model=model)
 
@@ -82,8 +116,7 @@ def train(
     callbacks,       # type: Callbacks
     train_data,      # type: Dataset
     test_data,       # type: Optional[Dataset]
-    batch_size=32,   # type: int
-    **kwargs,
+    params,          # type: dict
 ):
     # type: (...) -> None
     '''
@@ -94,9 +127,9 @@ def train(
         callbacks (dict): Dict of callbacks.
         train_data (Dataset): Training dataset.
         test_data (Dataset): Test dataset.
-        batch_size (int, optional): Batch size. Default: 32.
-        **kwargs: Other params to be passed to `model.fit`.
+        params (dict): Training params.
     '''
+    batch_size = params['batch_size']
     model = compiled['model']
     x_train, y_train = train_data.xy_split()
     steps = math.ceil(x_train.shape[0] / batch_size)
@@ -111,5 +144,15 @@ def train(
         callbacks=list(callbacks.values()),
         validation_data=val,
         steps_per_epoch=steps,
-        **kwargs,
+        batch_size=params.get('batch_size', None),
+        epochs=params.get('epochs', 1),
+        verbose=params.get('verbose', 'auto'),
+        validation_split=params.get('validation_split', 0.0),
+        shuffle=params.get('shuffle', True),
+        initial_epoch=params.get('initial_epoch', 0),
+        validation_freq=params.get('validation_freq', 1),
+        # class_weight=train.get('class_weight', None),
+        # sample_weight=train.get('sample_weight', None),
+        # validation_steps=train.get('validation_steps', None),
+        # validation_batch_size=train.get('validation_batch_size', None),
     )

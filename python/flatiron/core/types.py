@@ -1,18 +1,33 @@
-from typing import Any, Callable, Optional, Union
+from typing import Any, Optional, Union
 from pathlib import Path
 
 from tensorflow import keras  # noqa F401
-from keras import callbacks as tfcb
 from keras import models as tfmodels
 import numpy as np
+import torch.nn
 # ------------------------------------------------------------------------------
 
-AnyModel = Union[tfmodels.Model, Any]
-Callbacks = dict[str, Union[Callable, tfcb.TensorBoard, tfcb.ModelCheckpoint]]
+AnyModel = Union[tfmodels.Model, torch.nn.Module]
+Getter = dict[str, Any]
 Compiled = dict[str, Any]
 Filepath = Union[str, Path]
+
+# optional
 OptArray = Optional[np.ndarray]
-OptFloat = Optional[int]
+OptBool = Optional[bool]
+OptFloat = Optional[float]
 OptInt = Optional[int]
 OptLabels = Optional[Union[int, str, list[int], list[str]]]
 OptStr = Optional[str]
+
+# float
+Floats = Union[float, list[float]]
+OptFloats = Optional[Union[float, list[float]]]
+OptListFloat = Optional[list[float]]
+OptPairFloat = Optional[Union[float, tuple[float, float]]]
+PairFloat = tuple[float, float]
+
+# int
+Ints = Union[int, list[int]]
+OptInts = Optional[Union[int, tuple[int, ...]]]
+PairInt = tuple[int, int]

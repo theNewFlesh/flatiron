@@ -5,6 +5,7 @@ import unittest
 from lunchbox.enforce import EnforceError
 from lunchbox.stopwatch import StopWatch
 import pandas as pd
+import pydantic as pyd
 
 import flatiron.core.tools as fict
 # ------------------------------------------------------------------------------
@@ -16,6 +17,11 @@ def fake_func(foo):
 
 class FakeClass:
     pass
+
+
+class FakeConfig(pyd.BaseModel):
+    name: str
+    foo: str
 
 
 class ToolsTests(unittest.TestCase):
@@ -40,12 +46,30 @@ class ToolsTests(unittest.TestCase):
             model_re = f'p-foo_{time_re}_e-{{epoch:03d}}'
             self.assertRegex(
                 result['checkpoint_pattern'],
-                f'{root_re}/{time_re}/models/{model_re}'
+                f'{root_re}/{time_re}/models/{model_re}.keras'
             )
 
             self.assertTrue(Path(result['root_dir']).is_dir())
             self.assertTrue(Path(result['log_dir']).is_dir())
             self.assertTrue(Path(result['model_dir']).is_dir())
+
+    def test_get_tensorboard_project_extension(self):
+        with TemporaryDirectory() as root:
+            result = fict.get_tensorboard_project(
+                'foo', root, timezone='America/Los_Angeles',
+                extension='safetensors'
+            )
+
+            self.assertRegex(
+                result['checkpoint_pattern'],
+                f'{root}/foo/tensorboard/.*/models/p-foo_.*_e-{{epoch:03d}}.safetensors'
+            )
+
+    def test_get_tensorboard_project_errors(self):
+        expected = 'Extension must be keras or safetensors. Given value: pth.'
+        with TemporaryDirectory() as root:
+            with self.assertRaisesRegex(EnforceError, expected):
+                fict.get_tensorboard_project('foo', root, extension='pth')
 
     def test_enforce_callbacks(self):
         with TemporaryDirectory() as root:
@@ -64,6 +88,16 @@ class ToolsTests(unittest.TestCase):
             expected += 'Given value: foobar'
             with self.assertRaisesRegex(EnforceError, expected):
                 fict.enforce_callbacks(root, 'foobar')
+
+    def test_enforce_getter(self):
+        fict.enforce_getter(dict(name='foo'))
+
+        expected = 'Value must be a dict with a name key.'
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.enforce_getter('foo')
+
+        with self.assertRaisesRegex(EnforceError, expected):
+            fict.enforce_getter(dict(taco='pizza'))
 
     def test_pad_layer_name(self):
         expected = 'foo____bar'
@@ -170,43 +204,56 @@ b
 
     def test_resolve_kwargs(self):
         kwargs = dict(
-            model=0, optimizer=0, loss=0,
-            tf_foo=0, tf_bar=0,
-            torch_taco=0, torch_pizza=0,
-            adam_kiwi=10,
-            sgd_egg=20,
+            model=0,
+            tf__aaa=0,
+            torch__bbb=0,
+            sgd__ccc=0,
+            adam__ddd=0,
+            tf_sgd__eee=0,
+            tf_adam__fff=0,
+            torch_sgd__ggg=0,
+            torch_adam__hhh=0,
         )
 
-        # prefix
-        result = fict.resolve_kwargs('tensorflow', kwargs, return_keys='prefix')
-        self.assertEqual(result, dict(foo=0, bar=0))
+        # prefixed
+        result = fict.resolve_kwargs(kwargs, 'tf', 'adam', 'prefixed')
+        self.assertEqual(result, dict(aaa=0, ddd=0, fff=0))
 
-        result = fict.resolve_kwargs('torch', kwargs, return_keys='prefix')
-        self.assertEqual(result, dict(taco=0, pizza=0))
+        result = fict.resolve_kwargs(kwargs, 'torch', 'adam', 'prefixed')
+        self.assertEqual(result, dict(bbb=0, ddd=0, hhh=0))
 
-        result = fict.resolve_kwargs('adam', kwargs, return_keys='prefix')
-        self.assertEqual(result, dict(kiwi=10))
+        result = fict.resolve_kwargs(kwargs, 'tf', 'sgd', 'prefixed')
+        self.assertEqual(result, dict(aaa=0, ccc=0, eee=0))
 
-        result = fict.resolve_kwargs('sgd', kwargs, return_keys='prefix')
-        self.assertEqual(result, dict(egg=20))
+        result = fict.resolve_kwargs(kwargs, 'torch', 'sgd', 'prefixed')
+        self.assertEqual(result, dict(bbb=0, ccc=0, ggg=0))
 
-        # non-prefix
-        expected = dict(model=0, optimizer=0, loss=0)
-        result = fict.resolve_kwargs('tensorflow', kwargs, return_keys='non-prefix')
+        # unprefixed
+        expected = dict(model=0)
+        result = fict.resolve_kwargs(kwargs, 'tf', 'adam', 'unprefixed')
         self.assertEqual(result, expected)
 
-        result = fict.resolve_kwargs('torch', kwargs, return_keys='non-prefix')
+        result = fict.resolve_kwargs(kwargs, 'torch', 'adam', 'unprefixed')
+        self.assertEqual(result, expected)
+
+        result = fict.resolve_kwargs(kwargs, 'tf', 'sgd', 'unprefixed')
+        self.assertEqual(result, expected)
+
+        result = fict.resolve_kwargs(kwargs, 'torch', 'sgd', 'unprefixed')
         self.assertEqual(result, expected)
 
         # both
-        expected = dict(model=0, optimizer=0, loss=0, foo=0, bar=0)
-        result = fict.resolve_kwargs('tensorflow', kwargs)
-        self.assertEqual(result, expected)
+        result = fict.resolve_kwargs(kwargs, 'tf', 'adam', 'both')
+        self.assertEqual(result, dict(model=0, aaa=0, ddd=0, fff=0))
 
-    def test_resolve_kwargs_errors(self):
-        expected = 'Illegal prefix: wrong. Legal prefixes: .*tf.*torch.*sgd.*adam'
-        with self.assertRaisesRegex(AssertionError, expected):
-            fict.resolve_kwargs('wrong', {})
+        result = fict.resolve_kwargs(kwargs, 'torch', 'adam', 'both')
+        self.assertEqual(result, dict(model=0, bbb=0, ddd=0, hhh=0))
+
+        result = fict.resolve_kwargs(kwargs, 'tf', 'sgd', 'both')
+        self.assertEqual(result, dict(model=0, aaa=0, ccc=0, eee=0))
+
+        result = fict.resolve_kwargs(kwargs, 'torch', 'sgd', 'both')
+        self.assertEqual(result, dict(model=0, bbb=0, ccc=0, ggg=0))
 
     def test_train_test_split(self):
         data = pd.DataFrame()
@@ -274,3 +321,28 @@ b
         expected = 'Class not found: NonClass'
         with self.assertRaisesRegex(NotImplementedError, expected):
             fict.get_module_class('NonClass', __name__)
+
+    def test_resolve_module_config(self):
+        config = dict(name='FakeConfig', foo='bar')
+        result = fict.resolve_module_config(config, __name__)
+        self.assertEqual(result, config)
+
+        config = dict(name='NonConfig', foo='bar')
+        with self.assertRaises(NotImplementedError):
+            fict.resolve_module_config(config, __name__)
+
+    def test_is_custom_definition(self):
+        config = dict(name='is_custom_definition')
+        module = 'flatiron.core.tools'
+        result = fict.is_custom_definition(config, module)
+        self.assertTrue(result)
+
+        config = dict(name='PipelineBase')
+        module = 'flatiron.core.pipeline'
+        result = fict.is_custom_definition(config, module)
+        self.assertTrue(result)
+
+        config = dict(name='is_not_a_function')
+        module = 'flatiron.core.tools'
+        result = fict.is_custom_definition(config, module)
+        self.assertFalse(result)

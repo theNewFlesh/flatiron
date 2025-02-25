@@ -6,5 +6,5 @@ import flatiron.tf.loss as fi_tfloss
 
 class TFLossTests(unittest.TestCase):
     def test_get(self):
-        fi_tfloss.get('jaccard_loss')
-        fi_tfloss.get('dice_loss')
+        fi_tfloss.get(dict(name='jaccard_loss'))
+        fi_tfloss.get(dict(name='dice_loss'))

@@ -3,3 +3,4 @@
 
    core
    tf
+   torch

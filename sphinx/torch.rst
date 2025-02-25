@@ -1,14 +1,14 @@
-tf
-==
+torch
+=====
 
 .. toctree::
    :maxdepth: 1
 
-   tf_models
+   torch_models
 
 config
 ------
-.. automodule:: flatiron.tf.config
+.. automodule:: flatiron.torch.config
     :members:
     :private-members:
     :undoc-members:
@@ -16,7 +16,7 @@ config
 
 loss
 ----
-.. automodule:: flatiron.tf.loss
+.. automodule:: flatiron.torch.loss
     :members:
     :private-members:
     :undoc-members:
@@ -24,7 +24,7 @@ loss
 
 metric
 ------
-.. automodule:: flatiron.tf.metric
+.. automodule:: flatiron.torch.metric
     :members:
     :private-members:
     :undoc-members:
@@ -32,7 +32,7 @@ metric
 
 optimizer
 ---------
-.. automodule:: flatiron.tf.optimizer
+.. automodule:: flatiron.torch.optimizer
     :members:
     :private-members:
     :undoc-members:
@@ -40,7 +40,7 @@ optimizer
 
 tools
 -----
-.. automodule:: flatiron.tf.tools
+.. automodule:: flatiron.torch.tools
     :members:
     :private-members:
     :undoc-members:

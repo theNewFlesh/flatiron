@@ -1,31 +1,26 @@
-from typing import Any, Callable, Union  # noqa F401
+from typing import Any, Union  # noqa F401
 import numpy
 
 import tensorflow as tf
-from tensorflow import keras  # noqa F401
-from keras import losses as tfloss
 
-import flatiron.core.tools as fict
+import flatiron.tf.tools as fi_tftools
 
 Arraylike = Union[numpy.ndarray, tf.Tensor]
 # ------------------------------------------------------------------------------
 
 
-def get(name):
-    # type: (str) -> Callable[[Any], Any]
+def get(config):
+    # type: (dict) -> Any
     '''
     Get function from this module.
 
     Args:
-        name (str): Function name.
+        config (dict): Optimizer config.
 
     Returns:
         function: Module function.
     '''
-    try:
-        return fict.get_module_function(name, __name__)
-    except NotImplementedError:
-        return tfloss.get(name)
+    return fi_tftools.get(config, __name__, 'keras.api.losses')
 # ------------------------------------------------------------------------------
 
 
