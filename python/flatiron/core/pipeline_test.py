@@ -288,7 +288,6 @@ class TorchPipelineTests(PipelineTestBase):
     def test_run_torch(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
-            config['framework']['name'] = 'torch'
             config = yaml.dump(config)
             tb = Path(root, 'proj/tensorboard')
 

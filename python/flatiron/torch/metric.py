@@ -1,6 +1,7 @@
 from flatiron.core.types import Getter  # noqa F401
 
 from torch.nn import Module  # noqa: F401
+import torchmetrics  # noqa F401
 
 import flatiron.torch.tools as fi_torchtools
 # ------------------------------------------------------------------------------
