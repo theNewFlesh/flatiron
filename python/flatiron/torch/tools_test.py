@@ -17,6 +17,32 @@ from flatiron.core.dataset_test import DatasetTestBase
 
 
 class TorchToolsTests(DatasetTestBase):
+    def test_resolve_config(self):
+        config = dict(
+            foo='bar',
+            learning_rate=0.001,
+            epsilon=0.001,
+            clipping_threshold=1,
+            exponent=10,
+            beta_1=0.9,
+            beta_2=0.999,
+        )
+        expected = dict(
+            foo='bar',
+            lr=0.001,
+            eps=0.001,
+            d=1,
+            p=10,
+            betas=(0.9, 0.999),
+        )
+        result = fi_torchtools.resolve_config(config)
+        self.assertEqual(result, expected)
+
+        config = dict(norm_degree=1)
+        expected = dict(p=1)
+        result = fi_torchtools.resolve_config(config)
+        self.assertEqual(result, expected)
+
     def test_modelcheckpoint_init(self):
         result = fi_torchtools.ModelCheckpoint('/foo/bar', 'batch')
         self.assertEqual(result._filepath, '/foo/bar')
