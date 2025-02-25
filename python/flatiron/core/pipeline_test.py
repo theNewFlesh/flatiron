@@ -1,3 +1,4 @@
+from copy import deepcopy
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import logging
@@ -113,6 +114,99 @@ class TFPipelineTests(PipelineTestBase):
             config['model'] = {}
             with self.assertRaises(ValueError):
                 fi_tfdummy.DummyPipeline(config)
+
+    def test_resolve_model(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            expected = {'shape': [10, 10, 3]}
+            self.assertEqual(config['model'], expected)
+
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+            result = pipe._resolve_model(config)
+            expected = {'shape': [10, 10, 3], 'activation': 'relu'}
+            self.assertEqual(result['model'], expected)
+
+    def test_resolve_pipeline(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+            tz = config['logger'].get('timezone', None)
+            self.assertIs(tz, None)
+
+            result = pipe._resolve_pipeline(config)
+
+            self.assertEqual(result['logger']['timezone'], 'UTC')
+
+            expected = {'shape': [10, 10, 3]}
+            self.assertEqual(result['model'], expected)
+
+    def test_resolve_field(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+
+            result = pipe._resolve_field(deepcopy(config), 'optimizer')
+            res = result['optimizer']
+            self.assertEqual(res['name'], 'SGD')
+            self.assertIs(res['clipnorm'], None)
+
+            del config['optimizer']
+            del result['optimizer']
+            self.assertEqual(result, config)
+
+    def test_resolve_field_metrics(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+
+            result = pipe._resolve_field(config, 'metrics')['metrics']
+            self.assertEqual(result[0]['name'], 'jaccard')
+            self.assertEqual(result[1]['name'], 'dice')
+
+    def test_resolve_subconfig(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+
+            result = pipe._resolve_subconfig(
+                dict(name='Huber'),
+                'TFLoss',
+                True,
+                'flatiron.tf.config',
+                'flatiron.tf.loss',
+            )
+            self.assertEqual(result['name'], 'Huber')
+            self.assertIs(result['dtype'], None)
+
+    def test_resolve_subconfig_no_prepend(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+
+            result = pipe._resolve_subconfig(
+                dict(name='tensorflow'),
+                'TFFramework',
+                False,
+                'flatiron.tf.config',
+                None,
+            )
+            self.assertEqual(result['name'], 'tensorflow')
+            self.assertIs(result['jit_compile'], False)
+
+    def test_resolve_subconfig_custom(self):
+        with TemporaryDirectory() as root:
+            config = self.get_config(root)
+            pipe = fi_tfdummy.DummyPipeline(deepcopy(config))
+
+            expected = dict(name='jaccard_loss')
+            result = pipe._resolve_subconfig(
+                expected,
+                'TFLoss',
+                True,
+                'flatiron.tf.config',
+                'flatiron.tf.loss',
+            )
+            self.assertEqual(result, expected)
 
     def test_logger(self):
         with TemporaryDirectory() as root:

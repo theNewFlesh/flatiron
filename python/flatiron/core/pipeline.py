@@ -1,5 +1,5 @@
 from typing import Any, Optional, Type  # noqa F401
-from flatiron.core.types import AnyModel, Compiled, Filepath, OptStr  # noqa F401
+from flatiron.core.types import AnyModel, Compiled, Filepath, OptStr, Getter  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -46,6 +46,7 @@ class PipelineBase(ABC):
         '''
         config = yaml.safe_load(text)
         return cls(config)
+    # --------------------------------------------------------------------------
 
     def __init__(self, config):
         # type: (dict) -> None
@@ -143,7 +144,7 @@ class PipelineBase(ABC):
             metrics  =(f'{prefix}Metric',    True,  f'{pkg}.config', f'{pkg}.metric'   ),  # noqa E202
         )
         keys = ['class_prefix', 'prepend', 'config_module', 'other_module']
-        kwargs = dict(zip(keys, lut[field]))
+        kwargs = dict(zip(keys, lut[field]))  # type: Getter
 
         subconfig = config[field]
         if isinstance(subconfig, list):
@@ -190,6 +191,7 @@ class PipelineBase(ABC):
         output = fict.resolve_module_config(output, config_module)
         output['name'] = name
         return output
+    # --------------------------------------------------------------------------
 
     def _logger(self, method, message, config):
         # type: (str, str, dict) -> filog.SlackLogger

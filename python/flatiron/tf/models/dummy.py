@@ -7,15 +7,16 @@ import flatiron.core.pipeline as ficp
 # ------------------------------------------------------------------------------
 
 
-def get_dummy_model(shape):
+def get_dummy_model(shape, activation='relu'):
     input_ = tfl.Input(shape, name='input')
-    output = tfl.Conv2D(1, (1, 1), activation='relu', name='output')(input_)
+    output = tfl.Conv2D(1, (1, 1), activation=activation, name='output')(input_)
     model = tfmodels.Model(inputs=[input_], outputs=[output])
     return model
 
 
 class DummyConfig(pyd.BaseModel):
     shape: list[int]
+    activation: str = 'relu'
 
 
 class DummyPipeline(ficp.PipelineBase):
