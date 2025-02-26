@@ -371,6 +371,8 @@ def train(
     device = torch.device(framework['device'])
     torch.manual_seed(params['seed'])
     model = model.to(device)
+    loss = loss.to(device)
+    metrics = [x.to(device) for x in metrics]
 
     train_loader = torchdata.DataLoader(
         TorchDataset.monkey_patch(train_data), batch_size=batch_size
