@@ -44,13 +44,13 @@ def get(config, module, fallback_module):
     except NotImplementedError:
         pass
 
-    mod = fict.get_module(fallback_module)
     try:
+        mod = fict.get_module(fallback_module)
         return mod.get(dict(class_name=name, config=config))
-    except NotImplementedError:
+    except ValueError:
         pass
 
-    return getattr(mod, name)(**config)
+    return fict.get_module_class(name, fallback_module)(**config)
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
