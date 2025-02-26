@@ -42,11 +42,15 @@ def get(config, module, fallback_module):
     try:
         return fict.get_module_function(name, module)
     except NotImplementedError:
-        mod = fict.get_module(fallback_module)
+        pass
+
+    mod = fict.get_module(fallback_module)
+    try:
         return mod.get(dict(class_name=name, config=config))
-    finally:
-        mod = fict.get_module(fallback_module)
-        return getattr(mod, name)(**config)
+    except NotImplementedError:
+        pass
+
+    return getattr(mod, name)(**config)
 
 
 def get_callbacks(log_directory, checkpoint_pattern, checkpoint_params={}):
