@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.21.2
+                0.22.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -296,8 +296,11 @@
 
 
 
-<span class="c1"># class TFOptLamb(TFOptBaseConfig, TFBeta, TFEpsilon):</span>
-<span class="c1">#     pass</span>
+<div class="viewcode-block" id="TFOptLamb">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFOptLamb">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFOptLamb</span><span class="p">(</span><span class="n">TFOptBaseConfig</span><span class="p">,</span> <span class="n">TFBeta</span><span class="p">,</span> <span class="n">TFEpsilon</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
 
 
 <div class="viewcode-block" id="TFOptNadam">
@@ -511,13 +514,16 @@
     <span class="k">pass</span></div>
 
 
-<span class="c1"># TODO: Enable these configs</span>
-<span class="c1"># class TFMetricIoU(TFMetricBaseConfig, TFAxis):</span>
-<span class="c1">#     ignore_class: OptInt = None</span>
-<span class="c1">#     num_classes: int</span>
-<span class="c1">#     sparse_y_pred: bool = True</span>
-<span class="c1">#     sparse_y_true: bool = True</span>
-<span class="c1">#     target_class_ids: list[int]</span>
+
+<div class="viewcode-block" id="TFMetricIoU">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricIoU">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
+    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">sparse_y_true</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">target_class_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricKLDivergence">
@@ -555,11 +561,14 @@
 
 
 
-<span class="c1"># class TFMetricMeanIoU(TFMetricBaseConfig, TFAxis):</span>
-<span class="c1">#     ignore_class: OptInt = None</span>
-<span class="c1">#     num_classes: int</span>
-<span class="c1">#     sparse_y_pred: bool = True</span>
-<span class="c1">#     sparse_y_true: bool = True</span>
+<div class="viewcode-block" id="TFMetricMeanIoU">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricMeanIoU">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricMeanIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
+    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">sparse_y_true</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricMeanSquaredError">
@@ -583,17 +592,23 @@
 
 
 
-<span class="c1"># class TFMetricOneHotIoU(TFMetricBaseConfig, TFAxis):</span>
-<span class="c1">#     ignore_class: OptInt = None</span>
-<span class="c1">#     num_classes: int</span>
-<span class="c1">#     sparse_y_pred: bool = False</span>
-<span class="c1">#     target_class_ids: list[int]</span>
+<div class="viewcode-block" id="TFMetricOneHotIoU">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricOneHotIoU">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricOneHotIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
+    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">target_class_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
 
 
-<span class="c1"># class TFMetricOneHotMeanIoU(TFMetricBaseConfig, TFAxis):</span>
-<span class="c1">#     ignore_class: OptInt = None</span>
-<span class="c1">#     num_classes: int</span>
-<span class="c1">#     sparse_y_pred: bool = False</span>
+
+<div class="viewcode-block" id="TFMetricOneHotMeanIoU">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricOneHotMeanIoU">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricOneHotMeanIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
+    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricPearsonCorrelation">
@@ -617,8 +632,11 @@
 
 
 
-<span class="c1"># class TFMetricPrecisionAtRecall(TFMetricBaseConfig, TFClsId, TFNumThresh):</span>
-<span class="c1">#     recall: float</span>
+<div class="viewcode-block" id="TFMetricPrecisionAtRecall">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricPrecisionAtRecall">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricPrecisionAtRecall</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFClsId</span><span class="p">,</span> <span class="n">TFNumThresh</span><span class="p">):</span>
+    <span class="n">recall</span><span class="p">:</span> <span class="nb">float</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricR2Score">
@@ -636,8 +654,11 @@
 
 
 
-<span class="c1"># class TFMetricRecallAtPrecision(TFMetricBaseConfig, TFClsId, TFNumThresh):</span>
-<span class="c1">#     precision: float</span>
+<div class="viewcode-block" id="TFMetricRecallAtPrecision">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricRecallAtPrecision">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricRecallAtPrecision</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFClsId</span><span class="p">,</span> <span class="n">TFNumThresh</span><span class="p">):</span>
+    <span class="n">precision</span><span class="p">:</span> <span class="nb">float</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricRootMeanSquaredError">
@@ -647,8 +668,11 @@
 
 
 
-<span class="c1"># class TFMetricSensitivityAtSpecificity(TFMetricBaseConfig, TFClsId, TFNumThresh):</span>
-<span class="c1">#     specificity: float</span>
+<div class="viewcode-block" id="TFMetricSensitivityAtSpecificity">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricSensitivityAtSpecificity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricSensitivityAtSpecificity</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFClsId</span><span class="p">,</span> <span class="n">TFNumThresh</span><span class="p">):</span>
+    <span class="n">specificity</span><span class="p">:</span> <span class="nb">float</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricSparseCategoricalAccuracy">
@@ -673,8 +697,11 @@
 
 
 
-<span class="c1"># class TFMetricSpecificityAtSensitivity(TFMetricBaseConfig, TFClsId, TFNumThresh):</span>
-<span class="c1">#     sensitivity: float</span>
+<div class="viewcode-block" id="TFMetricSpecificityAtSensitivity">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricSpecificityAtSensitivity">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricSpecificityAtSensitivity</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFClsId</span><span class="p">,</span> <span class="n">TFNumThresh</span><span class="p">):</span>
+    <span class="n">sensitivity</span><span class="p">:</span> <span class="nb">float</span></div>
+
 
 
 <div class="viewcode-block" id="TFMetricSquaredHinge">

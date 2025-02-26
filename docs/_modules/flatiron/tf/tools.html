@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.21.2
+                0.22.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -136,8 +136,15 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module_function</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">module</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">try</span><span class="p">:</span>
         <span class="n">mod</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module</span><span class="p">(</span><span class="n">fallback_module</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mod</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">class_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">mod</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">class_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">fict</span><span class="o">.</span><span class="n">get_module_class</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">fallback_module</span><span class="p">)(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span></div>
 
 
 
