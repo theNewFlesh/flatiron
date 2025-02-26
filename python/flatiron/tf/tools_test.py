@@ -51,6 +51,15 @@ class TFToolsTests(DatasetTestBase):
         with self.assertRaises(EnforceError):
             fi_tftools.get({}, __name__, tfoptim.__name__)
 
+    def test_get_bad_kwarg(self):
+        fi_tftools.get(dict(name='Lamb'), __name__, tfoptim.__name__)
+        with self.assertRaises(ValueError):
+            fi_tftools.get(
+                dict(name='Lamb', config=dict(foo='bar')),
+                __name__,
+                tfoptim.__name__,
+            )
+
     def test_get_callbacks(self):
         with TemporaryDirectory() as root:
             proj = fict.get_tensorboard_project('proj', root)
