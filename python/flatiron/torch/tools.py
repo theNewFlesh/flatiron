@@ -325,7 +325,7 @@ def _execute_epoch(
             if writer is not None:
                 batch_index = epoch * epoch_size + i
                 for key, val in batch_metrics.items():
-                    writer.add_scalar(f'{mode}_batch_{key}', val, batch_index)
+                    writer.add_scalar(f'batch_{mode}_{key}', val, batch_index)
 
             # save model
             if checkpoint_mode:
@@ -335,7 +335,7 @@ def _execute_epoch(
     if writer is not None:
         epoch_metrics = pd.DataFrame(metrics) \
             .map(lambda x: x.cpu().detach().numpy().mean()) \
-            .rename(lambda x: f'{mode}_epoch_{x}', axis=1) \
+            .rename(lambda x: f'epoch_{mode}_{x}', axis=1) \
             .mean() \
             .to_dict()
 
