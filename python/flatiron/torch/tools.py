@@ -6,6 +6,7 @@ from copy import deepcopy
 from pathlib import Path
 
 from torch.utils.tensorboard import SummaryWriter
+import lunchbox.tools as lbt
 import pandas as pd
 import numpy as np
 import safetensors.torch as safetensors
@@ -316,7 +317,8 @@ def _execute_epoch(
             # gather batch metrics
             batch_metrics = dict(loss=loss)
             for metric in metrics_funcs:
-                batch_metrics[metric.__class__.__name__] = metric(y_pred, y)
+                key = lbt.to_snakecase(metric.__class__.__name__)
+                batch_metrics[key] = metric(y_pred, y)
             metrics.append(batch_metrics)
 
             # write batch metrics
@@ -338,7 +340,7 @@ def _execute_epoch(
             .to_dict()
 
         for key, val in epoch_metrics.items():
-            writer.add_scalar(f'{mode}_epoch_{key}', val, epoch * epoch_size)
+            writer.add_scalar(key, val, epoch * epoch_size)
 
 
 def train(
