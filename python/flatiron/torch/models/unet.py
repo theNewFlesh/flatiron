@@ -12,7 +12,7 @@ import flatiron.core.pipeline as ficp
 
 
 class Conv2DBlock(nn.Module):
-    def __init__(self, in_channels, filters=16, dtype='float16'):
+    def __init__(self, in_channels, filters=16, dtype=torch.float16):
         super().__init__()
         kwargs = dict(
             out_channels=filters, kernel_size=(3, 3),
@@ -37,7 +37,7 @@ class Conv2DBlock(nn.Module):
 
 
 class AtttentionGate2DBlock(nn.Module):
-    def __init__(self, in_channels, filters=16, dtype='float16'):
+    def __init__(self, in_channels, filters=16, dtype=torch.float16):
         super().__init__()
         kwargs = dict(
             kernel_size=(3, 3),
@@ -64,70 +64,38 @@ class AtttentionGate2DBlock(nn.Module):
 
 
 class UNet(nn.Module):
-    def __init__(self, in_channels, out_channels=3, dtype='float16'):
+    def __init__(self, in_channels=3, out_channels=1, attention=False, dtype=torch.float16):
         super().__init__()
+        self._attention = attention
         kwargs = dict(dtype=dtype)
-        pool_kwargs = dict(kernel_size=(2, 2), stride=(2, 2), dtype=dtype)
+        pool_kwargs = dict(kernel_size=(2, 2), stride=(2, 2))
+        trans_kwargs = dict(kernel_size=(2, 2), stride=(2, 2), dtype=dtype)
 
-        self.encode_block_1 = Conv2DBlock(in_channels=in_channels, filters=32, **kwargs)
-        self.encode_mpool_1 = nn.MaxPool2d(**pool_kwargs)
-        self.encode_block_2 = Conv2DBlock(in_channels=32, filters=64, **kwargs)
-        self.encode_mpool_2 = nn.MaxPool2d(**pool_kwargs)
-        self.encode_block_3 = Conv2DBlock(in_channels=64, filters=128, **kwargs)
-        self.encode_mpool_3 = nn.MaxPool2d(**pool_kwargs)
-        self.encode_block_4 = Conv2DBlock(in_channels=128, filters=256, **kwargs)
-        self.encode_mpool_4 = nn.MaxPool2d(**pool_kwargs)
+        self.encode_block_00 = Conv2DBlock(in_channels=in_channels, filters=16, **kwargs)
+        self.downsample_00 = nn.MaxPool2d(**pool_kwargs)
+        self.encode_block_01 = Conv2DBlock(in_channels=16, filters=32, **kwargs)
+        self.downsample_01 = nn.MaxPool2d(**pool_kwargs)
 
-        self.middle_block_1 = Conv2DBlock(in_channels=256, filters=512, **kwargs)
+        self.middle_block = Conv2DBlock(in_channels=32, filters=64, **kwargs)
 
-        self.decode_trans_1 = nn.ConvTranspose2d(**pool_kwargs)
-        self.decode_atten_1 = AtttentionGate2DBlock(in_channels=256, filters=256, **kwargs)
-        self.decode_block_1 = Conv2DBlock(in_channels=256, filters=256, **kwargs)
-        self.decode_trans_2 = nn.ConvTranspose2d(**pool_kwargs)
-        self.decode_atten_2 = AtttentionGate2DBlock(in_channels=256, filters=128, **kwargs)
-        self.decode_block_2 = Conv2DBlock(in_channels=256, filters=128, **kwargs)
-        self.decode_trans_3 = nn.ConvTranspose2d(**pool_kwargs)
-        self.decode_atten_3 = AtttentionGate2DBlock(in_channels=128, filters=64, **kwargs)
-        self.decode_block_3 = Conv2DBlock(in_channels=128, filters=64, **kwargs)
-        self.decode_trans_4 = nn.ConvTranspose2d(**pool_kwargs)
-        self.decode_atten_4 = AtttentionGate2DBlock(in_channels=64, filters=32, **kwargs)
-        self.decode_block_4 = Conv2DBlock(in_channels=64, filters=32, **kwargs)
-
-        self.output = nn.Conv2d(
-            in_channels=32, out_channels=out_channels, kernel_size=(1, 1),
-            stride=(1, 1), dtype=dtype
-        )
+        self.upsample_00 = nn.ConvTranspose2d(in_channels=64, out_channels=32, **trans_kwargs)
+        self.decode_block_00 = Conv2DBlock(in_channels=64, filters=32, **kwargs)
+        self.upsample_01 = nn.ConvTranspose2d(in_channels=32, out_channels=16, **trans_kwargs)
+        self.decode_block_01 = Conv2DBlock(in_channels=32, filters=out_channels, **kwargs)
 
     def forward(self, x):
-        x0 = self.encode_block_1(x)
-        x1 = self.encode_mpool_1(x0)
-        x1 = self.encode_block_2(x1)
-        x2 = self.encode_mpool_2(x1)
-        x2 = self.encode_block_3(x2)
-        x3 = self.encode_mpool_3(x2)
-        x3 = self.encode_block_4(x3)
-        x = self.encode_mpool_4(x3)
+        x0 = self.encode_block_00(x)
+        x = self.downsample_00(x0)
+        x1 = self.encode_block_01(x)
+        x = self.downsample_01(x1)
+        x = self.middle_block(x)
 
-        x = self.middle_block_1(x)
-
-        x = self.decode_trans_1(x)
-        # x = torch.concatenate([x, x3])
-        x = self.decode_atten_1(x, x3)
-        x = self.decode_block_1(x)
-        x = self.decode_trans_2(x)
-        # x = torch.concatenate([x, x2])
-        x = self.decode_atten_1(x, x2)
-        x = self.decode_block_2(x)
-        x = self.decode_trans_3(x)
-        # x = torch.concatenate([x, x1])
-        x = self.decode_atten_1(x, x1)
-        x = self.decode_block_3(x)
-        x = self.decode_trans_4(x)
-        # x = torch.concatenate([x, x0])
-        x = self.decode_atten_1(x, x0)
-        x = self.decode_block_4(x)
-
-        x = self.output(x)
+        x = self.upsample_00(x)
+        x = torch.concatenate([x, x1], axis=1)
+        x = self.decode_block_00(x)
+        x = self.upsample_01(x)
+        x = torch.concatenate([x, x0], axis=1)
+        x = self.decode_block_01(x)
         return x
 
 
