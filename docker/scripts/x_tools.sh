@@ -425,14 +425,12 @@ x_library_add () {
     # args: package, group
     x_env_activate_dev;
     echo "${CYAN2}ADDING PACKAGE TO DEV DEPENDENCIES${CLEAR}\n";
-    cd $PDM_DIR;
-    if [ "$2" = '' ] || [ "$2" = 'default' ]; then
-        pdm add --no-self $1 -v;
-    else
-        pdm add --no-self -dG $2 $1 -v;
+    local group="$2";
+    if [ "$group" = '' ]; then
+        group='dependencies';
     fi;
-    _x_library_pdm_to_repo_dev;
-    echo "${GREEN2}LIBRARY ADD COMPLETE${CLEAR}";
+    sed --in-place -E "s/$group = \[/$group = \[\n    \"$1\",/" $CONFIG_DIR/pyproject.toml;
+    x_library_install_dev;
 }
 
 x_library_graph_dev () {
