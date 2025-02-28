@@ -343,7 +343,7 @@ def _execute_epoch(
             .to_dict()
 
         for key, val in epoch_metrics.items():
-            writer.add_scalar(key, val, epoch * epoch_size)
+            writer.add_scalar(key, val, epoch)
 
 
 def train(
