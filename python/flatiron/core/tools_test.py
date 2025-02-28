@@ -53,7 +53,7 @@ class ToolsTests(unittest.TestCase):
             self.assertTrue(Path(result['log_dir']).is_dir())
             self.assertTrue(Path(result['model_dir']).is_dir())
 
-    def test_get_tensorboard_project_extension(self):
+    def test_get_tensorboard_project_safetensors(self):
         with TemporaryDirectory() as root:
             result = fict.get_tensorboard_project(
                 'foo', root, timezone='America/Los_Angeles',
@@ -65,11 +65,23 @@ class ToolsTests(unittest.TestCase):
                 f'{root}/foo/tensorboard/.*/models/p-foo_.*_e-{{epoch:03d}}.safetensors'
             )
 
+    def test_get_tensorboard_project_pth(self):
+        with TemporaryDirectory() as root:
+            result = fict.get_tensorboard_project(
+                'foo', root, timezone='America/Los_Angeles',
+                extension='pth'
+            )
+
+            self.assertRegex(
+                result['checkpoint_pattern'],
+                f'{root}/foo/tensorboard/.*/models/p-foo_.*_e-{{epoch:03d}}.pth'
+            )
+
     def test_get_tensorboard_project_errors(self):
-        expected = 'Extension must be keras or safetensors. Given value: pth.'
+        expected = 'Extension must be keras or safetensors. Given value: foobar.'
         with TemporaryDirectory() as root:
             with self.assertRaisesRegex(EnforceError, expected):
-                fict.get_tensorboard_project('foo', root, extension='pth')
+                fict.get_tensorboard_project('foo', root, extension='foobar')
 
     def test_enforce_callbacks(self):
         with TemporaryDirectory() as root:

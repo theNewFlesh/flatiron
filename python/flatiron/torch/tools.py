@@ -120,7 +120,10 @@ class ModelCheckpoint:
             epoch (int): Current epoch.
         '''
         filepath = self._filepath.format(epoch=epoch)
-        safetensors.save_model(model, filepath)
+        if Path(filepath).suffix == '.safetensors':
+            safetensors.save_model(model, filepath)
+        else:
+            torch.save(model, filepath)
 
 
 Callbacks = dict[str, SummaryWriter | ModelCheckpoint]

@@ -53,9 +53,19 @@ class TorchToolsTests(DatasetTestBase):
         self.assertEqual(result._filepath, '/foo/bar')
         self.assertEqual(result.save_freq, 'batch')
 
-    def test_modelcheckpoint_save(self):
+    def test_modelcheckpoint_save_safetensors(self):
         with TemporaryDirectory() as root:
             target = Path(root, 'foo_{epoch:02d}.safetensors')
+            check = fi_torchtools.ModelCheckpoint(target, 'batch')
+            model = fi_torchdummy.DummyModel(2, 2)
+            check.save(model, 1)
+
+            expected = Path(check._filepath.format(epoch=1))
+            self.assertTrue(expected.is_file())
+
+    def test_modelcheckpoint_save_pth(self):
+        with TemporaryDirectory() as root:
+            target = Path(root, 'foo_{epoch:02d}.pth')
             check = fi_torchtools.ModelCheckpoint(target, 'batch')
             model = fi_torchdummy.DummyModel(2, 2)
             check.save(model, 1)

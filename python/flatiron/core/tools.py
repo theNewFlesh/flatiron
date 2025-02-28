@@ -34,13 +34,13 @@ def get_tensorboard_project(
             Options: [keras, safetensors]. Default: keras.
 
     Raises:
-        EnforceError: If extension is not keras or safetensors.
+        EnforceError: If extension is not keras, pth or safetensors.
 
     Returns:
         dict: Project details.
     '''
     msg = 'Extension must be keras or safetensors. Given value: {a}.'
-    Enforce(extension, 'in', ['keras', 'safetensors'], message=msg)
+    Enforce(extension, 'in', ['keras', 'pth', 'safetensors'], message=msg)
     # --------------------------------------------------------------------------
 
     # create timestamp
