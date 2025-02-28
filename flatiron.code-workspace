@@ -15,6 +15,7 @@
         "python.testing.pytestEnabled": true,
         "python.testing.unittestEnabled": false,
         "pythonTestExplorer.testFramework": "pytest",
+        "python.tensorBoard.logDirectory": "/mnt/storage/projects/cifar001/tensorboard",
         "terminal.integrated.defaultProfile.linux": "zsh",
         "terminal.integrated.defaultProfile.osx": "zsh",
         "testExplorer.codeLens": true,
