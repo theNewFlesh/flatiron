@@ -21,6 +21,7 @@ services:
       - ~/.ssh:/home/ubuntu/.ssh:ro
       - ./config/jupyter:/home/ubuntu/.jupyter
       - ./config/zshrc:/home/ubuntu/.zshrc
+      - ~/Documents/models:/mnt/models
       - /mnt/storage-02:/mnt/storage
     working_dir: "/home/ubuntu"
     deploy:
