@@ -25,6 +25,14 @@ logging
     :undoc-members:
     :show-inheritance:
 
+multidataset
+------------
+.. automodule:: flatiron.core.multidataset
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 pipeline
 --------
 .. automodule:: flatiron.core.pipeline
