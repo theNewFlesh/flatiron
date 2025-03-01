@@ -87,7 +87,7 @@ class TorchToolsTests(DatasetTestBase):
 
     def test_torchdataset_monkey_patch(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            self.create_image_dataset_files(root, shape=(10, 10, 4))
             expected = Dataset.read_directory(root, labels='a')
             result = fi_torchtools.TorchDataset \
                 .monkey_patch(expected, channels_first=False)
@@ -103,7 +103,7 @@ class TorchToolsTests(DatasetTestBase):
 
     def test_torchdataset_getitem(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            self.create_image_dataset_files(root, shape=(10, 10, 4))
             data = Dataset.read_directory(root, labels='a')
             tdata = fi_torchtools.TorchDataset.monkey_patch(data)
             result = tdata[3]
@@ -113,7 +113,7 @@ class TorchToolsTests(DatasetTestBase):
 
     def test_torchdataset_getitem_no_labels(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            self.create_image_dataset_files(root, shape=(10, 10, 4))
             data = Dataset.read_directory(root, labels=[])
             tdata = fi_torchtools.TorchDataset.monkey_patch(data)
 
@@ -126,7 +126,7 @@ class TorchToolsTests(DatasetTestBase):
 
     def test_torchdataset_getitem_no_channels_first(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root, shape=(10, 10, 3))
+            self.create_image_dataset_files(root, shape=(10, 10, 3))
             data = Dataset.read_directory(root, labels=[])
             tdata = fi_torchtools.TorchDataset \
                 .monkey_patch(data, channels_first=False)
@@ -158,7 +158,7 @@ class TorchToolsTests(DatasetTestBase):
     def get_dataset(self, root, name):
         asset = Path(root, name)
         os.makedirs(asset)
-        self.create_png_dataset_files(asset, shape=(10, 10, 4))
+        self.create_image_dataset_files(asset, shape=(10, 10, 4))
         data = Dataset.read_directory(asset, labels='a')
         return data
 

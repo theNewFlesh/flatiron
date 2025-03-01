@@ -115,7 +115,7 @@ class TFToolsTests(DatasetTestBase):
         compiled = dict(model=model)
 
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root)
+            self.create_image_dataset_files(root)
             train, test = Dataset \
                 .read_directory(root, labels=[3]) \
                 .train_test_split()
