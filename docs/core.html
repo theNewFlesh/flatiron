@@ -38,7 +38,7 @@
             flatiron
           </a>
               <div class="version">
-                0.22.0
+                0.23.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -223,6 +223,20 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.logging">logging</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.core.logging.SlackLogger"><code class="docutils literal notranslate"><span class="pre">SlackLogger</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.logging.SlackLogger.__init__"><code class="docutils literal notranslate"><span class="pre">SlackLogger.__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.multidataset">multidataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset"><code class="docutils literal notranslate"><span class="pre">MultiDataset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.__init__"><code class="docutils literal notranslate"><span class="pre">MultiDataset.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.get_arrays"><code class="docutils literal notranslate"><span class="pre">MultiDataset.get_arrays()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.get_filepaths"><code class="docutils literal notranslate"><span class="pre">MultiDataset.get_filepaths()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.info"><code class="docutils literal notranslate"><span class="pre">MultiDataset.info</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.load"><code class="docutils literal notranslate"><span class="pre">MultiDataset.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.train_test_split"><code class="docutils literal notranslate"><span class="pre">MultiDataset.train_test_split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.unload"><code class="docutils literal notranslate"><span class="pre">MultiDataset.unload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset.xy_split"><code class="docutils literal notranslate"><span class="pre">MultiDataset.xy_split()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1569,6 +1583,153 @@ attempt to log custom formatted output to Slack.</p>
 </dd></dl>
 
 </section>
+<section id="module-flatiron.core.multidataset">
+<span id="multidataset"></span><h2>multidataset<a class="headerlink" href="#module-flatiron.core.multidataset" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.core.multidataset.</span></span><span class="sig-name descname"><span class="pre">MultiDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class combines a dictionary of Dataset instances into a single dataset.
+Datasets are merged by frame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datasets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.__init__" title="Link to this definition"></a></dt>
+<dd><p>Constructs a MultiDataset instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>datasets</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="#flatiron.core.dataset.Dataset" title="flatiron.core.dataset.Dataset"><em>Dataset</em></a><em>]</em>) – Dictionary of Dataset instances.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.get_arrays">
+<span class="sig-name descname"><span class="pre">get_arrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.get_arrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.get_arrays" title="Link to this definition"></a></dt>
+<dd><p>For each dataset, get data and convert into numpy arrays according to
+labels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame</strong> (<em>int</em>) – Frame.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>IndexError</strong> – If frame is missing or multiple frames were found.</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict where values are lists of arrays from the given frame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.get_filepaths">
+<span class="sig-name descname"><span class="pre">get_filepaths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.get_filepaths"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.get_filepaths" title="Link to this definition"></a></dt>
+<dd><p>For each dataset, get filepath of given frame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict where values are filepaths of the given frame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.info">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">info</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DataFrame</span></em><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.info" title="Link to this definition"></a></dt>
+<dd><p>Returns:
+DataFrame: Copy of info DataFrame.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reshape</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.load" title="Link to this definition"></a></dt>
+<dd><p>For each dataset, load data from files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>limit</strong> (<em>str</em><em> or </em><em>int</em><em>, </em><em>optional</em>) – Limit data by number of samples or
+memory size. Default: None.</p></li>
+<li><p><strong>reshape</strong> (<em>bool</em><em>, </em><em>optional</em>) – Reshape concatenated data to incorpate
+frames as the first dimension: (FRAME, …). Analogous to the
+first dimension being batch. Default: True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>self.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset" title="flatiron.core.multidataset.MultiDataset">MultiDataset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.train_test_split">
+<span class="sig-name descname"><span class="pre">train_test_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.train_test_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.train_test_split" title="Link to this definition"></a></dt>
+<dd><p>Split into train and test MultiDatasets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>test_size</strong> (<em>float</em><em>, </em><em>optional</em>) – Test set size as a proportion.
+Default: 0.2.</p></li>
+<li><p><strong>limit</strong> (<em>int</em><em>, </em><em>optional</em>) – Limit the total length of train and test.
+Default: None.</p></li>
+<li><p><strong>shuffle</strong> (<em>bool</em><em>, </em><em>optional</em>) – Randomize data before splitting.
+Default: True.</p></li>
+<li><p><strong>seed</strong> (<em>float</em><em>, </em><em>optional</em>) – Seed number between 0 and 1. Default: None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Train MultiDataset, Test MultiDataset.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[<a class="reference internal" href="#flatiron.core.multidataset.MultiDataset" title="flatiron.core.multidataset.MultiDataset">MultiDataset</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.unload">
+<span class="sig-name descname"><span class="pre">unload</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.unload"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.unload" title="Link to this definition"></a></dt>
+<dd><p>For each dataset, delete self.data and reset self.info.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>self.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#flatiron.core.multidataset.MultiDataset" title="flatiron.core.multidataset.MultiDataset">MultiDataset</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.multidataset.MultiDataset.xy_split">
+<span class="sig-name descname"><span class="pre">xy_split</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/multidataset.html#MultiDataset.xy_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.multidataset.MultiDataset.xy_split" title="Link to this definition"></a></dt>
+<dd><p>For each dataset, split data into x and y arrays, according to
+self.labels as the split index and self.label_axis as the split axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>EnforceError</strong> – If data has not been loaded.</p></li>
+<li><p><strong>EnforceError</strong> – If self.labels is not a list of a single integer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dict where values are x and y arrays.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-flatiron.core.pipeline">
 <span id="pipeline"></span><h2>pipeline<a class="headerlink" href="#module-flatiron.core.pipeline" title="Link to this heading"></a></h2>
 <dl class="py class">
@@ -2021,7 +2182,7 @@ Options: [keras, safetensors]. Default: keras.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>EnforceError</strong> – If extension is not keras or safetensors.</p>
+<dd class="field-even"><p><strong>EnforceError</strong> – If extension is not keras, pth or safetensors.</p>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Project details.</p>

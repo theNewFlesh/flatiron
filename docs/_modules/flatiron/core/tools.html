@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.22.0
+                0.23.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -128,13 +128,13 @@
 <span class="sd">            Options: [keras, safetensors]. Default: keras.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        EnforceError: If extension is not keras or safetensors.</span>
+<span class="sd">        EnforceError: If extension is not keras, pth or safetensors.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        dict: Project details.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Extension must be keras or safetensors. Given value: </span><span class="si">{a}</span><span class="s1">.&#39;</span>
-    <span class="n">Enforce</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;keras&#39;</span><span class="p">,</span> <span class="s1">&#39;safetensors&#39;</span><span class="p">],</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">Enforce</span><span class="p">(</span><span class="n">extension</span><span class="p">,</span> <span class="s1">&#39;in&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;keras&#39;</span><span class="p">,</span> <span class="s1">&#39;pth&#39;</span><span class="p">,</span> <span class="s1">&#39;safetensors&#39;</span><span class="p">],</span> <span class="n">message</span><span class="o">=</span><span class="n">msg</span><span class="p">)</span>
     <span class="c1"># --------------------------------------------------------------------------</span>
 
     <span class="c1"># create timestamp</span>
