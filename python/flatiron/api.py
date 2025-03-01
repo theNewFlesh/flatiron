@@ -9,6 +9,7 @@ import re as __re
 
 from flatiron.core.config import PipelineConfig  # noqa F401
 from flatiron.core.dataset import Dataset  # noqa F401
+from flatiron.core.multidataset import MultiDataset  # noqa F401
 from flatiron.core.logging import SlackLogger  # noqa F401
 from flatiron.core.pipeline import PipelineBase  # noqa F401
 
