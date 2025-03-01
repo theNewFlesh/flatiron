@@ -112,7 +112,7 @@ class MultiDataset:
         Returns:
             MultiDataset: self.
         '''
-        kwargs = dict(limit=limit, shuffle=False, reshape=reshape)
+        kwargs = dict(limit=limit, shuffle=False, reshape=reshape)  # type: Any
         [x.load(**kwargs) for x in self.datasets.values()]
         return self
 
@@ -170,7 +170,7 @@ class MultiDataset:
             test_size=test_size, limit=limit, shuffle=shuffle, seed=seed
         )
 
-        msets = dict(train={}, test={})
+        msets = dict(train={}, test={})  # type: Any
         for key, val in zip(['train', 'test'], items):
             frames = val.frame.tolist()
             for name, dset in self.datasets.items():
@@ -179,7 +179,7 @@ class MultiDataset:
                 info = info[mask].copy()
                 info.reset_index(drop=True, inplace=True)
                 msets[key][name] = Dataset(
-                    info=info, 
+                    info=info,
                     ext_regex=dset._ext_regex,
                     calc_file_size=dset._calc_file_size,
                     labels=dset.labels,
