@@ -5,6 +5,7 @@ import unittest
 
 from lunchbox.enforce import EnforceError
 from pandas import DataFrame
+import pytest
 import cv_depot.api as cvd
 import numpy as np
 
@@ -514,6 +515,7 @@ class DatasetTests(DatasetTestBase):
             expected = ([True] * 3) + ([False] * 7)
             self.assertEqual(result, expected)
 
+    @pytest.mark.skipif('SKIP_SLOW_TESTS' in os.environ, reason='slow test')
     def test_load_limit_str(self):
         with TemporaryDirectory() as root:
             shape = (1000, 100, 100, 3)

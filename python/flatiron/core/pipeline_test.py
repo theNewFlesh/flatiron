@@ -8,6 +8,7 @@ import unittest
 import cv_depot.api as cvd
 import numpy as np
 import pandas as pd
+import pytest
 import yaml
 
 import flatiron.core.dataset as ficd
@@ -415,6 +416,7 @@ class TorchPipelineTests(PipelineTestBase):
         ))
         return config
 
+    @pytest.mark.skipif('SKIP_SLOW_TESTS' in os.environ, reason='slow test')
     def test_run_torch(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
