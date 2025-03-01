@@ -20,7 +20,7 @@ class DatasetTestBase(unittest.TestCase):
         array = np.floor(np.random.random(shape) * 255).astype(np.uint8)
         np.save(target, array)
 
-    def write_png(self, target, shape=(10, 10, 4)):
+    def write_image(self, target, shape=(10, 10, 4)):
         target = Path(target)
         os.makedirs(target.parent, exist_ok=True)
         array = np.floor(np.random.random(shape) * 255).astype(np.uint8)
@@ -40,14 +40,18 @@ class DatasetTestBase(unittest.TestCase):
         info.to_csv(info_path, index=None)
         return info, info_path
 
-    def create_png_dataset_files(self, root, shape=(10, 10, 3), indicator='f'):
+    def create_image_dataset_files(
+        self, root, shape=(10, 10, 3), indicator='f', extension='png'
+    ):
         os.makedirs(Path(root, 'data'))
         info = DataFrame()
-        info['filepath_relative'] = [f'data/foo_{indicator}{i:02d}.png' for i in range(10)]
+        info['filepath_relative'] = [
+            f'data/foo_{indicator}{i:02d}.{extension}' for i in range(10)
+        ]
         info['asset_path'] = root
         info.filepath_relative \
             .apply(lambda x: Path(root, x)) \
-            .apply(lambda x: self.write_png(x, shape))
+            .apply(lambda x: self.write_image(x, shape))
         info_path = Path(root, 'info.csv').as_posix()
         info.to_csv(info_path, index=None)
         return info, info_path
@@ -79,7 +83,7 @@ class DatasetTests(DatasetTestBase):
 
     def test_read_directory_png(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root)
+            self.create_image_dataset_files(root)
             result = Dataset.read_directory(root).load(reshape=True)
             self.assertEqual(result.data.shape, (10, 10, 10, 3))
 
@@ -413,7 +417,7 @@ class DatasetTests(DatasetTestBase):
 
     def test_get_arrays(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root)
+            self.create_image_dataset_files(root)
             dset = Dataset.read_directory(root)
 
             result = dset.get_arrays(3)
@@ -425,7 +429,7 @@ class DatasetTests(DatasetTestBase):
 
     def test_get_arrays_labels(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            self.create_image_dataset_files(root, shape=(10, 10, 4))
             dset = Dataset.read_directory(root, labels='a')
 
             result = dset.get_arrays(3)
@@ -438,7 +442,7 @@ class DatasetTests(DatasetTestBase):
 
     def test_get_arrays_labels_bg(self):
         with TemporaryDirectory() as root:
-            self.create_png_dataset_files(root, shape=(10, 10, 4))
+            self.create_image_dataset_files(root, shape=(10, 10, 4))
             dset = Dataset.read_directory(root, labels=['b', 'a'])
 
             result = dset.get_arrays(3)
