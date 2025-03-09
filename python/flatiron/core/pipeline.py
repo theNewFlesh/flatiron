@@ -1,5 +1,5 @@
 from typing import Any, Optional, Type  # noqa F401
-from flatiron.core.types import AnyModel, Compiled, Filepath, OptStr, Getter  # noqa F401
+from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -9,9 +9,9 @@ from pathlib import Path
 import yaml
 
 from flatiron.core.dataset import Dataset
-import flatiron.core.config as cfg
 import flatiron.core.logging as filog
 import flatiron.core.tools as fict
+import flatiron.core.resolve as res
 # ------------------------------------------------------------------------------
 
 
@@ -56,17 +56,10 @@ class PipelineBase(ABC):
         Args:
             config (dict): PipelineBase config.
         '''
-        config = deepcopy(config)
-        config = self._resolve_model(config)
-        config = self._resolve_pipeline(config)
-        config = self._resolve_field(config, 'framework')
-        config = self._resolve_field(config, 'optimizer')
-        config = self._resolve_field(config, 'loss')
-        config = self._resolve_field(config, 'metrics')
-        self.config = config
+        self.config = res.resolve_config(config, self.model_config())
 
         # create Dataset instance
-        dconf = config['dataset']
+        dconf = self.config['dataset']
         src = dconf['source']
         kwargs = dict(
             ext_regex=dconf['ext_regex'],
@@ -83,114 +76,6 @@ class PipelineBase(ABC):
         self._train_data = None  # type: Optional[Dataset]
         self._test_data = None  # type: Optional[Dataset]
         self._loaded = False
-
-    def _resolve_model(self, config):
-        # type: (dict) -> dict
-        '''
-        Resolve and validate given model config.
-
-        Args:
-            config (dict): Model config.
-
-        Returns:
-            dict: Validated model config.
-        '''
-        config['model'] = self.model_config() \
-            .model_validate(config['model'], strict=True) \
-            .model_dump()
-        return config
-
-    def _resolve_pipeline(self, config):
-        # type: (dict) -> dict
-        '''
-        Resolve and validate given pipeline config.
-
-        Args:
-            config (dict): Pipeline config.
-
-        Returns:
-            dict: Validated pipeline config.
-        '''
-        model = config.pop('model', {})
-        config = cfg.PipelineConfig \
-            .model_validate(config, strict=True) \
-            .model_dump()
-        config['model'] = model
-        return config
-
-    def _resolve_field(self, config, field):
-        # type: (dict, str) -> dict
-        '''
-        Resolve and validate given pipeline config field.
-
-        Args:
-            config (dict): Pipeline config.
-            field (str): Config field name.
-
-        Returns:
-            dict: Updated pipeline config.
-        '''
-        prefix = config['framework']['name']
-        if prefix == 'tensorflow':
-            prefix = 'TF'
-        else:
-            prefix = prefix.capitalize()
-
-        pkg = f'flatiron.{prefix.lower()}'
-        lut = dict(
-            framework=(f'{prefix}Framework', False, f'{pkg}.config', None              ),  # noqa E202
-            optimizer=(f'{prefix}Opt',       True,  f'{pkg}.config', f'{pkg}.optimizer'),  # noqa E202
-            loss     =(f'{prefix}Loss',      True,  f'{pkg}.config', f'{pkg}.loss'     ),  # noqa E202
-            metrics  =(f'{prefix}Metric',    True,  f'{pkg}.config', f'{pkg}.metric'   ),  # noqa E202
-        )
-        keys = ['class_prefix', 'prepend', 'config_module', 'other_module']
-        kwargs = dict(zip(keys, lut[field]))  # type: Getter
-
-        subconfig = config[field]
-        if isinstance(subconfig, list):
-            config[field] = [self._resolve_subconfig(x, **kwargs) for x in subconfig]
-        else:
-            config[field] = self._resolve_subconfig(subconfig, **kwargs)
-
-        return config
-
-    def _resolve_subconfig(
-        self, subconfig, class_prefix, prepend, config_module, other_module
-    ):
-        # type: (dict, str, bool, str, OptStr) -> dict
-        '''
-        For use in _resolve_field. Resolves and validates given subconfig.
-        If class is not custom definition found in config module or
-        other module, a standard definition will be resolved from config module.
-        class prefix and prepend are used to modify the config name field in
-        order to make it a valid class name.
-
-        Args:
-            subconfig (dict): Subconfig.
-            class_prefix (str): Class prefix.
-            prepend (bool): Prepend class prefix.
-            config_module (str): Module name.
-            other_module (str): Module name.
-
-        Returns:
-            dict: Validated subconfig.
-        '''
-        if config_module is not None:
-            if fict.is_custom_definition(subconfig, config_module):
-                return subconfig
-        if other_module is not None:
-            if fict.is_custom_definition(subconfig, other_module):
-                return subconfig
-
-        name = subconfig['name']
-        output = deepcopy(subconfig)
-        output['name'] = class_prefix
-        if prepend:
-            output['name'] += name
-
-        output = fict.resolve_module_config(output, config_module)
-        output['name'] = name
-        return output
     # --------------------------------------------------------------------------
 
     def _logger(self, method, message, config):
