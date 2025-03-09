@@ -46,6 +46,41 @@ class PipelineBase(ABC):
         '''
         config = yaml.safe_load(text)
         return cls(config)
+
+    @classmethod
+    def generate_config(
+        cls,
+        framework='torch',
+        project='project-name',
+        callback_root='/tensorboard/parent/dir',
+        dataset='/mnt/data/dataset',
+        optimizer='SGD',
+        loss='CrossEntropyLoss',
+        metrics=['MeanMetric'],
+    ):
+        # type: (str, str, str, str, str, str, list[str]) -> None
+        '''
+        Prints a generated pipeline config based on given parameters.
+
+        Args:
+            framework (str): Framework name. Default: torch.
+            project (str): Project name. Default: project-name.
+            callback_root (str): Callback root path. Default: /tensorboard/parent/dir.
+            dataset (str): Dataset path. Default: /mnt/data/dataset.
+            optimizer (str): Optimizer name. Default: SGD.
+            loss (str): Loss name. Default: CrossEntropyLoss.
+            metrics (list[str]): Metric names. Default: ['MeanMetric'].
+        '''
+        config = res._generate_config(
+            framework=framework,
+            project=project,
+            callback_root=callback_root,
+            dataset=dataset,
+            optimizer=optimizer,
+            loss=loss,
+            metrics=metrics,
+        )
+        print(yaml.safe_dump(config))
     # --------------------------------------------------------------------------
 
     def __init__(self, config):

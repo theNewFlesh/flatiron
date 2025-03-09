@@ -42,6 +42,55 @@ def resolve_config(config, model):
     return config
 
 
+def _generate_config(
+    framework='torch',
+    project='project-name',
+    callback_root='/tensorboard/parent/dir',
+    dataset='/mnt/data/dataset',
+    optimizer='SGD',
+    loss='CrossEntropyLoss',
+    metrics=['MeanMetric'],
+):
+    # type: (str, str, str, str, str, str, list[str]) -> dict
+    '''
+    Generate a pipeline config based on given parameters.
+
+    Args:
+        framework (str): Framework name. Default: torch.
+        project (str): Project name. Default: project-name.
+        callback_root (str): Callback root path. Default: /tensorboard/parent/dir.
+        dataset (str): Dataset path. Default: /mnt/data/dataset.
+        optimizer (str): Optimizer name. Default: SGD.
+        loss (str): Loss name. Default: CrossEntropyLoss.
+        metrics (list[str]): Metric names. Default: ['MeanMetric'].
+
+    Returns:
+        dict: Generated config.
+    '''
+    if framework == 'tensorflow':
+        if loss == 'CrossEntropyLoss':
+            loss = 'CategoricalCrossentropy'
+        if metrics == ['MeanMetric']:
+            metrics = ['Mean']
+    config = dict(
+        framework=dict(name=framework),
+        dataset=dict(source=dataset),
+        model=dict(),
+        optimizer=dict(name=optimizer),
+        loss=dict(name=loss),
+        metrics=[dict(name=x) for x in metrics],
+        callbacks=dict(project=project, root=callback_root),
+        logger={},
+        train={},
+    )
+    config = _resolve_pipeline(config)
+    config = _resolve_field(config, 'framework')
+    config = _resolve_field(config, 'optimizer')
+    config = _resolve_field(config, 'loss')
+    config = _resolve_field(config, 'metrics')
+    return config
+
+
 def _resolve_model(config, model):
     # type: (dict, Type[BaseModel]) -> dict
     '''
