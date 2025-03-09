@@ -163,6 +163,9 @@ class TFPipelineTests(PipelineTestBase):
                 yaml.safe_dump(config, f)
             fi_tfdummy.DummyPipeline.read_yaml(src)
 
+    def test_generate_config(self):
+        fi_tfdummy.DummyPipeline.generate_config()
+
     def test_load(self):
         with TemporaryDirectory() as root:
             config = self.get_config(root)
