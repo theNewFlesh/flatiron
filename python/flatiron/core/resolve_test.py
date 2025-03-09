@@ -60,6 +60,13 @@ class PipelineTestBase(unittest.TestCase):
             logger=dict(),
         )
 
+    def test_generate_config(self):
+        result = rez._generate_config()
+        self.assertEqual(result['framework']['name'], 'torch')
+
+        result = rez._generate_config(framework='tensorflow')
+        self.assertEqual(result['framework']['name'], 'tensorflow')
+
     def test_resolve_config(self):
         config = self.get_simple_config()
         result = rez.resolve_config(config, fi_tfdummy.DummyConfig)
