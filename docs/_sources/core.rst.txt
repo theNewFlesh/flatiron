@@ -41,6 +41,14 @@ pipeline
     :undoc-members:
     :show-inheritance:
 
+resolve
+-------
+.. automodule:: flatiron.core.resolve
+    :members:
+    :private-members:
+    :undoc-members:
+    :show-inheritance:
+
 tools
 ------
 .. automodule:: flatiron.core.tools

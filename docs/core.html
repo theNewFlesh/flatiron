@@ -38,7 +38,7 @@
             flatiron
           </a>
               <div class="version">
-                0.23.0
+                0.24.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -247,13 +247,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._abc_impl"><code class="docutils literal notranslate"><span class="pre">PipelineBase._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._engine"><code class="docutils literal notranslate"><span class="pre">PipelineBase._engine</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._logger"><code class="docutils literal notranslate"><span class="pre">PipelineBase._logger()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._resolve_field"><code class="docutils literal notranslate"><span class="pre">PipelineBase._resolve_field()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._resolve_model"><code class="docutils literal notranslate"><span class="pre">PipelineBase._resolve_model()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._resolve_pipeline"><code class="docutils literal notranslate"><span class="pre">PipelineBase._resolve_pipeline()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase._resolve_subconfig"><code class="docutils literal notranslate"><span class="pre">PipelineBase._resolve_subconfig()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.build"><code class="docutils literal notranslate"><span class="pre">PipelineBase.build()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.compile"><code class="docutils literal notranslate"><span class="pre">PipelineBase.compile()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.from_string"><code class="docutils literal notranslate"><span class="pre">PipelineBase.from_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.generate_config"><code class="docutils literal notranslate"><span class="pre">PipelineBase.generate_config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.load"><code class="docutils literal notranslate"><span class="pre">PipelineBase.load()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.model_config"><code class="docutils literal notranslate"><span class="pre">PipelineBase.model_config()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.model_func"><code class="docutils literal notranslate"><span class="pre">PipelineBase.model_func()</span></code></a></li>
@@ -264,6 +261,15 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase.unload"><code class="docutils literal notranslate"><span class="pre">PipelineBase.unload()</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.resolve">resolve</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.resolve._generate_config"><code class="docutils literal notranslate"><span class="pre">_generate_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.resolve._resolve_field"><code class="docutils literal notranslate"><span class="pre">_resolve_field()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.resolve._resolve_model"><code class="docutils literal notranslate"><span class="pre">_resolve_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.resolve._resolve_pipeline"><code class="docutils literal notranslate"><span class="pre">_resolve_pipeline()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.resolve._resolve_subconfig"><code class="docutils literal notranslate"><span class="pre">_resolve_subconfig()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.core.resolve.resolve_config"><code class="docutils literal notranslate"><span class="pre">resolve_config()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-flatiron.core.tools">tools</a><ul>
@@ -1788,87 +1794,6 @@ self.labels as the split index and self.label_axis as the split axis.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase._resolve_field">
-<span class="sig-name descname"><span class="pre">_resolve_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase._resolve_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase._resolve_field" title="Link to this definition"></a></dt>
-<dd><p>Resolve and validate given pipeline config field.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<em>dict</em>) – Pipeline config.</p></li>
-<li><p><strong>field</strong> (<em>str</em>) – Config field name.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Updated pipeline config.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase._resolve_model">
-<span class="sig-name descname"><span class="pre">_resolve_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase._resolve_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase._resolve_model" title="Link to this definition"></a></dt>
-<dd><p>Resolve and validate given model config.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – Model config.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Validated model config.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase._resolve_pipeline">
-<span class="sig-name descname"><span class="pre">_resolve_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase._resolve_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase._resolve_pipeline" title="Link to this definition"></a></dt>
-<dd><p>Resolve and validate given pipeline config.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – Pipeline config.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Validated pipeline config.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase._resolve_subconfig">
-<span class="sig-name descname"><span class="pre">_resolve_subconfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subconfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase._resolve_subconfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase._resolve_subconfig" title="Link to this definition"></a></dt>
-<dd><p>For use in _resolve_field. Resolves and validates given subconfig.
-If class is not custom definition found in config module or
-other module, a standard definition will be resolved from config module.
-class prefix and prepend are used to modify the config name field in
-order to make it a valid class name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>subconfig</strong> (<em>dict</em>) – Subconfig.</p></li>
-<li><p><strong>class_prefix</strong> (<em>str</em>) – Class prefix.</p></li>
-<li><p><strong>prepend</strong> (<em>bool</em>) – Prepend class prefix.</p></li>
-<li><p><strong>config_module</strong> (<em>str</em>) – Module name.</p></li>
-<li><p><strong>other_module</strong> (<em>str</em>) – Module name.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Validated subconfig.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase.build" title="Link to this definition"></a></dt>
 <dd><p>Build machine learning model and assign it to self.model.
@@ -1910,6 +1835,28 @@ Calls <cite>self.model_func</cite> with model params.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#flatiron.core.pipeline.PipelineBase" title="flatiron.core.pipeline.PipelineBase">PipelineBase</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="flatiron.core.pipeline.PipelineBase.generate_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generate_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'torch'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'project-name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/tensorboard/parent/dir'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/mnt/data/dataset'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SGD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CrossEntropyLoss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['MeanMetric']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/pipeline.html#PipelineBase.generate_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.pipeline.PipelineBase.generate_config" title="Link to this definition"></a></dt>
+<dd><p>Prints a generated pipeline config based on given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>framework</strong> (<em>str</em>) – Framework name. Default: torch.</p></li>
+<li><p><strong>project</strong> (<em>str</em>) – Project name. Default: project-name.</p></li>
+<li><p><strong>callback_root</strong> (<em>str</em>) – Callback root path. Default: /tensorboard/parent/dir.</p></li>
+<li><p><strong>dataset</strong> (<em>str</em>) – Dataset path. Default: /mnt/data/dataset.</p></li>
+<li><p><strong>optimizer</strong> (<em>str</em>) – Optimizer name. Default: SGD.</p></li>
+<li><p><strong>loss</strong> (<em>str</em>) – Loss name. Default: CrossEntropyLoss.</p></li>
+<li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Metric names. Default: [‘MeanMetric’].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></span></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2056,6 +2003,152 @@ Calls <cite>unload</cite> on self._train_data and self._test_data.</p>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+</section>
+<section id="module-flatiron.core.resolve">
+<span id="resolve"></span><h2>resolve<a class="headerlink" href="#module-flatiron.core.resolve" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.resolve._generate_config">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.resolve.</span></span><span class="sig-name descname"><span class="pre">_generate_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">framework</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'torch'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">project</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'project-name'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback_root</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/tensorboard/parent/dir'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'/mnt/data/dataset'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'SGD'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">loss</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'CrossEntropyLoss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['MeanMetric']</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/resolve.html#_generate_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.resolve._generate_config" title="Link to this definition"></a></dt>
+<dd><p>Generate a pipeline config based on given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>framework</strong> (<em>str</em>) – Framework name. Default: torch.</p></li>
+<li><p><strong>project</strong> (<em>str</em>) – Project name. Default: project-name.</p></li>
+<li><p><strong>callback_root</strong> (<em>str</em>) – Callback root path. Default: /tensorboard/parent/dir.</p></li>
+<li><p><strong>dataset</strong> (<em>str</em>) – Dataset path. Default: /mnt/data/dataset.</p></li>
+<li><p><strong>optimizer</strong> (<em>str</em>) – Optimizer name. Default: SGD.</p></li>
+<li><p><strong>loss</strong> (<em>str</em>) – Loss name. Default: CrossEntropyLoss.</p></li>
+<li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – Metric names. Default: [‘MeanMetric’].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Generated config.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.resolve._resolve_field">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.resolve.</span></span><span class="sig-name descname"><span class="pre">_resolve_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/resolve.html#_resolve_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.resolve._resolve_field" title="Link to this definition"></a></dt>
+<dd><p>Resolve and validate given pipeline config field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>dict</em>) – Pipeline config.</p></li>
+<li><p><strong>field</strong> (<em>str</em>) – Config field name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updated pipeline config.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.resolve._resolve_model">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.resolve.</span></span><span class="sig-name descname"><span class="pre">_resolve_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/resolve.html#_resolve_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.resolve._resolve_model" title="Link to this definition"></a></dt>
+<dd><p>Resolve and validate given model config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>dict</em>) – Model config.</p></li>
+<li><p><strong>model</strong> (<em>BaseModel</em>) – Model config class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated model config.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.resolve._resolve_pipeline">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.resolve.</span></span><span class="sig-name descname"><span class="pre">_resolve_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/resolve.html#_resolve_pipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.resolve._resolve_pipeline" title="Link to this definition"></a></dt>
+<dd><p>Resolve and validate given pipeline config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – Pipeline config.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated pipeline config.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.resolve._resolve_subconfig">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.resolve.</span></span><span class="sig-name descname"><span class="pre">_resolve_subconfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subconfig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prepend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/resolve.html#_resolve_subconfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.resolve._resolve_subconfig" title="Link to this definition"></a></dt>
+<dd><p>For use in _resolve_field. Resolves and validates given subconfig.
+If class is not custom definition found in config module or
+other module, a standard definition will be resolved from config module.
+class prefix and prepend are used to modify the config name field in
+order to make it a valid class name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subconfig</strong> (<em>dict</em>) – Subconfig.</p></li>
+<li><p><strong>class_prefix</strong> (<em>str</em>) – Class prefix.</p></li>
+<li><p><strong>prepend</strong> (<em>bool</em>) – Prepend class prefix.</p></li>
+<li><p><strong>config_module</strong> (<em>str</em>) – Module name.</p></li>
+<li><p><strong>other_module</strong> (<em>str</em>) – Module name.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated subconfig.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="flatiron.core.resolve.resolve_config">
+<span class="sig-prename descclassname"><span class="pre">flatiron.core.resolve.</span></span><span class="sig-name descname"><span class="pre">resolve_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/core/resolve.html#resolve_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.core.resolve.resolve_config" title="Link to this definition"></a></dt>
+<dd><p>Resolves given Pipeline config.
+Config fields include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>framework</p></li>
+<li><p>model</p></li>
+<li><p>dataset</p></li>
+<li><p>optimizer</p></li>
+<li><p>loss</p></li>
+<li><p>metrics</p></li>
+<li><p>callbacks</p></li>
+<li><p>train</p></li>
+<li><p>logger</p></li>
+</ul>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>dict</em>) – Config dict.</p></li>
+<li><p><strong>model</strong> (<em>BaseModel</em>) – Model config class.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resolved config.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.23.0
+                0.24.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -91,7 +91,7 @@
              
   <h1>Source code for flatiron.core.pipeline</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyModel</span><span class="p">,</span> <span class="n">Compiled</span><span class="p">,</span> <span class="n">Filepath</span><span class="p">,</span> <span class="n">OptStr</span><span class="p">,</span> <span class="n">Getter</span>  <span class="c1"># noqa F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyModel</span><span class="p">,</span> <span class="n">Compiled</span><span class="p">,</span> <span class="n">Filepath</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>  <span class="c1"># noqa F401</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
@@ -101,9 +101,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.config</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cfg</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.logging</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">filog</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.tools</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">fict</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">flatiron.core.resolve</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">res</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
 
 
@@ -146,6 +146,44 @@
         <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="PipelineBase.generate_config">
+<a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.generate_config">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_config</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">framework</span><span class="o">=</span><span class="s1">&#39;torch&#39;</span><span class="p">,</span>
+        <span class="n">project</span><span class="o">=</span><span class="s1">&#39;project-name&#39;</span><span class="p">,</span>
+        <span class="n">callback_root</span><span class="o">=</span><span class="s1">&#39;/tensorboard/parent/dir&#39;</span><span class="p">,</span>
+        <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;/mnt/data/dataset&#39;</span><span class="p">,</span>
+        <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;SGD&#39;</span><span class="p">,</span>
+        <span class="n">loss</span><span class="o">=</span><span class="s1">&#39;CrossEntropyLoss&#39;</span><span class="p">,</span>
+        <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;MeanMetric&#39;</span><span class="p">],</span>
+    <span class="p">):</span>
+        <span class="c1"># type: (str, str, str, str, str, str, list[str]) -&gt; None</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Prints a generated pipeline config based on given parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            framework (str): Framework name. Default: torch.</span>
+<span class="sd">            project (str): Project name. Default: project-name.</span>
+<span class="sd">            callback_root (str): Callback root path. Default: /tensorboard/parent/dir.</span>
+<span class="sd">            dataset (str): Dataset path. Default: /mnt/data/dataset.</span>
+<span class="sd">            optimizer (str): Optimizer name. Default: SGD.</span>
+<span class="sd">            loss (str): Loss name. Default: CrossEntropyLoss.</span>
+<span class="sd">            metrics (list[str]): Metric names. Default: [&#39;MeanMetric&#39;].</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">_generate_config</span><span class="p">(</span>
+            <span class="n">framework</span><span class="o">=</span><span class="n">framework</span><span class="p">,</span>
+            <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+            <span class="n">callback_root</span><span class="o">=</span><span class="n">callback_root</span><span class="p">,</span>
+            <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+            <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+            <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span>
+            <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">config</span><span class="p">))</span></div>
+
     <span class="c1"># --------------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="PipelineBase.__init__">
@@ -158,17 +196,10 @@
 <span class="sd">        Args:</span>
 <span class="sd">            config (dict): PipelineBase config.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_model</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_pipeline</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_field</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;framework&#39;</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_field</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;optimizer&#39;</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_field</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;loss&#39;</span><span class="p">)</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_field</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s1">&#39;metrics&#39;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">resolve_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="p">())</span>
 
         <span class="c1"># create Dataset instance</span>
-        <span class="n">dconf</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
+        <span class="n">dconf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;dataset&#39;</span><span class="p">]</span>
         <span class="n">src</span> <span class="o">=</span> <span class="n">dconf</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
             <span class="n">ext_regex</span><span class="o">=</span><span class="n">dconf</span><span class="p">[</span><span class="s1">&#39;ext_regex&#39;</span><span class="p">],</span>
@@ -185,126 +216,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_train_data</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[Dataset]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_test_data</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[Dataset]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_loaded</span> <span class="o">=</span> <span class="kc">False</span></div>
-
-
-<div class="viewcode-block" id="PipelineBase._resolve_model">
-<a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase._resolve_model">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="c1"># type: (dict) -&gt; dict</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Resolve and validate given model config.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            config (dict): Model config.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: Validated model config.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_config</span><span class="p">()</span> \
-            <span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-            <span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">config</span></div>
-
-
-<div class="viewcode-block" id="PipelineBase._resolve_pipeline">
-<a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase._resolve_pipeline">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_pipeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="c1"># type: (dict) -&gt; dict</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Resolve and validate given pipeline config.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            config (dict): Pipeline config.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: Validated pipeline config.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;model&#39;</span><span class="p">,</span> <span class="p">{})</span>
-        <span class="n">config</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">PipelineConfig</span> \
-            <span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> \
-            <span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-        <span class="n">config</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="k">return</span> <span class="n">config</span></div>
-
-
-<div class="viewcode-block" id="PipelineBase._resolve_field">
-<a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase._resolve_field">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
-        <span class="c1"># type: (dict, str) -&gt; dict</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Resolve and validate given pipeline config field.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            config (dict): Pipeline config.</span>
-<span class="sd">            field (str): Config field name.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: Updated pipeline config.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;framework&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">prefix</span> <span class="o">==</span> <span class="s1">&#39;tensorflow&#39;</span><span class="p">:</span>
-            <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;TF&#39;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
-
-        <span class="n">pkg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;flatiron.</span><span class="si">{</span><span class="n">prefix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="n">lut</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">framework</span><span class="o">=</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">Framework&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.config&#39;</span><span class="p">,</span> <span class="kc">None</span>              <span class="p">),</span>  <span class="c1"># noqa E202</span>
-            <span class="n">optimizer</span><span class="o">=</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">Opt&#39;</span><span class="p">,</span>       <span class="kc">True</span><span class="p">,</span>  <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.config&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.optimizer&#39;</span><span class="p">),</span>  <span class="c1"># noqa E202</span>
-            <span class="n">loss</span>     <span class="o">=</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">Loss&#39;</span><span class="p">,</span>      <span class="kc">True</span><span class="p">,</span>  <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.config&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.loss&#39;</span>     <span class="p">),</span>  <span class="c1"># noqa E202</span>
-            <span class="n">metrics</span>  <span class="o">=</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}</span><span class="s1">Metric&#39;</span><span class="p">,</span>    <span class="kc">True</span><span class="p">,</span>  <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.config&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pkg</span><span class="si">}</span><span class="s1">.metric&#39;</span>   <span class="p">),</span>  <span class="c1"># noqa E202</span>
-        <span class="p">)</span>
-        <span class="n">keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;class_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;prepend&#39;</span><span class="p">,</span> <span class="s1">&#39;config_module&#39;</span><span class="p">,</span> <span class="s1">&#39;other_module&#39;</span><span class="p">]</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">lut</span><span class="p">[</span><span class="n">field</span><span class="p">]))</span>  <span class="c1"># type: Getter</span>
-
-        <span class="n">subconfig</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="n">field</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subconfig</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">config</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_resolve_subconfig</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">subconfig</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">config</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_resolve_subconfig</span><span class="p">(</span><span class="n">subconfig</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">config</span></div>
-
-
-<div class="viewcode-block" id="PipelineBase._resolve_subconfig">
-<a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase._resolve_subconfig">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_resolve_subconfig</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">subconfig</span><span class="p">,</span> <span class="n">class_prefix</span><span class="p">,</span> <span class="n">prepend</span><span class="p">,</span> <span class="n">config_module</span><span class="p">,</span> <span class="n">other_module</span>
-    <span class="p">):</span>
-        <span class="c1"># type: (dict, str, bool, str, OptStr) -&gt; dict</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        For use in _resolve_field. Resolves and validates given subconfig.</span>
-<span class="sd">        If class is not custom definition found in config module or</span>
-<span class="sd">        other module, a standard definition will be resolved from config module.</span>
-<span class="sd">        class prefix and prepend are used to modify the config name field in</span>
-<span class="sd">        order to make it a valid class name.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            subconfig (dict): Subconfig.</span>
-<span class="sd">            class_prefix (str): Class prefix.</span>
-<span class="sd">            prepend (bool): Prepend class prefix.</span>
-<span class="sd">            config_module (str): Module name.</span>
-<span class="sd">            other_module (str): Module name.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: Validated subconfig.</span>
-<span class="sd">        &#39;&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">config_module</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">fict</span><span class="o">.</span><span class="n">is_custom_definition</span><span class="p">(</span><span class="n">subconfig</span><span class="p">,</span> <span class="n">config_module</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">subconfig</span>
-        <span class="k">if</span> <span class="n">other_module</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">fict</span><span class="o">.</span><span class="n">is_custom_definition</span><span class="p">(</span><span class="n">subconfig</span><span class="p">,</span> <span class="n">other_module</span><span class="p">):</span>
-                <span class="k">return</span> <span class="n">subconfig</span>
-
-        <span class="n">name</span> <span class="o">=</span> <span class="n">subconfig</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">subconfig</span><span class="p">)</span>
-        <span class="n">output</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_prefix</span>
-        <span class="k">if</span> <span class="n">prepend</span><span class="p">:</span>
-            <span class="n">output</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="n">name</span>
-
-        <span class="n">output</span> <span class="o">=</span> <span class="n">fict</span><span class="o">.</span><span class="n">resolve_module_config</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">config_module</span><span class="p">)</span>
-        <span class="n">output</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
-        <span class="k">return</span> <span class="n">output</span></div>
 
     <span class="c1"># --------------------------------------------------------------------------</span>
 
