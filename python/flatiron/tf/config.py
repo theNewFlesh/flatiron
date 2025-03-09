@@ -1,7 +1,15 @@
+from typing import Optional
+from typing_extensions import Annotated
 from flatiron.core.types import OptInt, OptFloat, OptStr, OptFloats, OptListFloat
 
 import pydantic as pyd
 # ------------------------------------------------------------------------------
+
+
+_DTYPE_RE = '^(bfloat16|bool|complex128|complex64|double'
+_DTYPE_RE += '|float(16|32|64)|half|int(8|16|32|64)|qint(8|16|32)|quint(8|16)'
+_DTYPE_RE += '|resource|string|uint(8|16|32|64)|variant)$'
+DType = Optional[Annotated[str, pyd.Field(pattern=_DTYPE_RE)]]
 
 
 class TFBaseConfig(pyd.BaseModel):
@@ -30,11 +38,11 @@ class TFFramework(pyd.BaseModel):
             True. Default: True.
     '''
     name: str = 'tensorflow'
-    device: str = 'gpu'
+    device: Annotated[str, pyd.Field(pattern='^(cpu|gpu)$')] = 'gpu'
     loss_weights: OptListFloat = None
     weighted_metrics: OptListFloat = None
     run_eagerly: bool = False
-    steps_per_execution: int = 1
+    steps_per_execution: Annotated[int, pyd.Field(gt=0)] = 1
     jit_compile: bool = False
     auto_scale_loss: bool = True
 
@@ -43,18 +51,18 @@ class TFFramework(pyd.BaseModel):
 class TFOptBaseConfig(TFBaseConfig):
     clipnorm: OptFloat = None
     clipvalue: OptFloat = None
-    ema_momentum: float = 0.99
-    ema_overwrite_frequency: OptInt = None
+    ema_momentum: Annotated[float, pyd.Field(ge=0)] = 0.99
+    ema_overwrite_frequency: Optional[Annotated[int, pyd.Field(ge=0)]] = None
     global_clipnorm: OptFloat = None
-    gradient_accumulation_steps: OptInt = None
-    learning_rate: float = 0.001
+    gradient_accumulation_steps: Optional[Annotated[int, pyd.Field(gt=0)]] = None
+    learning_rate: Optional[Annotated[float, pyd.Field(gt=0)]] = 0.001
     loss_scale_factor: OptFloat = None
     use_ema: bool = False
     # weight_decay: OptFloat = None  # deprecated
 
 
 class TFEpsilon(pyd.BaseModel):
-    epsilon: float = 1e-07
+    epsilon: Annotated[float, pyd.Field(gt=0)] = 1e-07
 
 
 class TFBeta(pyd.BaseModel):
@@ -64,8 +72,10 @@ class TFBeta(pyd.BaseModel):
 
 # LOSS-HELPERS------------------------------------------------------------------
 class TFLossBaseConfig(TFBaseConfig):
-    dtype: OptStr = None
-    reduction: str = 'sum_over_batch_size'
+    dtype: DType = None
+    reduction: Annotated[
+        str, pyd.Field(pattern='^(auto|none|sum|sum_over_batch_size)$')
+    ] = 'sum_over_batch_size'
 
 
 class TFAxis(pyd.BaseModel):
@@ -78,7 +88,7 @@ class TFLogits(pyd.BaseModel):
 
 # METRIC-HELPERS----------------------------------------------------------------
 class TFMetricBaseConfig(TFBaseConfig):
-    dtype: OptStr = None
+    dtype: DType = None
 
 
 class TFThresh(pyd.BaseModel):
@@ -90,15 +100,23 @@ class TFClsId(pyd.BaseModel):
 
 
 class TFNumThresh(pyd.BaseModel):
-    num_thresholds: int = 200
+    num_thresholds: Annotated[int, pyd.Field(gt=1)] = 200
+
+
+class TFNumClasses(pyd.BaseModel):
+    num_classes: Annotated[int, pyd.Field(ge=0)]
+
+
+class TFIgnoreClass(pyd.BaseModel):
+    ignore_class: OptInt = None
 
 
 # OPTIMIZERS--------------------------------------------------------------------
 class TFOptAdafactor(TFOptBaseConfig):
     beta_2_decay: float = -0.8
     clip_threshold: float = 1.0
-    epsilon_1: float = 1e-30
-    epsilon_2: float = 0.001
+    epsilon_1: Annotated[float, pyd.Field(gt=0)] = 1e-30
+    epsilon_2: Annotated[float, pyd.Field(gt=0)] = 0.001
     relative_step: bool = True
 
 
@@ -108,7 +126,7 @@ class TFOptFtrl(TFOptBaseConfig):
     l1_regularization_strength: float = 0.0
     l2_regularization_strength: float = 0.0
     l2_shrinkage_regularization_strength: float = 0.0
-    learning_rate_power: float = -0.5
+    learning_rate_power: Annotated[float, pyd.Field(le=0)] = -0.5
 
 
 class TFOptLion(TFOptBaseConfig, TFBeta):
@@ -116,7 +134,7 @@ class TFOptLion(TFOptBaseConfig, TFBeta):
 
 
 class TFOptSGD(TFOptBaseConfig):
-    momentum: float = 0.0
+    momentum: Annotated[float, pyd.Field(ge=0)] = 0.0
     nesterov: bool = False
 
 
@@ -195,8 +213,8 @@ class TFLossHuber(TFLossBaseConfig):
     delta: float = 1.0
 
 
-class TFLossSparseCategoricalCrossentropy(TFLossBaseConfig, TFLogits):
-    ignore_class: OptInt = None
+class TFLossSparseCategoricalCrossentropy(TFLossBaseConfig, TFLogits, TFIgnoreClass):
+    pass
 
 
 class TFLossTversky(TFLossBaseConfig, TFAxis):
@@ -205,13 +223,14 @@ class TFLossTversky(TFLossBaseConfig, TFAxis):
 
 
 # METRICS-----------------------------------------------------------------------
-class TFMetricAUC(TFMetricBaseConfig, TFNumThresh, TFThresh):
-    curve: str = 'ROC'
-    from_logits: bool = False
+class TFMetricAUC(TFMetricBaseConfig, TFLogits, TFNumThresh, TFThresh):
+    curve: Annotated[str, pyd.Field(pattern='^(ROC|PR)$')] = 'ROC'
     label_weights: OptListFloat = None
     multi_label: bool = False
     num_labels: OptInt = None
-    summation_method: str = 'interpolation'
+    summation_method: Annotated[
+        str, pyd.Field(pattern='^(interpolation|minoring|majoring)$')
+    ] = 'interpolation'
 
 
 class TFMetricAccuracy(TFMetricBaseConfig):
@@ -222,8 +241,7 @@ class TFMetricBinaryAccuracy(TFMetricBaseConfig):
     threshold: float = 0.5
 
 
-class TFMetricBinaryCrossentropy(TFMetricBaseConfig):
-    from_logits: bool = False
+class TFMetricBinaryCrossentropy(TFMetricBaseConfig, TFLogits):
     label_smoothing: int = 0
 
 
@@ -236,8 +254,7 @@ class TFMetricCategoricalAccuracy(TFMetricBaseConfig):
     pass
 
 
-class TFMetricCategoricalCrossentropy(TFMetricBaseConfig, TFAxis):
-    from_logits: bool = False
+class TFMetricCategoricalCrossentropy(TFMetricBaseConfig, TFAxis, TFLogits):
     label_smoothing: int = 0
 
 
@@ -276,9 +293,7 @@ class TFMetricHinge(TFMetricBaseConfig):
     pass
 
 
-class TFMetricIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
+class TFMetricIoU(TFMetricBaseConfig, TFAxis, TFIgnoreClass, TFNumClasses):
     sparse_y_pred: bool = True
     sparse_y_true: bool = True
     target_class_ids: list[int]
@@ -304,9 +319,7 @@ class TFMetricMeanAbsolutePercentageError(TFMetricBaseConfig):
     pass
 
 
-class TFMetricMeanIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
+class TFMetricMeanIoU(TFMetricBaseConfig, TFAxis, TFIgnoreClass, TFNumClasses):
     sparse_y_pred: bool = True
     sparse_y_true: bool = True
 
@@ -323,16 +336,12 @@ class TFMetricMetric(TFMetricBaseConfig):
     pass
 
 
-class TFMetricOneHotIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
+class TFMetricOneHotIoU(TFMetricBaseConfig, TFAxis, TFIgnoreClass, TFNumClasses):
     sparse_y_pred: bool = False
     target_class_ids: list[int]
 
 
-class TFMetricOneHotMeanIoU(TFMetricBaseConfig, TFAxis):
-    ignore_class: OptInt = None
-    num_classes: int
+class TFMetricOneHotMeanIoU(TFMetricBaseConfig, TFAxis, TFIgnoreClass, TFNumClasses):
     sparse_y_pred: bool = False
 
 
@@ -353,8 +362,10 @@ class TFMetricPrecisionAtRecall(TFMetricBaseConfig, TFClsId, TFNumThresh):
 
 
 class TFMetricR2Score(TFMetricBaseConfig):
-    class_aggregation: str = 'uniform_average'
-    num_regressors: int = 0
+    class_aggregation: Optional[Annotated[
+        str, pyd.Field(pattern='^(uniform_average|variance_weighted_average)$')
+    ]] = 'uniform_average'
+    num_regressors: Annotated[int, pyd.Field(ge=0)] = 0
 
 
 class TFMetricRecall(TFMetricBaseConfig, TFClsId, TFThresh):
@@ -377,8 +388,8 @@ class TFMetricSparseCategoricalAccuracy(TFMetricBaseConfig):
     pass
 
 
-class TFMetricSparseCategoricalCrossentropy(TFMetricBaseConfig, TFAxis):
-    from_logits: bool = False
+class TFMetricSparseCategoricalCrossentropy(TFMetricBaseConfig, TFAxis, TFLogits):
+    pass
 
 
 class TFMetricSparseTopKCategoricalAccuracy(TFMetricBaseConfig):
