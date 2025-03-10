@@ -53,6 +53,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#installation-for-developers">Installation for Developers</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#secret-env-setup">Secret Env Setup</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#zsh-setup">ZSH Setup</a></li>
 </ul>
 </li>
@@ -171,6 +172,11 @@
 <p>The service should take a few minutes to start up.</p>
 <p>Run <code class="docutils literal notranslate"><span class="pre">bin/flatiron</span> <span class="pre">--help</span></code> for more help on the command line tool.</p>
 </section>
+<section id="secret-env-setup">
+<h2>Secret Env Setup<a class="headerlink" href="#secret-env-setup" title="Link to this heading"></a></h2>
+<p>The secret-env file is a environment file which holds various secrets used by
+pyproject.toml and CI.</p>
+</section>
 <section id="zsh-setup">
 <h2>ZSH Setup<a class="headerlink" href="#zsh-setup" title="Link to this heading"></a></h2>
 <ol class="arabic">
@@ -225,6 +231,25 @@ tab to cycle through</p></li>
 </tr>
 </tbody>
 </table>
+<p>If you are on Debian-based Linux and you run into C library issues such as with
+OpenEXR, the following may help:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">update</span> <span class="o">&amp;&amp;</span> \
+<span class="n">apt</span> <span class="n">install</span> <span class="o">--</span><span class="n">fix</span><span class="o">-</span><span class="n">missing</span> <span class="o">-</span><span class="n">y</span> <span class="n">python3</span><span class="mf">.10</span><span class="o">-</span><span class="n">dev</span> <span class="o">&amp;&amp;</span> \
+<span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> \
+    <span class="n">build</span><span class="o">-</span><span class="n">essential</span> \
+    <span class="n">g</span><span class="o">++</span> \
+    <span class="n">gcc</span> \
+    <span class="n">zlib1g</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<p>For OpenEXR you will also need this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> \
+    <span class="n">libopenexr</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">openexr</span>
+</pre></div>
+</div>
+<p>Please see the prod.dockerfile for an official example of how to build a docker
+image with flatiron.</p>
 </section>
 <section id="id1">
 <h2>Docker<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
@@ -524,34 +549,37 @@ Commands generally do not expect any arguments or flags.</p>
 <tr class="row-odd"><td><p>test-fast</p></td>
 <td><p>Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator</p></td>
 </tr>
-<tr class="row-even"><td><p>test-lint</p></td>
+<tr class="row-even"><td><p>test-format</p></td>
+<td><p>Format all python files</p></td>
+</tr>
+<tr class="row-odd"><td><p>test-lint</p></td>
 <td><p>Run linting and type checking</p></td>
 </tr>
-<tr class="row-odd"><td><p>test-prod</p></td>
+<tr class="row-even"><td><p>test-prod</p></td>
 <td><p>Run tests across all support python versions</p></td>
 </tr>
-<tr class="row-even"><td><p>version</p></td>
+<tr class="row-odd"><td><p>version</p></td>
 <td><p>Full resolution of repo: dependencies, linting, tests, docs, etc</p></td>
 </tr>
-<tr class="row-odd"><td><p>version-bump-major</p></td>
+<tr class="row-even"><td><p>version-bump-major</p></td>
 <td><p>Bump pyproject major version</p></td>
 </tr>
-<tr class="row-even"><td><p>version-bump-minor</p></td>
+<tr class="row-odd"><td><p>version-bump-minor</p></td>
 <td><p>Bump pyproject minor version</p></td>
 </tr>
-<tr class="row-odd"><td><p>version-bump-patch</p></td>
+<tr class="row-even"><td><p>version-bump-patch</p></td>
 <td><p>Bump pyproject patch version</p></td>
 </tr>
-<tr class="row-even"><td><p>version-commit</p></td>
+<tr class="row-odd"><td><p>version-commit</p></td>
 <td><p>Tag with version and commit changes to master</p></td>
 </tr>
-<tr class="row-odd"><td><p>zsh</p></td>
+<tr class="row-even"><td><p>zsh</p></td>
 <td><p>Run ZSH session inside Docker container</p></td>
 </tr>
-<tr class="row-even"><td><p>zsh-complete</p></td>
+<tr class="row-odd"><td><p>zsh-complete</p></td>
 <td><p>Generate oh-my-zsh completions</p></td>
 </tr>
-<tr class="row-odd"><td><p>zsh-root</p></td>
+<tr class="row-even"><td><p>zsh-root</p></td>
 <td><p>Run ZSH session as root inside Docker container</p></td>
 </tr>
 </tbody>
