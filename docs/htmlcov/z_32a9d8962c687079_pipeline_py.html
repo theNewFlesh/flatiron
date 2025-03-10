@@ -65,7 +65,7 @@
             <a id="nextFileLink" class="nav" href="z_32a9d8962c687079_resolve_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.12">coverage.py v7.6.12</a>,
-            created at 2025-03-09 04:23 +0000
+            created at 2025-03-10 16:02 +0000
         </p>
         <aside class="hidden">
             <button type="button" class="button_next_chunk" data-shortcut="j"></button>
@@ -81,7 +81,7 @@
 </header>
 <main id="source">
     <p class="run"><span class="n"><a id="t1" href="#t1">1</a></span><span class="t"><span class="key">from</span> <span class="nam">typing</span> <span class="key">import</span> <span class="nam">Any</span><span class="op">,</span> <span class="nam">Optional</span><span class="op">,</span> <span class="nam">Type</span>  <span class="com"># noqa F401</span>&nbsp;</span><span class="r"></span></p>
-    <p class="run"><span class="n"><a id="t2" href="#t2">2</a></span><span class="t"><span class="key">from</span> <span class="nam">flatiron</span><span class="op">.</span><span class="nam">core</span><span class="op">.</span><span class="nam">types</span> <span class="key">import</span> <span class="nam">AnyModel</span><span class="op">,</span> <span class="nam">Compiled</span><span class="op">,</span> <span class="nam">Filepath</span>  <span class="com"># noqa F401</span>&nbsp;</span><span class="r"></span></p>
+    <p class="run"><span class="n"><a id="t2" href="#t2">2</a></span><span class="t"><span class="key">from</span> <span class="nam">flatiron</span><span class="op">.</span><span class="nam">core</span><span class="op">.</span><span class="nam">types</span> <span class="key">import</span> <span class="nam">Compiled</span><span class="op">,</span> <span class="nam">Filepath</span>  <span class="com"># noqa F401</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t3" href="#t3">3</a></span><span class="t"><span class="key">from</span> <span class="nam">pydantic</span> <span class="key">import</span> <span class="nam">BaseModel</span>  <span class="com"># noqa F401</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t4" href="#t4">4</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t5" href="#t5">5</a></span><span class="t"><span class="key">from</span> <span class="nam">abc</span> <span class="key">import</span> <span class="nam">ABC</span><span class="op">,</span> <span class="nam">abstractmethod</span>&nbsp;</span><span class="r"></span></p>
@@ -439,13 +439,13 @@
     <p class="pln"><span class="n"><a id="t357" href="#t357">357</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t358" href="#t358">358</a></span><span class="t">    <span class="op">@</span><span class="nam">abstractmethod</span>&nbsp;</span><span class="r"></span></p>
     <p class="run"><span class="n"><a id="t359" href="#t359">359</a></span><span class="t">    <span class="key">def</span> <span class="nam">model_func</span><span class="op">(</span><span class="nam">self</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t360" href="#t360">360</a></span><span class="t">        <span class="com"># type: () -> AnyModel</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t360" href="#t360">360</a></span><span class="t">        <span class="com"># type: () -> Any</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t361" href="#t361">361</a></span><span class="t">        <span class="str">'''</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t362" href="#t362">362</a></span><span class="t"><span class="str">        Subclasses of PipelineBase need to define a function that builds and</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t363" href="#t363">363</a></span><span class="t"><span class="str">        returns a machine learning model.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t364" href="#t364">364</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t365" href="#t365">365</a></span><span class="t"><span class="str">        Returns:</span>&nbsp;</span><span class="r"></span></p>
-    <p class="pln"><span class="n"><a id="t366" href="#t366">366</a></span><span class="t"><span class="str">            AnyModel: Machine learning model.</span>&nbsp;</span><span class="r"></span></p>
+    <p class="pln"><span class="n"><a id="t366" href="#t366">366</a></span><span class="t"><span class="str">            object: Machine learning model.</span>&nbsp;</span><span class="r"></span></p>
     <p class="pln"><span class="n"><a id="t367" href="#t367">367</a></span><span class="t"><span class="str">        '''</span>&nbsp;</span><span class="r"></span></p>
     <p class="exc show_exc"><span class="n"><a id="t368" href="#t368">368</a></span><span class="t">        <span class="key">pass</span>  <span class="com"># pragma: no cover</span>&nbsp;</span><span class="r"></span></p>
 </main>
@@ -457,7 +457,7 @@
             <a class="nav" href="z_32a9d8962c687079_resolve_py.html">&#xbb; next</a>
             &nbsp; &nbsp; &nbsp;
             <a class="nav" href="https://coverage.readthedocs.io/en/7.6.12">coverage.py v7.6.12</a>,
-            created at 2025-03-09 04:23 +0000
+            created at 2025-03-10 16:02 +0000
         </p>
     </div>
 </footer>

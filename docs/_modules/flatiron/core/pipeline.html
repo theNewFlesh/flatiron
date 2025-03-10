@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.24.0
+                0.25.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -91,7 +91,7 @@
              
   <h1>Source code for flatiron.core.pipeline</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>  <span class="c1"># noqa F401</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnyModel</span><span class="p">,</span> <span class="n">Compiled</span><span class="p">,</span> <span class="n">Filepath</span>  <span class="c1"># noqa F401</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Compiled</span><span class="p">,</span> <span class="n">Filepath</span>  <span class="c1"># noqa F401</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>  <span class="c1"># noqa F401</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
@@ -492,13 +492,13 @@
 <a class="viewcode-back" href="../../../core.html#flatiron.core.pipeline.PipelineBase.model_func">[docs]</a>
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># type: () -&gt; AnyModel</span>
+        <span class="c1"># type: () -&gt; Any</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">        Subclasses of PipelineBase need to define a function that builds and</span>
 <span class="sd">        returns a machine learning model.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            AnyModel: Machine learning model.</span>
+<span class="sd">            object: Machine learning model.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">pass</span>  <span class="c1"># pragma: no cover</span></div>
 </div>

@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.24.0
+                0.25.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -90,10 +90,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for flatiron.tf.config</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptFloat</span><span class="p">,</span> <span class="n">OptStr</span><span class="p">,</span> <span class="n">OptFloats</span><span class="p">,</span> <span class="n">OptListFloat</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptFloat</span><span class="p">,</span> <span class="n">OptStr</span><span class="p">,</span> <span class="n">OptFloats</span><span class="p">,</span> <span class="n">OptListFloat</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyd</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="n">_DTYPE_RE</span> <span class="o">=</span> <span class="s1">&#39;^(bfloat16|bool|complex128|complex64|double&#39;</span>
+<span class="n">_DTYPE_RE</span> <span class="o">+=</span> <span class="s1">&#39;|float(16|32|64)|half|int(8|16|32|64)|qint(8|16|32)|quint(8|16)&#39;</span>
+<span class="n">_DTYPE_RE</span> <span class="o">+=</span> <span class="s1">&#39;|resource|string|uint(8|16|32|64)|variant)$&#39;</span>
+<span class="n">DType</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="n">_DTYPE_RE</span><span class="p">)]]</span>
 
 
 <div class="viewcode-block" id="TFBaseConfig">
@@ -127,11 +135,11 @@
 <span class="sd">            True. Default: True.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;tensorflow&#39;</span>
-    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;gpu&#39;</span>
+    <span class="n">device</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(cpu|gpu)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;gpu&#39;</span>
     <span class="n">loss_weights</span><span class="p">:</span> <span class="n">OptListFloat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">weighted_metrics</span><span class="p">:</span> <span class="n">OptListFloat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">run_eagerly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">steps_per_execution</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">steps_per_execution</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">jit_compile</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">auto_scale_loss</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
 
@@ -143,11 +151,11 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">TFOptBaseConfig</span><span class="p">(</span><span class="n">TFBaseConfig</span><span class="p">):</span>
     <span class="n">clipnorm</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">clipvalue</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">ema_momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span>
-    <span class="n">ema_overwrite_frequency</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">ema_momentum</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.99</span>
+    <span class="n">ema_overwrite_frequency</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">global_clipnorm</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">gradient_accumulation_steps</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="n">gradient_accumulation_steps</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">learning_rate</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]]</span> <span class="o">=</span> <span class="mf">0.001</span>
     <span class="n">loss_scale_factor</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">use_ema</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
@@ -157,7 +165,7 @@
 <div class="viewcode-block" id="TFEpsilon">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFEpsilon">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TFEpsilon</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-07</span></div>
+    <span class="n">epsilon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1e-07</span></div>
 
 
 
@@ -173,8 +181,10 @@
 <div class="viewcode-block" id="TFLossBaseConfig">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFLossBaseConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TFLossBaseConfig</span><span class="p">(</span><span class="n">TFBaseConfig</span><span class="p">):</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sum_over_batch_size&#39;</span></div>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(auto|none|sum|sum_over_batch_size)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sum_over_batch_size&#39;</span></div>
 
 
 
@@ -196,7 +206,7 @@
 <div class="viewcode-block" id="TFMetricBaseConfig">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricBaseConfig">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TFMetricBaseConfig</span><span class="p">(</span><span class="n">TFBaseConfig</span><span class="p">):</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="kc">None</span></div>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">DType</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
@@ -217,7 +227,21 @@
 <div class="viewcode-block" id="TFNumThresh">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFNumThresh">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TFNumThresh</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">num_thresholds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span></div>
+    <span class="n">num_thresholds</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">200</span></div>
+
+
+
+<div class="viewcode-block" id="TFNumClasses">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFNumClasses">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFNumClasses</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">num_classes</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span></div>
+
+
+
+<div class="viewcode-block" id="TFIgnoreClass">
+<a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFIgnoreClass">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFIgnoreClass</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
 
@@ -227,8 +251,8 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">TFOptAdafactor</span><span class="p">(</span><span class="n">TFOptBaseConfig</span><span class="p">):</span>
     <span class="n">beta_2_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.8</span>
     <span class="n">clip_threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">epsilon_1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-30</span>
-    <span class="n">epsilon_2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.001</span>
+    <span class="n">epsilon_1</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">1e-30</span>
+    <span class="n">epsilon_2</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.001</span>
     <span class="n">relative_step</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
 
 
@@ -241,7 +265,7 @@
     <span class="n">l1_regularization_strength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">l2_regularization_strength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">l2_shrinkage_regularization_strength</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">learning_rate_power</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span></div>
+    <span class="n">learning_rate_power</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">le</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span></div>
 
 
 
@@ -255,7 +279,7 @@
 <div class="viewcode-block" id="TFOptSGD">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFOptSGD">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TFOptSGD</span><span class="p">(</span><span class="n">TFOptBaseConfig</span><span class="p">):</span>
-    <span class="n">momentum</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">momentum</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">nesterov</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
@@ -385,8 +409,8 @@
 
 <div class="viewcode-block" id="TFLossSparseCategoricalCrossentropy">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFLossSparseCategoricalCrossentropy">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFLossSparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">TFLossBaseConfig</span><span class="p">,</span> <span class="n">TFLogits</span><span class="p">):</span>
-    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFLossSparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">TFLossBaseConfig</span><span class="p">,</span> <span class="n">TFLogits</span><span class="p">,</span> <span class="n">TFIgnoreClass</span><span class="p">):</span>
+    <span class="k">pass</span></div>
 
 
 
@@ -401,13 +425,14 @@
 <span class="c1"># METRICS-----------------------------------------------------------------------</span>
 <div class="viewcode-block" id="TFMetricAUC">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricAUC">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricAUC</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFNumThresh</span><span class="p">,</span> <span class="n">TFThresh</span><span class="p">):</span>
-    <span class="n">curve</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;ROC&#39;</span>
-    <span class="n">from_logits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricAUC</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFLogits</span><span class="p">,</span> <span class="n">TFNumThresh</span><span class="p">,</span> <span class="n">TFThresh</span><span class="p">):</span>
+    <span class="n">curve</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(ROC|PR)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;ROC&#39;</span>
     <span class="n">label_weights</span><span class="p">:</span> <span class="n">OptListFloat</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">multi_label</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">num_labels</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">summation_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;interpolation&#39;</span></div>
+    <span class="n">summation_method</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(interpolation|minoring|majoring)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;interpolation&#39;</span></div>
 
 
 
@@ -427,8 +452,7 @@
 
 <div class="viewcode-block" id="TFMetricBinaryCrossentropy">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricBinaryCrossentropy</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">):</span>
-    <span class="n">from_logits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricBinaryCrossentropy</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFLogits</span><span class="p">):</span>
     <span class="n">label_smoothing</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 
@@ -450,8 +474,7 @@
 
 <div class="viewcode-block" id="TFMetricCategoricalCrossentropy">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricCategoricalCrossentropy</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
-    <span class="n">from_logits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricCategoricalCrossentropy</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">,</span> <span class="n">TFLogits</span><span class="p">):</span>
     <span class="n">label_smoothing</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 
@@ -517,9 +540,7 @@
 
 <div class="viewcode-block" id="TFMetricIoU">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricIoU">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
-    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">,</span> <span class="n">TFIgnoreClass</span><span class="p">,</span> <span class="n">TFNumClasses</span><span class="p">):</span>
     <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">sparse_y_true</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">target_class_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
@@ -563,9 +584,7 @@
 
 <div class="viewcode-block" id="TFMetricMeanIoU">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricMeanIoU">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricMeanIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
-    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricMeanIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">,</span> <span class="n">TFIgnoreClass</span><span class="p">,</span> <span class="n">TFNumClasses</span><span class="p">):</span>
     <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">sparse_y_true</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span></div>
 
@@ -594,9 +613,7 @@
 
 <div class="viewcode-block" id="TFMetricOneHotIoU">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricOneHotIoU">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricOneHotIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
-    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricOneHotIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">,</span> <span class="n">TFIgnoreClass</span><span class="p">,</span> <span class="n">TFNumClasses</span><span class="p">):</span>
     <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">target_class_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span></div>
 
@@ -604,9 +621,7 @@
 
 <div class="viewcode-block" id="TFMetricOneHotMeanIoU">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricOneHotMeanIoU">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricOneHotMeanIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
-    <span class="n">ignore_class</span><span class="p">:</span> <span class="n">OptInt</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricOneHotMeanIoU</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">,</span> <span class="n">TFIgnoreClass</span><span class="p">,</span> <span class="n">TFNumClasses</span><span class="p">):</span>
     <span class="n">sparse_y_pred</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
 
 
@@ -642,8 +657,10 @@
 <div class="viewcode-block" id="TFMetricR2Score">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricR2Score">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TFMetricR2Score</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">):</span>
-    <span class="n">class_aggregation</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span>
-    <span class="n">num_regressors</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
+    <span class="n">class_aggregation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(uniform_average|variance_weighted_average)$&#39;</span><span class="p">)</span>
+    <span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span>
+    <span class="n">num_regressors</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span></div>
 
 
 
@@ -684,8 +701,8 @@
 
 <div class="viewcode-block" id="TFMetricSparseCategoricalCrossentropy">
 <a class="viewcode-back" href="../../../tf.html#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricSparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">):</span>
-    <span class="n">from_logits</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span></div>
+<span class="k">class</span><span class="w"> </span><span class="nc">TFMetricSparseCategoricalCrossentropy</span><span class="p">(</span><span class="n">TFMetricBaseConfig</span><span class="p">,</span> <span class="n">TFAxis</span><span class="p">,</span> <span class="n">TFLogits</span><span class="p">):</span>
+    <span class="k">pass</span></div>
 
 
 

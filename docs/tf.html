@@ -39,7 +39,7 @@
             flatiron
           </a>
               <div class="version">
-                0.24.0
+                0.25.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -116,6 +116,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">TFFramework.weighted_metrics</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass"><code class="docutils literal notranslate"><span class="pre">TFIgnoreClass</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFIgnoreClass._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass.ignore_class"><code class="docutils literal notranslate"><span class="pre">TFIgnoreClass.ignore_class</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass.model_config"><code class="docutils literal notranslate"><span class="pre">TFIgnoreClass.model_config</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFLogits"><code class="docutils literal notranslate"><span class="pre">TFLogits</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFLogits._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFLogits._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFLogits.from_logits"><code class="docutils literal notranslate"><span class="pre">TFLogits.from_logits</span></code></a></li>
@@ -184,7 +190,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy"><code class="docutils literal notranslate"><span class="pre">TFLossSparseCategoricalCrossentropy</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFLossSparseCategoricalCrossentropy._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy.ignore_class"><code class="docutils literal notranslate"><span class="pre">TFLossSparseCategoricalCrossentropy.ignore_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy.model_config"><code class="docutils literal notranslate"><span class="pre">TFLossSparseCategoricalCrossentropy.model_config</span></code></a></li>
 </ul>
 </li>
@@ -198,7 +203,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC.curve"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC.curve</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC.from_logits"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC.from_logits</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC.label_weights"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC.label_weights</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC.model_config</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricAUC.multi_label"><code class="docutils literal notranslate"><span class="pre">TFMetricAUC.multi_label</span></code></a></li>
@@ -225,7 +229,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricBinaryCrossentropy"><code class="docutils literal notranslate"><span class="pre">TFMetricBinaryCrossentropy</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricBinaryCrossentropy._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricBinaryCrossentropy._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricBinaryCrossentropy.from_logits"><code class="docutils literal notranslate"><span class="pre">TFMetricBinaryCrossentropy.from_logits</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricBinaryCrossentropy.label_smoothing"><code class="docutils literal notranslate"><span class="pre">TFMetricBinaryCrossentropy.label_smoothing</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricBinaryCrossentropy.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricBinaryCrossentropy.model_config</span></code></a></li>
 </ul>
@@ -244,7 +247,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy"><code class="docutils literal notranslate"><span class="pre">TFMetricCategoricalCrossentropy</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricCategoricalCrossentropy._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy.from_logits"><code class="docutils literal notranslate"><span class="pre">TFMetricCategoricalCrossentropy.from_logits</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy.label_smoothing"><code class="docutils literal notranslate"><span class="pre">TFMetricCategoricalCrossentropy.label_smoothing</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricCategoricalCrossentropy.model_config</span></code></a></li>
 </ul>
@@ -296,9 +298,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU.ignore_class"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU.ignore_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU.num_classes"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU.num_classes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU.sparse_y_pred"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU.sparse_y_pred</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU.sparse_y_true"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU.sparse_y_true</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricIoU.target_class_ids"><code class="docutils literal notranslate"><span class="pre">TFMetricIoU.target_class_ids</span></code></a></li>
@@ -331,9 +331,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU.ignore_class"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU.ignore_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU.num_classes"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU.num_classes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU.sparse_y_pred"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU.sparse_y_pred</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricMeanIoU.sparse_y_true"><code class="docutils literal notranslate"><span class="pre">TFMetricMeanIoU.sparse_y_true</span></code></a></li>
 </ul>
@@ -355,18 +353,14 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU.ignore_class"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU.ignore_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU.num_classes"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU.num_classes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU.sparse_y_pred"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU.sparse_y_pred</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotIoU.target_class_ids"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotIoU.target_class_ids</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotMeanIoU"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotMeanIoU</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotMeanIoU._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotMeanIoU._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.ignore_class"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotMeanIoU.ignore_class</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotMeanIoU.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.num_classes"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotMeanIoU.num_classes</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.sparse_y_pred"><code class="docutils literal notranslate"><span class="pre">TFMetricOneHotMeanIoU.sparse_y_pred</span></code></a></li>
 </ul>
 </li>
@@ -429,7 +423,6 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy"><code class="docutils literal notranslate"><span class="pre">TFMetricSparseCategoricalCrossentropy</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricSparseCategoricalCrossentropy._abc_impl</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.from_logits"><code class="docutils literal notranslate"><span class="pre">TFMetricSparseCategoricalCrossentropy.from_logits</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricSparseCategoricalCrossentropy.model_config</span></code></a></li>
 </ul>
 </li>
@@ -470,6 +463,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFMetricTruePositives"><code class="docutils literal notranslate"><span class="pre">TFMetricTruePositives</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricTruePositives._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFMetricTruePositives._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFMetricTruePositives.model_config"><code class="docutils literal notranslate"><span class="pre">TFMetricTruePositives.model_config</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFNumClasses"><code class="docutils literal notranslate"><span class="pre">TFNumClasses</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFNumClasses._abc_impl"><code class="docutils literal notranslate"><span class="pre">TFNumClasses._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFNumClasses.model_config"><code class="docutils literal notranslate"><span class="pre">TFNumClasses.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.tf.config.TFNumClasses.num_classes"><code class="docutils literal notranslate"><span class="pre">TFNumClasses.num_classes</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.tf.config.TFNumThresh"><code class="docutils literal notranslate"><span class="pre">TFNumThresh</span></code></a><ul>
@@ -753,7 +752,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFEpsilon.epsilon">
-<span class="sig-name descname"><span class="pre">epsilon</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFEpsilon.epsilon" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">epsilon</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFEpsilon.epsilon" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -874,7 +873,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -905,13 +904,35 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">steps_per_execution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">steps_per_execution</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id7">
 <span class="sig-name descname"><span class="pre">weighted_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
 <dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFIgnoreClass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFIgnoreClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFIgnoreClass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFIgnoreClass" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFIgnoreClass._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFIgnoreClass._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFIgnoreClass.ignore_class">
+<span class="sig-name descname"><span class="pre">ignore_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFIgnoreClass.ignore_class" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFIgnoreClass.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.config.TFIgnoreClass.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -948,7 +969,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFLossBaseConfig.dtype">
-<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFLossBaseConfig.dtype" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.tf.config.TFLossBaseConfig.dtype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -959,7 +980,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFLossBaseConfig.reduction">
-<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFLossBaseConfig.reduction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFLossBaseConfig.reduction" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1168,15 +1189,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFLossSparseCategoricalCrossentropy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFLossSparseCategoricalCrossentropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFLossSparseCategoricalCrossentropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFLossBaseConfig" title="flatiron.tf.config.TFLossBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLossBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFLogits" title="flatiron.tf.config.TFLogits"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLogits</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFLossBaseConfig" title="flatiron.tf.config.TFLossBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLossBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFLogits" title="flatiron.tf.config.TFLogits"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLogits</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass" title="flatiron.tf.config.TFIgnoreClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFIgnoreClass</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFLossSparseCategoricalCrossentropy._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFLossSparseCategoricalCrossentropy.ignore_class">
-<span class="sig-name descname"><span class="pre">ignore_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFLossSparseCategoricalCrossentropy.ignore_class" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1217,7 +1233,7 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricAUC">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricAUC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricAUC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFNumThresh" title="flatiron.tf.config.TFNumThresh"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFNumThresh</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFThresh" title="flatiron.tf.config.TFThresh"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFThresh</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFLogits" title="flatiron.tf.config.TFLogits"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLogits</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFNumThresh" title="flatiron.tf.config.TFNumThresh"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFNumThresh</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFThresh" title="flatiron.tf.config.TFThresh"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFThresh</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricAUC._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC._abc_impl" title="Link to this definition"></a></dt>
@@ -1225,12 +1241,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricAUC.curve">
-<span class="sig-name descname"><span class="pre">curve</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC.curve" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricAUC.from_logits">
-<span class="sig-name descname"><span class="pre">from_logits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC.from_logits" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">curve</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC.curve" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1256,7 +1267,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricAUC.summation_method">
-<span class="sig-name descname"><span class="pre">summation_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC.summation_method" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">summation_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricAUC.summation_method" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1289,7 +1300,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricBaseConfig.dtype">
-<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricBaseConfig.dtype" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">dtype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricBaseConfig.dtype" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1325,15 +1336,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricBinaryCrossentropy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricBinaryCrossentropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricBinaryCrossentropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricBinaryCrossentropy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFLogits" title="flatiron.tf.config.TFLogits"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLogits</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricBinaryCrossentropy._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricBinaryCrossentropy._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricBinaryCrossentropy.from_logits">
-<span class="sig-name descname"><span class="pre">from_logits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricBinaryCrossentropy.from_logits" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1396,15 +1402,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricCategoricalCrossentropy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricCategoricalCrossentropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricCategoricalCrossentropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFLogits" title="flatiron.tf.config.TFLogits"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLogits</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricCategoricalCrossentropy._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricCategoricalCrossentropy.from_logits">
-<span class="sig-name descname"><span class="pre">from_logits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricCategoricalCrossentropy.from_logits" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1584,15 +1585,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricIoU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricIoU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricIoU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricIoU" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass" title="flatiron.tf.config.TFIgnoreClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFIgnoreClass</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFNumClasses" title="flatiron.tf.config.TFNumClasses"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFNumClasses</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricIoU._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricIoU._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricIoU.ignore_class">
-<span class="sig-name descname"><span class="pre">ignore_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricIoU.ignore_class" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1600,11 +1596,6 @@ True. Default: True.</p>
 <span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricIoU.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricIoU.num_classes">
-<span class="sig-name descname"><span class="pre">num_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricIoU.num_classes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricIoU.sparse_y_pred">
@@ -1711,15 +1702,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricMeanIoU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricMeanIoU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricMeanIoU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricMeanIoU" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass" title="flatiron.tf.config.TFIgnoreClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFIgnoreClass</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFNumClasses" title="flatiron.tf.config.TFNumClasses"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFNumClasses</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricMeanIoU._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricMeanIoU._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricMeanIoU.ignore_class">
-<span class="sig-name descname"><span class="pre">ignore_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricMeanIoU.ignore_class" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1727,11 +1713,6 @@ True. Default: True.</p>
 <span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricMeanIoU.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricMeanIoU.num_classes">
-<span class="sig-name descname"><span class="pre">num_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricMeanIoU.num_classes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricMeanIoU.sparse_y_pred">
@@ -1799,15 +1780,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotIoU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricOneHotIoU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricOneHotIoU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotIoU" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass" title="flatiron.tf.config.TFIgnoreClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFIgnoreClass</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFNumClasses" title="flatiron.tf.config.TFNumClasses"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFNumClasses</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotIoU._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotIoU._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotIoU.ignore_class">
-<span class="sig-name descname"><span class="pre">ignore_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotIoU.ignore_class" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1815,11 +1791,6 @@ True. Default: True.</p>
 <span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotIoU.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotIoU.num_classes">
-<span class="sig-name descname"><span class="pre">num_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotIoU.num_classes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotIoU.sparse_y_pred">
@@ -1836,15 +1807,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotMeanIoU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricOneHotMeanIoU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricOneHotMeanIoU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotMeanIoU" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFIgnoreClass" title="flatiron.tf.config.TFIgnoreClass"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFIgnoreClass</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFNumClasses" title="flatiron.tf.config.TFNumClasses"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFNumClasses</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotMeanIoU._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotMeanIoU._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotMeanIoU.ignore_class">
-<span class="sig-name descname"><span class="pre">ignore_class</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.ignore_class" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1852,11 +1818,6 @@ True. Default: True.</p>
 <span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.model_config" title="Link to this definition"></a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotMeanIoU.num_classes">
-<span class="sig-name descname"><span class="pre">num_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricOneHotMeanIoU.num_classes" title="Link to this definition"></a></dt>
-<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricOneHotMeanIoU.sparse_y_pred">
@@ -1954,7 +1915,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricR2Score.class_aggregation">
-<span class="sig-name descname"><span class="pre">class_aggregation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricR2Score.class_aggregation" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">class_aggregation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricR2Score.class_aggregation" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1965,7 +1926,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricR2Score.num_regressors">
-<span class="sig-name descname"><span class="pre">num_regressors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricR2Score.num_regressors" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">num_regressors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricR2Score.num_regressors" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2073,15 +2034,10 @@ True. Default: True.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricSparseCategoricalCrossentropy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFMetricSparseCategoricalCrossentropy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFMetricSparseCategoricalCrossentropy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.tf.config.TFMetricBaseConfig" title="flatiron.tf.config.TFMetricBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFMetricBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFAxis" title="flatiron.tf.config.TFAxis"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFAxis</span></code></a>, <a class="reference internal" href="#flatiron.tf.config.TFLogits" title="flatiron.tf.config.TFLogits"><code class="xref py py-class docutils literal notranslate"><span class="pre">TFLogits</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFMetricSparseCategoricalCrossentropy._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy._abc_impl" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.from_logits">
-<span class="sig-name descname"><span class="pre">from_logits</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.from_logits" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2232,6 +2188,28 @@ True. Default: True.</p>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFNumClasses">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFNumClasses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFNumClasses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFNumClasses" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFNumClasses._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.tf.config.TFNumClasses._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFNumClasses.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.tf.config.TFNumClasses.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.tf.config.TFNumClasses.num_classes">
+<span class="sig-name descname"><span class="pre">num_classes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFNumClasses.num_classes" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFNumThresh">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.tf.config.</span></span><span class="sig-name descname"><span class="pre">TFNumThresh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/tf/config.html#TFNumThresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.tf.config.TFNumThresh" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
@@ -2248,7 +2226,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFNumThresh.num_thresholds">
-<span class="sig-name descname"><span class="pre">num_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFNumThresh.num_thresholds" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">num_thresholds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFNumThresh.num_thresholds" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2296,12 +2274,12 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptAdafactor.epsilon_1">
-<span class="sig-name descname"><span class="pre">epsilon_1</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFOptAdafactor.epsilon_1" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">epsilon_1</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptAdafactor.epsilon_1" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptAdafactor.epsilon_2">
-<span class="sig-name descname"><span class="pre">epsilon_2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFOptAdafactor.epsilon_2" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">epsilon_2</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptAdafactor.epsilon_2" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2426,12 +2404,12 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptBaseConfig.ema_momentum">
-<span class="sig-name descname"><span class="pre">ema_momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.ema_momentum" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ema_momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.ema_momentum" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptBaseConfig.ema_overwrite_frequency">
-<span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.ema_overwrite_frequency" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">ema_overwrite_frequency</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.ema_overwrite_frequency" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2441,12 +2419,12 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptBaseConfig.gradient_accumulation_steps">
-<span class="sig-name descname"><span class="pre">gradient_accumulation_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.gradient_accumulation_steps" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">gradient_accumulation_steps</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.gradient_accumulation_steps" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptBaseConfig.learning_rate">
-<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.learning_rate" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">learning_rate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptBaseConfig.learning_rate" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2503,7 +2481,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptFtrl.learning_rate_power">
-<span class="sig-name descname"><span class="pre">learning_rate_power</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFOptFtrl.learning_rate_power" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">learning_rate_power</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptFtrl.learning_rate_power" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2614,7 +2592,7 @@ True. Default: True.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.tf.config.TFOptSGD.momentum">
-<span class="sig-name descname"><span class="pre">momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></em><a class="headerlink" href="#flatiron.tf.config.TFOptSGD.momentum" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">momentum</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.tf.config.TFOptSGD.momentum" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

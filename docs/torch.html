@@ -38,7 +38,7 @@
             flatiron
           </a>
               <div class="version">
-                0.24.0
+                0.25.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -162,6 +162,12 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TNan._abc_impl"><code class="docutils literal notranslate"><span class="pre">TNan._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TNan.model_config"><code class="docutils literal notranslate"><span class="pre">TNan.model_config</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TNan.nan_strategy"><code class="docutils literal notranslate"><span class="pre">TNan.nan_strategy</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#flatiron.torch.config.TNanStrategy"><code class="docutils literal notranslate"><span class="pre">TNanStrategy</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TNanStrategy._abc_impl"><code class="docutils literal notranslate"><span class="pre">TNanStrategy._abc_impl</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TNanStrategy.model_config"><code class="docutils literal notranslate"><span class="pre">TNanStrategy.model_config</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TNanStrategy.nan_strategy"><code class="docutils literal notranslate"><span class="pre">TNanStrategy.nan_strategy</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#flatiron.torch.config.TOut"><code class="docutils literal notranslate"><span class="pre">TOut</span></code></a><ul>
@@ -526,7 +532,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient._abc_impl"><code class="docutils literal notranslate"><span class="pre">TorchMetricPearsonsContingencyCoefficient._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.model_config"><code class="docutils literal notranslate"><span class="pre">TorchMetricPearsonsContingencyCoefficient.model_config</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_replace_value"><code class="docutils literal notranslate"><span class="pre">TorchMetricPearsonsContingencyCoefficient.nan_replace_value</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_strategy"><code class="docutils literal notranslate"><span class="pre">TorchMetricPearsonsContingencyCoefficient.nan_strategy</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.num_classes"><code class="docutils literal notranslate"><span class="pre">TorchMetricPearsonsContingencyCoefficient.num_classes</span></code></a></li>
 </ul>
 </li>
@@ -705,7 +710,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTheilsU._abc_impl"><code class="docutils literal notranslate"><span class="pre">TorchMetricTheilsU._abc_impl</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTheilsU.model_config"><code class="docutils literal notranslate"><span class="pre">TorchMetricTheilsU.model_config</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTheilsU.nan_replace_value"><code class="docutils literal notranslate"><span class="pre">TorchMetricTheilsU.nan_replace_value</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTheilsU.nan_strategy"><code class="docutils literal notranslate"><span class="pre">TorchMetricTheilsU.nan_strategy</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTheilsU.num_classes"><code class="docutils literal notranslate"><span class="pre">TorchMetricTheilsU.num_classes</span></code></a></li>
 </ul>
 </li>
@@ -730,7 +734,6 @@
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTschuprowsT.bias_correction"><code class="docutils literal notranslate"><span class="pre">TorchMetricTschuprowsT.bias_correction</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTschuprowsT.model_config"><code class="docutils literal notranslate"><span class="pre">TorchMetricTschuprowsT.model_config</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTschuprowsT.nan_replace_value"><code class="docutils literal notranslate"><span class="pre">TorchMetricTschuprowsT.nan_replace_value</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTschuprowsT.nan_strategy"><code class="docutils literal notranslate"><span class="pre">TorchMetricTschuprowsT.nan_strategy</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#flatiron.torch.config.TorchMetricTschuprowsT.num_classes"><code class="docutils literal notranslate"><span class="pre">TorchMetricTschuprowsT.num_classes</span></code></a></li>
 </ul>
 </li>
@@ -938,7 +941,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TAct.empty_target_action">
-<span class="sig-name descname"><span class="pre">empty_target_action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TAct.empty_target_action" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">empty_target_action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TAct.empty_target_action" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1220,7 +1223,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TMReduct.reduction">
-<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TMReduct.reduction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TMReduct.reduction" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1286,7 +1289,29 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TNan.nan_strategy">
-<span class="sig-name descname"><span class="pre">nan_strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TNan.nan_strategy" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">nan_strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">,</span> <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.torch.config.TNan.nan_strategy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="flatiron.torch.config.TNanStrategy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.torch.config.</span></span><span class="sig-name descname"><span class="pre">TNanStrategy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/torch/config.html#TNanStrategy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.torch.config.TNanStrategy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.torch.config.TNanStrategy._abc_impl">
+<span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.torch.config.TNanStrategy._abc_impl" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.torch.config.TNanStrategy.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar[ConfigDict]</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#flatiron.torch.config.TNanStrategy.model_config" title="Link to this definition"></a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="flatiron.torch.config.TNanStrategy.nan_strategy">
+<span class="sig-name descname"><span class="pre">nan_strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TNanStrategy.nan_strategy" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1352,7 +1377,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TReduct.reduction">
-<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TReduct.reduction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TReduct.reduction" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1457,7 +1482,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">device</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2062,7 +2087,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricCosineSimilarity.reduction">
-<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricCosineSimilarity.reduction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricCosineSimilarity.reduction" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2070,7 +2095,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricCramersV">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.torch.config.</span></span><span class="sig-name descname"><span class="pre">TorchMetricCramersV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/torch/config.html#TorchMetricCramersV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.torch.config.TorchMetricCramersV" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TCls" title="flatiron.torch.config.TCls"><code class="xref py py-class docutils literal notranslate"><span class="pre">TCls</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TNan" title="flatiron.torch.config.TNan"><code class="xref py py-class docutils literal notranslate"><span class="pre">TNan</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TCls" title="flatiron.torch.config.TCls"><code class="xref py py-class docutils literal notranslate"><span class="pre">TCls</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TNanStrategy" title="flatiron.torch.config.TNanStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TNanStrategy</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricCramersV._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricCramersV._abc_impl" title="Link to this definition"></a></dt>
@@ -2132,12 +2157,12 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricDice.average">
-<span class="sig-name descname"><span class="pre">average</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricDice.average" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">average</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricDice.average" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricDice.mdmc_average">
-<span class="sig-name descname"><span class="pre">mdmc_average</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricDice.mdmc_average" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mdmc_average</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricDice.mdmc_average" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2202,7 +2227,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricExplainedVariance.multioutput">
-<span class="sig-name descname"><span class="pre">multioutput</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricExplainedVariance.multioutput" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">multioutput</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricExplainedVariance.multioutput" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2233,7 +2258,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricExtendedEditDistance.language">
-<span class="sig-name descname"><span class="pre">language</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricExtendedEditDistance.language" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">language</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricExtendedEditDistance.language" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2265,7 +2290,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricFleissKappa.mode">
-<span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricFleissKappa.mode" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricFleissKappa.mode" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2298,7 +2323,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricKLDivergence.reduction">
-<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricKLDivergence.reduction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricKLDivergence.reduction" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2314,7 +2339,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricKendallRankCorrCoef.alternative">
-<span class="sig-name descname"><span class="pre">alternative</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricKendallRankCorrCoef.alternative" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">alternative</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricKendallRankCorrCoef.alternative" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2330,7 +2355,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricKendallRankCorrCoef.variant">
-<span class="sig-name descname"><span class="pre">variant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricKendallRankCorrCoef.variant" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">variant</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricKendallRankCorrCoef.variant" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2538,7 +2563,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.normalize">
-<span class="sig-name descname"><span class="pre">normalize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.normalize" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">normalize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricMultiScaleStructuralSimilarityIndexMeasure.normalize" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2565,7 +2590,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError.normalization">
-<span class="sig-name descname"><span class="pre">normalization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError.normalization" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">normalization</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError.normalization" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2649,7 +2674,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.torch.config.</span></span><span class="sig-name descname"><span class="pre">TorchMetricPearsonsContingencyCoefficient</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/torch/config.html#TorchMetricPearsonsContingencyCoefficient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TNanStrategy" title="flatiron.torch.config.TNanStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TNanStrategy</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient._abc_impl" title="Link to this definition"></a></dt>
@@ -2664,11 +2689,6 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_replace_value">
 <span class="sig-name descname"><span class="pre">nan_replace_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_replace_value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_strategy">
-<span class="sig-name descname"><span class="pre">nan_strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_strategy" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2689,12 +2709,12 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricPermutationInvariantTraining.eval_func">
-<span class="sig-name descname"><span class="pre">eval_func</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPermutationInvariantTraining.eval_func" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">eval_func</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPermutationInvariantTraining.eval_func" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricPermutationInvariantTraining.mode">
-<span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPermutationInvariantTraining.mode" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricPermutationInvariantTraining.mode" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2744,7 +2764,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricR2Score.multioutput">
-<span class="sig-name descname"><span class="pre">multioutput</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricR2Score.multioutput" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">multioutput</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricR2Score.multioutput" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2804,7 +2824,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricRetrievalFallOut.empty_target_action">
-<span class="sig-name descname"><span class="pre">empty_target_action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricRetrievalFallOut.empty_target_action" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">empty_target_action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricRetrievalFallOut.empty_target_action" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -3096,7 +3116,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricSacreBLEUScore.tokenize">
-<span class="sig-name descname"><span class="pre">tokenize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricSacreBLEUScore.tokenize" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">tokenize</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricSacreBLEUScore.tokenize" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -3320,7 +3340,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTheilsU">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.torch.config.</span></span><span class="sig-name descname"><span class="pre">TorchMetricTheilsU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/torch/config.html#TorchMetricTheilsU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.torch.config.TorchMetricTheilsU" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TNanStrategy" title="flatiron.torch.config.TNanStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TNanStrategy</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTheilsU._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTheilsU._abc_impl" title="Link to this definition"></a></dt>
@@ -3335,11 +3355,6 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTheilsU.nan_replace_value">
 <span class="sig-name descname"><span class="pre">nan_replace_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTheilsU.nan_replace_value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTheilsU.nan_strategy">
-<span class="sig-name descname"><span class="pre">nan_strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTheilsU.nan_strategy" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -3366,7 +3381,7 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTotalVariation.reduction">
-<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTotalVariation.reduction" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">reduction</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotated</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTotalVariation.reduction" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -3416,7 +3431,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTschuprowsT">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">flatiron.torch.config.</span></span><span class="sig-name descname"><span class="pre">TorchMetricTschuprowsT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/flatiron/torch/config.html#TorchMetricTschuprowsT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flatiron.torch.config.TorchMetricTschuprowsT" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#flatiron.torch.config.TorchBaseConfig" title="flatiron.torch.config.TorchBaseConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">TorchBaseConfig</span></code></a>, <a class="reference internal" href="#flatiron.torch.config.TNanStrategy" title="flatiron.torch.config.TNanStrategy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TNanStrategy</span></code></a></p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTschuprowsT._abc_impl">
 <span class="sig-name descname"><span class="pre">_abc_impl</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;_abc._abc_data</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTschuprowsT._abc_impl" title="Link to this definition"></a></dt>
@@ -3436,11 +3451,6 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTschuprowsT.nan_replace_value">
 <span class="sig-name descname"><span class="pre">nan_replace_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code><span class="pre">[</span><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code><span class="pre">]</span></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTschuprowsT.nan_replace_value" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="flatiron.torch.config.TorchMetricTschuprowsT.nan_strategy">
-<span class="sig-name descname"><span class="pre">nan_strategy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></em><a class="headerlink" href="#flatiron.torch.config.TorchMetricTschuprowsT.nan_strategy" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

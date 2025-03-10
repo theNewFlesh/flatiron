@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.24.0
+                0.25.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -170,6 +170,8 @@
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFFramework._abc_impl">(flatiron.tf.config.TFFramework attribute)</a>
 </li>
+        <li><a href="tf.html#flatiron.tf.config.TFIgnoreClass._abc_impl">(flatiron.tf.config.TFIgnoreClass attribute)</a>
+</li>
         <li><a href="tf.html#flatiron.tf.config.TFLogits._abc_impl">(flatiron.tf.config.TFLogits attribute)</a>
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig._abc_impl">(flatiron.tf.config.TFLossBaseConfig attribute)</a>
@@ -286,6 +288,8 @@
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFMetricTruePositives._abc_impl">(flatiron.tf.config.TFMetricTruePositives attribute)</a>
 </li>
+        <li><a href="tf.html#flatiron.tf.config.TFNumClasses._abc_impl">(flatiron.tf.config.TFNumClasses attribute)</a>
+</li>
         <li><a href="tf.html#flatiron.tf.config.TFNumThresh._abc_impl">(flatiron.tf.config.TFNumThresh attribute)</a>
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta._abc_impl">(flatiron.tf.config.TFOptAdadelta attribute)</a>
@@ -357,6 +361,8 @@
         <li><a href="torch.html#flatiron.torch.config.TMReduct._abc_impl">(flatiron.torch.config.TMReduct attribute)</a>
 </li>
         <li><a href="torch.html#flatiron.torch.config.TNan._abc_impl">(flatiron.torch.config.TNan attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TNanStrategy._abc_impl">(flatiron.torch.config.TNanStrategy attribute)</a>
 </li>
         <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig._abc_impl">(flatiron.torch.config.TorchBaseConfig attribute)</a>
 </li>
@@ -1100,6 +1106,8 @@
         <li><a href="tf.html#module-flatiron.tf.optimizer">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     flatiron.tf.tools
 
@@ -1107,8 +1115,6 @@
         <li><a href="tf.html#module-flatiron.tf.tools">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     flatiron.torch.config
 
@@ -1175,17 +1181,7 @@
       <li><a href="core.html#flatiron.core.config.FrameworkConfig">FrameworkConfig (class in flatiron.core.config)</a>
 </li>
       <li><a href="tf.html#flatiron.tf.config.TFLogits.from_logits">from_logits (flatiron.tf.config.TFLogits attribute)</a>
-
-      <ul>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricAUC.from_logits">(flatiron.tf.config.TFMetricAUC attribute)</a>
 </li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricBinaryCrossentropy.from_logits">(flatiron.tf.config.TFMetricBinaryCrossentropy attribute)</a>
-</li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricCategoricalCrossentropy.from_logits">(flatiron.tf.config.TFMetricCategoricalCrossentropy attribute)</a>
-</li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricSparseCategoricalCrossentropy.from_logits">(flatiron.tf.config.TFMetricSparseCategoricalCrossentropy attribute)</a>
-</li>
-      </ul></li>
       <li><a href="tf.html#flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy.from_sorted_ids">from_sorted_ids (flatiron.tf.config.TFMetricSparseTopKCategoricalAccuracy attribute)</a>
 </li>
       <li><a href="core.html#flatiron.core.pipeline.PipelineBase.from_string">from_string() (flatiron.core.pipeline.PipelineBase class method)</a>
@@ -1306,18 +1302,8 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="tf.html#flatiron.tf.config.TFLossSparseCategoricalCrossentropy.ignore_class">ignore_class (flatiron.tf.config.TFLossSparseCategoricalCrossentropy attribute)</a>
-
-      <ul>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricIoU.ignore_class">(flatiron.tf.config.TFMetricIoU attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFIgnoreClass.ignore_class">ignore_class (flatiron.tf.config.TFIgnoreClass attribute)</a>
 </li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanIoU.ignore_class">(flatiron.tf.config.TFMetricMeanIoU attribute)</a>
-</li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricOneHotIoU.ignore_class">(flatiron.tf.config.TFMetricOneHotIoU attribute)</a>
-</li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricOneHotMeanIoU.ignore_class">(flatiron.tf.config.TFMetricOneHotMeanIoU attribute)</a>
-</li>
-      </ul></li>
       <li><a href="torch.html#flatiron.torch.config.TInd.ignore_index">ignore_index (flatiron.torch.config.TInd attribute)</a>
 
       <ul>
@@ -1346,8 +1332,6 @@
 </li>
       <li><a href="core.html#flatiron.core.config.CallbacksConfig.initial_value_threshold">initial_value_threshold (flatiron.core.config.CallbacksConfig attribute)</a>, <a href="core.html#id0">[1]</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.input_channels">input_channels (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id11">[1]</a>
 
       <ul>
@@ -1356,6 +1340,8 @@
         <li><a href="torch_models.html#flatiron.torch.models.unet.UNetConfig.input_channels">(flatiron.torch.models.unet.UNetConfig attribute)</a>, <a href="torch_models.html#id11">[1]</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tf_models.html#flatiron.tf.models.unet.UNetConfig.input_height">input_height (flatiron.tf.models.unet.UNetConfig attribute)</a>, <a href="tf_models.html#id12">[1]</a>
 
       <ul>
@@ -1617,6 +1603,8 @@
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFFramework.model_config">(flatiron.tf.config.TFFramework attribute)</a>
 </li>
+        <li><a href="tf.html#flatiron.tf.config.TFIgnoreClass.model_config">(flatiron.tf.config.TFIgnoreClass attribute)</a>
+</li>
         <li><a href="tf.html#flatiron.tf.config.TFLogits.model_config">(flatiron.tf.config.TFLogits attribute)</a>
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig.model_config">(flatiron.tf.config.TFLossBaseConfig attribute)</a>
@@ -1733,6 +1721,8 @@
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFMetricTruePositives.model_config">(flatiron.tf.config.TFMetricTruePositives attribute)</a>
 </li>
+        <li><a href="tf.html#flatiron.tf.config.TFNumClasses.model_config">(flatiron.tf.config.TFNumClasses attribute)</a>
+</li>
         <li><a href="tf.html#flatiron.tf.config.TFNumThresh.model_config">(flatiron.tf.config.TFNumThresh attribute)</a>
 </li>
         <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta.model_config">(flatiron.tf.config.TFOptAdadelta attribute)</a>
@@ -1800,6 +1790,8 @@
         <li><a href="torch.html#flatiron.torch.config.TMReduct.model_config">(flatiron.torch.config.TMReduct attribute)</a>
 </li>
         <li><a href="torch.html#flatiron.torch.config.TNan.model_config">(flatiron.torch.config.TNan attribute)</a>
+</li>
+        <li><a href="torch.html#flatiron.torch.config.TNanStrategy.model_config">(flatiron.torch.config.TNanStrategy attribute)</a>
 </li>
         <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig.model_config">(flatiron.torch.config.TorchBaseConfig attribute)</a>
 </li>
@@ -2168,11 +2160,7 @@
       <li><a href="torch.html#flatiron.torch.config.TNan.nan_strategy">nan_strategy (flatiron.torch.config.TNan attribute)</a>
 
       <ul>
-        <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.nan_strategy">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
-</li>
-        <li><a href="torch.html#flatiron.torch.config.TorchMetricTheilsU.nan_strategy">(flatiron.torch.config.TorchMetricTheilsU attribute)</a>
-</li>
-        <li><a href="torch.html#flatiron.torch.config.TorchMetricTschuprowsT.nan_strategy">(flatiron.torch.config.TorchMetricTschuprowsT attribute)</a>
+        <li><a href="torch.html#flatiron.torch.config.TNanStrategy.nan_strategy">(flatiron.torch.config.TNanStrategy attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -2199,15 +2187,9 @@
         <li><a href="torch.html#flatiron.torch.config.TorchMetricTranslationEditRate.normalize">(flatiron.torch.config.TorchMetricTranslationEditRate attribute)</a>
 </li>
       </ul></li>
-      <li><a href="tf.html#flatiron.tf.config.TFMetricIoU.num_classes">num_classes (flatiron.tf.config.TFMetricIoU attribute)</a>
+      <li><a href="tf.html#flatiron.tf.config.TFNumClasses.num_classes">num_classes (flatiron.tf.config.TFNumClasses attribute)</a>
 
       <ul>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricMeanIoU.num_classes">(flatiron.tf.config.TFMetricMeanIoU attribute)</a>
-</li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricOneHotIoU.num_classes">(flatiron.tf.config.TFMetricOneHotIoU attribute)</a>
-</li>
-        <li><a href="tf.html#flatiron.tf.config.TFMetricOneHotMeanIoU.num_classes">(flatiron.tf.config.TFMetricOneHotMeanIoU attribute)</a>
-</li>
         <li><a href="torch.html#flatiron.torch.config.TCls.num_classes">(flatiron.torch.config.TCls attribute)</a>
 </li>
         <li><a href="torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient.num_classes">(flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient attribute)</a>
@@ -2541,6 +2523,8 @@
 </li>
       <li><a href="tf.html#flatiron.tf.config.TFFramework">TFFramework (class in flatiron.tf.config)</a>
 </li>
+      <li><a href="tf.html#flatiron.tf.config.TFIgnoreClass">TFIgnoreClass (class in flatiron.tf.config)</a>
+</li>
       <li><a href="tf.html#flatiron.tf.config.TFLogits">TFLogits (class in flatiron.tf.config)</a>
 </li>
       <li><a href="tf.html#flatiron.tf.config.TFLossBaseConfig">TFLossBaseConfig (class in flatiron.tf.config)</a>
@@ -2657,6 +2641,8 @@
 </li>
       <li><a href="tf.html#flatiron.tf.config.TFMetricTruePositives">TFMetricTruePositives (class in flatiron.tf.config)</a>
 </li>
+      <li><a href="tf.html#flatiron.tf.config.TFNumClasses">TFNumClasses (class in flatiron.tf.config)</a>
+</li>
       <li><a href="tf.html#flatiron.tf.config.TFNumThresh">TFNumThresh (class in flatiron.tf.config)</a>
 </li>
       <li><a href="tf.html#flatiron.tf.config.TFOptAdadelta">TFOptAdadelta (class in flatiron.tf.config)</a>
@@ -2729,12 +2715,16 @@
 </li>
       <li><a href="torch.html#flatiron.torch.config.TNan">TNan (class in flatiron.torch.config)</a>
 </li>
+      <li><a href="torch.html#flatiron.torch.config.TNanStrategy">TNanStrategy (class in flatiron.torch.config)</a>
+</li>
       <li><a href="torch.html#flatiron.torch.config.TorchMetricSacreBLEUScore.tokenize">tokenize (flatiron.torch.config.TorchMetricSacreBLEUScore attribute)</a>
 </li>
       <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.tolerance_change">tolerance_change (flatiron.torch.config.TorchOptLBFGS attribute)</a>
 </li>
       <li><a href="torch.html#flatiron.torch.config.TorchOptLBFGS.tolerance_grad">tolerance_grad (flatiron.torch.config.TorchOptLBFGS attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="tf.html#flatiron.tf.config.TFMetricPrecision.top_k">top_k (flatiron.tf.config.TFMetricPrecision attribute)</a>
 
       <ul>
@@ -2743,8 +2733,6 @@
         <li><a href="torch.html#flatiron.torch.config.TTopK.top_k">(flatiron.torch.config.TTopK attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="torch.html#flatiron.torch.config.TorchBaseConfig">TorchBaseConfig (class in flatiron.torch.config)</a>
 </li>
       <li><a href="torch.html#flatiron.torch.tools.TorchDataset">TorchDataset (class in flatiron.torch.tools)</a>

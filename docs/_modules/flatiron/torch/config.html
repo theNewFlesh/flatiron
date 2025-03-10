@@ -35,7 +35,7 @@
             flatiron
           </a>
               <div class="version">
-                0.24.0
+                0.25.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
@@ -90,12 +90,18 @@
            <div itemprop="articleBody">
              
   <h1>Source code for flatiron.torch.config</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Annotated</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">OptBool</span><span class="p">,</span> <span class="n">Ints</span><span class="p">,</span> <span class="n">OptInt</span><span class="p">,</span> <span class="n">OptInts</span><span class="p">,</span> <span class="n">OptStr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">flatiron.core.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Floats</span><span class="p">,</span> <span class="n">OptFloat</span><span class="p">,</span> <span class="n">OptListFloat</span><span class="p">,</span> <span class="n">OptPairFloat</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyd</span>
 <span class="c1"># ------------------------------------------------------------------------------</span>
+
+<span class="n">_DEVICE_RE</span> <span class="o">=</span> <span class="s1">&#39;^(cpu|cuda|ipu|xpu|mkldnn|opengl|opencl|ideep|hip|ve|fpga|maia&#39;</span>
+<span class="n">_DEVICE_RE</span> <span class="o">+=</span> <span class="s1">&#39;|xla|lazy|vulkan|mps|meta|hpu|mtia|privateuseone)$&#39;</span>
+<span class="n">_TOKENIZE_RE</span> <span class="o">=</span> <span class="s1">&#39;^(none|13a|zh|intl|char|ja-mecab|ko-mecab|flores101|flores200)$&#39;</span>
+<span class="n">ReductionType</span> <span class="o">=</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(mean|sum|none)$&#39;</span><span class="p">)]</span>
 
 
 <span class="c1"># BASE--------------------------------------------------------------------------</span>
@@ -118,7 +124,7 @@
 <span class="sd">        device (str, optional): Hardware device. Default: &#39;cuda&#39;.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;torch&#39;</span>
-    <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span></div>
+    <span class="n">device</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="n">_DEVICE_RE</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;cuda&#39;</span></div>
 
 
 
@@ -191,7 +197,7 @@
 <div class="viewcode-block" id="TReduct">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TReduct">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TReduct</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">ReductionType</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
 
 
 
@@ -241,14 +247,18 @@
 <div class="viewcode-block" id="TNan">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TNan">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TNan</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">nan_strategy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;warn&#39;</span>  <span class="c1"># has multiple signatures</span></div>
+    <span class="n">nan_strategy</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span>
+        <span class="nb">float</span><span class="p">,</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(error|warn|ignore|disable)$&#39;</span><span class="p">)]</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;warn&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="TAct">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TAct">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TAct</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">empty_target_action</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;neg&#39;</span>  <span class="c1"># has multiple signatures</span></div>
+    <span class="n">empty_target_action</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(error|skip|neg|pos)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;neg&#39;</span></div>
 
 
 
@@ -262,7 +272,9 @@
 <div class="viewcode-block" id="TMReduct">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TMReduct">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TMReduct</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;elementwise_mean&#39;</span>  <span class="c1"># has multiple signatures</span></div>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(elementwise_mean|sum|none)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;elementwise_mean&#39;</span></div>
 
 
 
@@ -284,6 +296,13 @@
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TDate">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TDate</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
     <span class="n">data_range</span><span class="p">:</span> <span class="n">OptPairFloat</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<div class="viewcode-block" id="TNanStrategy">
+<a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TNanStrategy">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TNanStrategy</span><span class="p">(</span><span class="n">pyd</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">nan_strategy</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(replace|drop)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span></div>
 
 
 
@@ -603,13 +622,13 @@
 <div class="viewcode-block" id="TorchMetricCosineSimilarity">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCosineSimilarity">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCosineSimilarity</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span></div>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">ReductionType</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="TorchMetricCramersV">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricCramersV">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCramersV</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TCls</span><span class="p">,</span> <span class="n">TNan</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricCramersV</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TCls</span><span class="p">,</span> <span class="n">TNanStrategy</span><span class="p">):</span>
     <span class="n">bias_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span></div>
 
@@ -626,8 +645,12 @@
 <div class="viewcode-block" id="TorchMetricDice">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricDice">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricDice</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TCls</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
-    <span class="n">average</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;micro&#39;</span>
-    <span class="n">mdmc_average</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;global&#39;</span>
+    <span class="n">average</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(micro|macro|weighted|samples|none)$&#39;</span><span class="p">)</span>
+    <span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;micro&#39;</span>
+    <span class="n">mdmc_average</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(samplewise|global)$&#39;</span><span class="p">)</span>
+    <span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;global&#39;</span>
     <span class="n">multiclass</span><span class="p">:</span> <span class="n">OptBool</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">threshold</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
     <span class="n">zero_division</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></div>
@@ -644,7 +667,9 @@
 <div class="viewcode-block" id="TorchMetricExplainedVariance">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricExplainedVariance">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricExplainedVariance</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
-    <span class="n">multioutput</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span></div>
+    <span class="n">multioutput</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(raw_values|uniform_average|variance_weighted)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span></div>
 
 
 
@@ -654,7 +679,7 @@
     <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">2.0</span>
     <span class="n">deletion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span>
     <span class="n">insertion</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+    <span class="n">language</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(en|ja)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
     <span class="n">return_sentence_level_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">rho</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.3</span></div>
 
@@ -663,7 +688,7 @@
 <div class="viewcode-block" id="TorchMetricFleissKappa">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricFleissKappa">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricFleissKappa</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;counts&#39;</span></div>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(counts|probs)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;counts&#39;</span></div>
 
 
 
@@ -671,16 +696,18 @@
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricKLDivergence">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricKLDivergence</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
     <span class="n">log_prob</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">ReductionType</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
 
 
 
 <div class="viewcode-block" id="TorchMetricKendallRankCorrCoef">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricKendallRankCorrCoef">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricKendallRankCorrCoef</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
-    <span class="n">alternative</span><span class="p">:</span> <span class="n">OptStr</span> <span class="o">=</span> <span class="s1">&#39;two-sided&#39;</span>
+    <span class="n">alternative</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(two-sided|less|greater)$&#39;</span><span class="p">)</span>
+    <span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;two-sided&#39;</span>
     <span class="n">t_test</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">variant</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span></div>
+    <span class="n">variant</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(a|b|c)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;b&#39;</span></div>
 
 
 
@@ -750,7 +777,9 @@
     <span class="n">k1</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.01</span>
     <span class="n">k2</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.03</span>
     <span class="n">kernel_size</span><span class="p">:</span> <span class="n">Ints</span> <span class="o">=</span> <span class="mi">11</span>
-    <span class="n">normalize</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span>
+    <span class="n">normalize</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(relu|simple)$&#39;</span><span class="p">)</span>
+    <span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;relu&#39;</span>
     <span class="n">sigma</span><span class="p">:</span> <span class="n">Floats</span> <span class="o">=</span> <span class="mf">1.5</span></div>
 
 
@@ -758,7 +787,9 @@
 <div class="viewcode-block" id="TorchMetricNormalizedRootMeanSquaredError">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricNormalizedRootMeanSquaredError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricNormalizedRootMeanSquaredError</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TOut</span><span class="p">):</span>
-    <span class="n">normalization</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
+    <span class="n">normalization</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(mean|range|std|l2)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span></div>
 
 
 
@@ -788,9 +819,8 @@
 
 <div class="viewcode-block" id="TorchMetricPearsonsContingencyCoefficient">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPearsonsContingencyCoefficient">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPearsonsContingencyCoefficient</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPearsonsContingencyCoefficient</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNanStrategy</span><span class="p">):</span>
     <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">nan_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span>
     <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span></div>
 
 
@@ -798,8 +828,10 @@
 <div class="viewcode-block" id="TorchMetricPermutationInvariantTraining">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricPermutationInvariantTraining">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricPermutationInvariantTraining</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
-    <span class="n">eval_func</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;speaker-wise&#39;</span></div>
+    <span class="n">eval_func</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(max|min)$&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;max&#39;</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(speaker-wise|permutation-wise)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;speaker-wise&#39;</span></div>
 
 
 
@@ -814,7 +846,9 @@
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricR2Score">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricR2Score</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
     <span class="n">adjusted</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">multioutput</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span></div>
+    <span class="n">multioutput</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(raw_values|uniform_average|variance_weighted)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;uniform_average&#39;</span></div>
 
 
 
@@ -835,7 +869,9 @@
 <div class="viewcode-block" id="TorchMetricRetrievalFallOut">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricRetrievalFallOut">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricRetrievalFallOut</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TInd</span><span class="p">,</span> <span class="n">TTopK</span><span class="p">):</span>
-    <span class="n">empty_target_action</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;pos&#39;</span></div>
+    <span class="n">empty_target_action</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="s1">&#39;^(error|skip|neg|pos)$&#39;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;pos&#39;</span></div>
 
 
 
@@ -932,7 +968,7 @@
     <span class="n">lowercase</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">n_gram</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
     <span class="n">smooth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">tokenize</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;13a&#39;</span>
+    <span class="n">tokenize</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">pyd</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">pattern</span><span class="o">=</span><span class="n">_TOKENIZE_RE</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;13a&#39;</span>
     <span class="n">weights</span><span class="p">:</span> <span class="n">OptListFloat</span> <span class="o">=</span> <span class="kc">None</span></div>
 
 
@@ -1005,9 +1041,8 @@
 
 <div class="viewcode-block" id="TorchMetricTheilsU">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTheilsU">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTheilsU</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTheilsU</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNanStrategy</span><span class="p">):</span>
     <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">nan_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span>
     <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span></div>
 
 
@@ -1015,7 +1050,7 @@
 <div class="viewcode-block" id="TorchMetricTotalVariation">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTotalVariation">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTotalVariation</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
-    <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span></div>
+    <span class="n">reduction</span><span class="p">:</span> <span class="n">ReductionType</span> <span class="o">=</span> <span class="s1">&#39;sum&#39;</span></div>
 
 
 
@@ -1032,10 +1067,9 @@
 
 <div class="viewcode-block" id="TorchMetricTschuprowsT">
 <a class="viewcode-back" href="../../../torch.html#flatiron.torch.config.TorchMetricTschuprowsT">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTschuprowsT</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TorchMetricTschuprowsT</span><span class="p">(</span><span class="n">TorchBaseConfig</span><span class="p">,</span> <span class="n">TNanStrategy</span><span class="p">):</span>
     <span class="n">bias_correction</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">nan_replace_value</span><span class="p">:</span> <span class="n">OptFloat</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">nan_strategy</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;replace&#39;</span>
     <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span></div>
 
 
