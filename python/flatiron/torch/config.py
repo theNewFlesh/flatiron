@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional, Union
 from typing_extensions import Annotated
 from flatiron.core.types import OptBool, Ints, OptInt, OptInts, OptStr
 from flatiron.core.types import Floats, OptFloat, OptListFloat, OptPairFloat
@@ -8,6 +8,8 @@ import pydantic as pyd
 
 _DEVICE_RE = '^(cpu|cuda|ipu|xpu|mkldnn|opengl|opencl|ideep|hip|ve|fpga|maia'
 _DEVICE_RE += '|xla|lazy|vulkan|mps|meta|hpu|mtia|privateuseone)$'
+_TOKENIZE_RE = '^(none|13a|zh|intl|char|ja-mecab|ko-mecab|flores101|flores200)$'
+ReductionType = Annotated[str, pyd.Field(pattern='^(mean|sum|none)$')]
 
 
 # BASE--------------------------------------------------------------------------
@@ -68,7 +70,7 @@ class TGroup1(TCap, TDecay, TDiff, TEps, TFor, TMax):
 
 # LOSS-HELPERS------------------------------------------------------------------
 class TReduct(pyd.BaseModel):
-    reduction: str = 'mean'
+    reduction: ReductionType = 'mean'
 
 
 class TRed(pyd.BaseModel):
@@ -97,11 +99,15 @@ class TInd(pyd.BaseModel):
 
 
 class TNan(pyd.BaseModel):
-    nan_strategy: Union[str, float] = 'warn'  # has multiple signatures
+    nan_strategy: Union[
+        float, Annotated[str, pyd.Field(pattern='^(error|warn|ignore|disable)$')]
+    ] = 'warn'
 
 
 class TAct(pyd.BaseModel):
-    empty_target_action: str = 'neg'  # has multiple signatures
+    empty_target_action: Annotated[
+        str, pyd.Field(pattern='^(error|skip|neg|pos)$')
+    ] = 'neg'
 
 
 class TOut(pyd.BaseModel):
@@ -109,7 +115,9 @@ class TOut(pyd.BaseModel):
 
 
 class TMReduct(pyd.BaseModel):
-    reduction: OptStr = 'elementwise_mean'  # has multiple signatures
+    reduction: Annotated[
+        str, pyd.Field(pattern='^(elementwise_mean|sum|none)$')
+    ] = 'elementwise_mean'
 
 
 class TTopK(pyd.BaseModel):
@@ -122,6 +130,10 @@ class TCls(pyd.BaseModel):
 
 class TDate(pyd.BaseModel):
     data_range: OptPairFloat = None
+
+
+class TNanStrategy(pyd.BaseModel):
+    nan_strategy: Annotated[str, pyd.Field(pattern='^(replace|drop)$')] = 'replace'
 
 
 # OPTIMIZER---------------------------------------------------------------------
@@ -318,10 +330,10 @@ class TorchMetricConcordanceCorrCoef(TorchBaseConfig, TOut):
 
 
 class TorchMetricCosineSimilarity(TorchBaseConfig):
-    reduction: str = 'sum'
+    reduction: ReductionType = 'sum'
 
 
-class TorchMetricCramersV(TorchBaseConfig, TCls, TNan):
+class TorchMetricCramersV(TorchBaseConfig, TCls, TNanStrategy):
     bias_correction: bool = True
     nan_replace_value: OptFloat = 0.0
 
@@ -332,8 +344,12 @@ class TorchMetricCriticalSuccessIndex(TorchBaseConfig):
 
 
 class TorchMetricDice(TorchBaseConfig, TCls, TInd, TTopK):
-    average: OptStr = 'micro'
-    mdmc_average: OptStr = 'global'
+    average: Optional[Annotated[
+        str, pyd.Field(pattern='^(micro|macro|weighted|samples|none)$')
+    ]] = 'micro'
+    mdmc_average: Optional[Annotated[
+        str, pyd.Field(pattern='^(samplewise|global)$')
+    ]] = 'global'
     multiclass: OptBool = None
     threshold: float = 0.5
     zero_division: int = 0
@@ -344,31 +360,35 @@ class TorchMetricErrorRelativeGlobalDimensionlessSynthesis(TorchBaseConfig, TMRe
 
 
 class TorchMetricExplainedVariance(TorchBaseConfig):
-    multioutput: str = 'uniform_average'
+    multioutput: Annotated[
+        str, pyd.Field(pattern='^(raw_values|uniform_average|variance_weighted)$')
+    ] = 'uniform_average'
 
 
 class TorchMetricExtendedEditDistance(TorchBaseConfig):
     alpha: float = 2.0
     deletion: float = 0.2
     insertion: float = 1.0
-    language: str = 'en'
+    language: Annotated[str, pyd.Field(pattern='^(en|ja)$')] = 'en'
     return_sentence_level_score: bool = False
     rho: float = 0.3
 
 
 class TorchMetricFleissKappa(TorchBaseConfig):
-    mode: str = 'counts'
+    mode: Annotated[str, pyd.Field(pattern='^(counts|probs)$')] = 'counts'
 
 
 class TorchMetricKLDivergence(TorchBaseConfig):
     log_prob: bool = False
-    reduction: str = 'mean'
+    reduction: ReductionType = 'mean'
 
 
 class TorchMetricKendallRankCorrCoef(TorchBaseConfig, TOut):
-    alternative: OptStr = 'two-sided'
+    alternative: Optional[Annotated[
+        str, pyd.Field(pattern='^(two-sided|less|greater)$')
+    ]] = 'two-sided'
     t_test: bool = False
-    variant: str = 'b'
+    variant: Annotated[str, pyd.Field(pattern='^(a|b|c)$')] = 'b'
 
 
 class TorchMetricLogCoshError(TorchBaseConfig, TOut):
@@ -411,12 +431,16 @@ class TorchMetricMultiScaleStructuralSimilarityIndexMeasure(TorchBaseConfig, TMR
     k1: float = 0.01
     k2: float = 0.03
     kernel_size: Ints = 11
-    normalize: str = 'relu'
+    normalize: Optional[Annotated[
+        str, pyd.Field(pattern='^(relu|simple)$')
+    ]] = 'relu'
     sigma: Floats = 1.5
 
 
 class TorchMetricNormalizedRootMeanSquaredError(TorchBaseConfig, TOut):
-    normalization: str = 'mean'
+    normalization: Annotated[
+        str, pyd.Field(pattern='^(mean|range|std|l2)$')
+    ] = 'mean'
 
 
 class TorchMetricPanopticQuality(TorchBaseConfig):
@@ -434,15 +458,16 @@ class TorchMetricPearsonCorrCoef(TorchBaseConfig, TOut):
     pass
 
 
-class TorchMetricPearsonsContingencyCoefficient(TorchBaseConfig):
+class TorchMetricPearsonsContingencyCoefficient(TorchBaseConfig, TNanStrategy):
     nan_replace_value: OptFloat = 0.0
-    nan_strategy: str = 'replace'
     num_classes: int
 
 
 class TorchMetricPermutationInvariantTraining(TorchBaseConfig):
-    eval_func: str = 'max'
-    mode: str = 'speaker-wise'
+    eval_func: Annotated[str, pyd.Field(pattern='^(max|min)$')] = 'max'
+    mode: Annotated[
+        str, pyd.Field(pattern='^(speaker-wise|permutation-wise)$')
+    ] = 'speaker-wise'
 
 
 class TorchMetricPerplexity(TorchBaseConfig, TInd):
@@ -451,7 +476,9 @@ class TorchMetricPerplexity(TorchBaseConfig, TInd):
 
 class TorchMetricR2Score(TorchBaseConfig):
     adjusted: int = 0
-    multioutput: str = 'uniform_average'
+    multioutput: Annotated[
+        str, pyd.Field(pattern='^(raw_values|uniform_average|variance_weighted)$')
+    ] = 'uniform_average'
 
 
 class TorchMetricRelativeAverageSpectralError(TorchBaseConfig):
@@ -463,7 +490,9 @@ class TorchMetricRelativeSquaredError(TorchBaseConfig, TOut):
 
 
 class TorchMetricRetrievalFallOut(TorchBaseConfig, TInd, TTopK):
-    empty_target_action: str = 'pos'
+    empty_target_action: Annotated[
+        str, pyd.Field(pattern='^(error|skip|neg|pos)$')
+    ] = 'pos'
 
 
 class TorchMetricRetrievalHitRate(TorchBaseConfig, TAct, TInd, TTopK):
@@ -521,7 +550,7 @@ class TorchMetricSacreBLEUScore(TorchBaseConfig):
     lowercase: bool = False
     n_gram: int = 4
     smooth: bool = False
-    tokenize: str = '13a'
+    tokenize: Annotated[str, pyd.Field(pattern=_TOKENIZE_RE)] = '13a'
     weights: OptListFloat = None
 
 
@@ -567,14 +596,13 @@ class TorchMetricSumMetric(TorchBaseConfig, TNan):
     pass
 
 
-class TorchMetricTheilsU(TorchBaseConfig):
+class TorchMetricTheilsU(TorchBaseConfig, TNanStrategy):
     nan_replace_value: OptFloat = 0.0
-    nan_strategy: str = 'replace'
     num_classes: int
 
 
 class TorchMetricTotalVariation(TorchBaseConfig):
-    reduction: str = 'sum'
+    reduction: ReductionType = 'sum'
 
 
 class TorchMetricTranslationEditRate(TorchBaseConfig):
@@ -585,10 +613,9 @@ class TorchMetricTranslationEditRate(TorchBaseConfig):
     return_sentence_level_score: bool = False
 
 
-class TorchMetricTschuprowsT(TorchBaseConfig):
+class TorchMetricTschuprowsT(TorchBaseConfig, TNanStrategy):
     bias_correction: bool = True
     nan_replace_value: OptFloat = 0.0
-    nan_strategy: str = 'replace'
     num_classes: int
 
 
