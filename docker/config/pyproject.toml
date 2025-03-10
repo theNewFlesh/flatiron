@@ -45,12 +45,24 @@ dependencies = [
     "pytz>=2022.7.1",
     "pyyaml>=6.0",
     "tensorboard>=2.0.0",
-    "tensorflow>=2.18.0",
     "tqdm>=4.64.1",
+    "safetensors>=0.5.2",
+]
+
+[project.optional-dependencies]
+tensorflow = [
+    "tensorflow>=2.18.0",
+]
+torch = [
     "torch",
     "torchmetrics>=1.6.1",
     "torchvision",
-    "safetensors>=0.5.2",
+]
+all = [
+    "tensorflow>=2.18.0",
+    "torch",
+    "torchmetrics>=1.6.1",
+    "torchvision",
 ]
 
 [project.urls]

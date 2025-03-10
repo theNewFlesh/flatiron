@@ -1,13 +1,8 @@
 from typing import Any, Optional, Union
 from pathlib import Path
-
-from tensorflow import keras  # noqa F401
-from keras import models as tfmodels
 import numpy as np
-import torch.nn
 # ------------------------------------------------------------------------------
 
-AnyModel = Union[tfmodels.Model, torch.nn.Module]
 Getter = dict[str, Any]
 Compiled = dict[str, Any]
 Filepath = Union[str, Path]

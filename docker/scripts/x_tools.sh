@@ -203,7 +203,7 @@ _x_env_lock () {
     # args: mode, python_version
     cd $PDM_DIR;
     x_env_activate $1 $2 && \
-    pdm lock -v && \
+    pdm lock -v --group all && \
     cat $PDM_DIR/pdm.lock > $CONFIG_DIR/$1.lock;
 }
 
@@ -215,10 +215,10 @@ _x_env_sync () {
     x_env_activate $1 $2 && \
     # run `pdm lock`` if lock file is empty
     if [ `cat pdm.lock | wc -l` = 0 ]; then
-        pdm lock -v;
+        pdm lock -v --group all;
         exit_code=`_x_resolve_exit_code $exit_code $?`;
     fi;
-    pdm sync --no-self --dev --clean -v;
+    pdm sync --no-self --dev --clean -v --group all;
     exit_code=`_x_resolve_exit_code $exit_code $?`;
     deactivate;
     return $exit_code;
@@ -415,7 +415,7 @@ _x_library_sync () {
     x_env_activate $1 $2;
     echo "${CYAN2}DEPENDENCY SYNC $1-$2${CLEAR}\n";
     cd $PDM_DIR;
-    pdm sync --no-self --dev --clean -v;
+    pdm sync --no-self --dev --clean -v --group all;
     deactivate;
     x_env_activate_dev;
 }
@@ -488,7 +488,7 @@ x_library_lock_dev () {
     x_env_activate_dev;
     echo "${CYAN2}DEV DEPENDENCY LOCK${CLEAR}\n";
     cd $PDM_DIR;
-    pdm lock -v;
+    pdm lock -v --group all;
     _x_library_pdm_to_repo_dev;
     echo "${GREEN2}LIBRARY LOCK COMPLETE${CLEAR}";
 }
@@ -498,7 +498,7 @@ x_library_lock_prod () {
     x_env_activate_prod;
     echo "${CYAN2}PROD DEPENDENCY LOCK${CLEAR}\n";
     cd $PDM_DIR;
-    pdm lock -v;
+    pdm lock -v --group all;
     _x_library_pdm_to_repo_prod;
     echo "${GREEN2}LIBRARY LOCK COMPLETE${CLEAR}";
     deactivate;

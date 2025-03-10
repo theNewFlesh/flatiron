@@ -74,7 +74,12 @@ Run `bin/flatiron --help` for more help on the command line tool.
 # Installation for Production
 
 ### Python
-`pip install flatiron`
+|Command                             | Effect                                       |
+| ---------------------------------- | -------------------------------------------- |
+|`pip install flatiron`              | installs flatiron                            |
+|`pip install flatiron[tensorflow]`  | installs flatiron with tensorflow            |
+|`pip install flatiron[torch]`       | installs flatiron with pytorch               |
+|`pip install flatiron[all]`         | installs flairon with tensorflow and pytorch |
 
 ### Docker
 1. Install [docker-desktop](https://docs.docker.com/desktop/)
