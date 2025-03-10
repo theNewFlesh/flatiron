@@ -184,7 +184,7 @@ class TorchDataset(Dataset, torchdata.Dataset):
         this._ext_regex = dataset._ext_regex
         this._calc_file_size = dataset._calc_file_size
         this._sample_gb = dataset._sample_gb
-        this._channels_first = channels_first  # type: ignore
+        this._channels_first = channels_first
         return this
 
     def __getitem__(self, frame):
@@ -201,7 +201,7 @@ class TorchDataset(Dataset, torchdata.Dataset):
         items = [x.copy() for x in items]
 
         # pytorch expects (C, H, W) because it sucks
-        if self._channels_first:  # type: ignore
+        if self._channels_first:
             arrays = items
             items = []
             for item in arrays:
