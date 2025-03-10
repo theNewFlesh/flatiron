@@ -1,14 +1,8 @@
-from typing import Any, Optional, Union, TYPE_CHECKING
+from typing import Any, Optional, Union
 from pathlib import Path
-
 import numpy as np
-if TYPE_CHECKING:
-    from tensorflow import keras  # noqa F401
-    from keras import models as tfmodels
-    import torch.nn
 # ------------------------------------------------------------------------------
 
-AnyModel = Union[tfmodels.Model, torch.nn.Module]
 Getter = dict[str, Any]
 Compiled = dict[str, Any]
 Filepath = Union[str, Path]
