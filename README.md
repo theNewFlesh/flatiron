@@ -54,6 +54,10 @@ The service should take a few minutes to start up.
 
 Run `bin/flatiron --help` for more help on the command line tool.
 
+### Secret Env Setup
+The secret-env file is a environment file which holds various secrets used by
+pyproject.toml and CI.
+
 ### ZSH Setup
 1. `bin/flatiron` must be run from this repository's top level directory.
 2. Therefore, if using zsh, it is recommended that you paste the following line
@@ -80,6 +84,28 @@ Run `bin/flatiron --help` for more help on the command line tool.
 |`pip install flatiron[tensorflow]`  | installs flatiron with tensorflow            |
 |`pip install flatiron[torch]`       | installs flatiron with pytorch               |
 |`pip install flatiron[all]`         | installs flairon with tensorflow and pytorch |
+
+If you are on Debian-based Linux and you run into C library issues such as with
+OpenEXR, the following may help:
+```
+apt update && \
+apt install --fix-missing -y python3.10-dev && \
+apt install -y \
+    build-essential \
+    g++ \
+    gcc \
+    zlib1g-dev
+```
+
+For OpenEXR you will also need this:
+```
+apt install -y \
+    libopenexr-dev \
+    openexr
+```
+
+Please see the prod.dockerfile for an official example of how to build a docker
+image with flatiron.
 
 ### Docker
 1. Install [docker-desktop](https://docs.docker.com/desktop/)
@@ -208,6 +234,7 @@ The following is a complete list of all available development commands:
 | test-coverage              | Generate test coverage report                                       |
 | test-dev                   | Run all tests                                                       |
 | test-fast                  | Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator  |
+| test-format                | Format all python files                                             |
 | test-lint                  | Run linting and type checking                                       |
 | test-prod                  | Run tests across all support python versions                        |
 | version                    | Full resolution of repo: dependencies, linting, tests, docs, etc    |

@@ -27,6 +27,18 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
         software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
+# install gcc
+ENV CC=gcc
+ENV CXX=g++
+RUN echo "\n${CYAN}INSTALL GCC${CLEAR}"; \
+    apt update && \
+    apt install -y \
+        build-essential \
+        g++ \
+        gcc \
+        zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
+
 # install nvidia container toolkit
 RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
     curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
@@ -41,11 +53,20 @@ RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
         nvidia-container-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
+# install OpenEXR
+ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
+RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
+    apt update && \
+    apt install -y \
+        libopenexr-dev \
+        openexr && \
+    rm -rf /var/lib/apt/lists/*
+
 # install python3.10 and pip
 RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y python3.10 && \
+    apt install --fix-missing -y python3.10-dev && \
     rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3.10 get-pip.py && \

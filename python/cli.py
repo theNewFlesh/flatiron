@@ -101,6 +101,7 @@ def get_info():
     test-coverage              - Generate test coverage report
     test-dev                   - Run all tests
     test-fast                  - Test all code excepts tests marked with SKIP_SLOWS_TESTS decorator
+    test-format                - Format all python files
     test-lint                  - Run linting and type checking
     test-prod                  - Run tests across all support python versions
     version                    - Full resolution of repo: dependencies, linting, tests, docs, etc
@@ -463,24 +464,20 @@ def prod_command(args):
     Returns:
         str: Command to start prod container.
     '''
-    if args == ['']:
-        cmds = [
-            line('''
-                echo "Please provide a directory to map into the container
-                after the {cyan}-a{clear} flag."
-            ''')
-        ]
-        return resolve(cmds)
-
-    run = 'docker run --volume {}:/mnt/storage'.format(args[0])
+    cmd = 'docker run'
+    if args != ['']:
+        cmd += ' --volume {}:/mnt/storage'.format(args[0])
     cmds = [
         enter_repo(),
         version_variable(),
-        line(run + '''
+        line(cmd + '''
             --rm
+            --interactive
+            --tty
             --publish {port}:{port}
             --name {repo}-prod
             {repo}:prod
+            bash
         '''),
         exit_repo(),
     ]
@@ -844,6 +841,7 @@ def main():
         'test-coverage': x_tools_command('x_test_coverage', args),
         'test-dev': x_tools_command('x_test_dev', args),
         'test-fast': x_tools_command('x_test_fast', args),
+        'test-format': x_tools_command('x_test_format', args),
         'test-lint': x_tools_command('x_test_lint', args),
         'test-prod': x_tools_command('x_test_prod', args),
         'version': x_tools_command('x_version', args),
