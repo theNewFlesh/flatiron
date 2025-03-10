@@ -1,10 +1,11 @@
-from typing import Any, Optional, Union
+from typing import Any, Optional, Union, TYPE_CHECKING
 from pathlib import Path
 
-from tensorflow import keras  # noqa F401
-from keras import models as tfmodels
 import numpy as np
-import torch.nn
+if TYPE_CHECKING:
+    from tensorflow import keras  # noqa F401
+    from keras import models as tfmodels
+    import torch.nn
 # ------------------------------------------------------------------------------
 
 AnyModel = Union[tfmodels.Model, torch.nn.Module]
