@@ -1,9 +1,13 @@
 from typing import Union
+from typing_extensions import Annotated
 from flatiron.core.types import OptBool, Ints, OptInt, OptInts, OptStr
 from flatiron.core.types import Floats, OptFloat, OptListFloat, OptPairFloat
 
 import pydantic as pyd
 # ------------------------------------------------------------------------------
+
+_DEVICE_RE = '^(cpu|cuda|ipu|xpu|mkldnn|opengl|opencl|ideep|hip|ve|fpga|maia'
+_DEVICE_RE += '|xla|lazy|vulkan|mps|meta|hpu|mtia|privateuseone)$'
 
 
 # BASE--------------------------------------------------------------------------
@@ -21,7 +25,7 @@ class TorchFramework(pyd.BaseModel):
         device (str, optional): Hardware device. Default: 'cuda'.
     '''
     name: str = 'torch'
-    device: str = 'cuda'
+    device: Annotated[str, pyd.Field(pattern=_DEVICE_RE)] = 'cuda'
 
 
 # OPTIMIZER-HELPERS-------------------------------------------------------------
