@@ -4,7 +4,6 @@ to sift through.
 '''
 
 import argparse as __argparse
-import importlib.metadata as __meta
 import inspect as __inspect
 import re as __re
 
@@ -13,11 +12,6 @@ from flatiron.core.dataset import Dataset  # noqa F401
 from flatiron.core.multidataset import MultiDataset  # noqa F401
 from flatiron.core.logging import SlackLogger  # noqa F401
 from flatiron.core.pipeline import PipelineBase  # noqa F401
-
-try:
-    __extras = __meta.metadata('flatiron').get_all('Provides-Extra', [])
-except __meta.PackageNotFoundError:
-    __extras = ['all']
 # ------------------------------------------------------------------------------
 
 
@@ -51,7 +45,7 @@ def __create_namespace(module, mode='funcs+classes'):
     return __argparse.Namespace(**params)
 
 
-if 'all' in __extras or 'tensorflow' in __extras:
+try:
     import flatiron.tf.config as __fi_tfconfig  # noqa F401
     import flatiron.tf.loss as __fi_tfloss  # noqa F401
     import flatiron.tf.metric as __fi_tfmetric  # noqa F401
@@ -67,8 +61,10 @@ if 'all' in __extras or 'tensorflow' in __extras:
         optimizer=__create_namespace(__fi_tfopt),
         tools=__create_namespace(__fi_tftools, 'funcs'),
     )
+except ImportError:
+    pass
 
-if 'all' in __extras or 'torch' in __extras:
+try:
     import flatiron.torch.config as __fi_torchconfig  # noqa F401
     import flatiron.torch.loss as __fi_torchloss  # noqa F401
     import flatiron.torch.metric as __fi_torchmetric  # noqa F401
@@ -84,3 +80,5 @@ if 'all' in __extras or 'torch' in __extras:
         optimizer=__create_namespace(__fi_torchopt),
         tools=__create_namespace(__fi_torchtools, 'funcs'),
     )
+except ImportError:
+    pass
