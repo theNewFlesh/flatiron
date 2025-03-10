@@ -1,5 +1,5 @@
 from typing import Any, Optional, Type  # noqa F401
-from flatiron.core.types import AnyModel, Compiled, Filepath  # noqa F401
+from flatiron.core.types import Compiled, Filepath  # noqa F401
 from pydantic import BaseModel  # noqa F401
 
 from abc import ABC, abstractmethod
@@ -357,12 +357,12 @@ class PipelineBase(ABC):
 
     @abstractmethod
     def model_func(self):
-        # type: () -> AnyModel
+        # type: () -> Any
         '''
         Subclasses of PipelineBase need to define a function that builds and
         returns a machine learning model.
 
         Returns:
-            AnyModel: Machine learning model.
+            object: Machine learning model.
         '''
         pass  # pragma: no cover
