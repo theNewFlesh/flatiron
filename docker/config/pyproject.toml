@@ -74,11 +74,10 @@ flatiron = "flatiron.command:main"
 
 [tool.pdm.dev-dependencies]
 lab = [
-    "cufflinks",
     "jupyterlab-git>=0.39.3",
     "jupyterlab-henanigans>=0.2.2",
-    "jupyterlab-sublime",
-    "jupyterlab",
+    "jupyterlab>=4.0.0",
+    "python-lsp-server",
 ]
 dev = [
     "myst-parser>=4.0.0",
