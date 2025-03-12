@@ -6,6 +6,6 @@
         }
     },
     "activate": "on",
-    "setTrace": "messages",
-    "logAllCommunication": true
+    "setTrace": "off",
+    "logAllCommunication": false
 }
