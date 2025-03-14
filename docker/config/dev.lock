@@ -5,7 +5,7 @@
 groups = ["default", "all", "dev", "lab", "test"]
 strategy = []
 lock_version = "4.5.0"
-content_hash = "sha256:3465ea0656745a5614c573e72d8a8b5fe19c55ad3afb32a12b940c4432b1b9aa"
+content_hash = "sha256:fc4f8c676cd607c924d73a19b07a6f85da57178c60875ab8d6576b610f0c64dd"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -143,11 +143,11 @@ files = [
 
 [[package]]
 name = "attrs"
-version = "25.2.0"
+version = "25.3.0"
 summary = ""
 files = [
-    {file = "attrs-25.2.0-py3-none-any.whl", hash = "sha256:611344ff0a5fed735d86d7784610c84f8126b95e549bcad9ff61b4242f2d386b"},
-    {file = "attrs-25.2.0.tar.gz", hash = "sha256:18a06db706db43ac232cce80443fcd9f2500702059ecf53489e3c5a3f417acaf"},
+    {file = "attrs-25.3.0-py3-none-any.whl", hash = "sha256:427318ce031701fea540783410126f03899a97ffc6f61596ad581ac2e40e3bc3"},
+    {file = "attrs-25.3.0.tar.gz", hash = "sha256:75d7cefc7fb576747b2c81b4442d4d4a1ce0900973527c011d1030fd3bf4af1b"},
 ]
 
 [[package]]
@@ -1232,11 +1232,11 @@ files = [
 
 [[package]]
 name = "jupyterlab-henanigans"
-version = "0.4.1"
+version = "0.4.2"
 summary = ""
 files = [
-    {file = "jupyterlab_henanigans-0.4.1-py3-none-any.whl", hash = "sha256:31fe9e0c117c140983aee7653f3c9cb784abebc092ea634fcd19d1153de3100e"},
-    {file = "jupyterlab_henanigans-0.4.1.tar.gz", hash = "sha256:2fabe45f82b4e5194f7d56f1857f7a1e8ec87f50dd785175530de02f2a8e27b1"},
+    {file = "jupyterlab_henanigans-0.4.2-py3-none-any.whl", hash = "sha256:5bf96fc2de128085bd68907e3b9e6da8d789b6be22dbb7e6c098adbd8b662acf"},
+    {file = "jupyterlab_henanigans-0.4.2.tar.gz", hash = "sha256:9767ac8a9b0b39fd76674683bc0150a38f816fb82f892e7eba8084f185ce85da"},
 ]
 
 [[package]]

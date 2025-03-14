@@ -75,7 +75,7 @@ flatiron = "flatiron.command:main"
 [tool.pdm.dev-dependencies]
 lab = [
     "jupyterlab-git>=0.39.3",
-    "jupyterlab-henanigans>=0.2.2",
+    "jupyterlab-henanigans>=0.4.2",
     "jupyterlab>=4.0.0",
     "python-lsp-server",
 ]
