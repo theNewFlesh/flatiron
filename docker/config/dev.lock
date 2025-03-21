@@ -485,7 +485,7 @@ files = [
 
 [[package]]
 name = "cv-depot"
-version = "0.10.2"
+version = "0.11.1"
 summary = ""
 dependencies = [
     "click",
@@ -500,8 +500,8 @@ dependencies = [
     "pillow",
 ]
 files = [
-    {file = "cv-depot-0.10.2.tar.gz", hash = "sha256:7aa0fa561912d156619b234d11784b95f2ffbfa4009e40313037275668404252"},
-    {file = "cv_depot-0.10.2-py3-none-any.whl", hash = "sha256:b5a55b24af87bfe9b2d85ab4e86242a009c89c4a36fadb79f30646b2ed903db9"},
+    {file = "cv-depot-0.11.1.tar.gz", hash = "sha256:64c5df46afcef855b1c22af149fa12fbefc5cb4c11f16aeaaafed48dfec0e40e"},
+    {file = "cv_depot-0.11.1-py3-none-any.whl", hash = "sha256:4e3c60b59f4329e02ab607285ad30cab86e459366fcb8d67bc4cc0cb5308ba31"},
 ]
 
 [[package]]
@@ -3280,6 +3280,10 @@ dependencies = [
     "torch",
 ]
 files = [
+    {file = "torchvision-0.21.0-1-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:5568c5a1ff1b2ec33127b629403adb530fab81378d9018ca4ed6508293f76e2b"},
+    {file = "torchvision-0.21.0-1-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:ff96666b94a55e802ea6796cabe788541719e6f4905fc59c380fed3517b6a64d"},
+    {file = "torchvision-0.21.0-1-cp312-cp312-manylinux_2_28_aarch64.whl", hash = "sha256:ffa2a16499508fe6798323e455f312c7c55f2a88901c9a7c0fb1efa86cf7e327"},
+    {file = "torchvision-0.21.0-1-cp313-cp313-manylinux_2_28_aarch64.whl", hash = "sha256:7e9e9afa150e40cd2a8f0701c43cb82a8d724f512896455c0918b987f94b84a4"},
     {file = "torchvision-0.21.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:044ea420b8c6c3162a234cada8e2025b9076fa82504758cd11ec5d0f8cd9fa37"},
     {file = "torchvision-0.21.0-cp310-cp310-manylinux1_x86_64.whl", hash = "sha256:b0c0b264b89ab572888244f2e0bad5b7eaf5b696068fc0b93e96f7c3c198953f"},
     {file = "torchvision-0.21.0-cp310-cp310-manylinux_2_28_aarch64.whl", hash = "sha256:54815e0a56dde95cc6ec952577f67e0dc151eadd928e8d9f6a7f821d69a4a734"},
