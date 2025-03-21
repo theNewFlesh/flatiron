@@ -39,6 +39,10 @@ Standardized computer vision pipeline framework with a chainable API and procedu
 
 See [documentation](https://thenewflesh.github.io/flatiron/) for details.
 
+See [dataset notebook](https://github.com/theNewFlesh/flatiron/blob/master/notebooks/demo-dataset.ipynb) for demo of the Dataset classes.
+
+See [logging notebook](https://github.com/theNewFlesh/flatiron/blob/master/notebooks/demo-logging.ipynb) for demo of the logging tools.
+
 # Installation for Developers
 
 ### Docker
