@@ -17,6 +17,7 @@ flask_monitoringdashboard*
 **/jupyter/serverconfig
 **/jupyter/workspaces
 */ipython/*
+**/notebooks/.virtual_documents
 
 # mypy
 .mypy_cache
