@@ -82,12 +82,12 @@ pyproject.toml and CI.
 # Installation for Production
 
 ### Python
-|Command                             | Effect                                       |
-| ---------------------------------- | -------------------------------------------- |
-|`pip install flatiron`              | installs flatiron                            |
-|`pip install flatiron[tensorflow]`  | installs flatiron with tensorflow            |
-|`pip install flatiron[torch]`       | installs flatiron with pytorch               |
-|`pip install flatiron[all]`         | installs flairon with tensorflow and pytorch |
+|Command                             | Effect                                        |
+| ---------------------------------- | --------------------------------------------- |
+|`pip install flatiron`              | installs flatiron                             |
+|`pip install flatiron[tensorflow]`  | installs flatiron with tensorflow             |
+|`pip install flatiron[torch]`       | installs flatiron with pytorch                |
+|`pip install flatiron[all]`         | installs flatiron with tensorflow and pytorch |
 
 If you are on Debian-based Linux and you run into C library issues such as with
 OpenEXR, the following may help:
