@@ -51,6 +51,7 @@
             "**/.pytest_cache": true,
             "**/.settings": true,
             "**/.svn": true,
+            "**/.virtual_documents": true,
             "**/.vscode": true,
             "**/CVS": true,
             "**/flask_monitoringdashboard.db": true,
