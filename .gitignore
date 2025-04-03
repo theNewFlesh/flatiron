@@ -5,6 +5,9 @@ ansible/password.txt
 # c
 *.so
 
+# docker
+docker/config/secret-env
+
 # flask
 flask_monitoringdashboard*
 
@@ -25,7 +28,6 @@ flask_monitoringdashboard*
 # misc
 .DS_Store
 .Trash*
-secret-env
 
 # packaging
 docker/dist/*
