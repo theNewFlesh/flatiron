@@ -54,7 +54,7 @@ RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
     rm -rf /var/lib/apt/lists/*
 
 # install OpenEXR
-ENV LD_LIBRARY_PATH='/usr/include/python3.10m/dist-packages'
+ENV LD_LIBRARY_PATH='/usr/include/python3.13m/dist-packages'
 RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
     apt update && \
     apt install -y \
@@ -62,20 +62,20 @@ RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
         openexr && \
     rm -rf /var/lib/apt/lists/*
 
-# install python3.10 and pip
-RUN echo "\n${CYAN}SETUP PYTHON3.10${CLEAR}"; \
+# install python3.13 and pip
+RUN echo "\n${CYAN}SETUP PYTHON3.13${CLEAR}"; \
     add-apt-repository -y ppa:deadsnakes/ppa && \
     apt update && \
-    apt install --fix-missing -y python3.10-dev && \
+    apt install --fix-missing -y python3.13-dev && \
     rm -rf /var/lib/apt/lists/* && \
     curl -fsSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python3.10 get-pip.py && \
+    python3.13 get-pip.py && \
     rm -rf /home/ubuntu/get-pip.py
 
 # install flatiron
 USER ubuntu
 ARG VERSION
 RUN echo "\n${CYAN}INSTALL FLATIRON${CLEAR}"; \
-    pip3.10 install --user flatiron==$VERSION
+    pip3.13 install --user flatiron==$VERSION
 
 ENV PATH="$PATH:/home/ubuntu/.local/bin"

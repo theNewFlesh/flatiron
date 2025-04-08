@@ -42,8 +42,8 @@
       "keywords": "computer-vision, cv, tensorflow, pytorch, ai, ml, machine-learning",
       "year": "2025",
       "python_min_version": "10",
-      "python_max_version": "10",
-      "initial_repo_version": "0.0.1",
+      "python_max_version": "13",
+      "initial_repo_version": "0.25.1",
       "_template": "https://github.com/thenewflesh/cookiecutter-datalus"
     }
   },

@@ -12,7 +12,7 @@ export BUILD_DIR="$HOME/build"
 export CONFIG_DIR="$REPO_DIR/docker/config"
 export DOCS_DIR="$REPO_DIR/docs"
 export MIN_PYTHON_VERSION="3.10"
-export MAX_PYTHON_VERSION="3.10"
+export MAX_PYTHON_VERSION="3.13"
 export MKDOCS_DIR="$REPO_DIR/mkdocs"
 export PDM_DIR="$HOME/pdm"
 export PYPI_URL="pypi"
@@ -563,7 +563,7 @@ x_library_update () {
 x_library_update_pdm () {
     # Update PDM in all environments
     echo "${CYAN2}UPDATE PDM${CLEAR}\n";
-    pip3.10 install --user --upgrade pdm;
+    pip3.13 install --user --upgrade pdm;
     echo "${GREEN2}LIBRARY UPDATE COMPLETE${CLEAR}";
 }
 

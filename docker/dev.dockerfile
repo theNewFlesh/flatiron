@@ -65,16 +65,23 @@ RUN echo "\n${CYAN}INSTALL PYTHON${CLEAR}"; \
     apt update && \
     apt install -y \
         python3-pydot \
+        python3.13-dev \
+        python3.13-venv \
+        python3.12-dev \
+        python3.12-venv \
+        python3.11-dev \
+        python3.11-venv \
         python3.10-dev \
         python3.10-venv \
+        python3.11-distutils \
         python3.10-distutils \
     && rm -rf /var/lib/apt/lists/*
 
 # install pip
 RUN echo "\n${CYAN}INSTALL PIP${CLEAR}"; \
     wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.10 get-pip.py && \
-    pip3.10 install --upgrade pip && \
+    python3.13 get-pip.py && \
+    pip3.13 install --upgrade pip && \
     rm -rf get-pip.py
 
 # install nodejs (needed by jupyter lab)
@@ -169,29 +176,8 @@ RUN echo "\n${CYAN}INSTALL NVIDIA CONTAINER TOOLKIT${CLEAR}"; \
         nvidia-container-toolkit && \
     rm -rf /var/lib/apt/lists/*
 
-# install cuda libraries
-# ENV PATH="$PATH:/usr/local/nvidia/bin:/usr/local/cuda/bin"
-# ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/nvidia/lib:/usr/local/nvidia/lib64"
-# ENV XLA_FLAGS='--xla_gpu_cuda_data_dir=/usr/local/cuda/nvvm/libdevice'
-# ARG CUDA_URL="https://developer.download.nvidia.com/compute/cudnn"
-# ARG CUDA_VERSION="9.3.0"
-# ARG CUDA_HEAD="ubuntu2204-$CUDA_VERSION"
-# ARG CUDA_DESC="$CUDA_HEAD_1.0-1_amd64"
-# RUN echo "\n${CYAN}INSTALL CUDA LIBRARIES${CLEAR}"; \
-#     curl -fsSL \
-#         $CUDA_URL/$CUDA_VERSION/local_installers/cudnn-local-repo-$CUDA_DESC.deb \
-#         -o cudnn.deb && \
-#     dpkg --install cudnn.deb && \
-#     rm -f cudnn.deb && \
-#     cp \
-#         /var/cudnn-local-repo-$CUDA_HEAD/cudnn-local-D9334AA3-keyring.gpg \
-#         /usr/share/keyrings/ && \
-#     apt update && \
-#     apt install -y cudnn9-cuda-12 && \
-#     rm -rf /var/lib/apt/lists/*
-
 # install OpenEXR
-ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/include/python3.10m/dist-packages"
+ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/include/python3.13m/dist-packages"
 RUN echo "\n${CYAN}INSTALL OPENEXR${CLEAR}"; \
     apt update && \
     apt install -y \
@@ -206,8 +192,8 @@ WORKDIR /home/ubuntu
 RUN echo "\n${CYAN}INSTALL DEV DEPENDENCIES${CLEAR}"; \
     curl -sSL \
         https://raw.githubusercontent.com/pdm-project/pdm/main/install-pdm.py \
-        | python3.10 - && \
-    pip3.10 install --upgrade --user \
+        | python3.13 - && \
+    pip3.13 install --upgrade --user \
         'pdm>=2.19.1' \
         'pdm-bump<0.7.0' \
         'rolling-pin>=0.11.1' \
@@ -233,16 +219,19 @@ RUN echo "\n${CYAN}INSTALL DEV ENVIRONMENT${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
-    x_env_init dev 3.10 && \
+    x_env_init dev 3.13 && \
     cd /home/ubuntu && \
-    ln -s `_x_env_get_path dev 3.10` .dev-env && \
-    ln -s `_x_env_get_path dev 3.10`/lib/python3.10/site-packages .dev-packages
+    ln -s `_x_env_get_path dev 3.13` .dev-env && \
+    ln -s `_x_env_get_path dev 3.13`/lib/python3.13/site-packages .dev-packages
 
 # create prod envs
 RUN echo "\n${CYAN}INSTALL PROD ENVIRONMENTS${CLEAR}"; \
     . /home/ubuntu/scripts/x_tools.sh && \
     export CONFIG_DIR=/home/ubuntu/config && \
     export SCRIPT_DIR=/home/ubuntu/scripts && \
+    x_env_init prod 3.13 && \
+    x_env_init prod 3.12 && \
+    x_env_init prod 3.11 && \
     x_env_init prod 3.10
 
 # install prod cli

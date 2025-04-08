@@ -400,10 +400,55 @@
                 }
             },
             {
+                "label": "_[test] prod-3.11",
+                "detail": "Run tests in prod-3.11 environment",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "TEST_PROCS=1 &&",
+                    "x_test_run prod 3.11"
+                ],
+                "hide": true,
+                "presentation": {
+                    "group": "test",
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "_[test] prod-3.12",
+                "detail": "Run tests in prod-3.12 environment",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "TEST_PROCS=1 &&",
+                    "x_test_run prod 3.12"
+                ],
+                "hide": true,
+                "presentation": {
+                    "group": "test",
+                    "panel": "dedicated"
+                }
+            },
+            {
+                "label": "_[test] prod-3.13",
+                "detail": "Run tests in prod-3.13 environment",
+                "command": [
+                    "source $X_TOOLS_PATH &&",
+                    "TEST_PROCS=1 &&",
+                    "x_test_run prod 3.13"
+                ],
+                "hide": true,
+                "presentation": {
+                    "group": "test",
+                    "panel": "dedicated"
+                }
+            },
+            {
                 "label": "_[test] prod",
                 "detail": "Run tests across all support python versions",
                 "dependsOn": [
                     "_[test] prod-3.10",
+                    "_[test] prod-3.11",
+                    "_[test] prod-3.12",
+                    "_[test] prod-3.13",
                 ],
                 "hide": true,
                 "dependsOrder": "parallel",
