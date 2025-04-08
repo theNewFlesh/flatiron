@@ -98,7 +98,7 @@ If you are on Debian-based Linux and you run into C library issues such as with
 OpenEXR, the following may help:
 ```
 apt update && \
-apt install --fix-missing -y python3.10-dev && \
+apt install --fix-missing -y python3.12-dev && \
 apt install -y \
     build-essential \
     g++ \
