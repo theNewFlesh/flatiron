@@ -1,8 +1,14 @@
 [project]
 name = "pdm"
 version = "0.25.1"
-requires-python = "==3.13"
+requires-python = "==3.12"
 dependencies = []
 
+
+[[tool.pdm.source]]
+name = "flatiron-index"
+url = "https://__token__:${PYPI_ACCESS_TOKEN}@${FLATIRON_URL}"
+include_packages = ["flatiron"]
+exclude_packages = ["*"]
 [tool.pdm]
 distribution = false
