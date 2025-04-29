@@ -286,4 +286,3 @@ Usage: `flatiron bash-completion`
 Prints ZSH completion code to be written to a _flatiron completion file
 
 Usage: `flatiron zsh-completion`
-
