@@ -26,12 +26,14 @@
       "include_openexr": "yes",
       "include_prod_cli": "yes",
       "include_prod_envs": "yes",
+      "include_pypi_badges": "yes",
       "include_secret_env": "yes",
       "include_vscode_server": "no",
       "port_prefix": "91",
       "git_user": "theNewFlesh",
       "git_host": "github",
       "git_organization": "thenewflesh",
+      "package_registry": "pypi",
       "docker_registry": "docker.io",
       "organization_url": "github.com",
       "description": "Standardized computer vision pipeline framework with a chainable API and procedurally defined model architecture.",
@@ -44,6 +46,7 @@
       "python_min_version": "10",
       "python_max_version": "12",
       "initial_repo_version": "0.25.1",
+      "status_bar_color": "#7EC4CF",
       "_template": "https://github.com/thenewflesh/cookiecutter-datalus",
       "_commit": "f3de5f8d0fe8dcb0acd12e52231afae80a1208d1"
     }
