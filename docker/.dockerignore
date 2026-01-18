@@ -1,6 +1,10 @@
-*
-!../docker
-!config
-!dist
-!scripts
+**
+!*.dockerfile
+!config/*-env
+!config/*.lock
+!config/*.toml
+!config/henanigans.zsh-theme
+!config/zshrc
+!dist/**
+!scripts/**
 config/secret-env
