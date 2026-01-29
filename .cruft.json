@@ -45,7 +45,7 @@
       "year": "2025",
       "python_min_version": "10",
       "python_max_version": "12",
-      "architecture": "arm64",
+      "architecture": "amd64",
       "initial_repo_version": "0.25.1",
       "status_bar_color": "#7EC4CF",
       "_template": "https://github.com/thenewflesh/cookiecutter-datalus"

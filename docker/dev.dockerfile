@@ -55,7 +55,7 @@ RUN echo "\n${CYAN}INSTALL GENERIC DEPENDENCIES${CLEAR}"; \
 # install yq
 RUN echo "\n${CYAN}INSTALL YQ${CLEAR}"; \
     curl -fsSL \
-        https://github.com/mikefarah/yq/releases/download/v4.9.1/yq_linux_amd64 \
+        https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64 \
         -o /usr/local/bin/yq && \
     chmod +x /usr/local/bin/yq
 
